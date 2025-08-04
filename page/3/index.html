@@ -164,7 +164,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -203,7 +203,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2025/02/21/JVM%E8%AF%A6%E8%A7%A3%E2%80%94%E2%80%94%E5%AD%97%E8%8A%82%E7%A0%81%E6%96%87%E4%BB%B6/">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2025/02/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E7%BB%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/zelda.jpg">
@@ -221,7 +221,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/02/21/JVM%E8%AF%A6%E8%A7%A3%E2%80%94%E2%80%94%E5%AD%97%E8%8A%82%E7%A0%81%E6%96%87%E4%BB%B6/" class="post-title-link" itemprop="url">未命名</a>
+          <a href="/2025/02/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E7%BB%8F/" class="post-title-link" itemprop="url">计算机网络面经</a>
         </h2>
 
         <div class="post-meta-container">
@@ -232,14 +232,23 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2025-02-21 12:42:22" itemprop="dateCreated datePublished" datetime="2025-02-21T12:42:22+08:00">2025-02-21</time>
+      <time title="创建时间：2025-02-01 15:00:00" itemprop="dateCreated datePublished" datetime="2025-02-01T15:00:00+08:00">2025-02-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-05 16:52:01" itemprop="dateModified" datetime="2025-03-05T16:52:01+08:00">2025-03-05</time>
+      <time title="修改时间：2025-08-05 00:55:26" itemprop="dateModified" datetime="2025-08-05T00:55:26+08:00">2025-08-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
+        </span>
     </span>
 
   
@@ -251,8 +260,8 @@
     </span>
     <span class="post-meta-item-text">Waline：</span>
   
-    <a title="waline" href="/2025/02/21/JVM%E8%AF%A6%E8%A7%A3%E2%80%94%E2%80%94%E5%AD%97%E8%8A%82%E7%A0%81%E6%96%87%E4%BB%B6/#waline" itemprop="discussionUrl">
-      <span class="post-comments-count waline-comment-count" data-path="/2025/02/21/JVM%E8%AF%A6%E8%A7%A3%E2%80%94%E2%80%94%E5%AD%97%E8%8A%82%E7%A0%81%E6%96%87%E4%BB%B6/" itemprop="commentCount"></span>
+    <a title="waline" href="/2025/02/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E7%BB%8F/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2025/02/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E7%BB%8F/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -263,14 +272,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1k</span>
+      <span>6.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>12 分钟</span>
     </span>
 
   
@@ -283,43 +292,93 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="一-字节码文件的组成"><a href="#一-字节码文件的组成" class="headerlink" title="一 字节码文件的组成"></a>一 字节码文件的组成</h2><p>字节码文件由以下几个部分组成：</p>
+          <h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><h3 id="http-1-0-vs-http-1-1"><a href="#http-1-0-vs-http-1-1" class="headerlink" title="http&#x2F;1.0 vs http&#x2F;1.1"></a>http&#x2F;1.0 vs http&#x2F;1.1</h3><p><strong>连接方式</strong> : HTTP&#x2F;1.0 为短连接，HTTP&#x2F;1.1 支持长连接。HTTP 协议的长连接和短连接，实质上是 TCP 协议的长连接和短连接。</p>
+<p><strong>状态响应码</strong> : HTTP&#x2F;1.1 中新加入了大量的状态码，光是错误响应状态码就新增了 24 种。比如说，<code>100 (Continue)</code>——在请求大资源前的预热请求，<code>206 (Partial Content)</code>——范围请求的标识码，<code>409 (Conflict)</code>——请求与当前资源的规定冲突，<code>410 (Gone)</code>——资源已被永久转移，而且没有任何已知的转发地址。</p>
+<p><strong>缓存机制</strong> : 在 HTTP&#x2F;1.0 中主要使用 Header 里的 If-Modified-Since,Expires 来做为缓存判断的标准，HTTP&#x2F;1.1 则引入了更多的缓存控制策略例如 Entity tag，If-Unmodified-Since, If-Match, If-None-Match 等更多可供选择的缓存头来控制缓存策略。</p>
+<p><strong>带宽</strong>：HTTP&#x2F;1.0 中，存在一些浪费带宽的现象，例如客户端只是需要某个对象的一部分，而服务器却将整个对象送过来了，并且不支持断点续传功能，HTTP&#x2F;1.1 则在请求头引入了 range 头域，它允许只请求资源的某个部分，即返回码是 206（Partial Content），这样就方便了开发者自由的选择以便于充分利用带宽和连接。</p>
+<p><strong>Host 头（Host Header）处理</strong> :HTTP&#x2F;1.1 引入了 Host 头字段，允许在同一 IP 地址上托管多个域名，从而支持虚拟主机的功能。而 HTTP&#x2F;1.0 没有 Host 头字段，无法实现虚拟主机。</p>
+<h3 id="http-1-1-vs-http-2-0"><a href="#http-1-1-vs-http-2-0" class="headerlink" title="http&#x2F;1.1 vs http&#x2F;2.0"></a>http&#x2F;1.1 vs http&#x2F;2.0</h3><p><strong>多路复用（Multiplexing）</strong>：HTTP&#x2F;2.0 在同一连接上可以同时传输多个请求和响应（可以看作是 HTTP&#x2F;1.1 中长链接的升级版本），互不干扰。HTTP&#x2F;1.1 则使用串行方式，每个请求和响应都需要独立的连接，而浏览器为了控制资源会有 6-8 个 TCP 连接的限制。。这使得 HTTP&#x2F;2.0 在处理多个请求时更加高效，减少了网络延迟和提高了性能。</p>
+<p><strong>二进制帧（Binary Frames）</strong>：HTTP&#x2F;2.0 使用二进制帧进行数据传输，而 HTTP&#x2F;1.1 则使用文本格式的报文。二进制帧更加紧凑和高效，减少了传输的数据量和带宽消耗。</p>
+<p><strong>头部压缩（Header Compression）</strong>：HTTP&#x2F;1.1 支持<code>Body</code>压缩，<code>Header</code>不支持压缩。HTTP&#x2F;2.0 支持对<code>Header</code>压缩，使用了专门为<code>Header</code>压缩而设计的 HPACK 算法，减少了网络开销。</p>
+<p><strong>服务器推送（Server Push）</strong>：HTTP&#x2F;2.0 支持服务器推送，可以在客户端请求一个资源时，将其他相关资源一并推送给客户端，从而减少了客户端的请求次数和延迟。而 HTTP&#x2F;1.1 需要客户端自己发送请求来获取相关资源。</p>
+<h3 id="http-2-0-vs-http-3-0"><a href="#http-2-0-vs-http-3-0" class="headerlink" title="http&#x2F;2.0 vs http&#x2F;3.0"></a>http&#x2F;2.0 vs http&#x2F;3.0</h3><p><strong>传输协议</strong>：HTTP&#x2F;2.0 是基于 TCP 协议实现的，HTTP&#x2F;3.0 新增了 QUIC（Quick UDP Internet Connections） 协议来实现可靠的传输，提供与 TLS&#x2F;SSL 相当的安全性，具有较低的连接和传输延迟。你可以将 QUIC 看作是 UDP 的升级版本，在其基础上新增了很多功能比如加密、重传等等。HTTP&#x2F;3.0 之前名为 HTTP-over-QUIC，从这个名字中我们也可以发现，HTTP&#x2F;3 最大的改造就是使用了 QUIC。</p>
+<p><strong>连接建立</strong>：HTTP&#x2F;2.0 需要经过经典的 TCP 三次握手过程（由于安全的 HTTPS 连接建立还需要 TLS 握手，共需要大约 3 个 RTT）。由于 QUIC 协议的特性（TLS 1.3，TLS 1.3 除了支持 1 个 RTT 的握手，还支持 0 个 RTT 的握手）连接建立仅需 0-RTT 或者 1-RTT。这意味着 QUIC 在最佳情况下不需要任何的额外往返时间就可以建立新连接。</p>
+<p><strong>头部压缩</strong>：HTTP&#x2F;2.0 使用 HPACK 算法进行头部压缩，而 HTTP&#x2F;3.0 使用更高效的 QPACK 头压缩算法。</p>
+<p><strong>队头阻塞</strong>：HTTP&#x2F;2.0 多请求复用一个 TCP 连接，一旦发生丢包，就会阻塞住所有的 HTTP 请求。由于 QUIC 协议的特性，HTTP&#x2F;3.0 在一定程度上解决了队头阻塞（Head-of-Line blocking, 简写：HOL blocking）问题，一个连接建立多个不同的数据流，这些数据流之间独立互不影响，某个数据流发生丢包了，其数据流不受影响（本质上是多路复用+轮询）。</p>
+<p><strong>连接迁移</strong>：HTTP&#x2F;3.0 支持连接迁移，因为 QUIC 使用 64 位 ID 标识连接，只要 ID 不变就不会中断，网络环境改变时（如从 Wi-Fi 切换到移动数据）也能保持连接。而 TCP 连接是由（源 IP，源端口，目的 IP，目的端口）组成，这个四元组中一旦有一项值发生改变，这个连接也就不能用了。</p>
+<p><strong>错误恢复</strong>：HTTP&#x2F;3.0 具有更好的错误恢复机制，当出现丢包、延迟等网络问题时，可以更快地进行恢复和重传。而 HTTP&#x2F;2.0 则需要依赖于 TCP 的错误恢复机制。</p>
+<p><strong>安全性</strong>：在 HTTP&#x2F;2.0 中，TLS 用于加密和认证整个 HTTP 会话，包括所有的 HTTP 头部和数据负载。TLS 的工作是在 TCP 层之上，它加密的是在 TCP 连接中传输的应用层的数据，并不会对 TCP 头部以及 TLS 记录层头部进行加密，所以在传输的过程中 TCP 头部可能会被攻击者篡改来干扰通信。而 HTTP&#x2F;3.0 的 QUIC 对整个数据包（包括报文头和报文体）进行了加密与认证处理，保障安全性。</p>
+<h3 id="http-vs-https"><a href="#http-vs-https" class="headerlink" title="http vs https"></a>http vs https</h3><ol>
+<li><strong>端口号</strong>：HTTP 默认是 80，HTTPS 默认是 443。</li>
+<li><strong>URL 前缀</strong>：HTTP 的 URL 前缀是 <code>http://</code>，HTTPS 的 URL 前缀是 <code>https://</code>。</li>
+<li><strong>安全性和资源消耗</strong>：HTTP 协议运行在 TCP 之上，所有传输的内容都是明文，客户端和服务器端都无法验证对方的身份。HTTPS 是运行在 SSL&#x2F;TLS 之上的 HTTP 协议，SSL&#x2F;TLS 运行在 TCP 之上。所有传输的内容都经过加密，加密采用对称加密，但对称加密的密钥用服务器方的证书进行了非对称加密。所以说，HTTP 安全性没有 HTTPS 高，但是 HTTPS 比 HTTP 耗费更多服务器资源。</li>
+</ol>
+<p>工作原理如下所示：</p>
+<ol>
+<li>客户端发送请求</li>
+<li>服务端返回一个公钥证书，里面包含一个非对称加密的公钥，私钥则在服务端自己这</li>
+<li>客户端验证证书的有效性</li>
+<li>客户端利用伪随机数生成一个对称加密的密钥，并用证书中的公钥将其加密，发送给服务端</li>
+<li>服务端接收到被非对称加密的公钥加密过 的 对称加密的密钥，使用自己的非对称加密的私钥将其解密，这样也得到了 对称加密的密钥</li>
+<li>接下来双方使用对称加密的密钥进行加密通信</li>
+</ol>
+<p>即整个过程为，通过一次非对称加密来获得通信使用的对称加密的密钥。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250306214611000.png" alt="image-20250306214611000"></p>
+<h3 id="http常见状态码"><a href="#http常见状态码" class="headerlink" title="http常见状态码"></a>http常见状态码</h3><p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250306214724326.png" alt="image-20250306214724326"></p>
+<p><strong>200 OK</strong>：请求被成功处理。例如，发送一个查询用户数据的 HTTP 请求到服务端，服务端正确返回了用户数据。这个是我们平时最常见的一个 HTTP 状态码。</p>
+<p><strong>201 Created</strong>：请求被成功处理并且在服务端创建了一个新的资源。例如，通过 POST 请求创建一个新的用户。</p>
+<p><strong>202 Accepted</strong>：服务端已经接收到了请求，但是还未处理。例如，发送一个需要服务端花费较长时间处理的请求（如报告生成、Excel 导出），服务端接收了请求但尚未处理完毕。</p>
+<p><strong>204 No Content</strong>：服务端已经成功处理了请求，但是没有返回任何内容。例如，发送请求删除一个用户，服务器成功处理了删除操作但没有返回任何内容</p>
+<p><strong>301 Moved Permanently</strong>：资源被永久重定向了。比如你的网站的网址更换了。</p>
+<p><strong>302 Found</strong>：资源被临时重定向了。比如你的网站的某些资源被暂时转移到另外一个网址。</p>
+<p><strong>400 Bad Request</strong>：发送的 HTTP 请求存在问题。比如请求参数不合法、请求方法错误。</p>
+<p><strong>401 Unauthorized</strong>：未认证却请求需要认证之后才能访问的资源。</p>
+<p><strong>403 Forbidden</strong>：直接拒绝 HTTP 请求，不处理。一般用来针对非法请求。</p>
+<p><strong>404 Not Found</strong>：你请求的资源未在服务端找到。比如你请求某个用户的信息，服务端并没有找到指定的用户。</p>
+<p><strong>409 Conflict</strong>：表示请求的资源与服务端当前的状态存在冲突，请求无法被处理。</p>
+<p><strong>500 Internal Server Error</strong>：服务端出问题了（通常是服务端出 Bug 了）。比如你服务端处理请求的时候突然抛出异常，但是异常并未在服务端被正确处理。</p>
+<p><strong>502 Bad Gateway</strong>：我们的网关将请求转发到服务端，但是服务端返回的却是一个错误的响应。</p>
+<h2 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h2><p>WebSocket 是一种基于 TCP 连接的全双工通信协议，即客户端和服务器可以同时发送和接收数据。</p>
+<p>WebSocket 协议本质上是应用层的协议，用于弥补 HTTP 协议在持久通信能力上的不足。客户端和服务器仅需一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。</p>
+<h3 id="WebSocket与HTTP的区别"><a href="#WebSocket与HTTP的区别" class="headerlink" title="WebSocket与HTTP的区别"></a>WebSocket与HTTP的区别</h3><p>下面是二者的主要区别：</p>
 <ul>
-<li><p>基本信息</p>
-</li>
-<li><p>常量池</p>
-</li>
-<li><p>访问标识</p>
-</li>
-<li><p>字段</p>
-</li>
-<li><p>方法</p>
-</li>
-<li><p>属性</p>
-</li>
+<li>WebSocket 是一种双向实时通信协议，而 HTTP 是一种单向通信协议。并且，HTTP 协议下的通信只能由客户端发起，服务器无法主动通知客户端。</li>
+<li>WebSocket 使用 ws:&#x2F;&#x2F; 或 wss:&#x2F;&#x2F;（使用 SSL&#x2F;TLS 加密后的协议，类似于 HTTP 和 HTTPS 的关系） 作为协议前缀，HTTP 使用 http:&#x2F;&#x2F; 或 https:&#x2F;&#x2F; 作为协议前缀。</li>
+<li>WebSocket 可以支持扩展，用户可以扩展协议，实现部分自定义的子协议，如支持压缩、加密等。</li>
+<li>WebSocket 通信数据格式比较轻量，用于协议控制的数据包头部相对较小，网络开销小，而 HTTP 通信每次都要携带完整的头部，网络开销较大（HTTP&#x2F;2.0 使用二进制帧进行数据传输，还支持头部压缩，减少了网络开销）。</li>
 </ul>
-<h2 id="二-基本信息"><a href="#二-基本信息" class="headerlink" title="二 基本信息"></a>二 基本信息</h2><h3 id="魔数-Magic"><a href="#魔数-Magic" class="headerlink" title="魔数 Magic"></a>魔数 Magic</h3><p>软件使用文件的头几个字节来校验文件的类型，字节码文件的前4个字节为<strong>CAFEBABE</strong>。</p>
-<h3 id="主副版本号"><a href="#主副版本号" class="headerlink" title="主副版本号"></a>主副版本号</h3><p>主副版本号指的是编译字节码文件的JDK版本号，主版本号用来标识大版本，JDK1.0-1.1使用了45.0-45.3，JDK1.2是46之后每升级一个大版本就加1。</p>
-<p>1.2版本之后大版本号计算方法为：<strong>主版本号 - 44</strong>。例如主版本号52为JDK8。</p>
-<p>版本号的作业主要是判断当前字节码的版本和运行时的JDK是否兼容。</p>
-<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250220180722975.png" alt="image-20250220180722975"></p>
-<p>例如上图报错说明，字节码文件为JDK8，但运行时环境为JDK6。</p>
-<h2 id="三-常量池"><a href="#三-常量池" class="headerlink" title="三 常量池"></a>三 常量池</h2><p>包含：</p>
-<ul>
-<li><p>字面量</p>
-</li>
-<li><p>符号引用</p>
-</li>
-</ul>
-<h2 id="四-访问标志-access-flags"><a href="#四-访问标志-access-flags" class="headerlink" title="四 访问标志 access flags"></a>四 访问标志 access flags</h2><p>两个字节，用来标识该Class是否为public、final、interface、abstract等等。</p>
-<h2 id="五-当前类、父类、接口索引集合"><a href="#五-当前类、父类、接口索引集合" class="headerlink" title="五 当前类、父类、接口索引集合"></a>五 当前类、父类、接口索引集合</h2><figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">u<span class="number">2</span>             <span class="keyword">this</span><span class="number">_</span><span class="keyword">class</span>;<span class="comment">//当前类</span></span><br><span class="line">u<span class="number">2</span>             <span class="keyword">super</span><span class="number">_</span><span class="keyword">class</span>;<span class="comment">//父类</span></span><br><span class="line">u<span class="number">2</span>             interfaces<span class="number">_</span>count;<span class="comment">//接口数量</span></span><br><span class="line">u<span class="number">2</span>             interfaces[interfaces<span class="number">_</span>count];<span class="comment">//一个类可以实现多个接口</span></span><br></pre></td></tr></table></figure>
+<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>DNS（Domain Name System）域名管理系统，是当用户使用浏览器访问网址之后，使用的第一个重要协议。DNS 要解决的是<strong>域名和 IP 地址的映射问题</strong>。</p>
+<p>目前 DNS 的设计采用的是分布式、层次数据库结构，<strong>DNS 是应用层协议，它可以在 UDP 或 TCP 协议之上运行，端口为 53</strong> 。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250306223825953.png" alt="image-20250306223825953" style="zoom:50%;" />
 
-<h2 id="六-字段表集合-Fields"><a href="#六-字段表集合-Fields" class="headerlink" title="六 字段表集合 Fields"></a>六 字段表集合 Fields</h2><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">   u2             fields_count<span class="comment">;//字段数量</span></span><br><span class="line">   field_info     fields[fields_count]<span class="comment">;//一个类会可以有个字段</span></span><br><span class="line">   </span><br><span class="line">  	field_info&#123;</span><br><span class="line">   	u2			access_flags<span class="comment">;</span></span><br><span class="line">   	u2			name_index<span class="comment">;//对常量池的引用，表示的字段的名称</span></span><br><span class="line">   	u2			descriptor_index<span class="comment">;//对常量池的引用，表示字段和方法的描述符；</span></span><br><span class="line">   	u2			attributes_count<span class="comment">;一个字段还会拥有一些额外的属性</span></span><br><span class="line">   	attribute_info	attributes[attributes_count]<span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="TCP与UDP"><a href="#TCP与UDP" class="headerlink" title="TCP与UDP"></a>TCP与UDP</h2><h3 id="TCP与UDP的区别"><a href="#TCP与UDP的区别" class="headerlink" title="TCP与UDP的区别"></a>TCP与UDP的区别</h3><p><strong>是否面向连接</strong>：UDP 在传送数据之前不需要先建立连接。而 TCP 提供面向连接的服务，在传送数据之前必须先建立连接，数据传送结束后要释放连接。</p>
+<p><strong>是否是可靠传输</strong>：远地主机在收到 UDP 报文后，不需要给出任何确认，并且不保证数据不丢失，不保证是否顺序到达。TCP 提供可靠的传输服务，TCP 在传递数据之前，会有三次握手来建立连接，而且在数据传递时，有确认、窗口、重传、拥塞控制机制。通过 TCP 连接传输的数据，无差错、不丢失、不重复、并且按序到达。</p>
+<p><strong>是否有状态</strong>：这个和上面的“是否可靠传输”相对应。TCP 传输是有状态的，这个有状态说的是 TCP 会去记录自己发送消息的状态比如消息是否发送了、是否被接收了等等。为此 ，TCP 需要维持复杂的连接状态表。而 UDP 是无状态服务，简单来说就是不管发出去之后的事情了。</p>
+<p><strong>传输效率</strong>：由于使用 TCP 进行传输的时候多了连接、确认、重传等机制，所以 TCP 的传输效率要比 UDP 低很多。</p>
+<p><strong>传输形式</strong>：TCP 是面向字节流的，UDP 是面向报文的。</p>
+<p><strong>首部开销</strong>：TCP 首部开销（20 ～ 60 字节）比 UDP 首部开销（8 字节）要大。</p>
+<p><strong>是否提供广播或多播服务</strong>：TCP 只支持点对点通信，UDP 支持一对一、一对多、多对一、多对多；</p>
+<h3 id="TCP三次握手与四次挥手"><a href="#TCP三次握手与四次挥手" class="headerlink" title="TCP三次握手与四次挥手"></a>TCP三次握手与四次挥手</h3><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250306224053063.png" alt="image-20250306224053063" style="zoom:50%;" />
 
-<h2 id="七-方法表集合-Methods"><a href="#七-方法表集合-Methods" class="headerlink" title="七 方法表集合 Methods"></a>七 方法表集合 Methods</h2><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">   u2             methods_count<span class="comment">;//方法数量</span></span><br><span class="line">   method_info    methods[methods_count]<span class="comment">;//一个类可以有个多个方法</span></span><br><span class="line">   </span><br><span class="line">   method_info&#123;</span><br><span class="line">   	u2			access_flags<span class="comment">;</span></span><br><span class="line">   	u2			name_index<span class="comment">;</span></span><br><span class="line">   	u2			descriptor_index<span class="comment">;</span></span><br><span class="line">   	u2			attributes_count<span class="comment">;</span></span><br><span class="line">   	attribute_info	attributes[attributes_count]<span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>一次握手</strong>:客户端发送带有 SYN（SEQ&#x3D;x） 标志的数据包 -&gt; 服务端，然后客户端进入 <strong>SYN_SEND</strong> 状态，等待服务端的确认；</p>
+<p><strong>二次握手</strong>:服务端发送带有 SYN+ACK(SEQ&#x3D;y,ACK&#x3D;x+1) 标志的数据包 –&gt; 客户端,然后服务端进入 <strong>SYN_RECV</strong> 状态；</p>
+<p><strong>三次握手</strong>:客户端发送带有 ACK(ACK&#x3D;y+1) 标志的数据包 –&gt; 服务端，然后客户端和服务端都进入<strong>ESTABLISHED</strong> 状态，完成 TCP 三次握手。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250306224123498.png" alt="image-20250306224123498" style="zoom:50%;" />
 
-<h2 id="八-属性表集合-Attributes"><a href="#八-属性表集合-Attributes" class="headerlink" title="八 属性表集合 Attributes"></a>八 属性表集合 Attributes</h2><p>在 Class 文件，字段表，方法表中都可以携带自己的属性表集合，以用于描述某些场景专有的信息。</p>
-
+<p><strong>第一次挥手</strong>：客户端发送一个 FIN（SEQ&#x3D;x） 标志的数据包-&gt;服务端，用来关闭客户端到服务端的数据传送。然后客户端进入 <strong>FIN-WAIT-1</strong> 状态。</p>
+<p><strong>第二次挥手</strong>：服务端收到这个 FIN（SEQ&#x3D;X） 标志的数据包，它发送一个 ACK （ACK&#x3D;x+1）标志的数据包-&gt;客户端 。然后服务端进入 <strong>CLOSE-WAIT</strong> 状态，客户端进入 <strong>FIN-WAIT-2</strong> 状态。</p>
+<p><strong>第三次挥手</strong>：服务端发送一个 FIN (SEQ&#x3D;y)标志的数据包-&gt;客户端，请求关闭连接，然后服务端进入 <strong>LAST-ACK</strong> 状态。</p>
+<p><strong>第四次挥手</strong>：客户端发送 ACK (ACK&#x3D;y+1)标志的数据包-&gt;服务端，然后客户端进入<strong>TIME-WAIT</strong>状态，服务端在收到 ACK (ACK&#x3D;y+1)标志的数据包后进入 CLOSE 状态。此时如果客户端等待 <strong>2MSL</strong> 后依然没有收到回复，就证明服务端已正常关闭，随后客户端也可以关闭连接了。</p>
+<p>服务端收到客户端断开连接的请求时，可能还有一些数据没有发完，这时先回复 ACK，表示接收到了断开连接的请求。等到数据发完之后再发 FIN，断开服务端到客户端的数据传送。</p>
+<h3 id="TCP如何保证传输可靠性"><a href="#TCP如何保证传输可靠性" class="headerlink" title="TCP如何保证传输可靠性"></a>TCP如何保证传输可靠性</h3><ol>
+<li><strong>基于数据块传输</strong>：应用数据被分割成 TCP 认为最适合发送的数据块，再传输给网络层，数据块被称为报文段或段。</li>
+<li><strong>对失序数据包重新排序以及去重</strong>：TCP 为了保证不发生丢包，就给每个包一个序列号，有了序列号能够将接收到的数据根据序列号排序，并且去掉重复序列号的数据就可以实现数据包去重。</li>
+<li><strong>校验和</strong> : TCP 将保持它首部和数据的检验和。这是一个端到端的检验和，目的是检测数据在传输过程中的任何变化。如果收到段的检验和有差错，TCP 将丢弃这个报文段和不确认收到此报文段。</li>
+<li><strong>重传机制</strong> : 在数据包丢失或延迟的情况下，重新发送数据包，直到收到对方的确认应答（ACK）。TCP 重传机制主要有：基于计时器的重传（也就是超时重传）、快速重传（基于接收端的反馈信息来引发重传）、SACK（在快速重传的基础上，返回最近收到的报文段的序列号范围，这样客户端就知道，哪些数据包已经到达服务器了）、D-SACK（重复 SACK，在 SACK 的基础上，额外携带信息，告知发送方有哪些数据包自己重复接收了）。</li>
+<li><strong>流量控制</strong> : TCP 连接的每一方都有固定大小的缓冲空间，TCP 的接收端只允许发送端发送接收端缓冲区能接纳的数据。当接收方来不及处理发送方的数据，能提示发送方降低发送的速率，防止包丢失。TCP 使用的流量控制协议是可变大小的滑动窗口协议（TCP 利用滑动窗口实现流量控制）。</li>
+<li><strong>拥塞控制</strong> : 当网络拥塞时，减少数据的发送。TCP 在发送数据的时候，需要考虑两个因素：一是接收方的接收能力，二是网络的拥塞程度。接收方的接收能力由滑动窗口表示，表示接收方还有多少缓冲区可以用来接收数据。网络的拥塞程度由拥塞窗口表示，它是发送方根据网络状况自己维护的一个值，表示发送方认为可以在网络中传输的数据量。发送方发送数据的大小是滑动窗口和拥塞窗口的最小值，这样可以保证发送方既不会超过接收方的接收能力，也不会造成网络的过度拥塞。</li>
+</ol>
+<h2 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h2><h2 id="ARP"><a href="#ARP" class="headerlink" title="ARP"></a>ARP</h2>
       
     </div>
 
@@ -381,7 +440,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-19 15:54:22" itemprop="dateModified" datetime="2025-03-19T15:54:22+08:00">2025-03-19</time>
+      <time title="修改时间：2025-08-05 00:53:10" itemprop="dateModified" datetime="2025-08-05T00:53:10+08:00">2025-08-05</time>
     </span>
 
   
@@ -425,334 +484,18 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>from 李亚飞</p>
+          <p>copy from 李亚飞</p>
 <h1 id="1-Redis相关"><a href="#1-Redis相关" class="headerlink" title="1. Redis相关"></a>1. Redis相关</h1><h2 id="1-1-Redis常用命令"><a href="#1-1-Redis常用命令" class="headerlink" title="1.1 Redis常用命令"></a>1.1 Redis常用命令</h2><h2 id="1-2-如何使用Redis"><a href="#1-2-如何使用Redis" class="headerlink" title="1.2 如何使用Redis"></a>1.2 如何使用Redis</h2><p>1.使用Redis做缓存</p>
 <p>2.使用setIfAbsent来实现互斥锁（setnx命令，set if not exist）</p>
 <p>3.使用increment自增实现ID生成器</p>
-<h2 id="1-3-使用了哪些Redis数据类型？"><a href="#1-3-使用了哪些Redis数据类型？" class="headerlink" title="1.3 使用了哪些Redis数据类型？"></a>1.3 使用了哪些Redis数据类型？</h2><ul>
-<li><strong>string</strong>：在使用验证码登录的时候，缓存手机号对应的验证码；在查询商店信息的时候，缓存商店信息</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//手机号 对应 验证码</span></span><br><span class="line">stringRedisTemplate.opsForValue().set(LOGIN_CODE_KEY + phone, code, LOGIN_CODE_TTL, TimeUnit.MINUTES);</span><br><span class="line">stringRedisTemplate.opsForValue().get(LOGIN_CODE_KEY + phone);</span><br><span class="line"></span><br><span class="line"><span class="comment">//商店id 对应 商店信息</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>hash</strong>：缓存登录成功的用户信息，信息有id、昵称等</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//缓存登录成功的用户 token 对应 用户信息（map类型）</span></span><br><span class="line"><span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> query().eq(<span class="string">&quot;phone&quot;</span>, phone).one();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (user == <span class="literal">null</span>) &#123;</span><br><span class="line">    user = createUserWithPhone(phone);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">String</span> <span class="variable">token</span> <span class="operator">=</span> UUID.randomUUID().toString();</span><br><span class="line"><span class="type">UserDTO</span> <span class="variable">userDTO</span> <span class="operator">=</span> BeanUtil.copyProperties(user, UserDTO.class);</span><br><span class="line">Map&lt;String, Object&gt; userMap = BeanUtil.beanToMap(userDTO, <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(),</span><br><span class="line">        CopyOptions.create()</span><br><span class="line">                .setIgnoreNullValue(<span class="literal">true</span>)</span><br><span class="line">                .setFieldValueEditor((fieldName, fieldValue) -&gt; fieldValue.toString()));</span><br><span class="line"></span><br><span class="line"><span class="type">String</span> <span class="variable">tokenKey</span> <span class="operator">=</span> LOGIN_USER_KEY + token;</span><br><span class="line">stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);</span><br><span class="line">stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>set</strong>：购买过优惠券的用户放在set中，判断当前用户是否购买过</li>
-</ul>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> voucherId = ARGV[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">local</span> userId = ARGV[<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 库存key</span></span><br><span class="line"><span class="keyword">local</span> stockKey = <span class="string">&#x27;seckill:stock:&#x27;</span> .. voucherId</span><br><span class="line"><span class="comment">---·订单key</span></span><br><span class="line"><span class="keyword">local</span> orderKey = <span class="string">&#x27;seckill:order:&#x27;</span> .. voucherId</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 判断库存是否充足</span></span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">tonumber</span>(redis.call(<span class="string">&#x27;get&#x27;</span>, stockKey)) &lt;= <span class="number">0</span>) <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">--- 判断用户是否重复购买</span></span><br><span class="line"><span class="keyword">if</span>(redis.call(<span class="string">&#x27;sismember&#x27;</span>, orderKey, userId) == <span class="number">1</span>) <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- 扣减库存，并记录用户购买信息</span></span><br><span class="line">redis.call(<span class="string">&#x27;incrby&#x27;</span>, stockKey, <span class="number">-1</span>)</span><br><span class="line">redis.call(<span class="string">&#x27;sadd&#x27;</span>, orderKey, userId)</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="1-4-如何保证Redis集群情况下分布式锁分可靠性？"><a href="#1-4-如何保证Redis集群情况下分布式锁分可靠性？" class="headerlink" title="1.4 如何保证Redis集群情况下分布式锁分可靠性？"></a>1.4 如何保证Redis集群情况下分布式锁分可靠性？</h2><ul>
-<li>**RedLock算法：**向所有Redis节点发送加锁请求，成功超半数才算成功加锁；释放锁的时候要对所有节点都发起释放锁的操作</li>
-<li>缺点：已经拿到锁的线程A由于GC暂停或业务超时导致锁被释放，后续线程成功拿到锁，但此时线程A还认为自己持有锁。</li>
-<li>改进：<ul>
-<li>获取锁成功时给线程一个自增的令牌**（Fencing Token）**，资源管理服务器在接受线程更新数据时校验令牌是否比当前已经记录的令牌大，如果大就正常接受，如果小说明是已经过期的令牌</li>
-<li>使用Raf共识算法</li>
-</ul>
-</li>
-</ul>
-<h1 id="1-如何实现验证码登录功能的？"><a href="#1-如何实现验证码登录功能的？" class="headerlink" title="1.如何实现验证码登录功能的？"></a>1.如何实现验证码登录功能的？</h1><ul>
-<li>首先用户输入手机号，然后点击发送验证码，服务端收到这个请求之后，校验手机号是否合法，然后生成验证码（随机6位数），以前缀和手机号为key保存验证码到Redis中</li>
-<li>客户端根据收到的验证码填入并登录，服务端收到请求之后，从Redis中校验验证码和手机号是否匹配，如果匹配就成功登录，则将用户的信息保存到Redis中，并返回随机token给客户端；客户端后续请求都带着这个token在作为autorization放在请求头里面。</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://gitee.com/snailhking/my-picture/raw/master/Image/202403071736600.png"><img data-src="https://gitee.com/snailhking/my-picture/raw/master/Image/202403071736600.png" alt="img"></a></p>
-<h1 id="2-缓存更新策略"><a href="#2-缓存更新策略" class="headerlink" title="2. 缓存更新策略"></a>2. 缓存更新策略</h1><p>![image-20250225141924104](&#x2F;Users&#x2F;effy&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20250225141924104.png)</p>
-<h2 id="2-1-主动更新策略"><a href="#2-1-主动更新策略" class="headerlink" title="2.1 主动更新策略"></a>2.1 主动更新策略</h2><ol>
-<li>**Cache Aside Pattern(旁路缓存)：**由缓存的调用者，在更新数据库的同时更新缓存</li>
-<li>**Read&#x2F;Write Through Pattern(读写穿透)：**缓存与数据库整合为一个服务，由服务来维护一致性。调用者调用该服务，无需关心缓存一致性问题</li>
-<li>**Write Behind Patter(异步缓存写入)：**调用者只更新缓存，由其他线程异步地将缓存数据持久化道数据库，保证最终一致性</li>
-</ol>
-<h2 id="2-2-删除缓存还是更新缓存？"><a href="#2-2-删除缓存还是更新缓存？" class="headerlink" title="2.2 删除缓存还是更新缓存？"></a>2.2 删除缓存还是更新缓存？</h2><ul>
-<li>更新缓存：每次更新数据库都更新缓存，无效写操作较多 ❌</li>
-<li>删除缓存：更新数据库时让缓存失效，查询时再更新缓存 ✅</li>
-</ul>
-<h2 id="2-3-如何保证缓存与数据库操作的同时成功或失败"><a href="#2-3-如何保证缓存与数据库操作的同时成功或失败" class="headerlink" title="2.3 如何保证缓存与数据库操作的同时成功或失败"></a>2.3 如何保证缓存与数据库操作的同时成功或失败</h2><ul>
-<li>单体系统：将缓存与数据库操作放在一个事务</li>
-<li>分布式系统：利用TCC等分布式事务方案</li>
-</ul>
-<h2 id="2-4-先操作缓存还是先操作数据库"><a href="#2-4-先操作缓存还是先操作数据库" class="headerlink" title="2.4 先操作缓存还是先操作数据库"></a>2.4 先操作缓存还是先操作数据库</h2><ul>
-<li><p>先删除缓存，再操作数据库 ❌</p>
-<p>![image-20250225144641785](&#x2F;Users&#x2F;effy&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20250225144641785.png)</p>
-</li>
-<li><p>先操作数据库，再删除缓存 ✅</p>
-<p>![image-20250225144716561](&#x2F;Users&#x2F;effy&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20250225144716561.png)</p>
-</li>
-</ul>
-<h1 id="3-如何解决缓存三大问题？"><a href="#3-如何解决缓存三大问题？" class="headerlink" title="3. 如何解决缓存三大问题？"></a>3. 如何解决缓存三大问题？</h1><h2 id="3-1-缓存穿透"><a href="#3-1-缓存穿透" class="headerlink" title="3.1 缓存穿透"></a>3.1 缓存穿透</h2><ul>
-<li><p>定义：请求<strong>大量缓存和数据库中都不存在的值</strong>，导致请求直接落到数据库</p>
-</li>
-<li><p>解决方案</p>
-<ul>
-<li><p><strong>缓存空值</strong></p>
-<ul>
-<li><p>优点：实现简单，效率高</p>
-</li>
-<li><p>缺点：存储大量null值，空间占用大</p>
-</li>
-<li><pre><code class="language-java">// 使用缓存空值解决商铺信息缓存穿透问题： 
-if (shop == null) &#123;
-  stringRedisTemplate.opsForValue().set(key, &quot;&quot;, CACHE_NULL_TTL, TimeUnit.MINUTES);
-  return Result.fail(&quot;店铺不存在&quot;);
-&#125;
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="operator">-</span> <span class="operator">**</span>布隆过滤器<span class="operator">**</span></span><br><span class="line"></span><br><span class="line">  <span class="operator">-</span> 优点：空间占用少</span><br><span class="line"></span><br><span class="line">  <span class="operator">-</span> 缺点：实现复杂，存在误判可能</span><br><span class="line"></span><br><span class="line">  <span class="operator">-</span> ```java</span><br><span class="line">    使用布隆过滤器解决商铺信息缓存穿透问题：</span><br><span class="line">    <span class="meta">@PostConstruct</span></span><br><span class="line">    <span class="keyword">public</span> void <span class="keyword">init</span>() &#123;</span><br><span class="line">        <span class="type">RBloomFilter</span>&lt;<span class="type">Object</span>&gt; bloomFilter <span class="operator">=</span> redissonClient.getBloomFilter(<span class="string">&quot;shop&quot;</span>);</span><br><span class="line">        bloomFilter.tryInit(10000L, <span class="number">0.02</span>);</span><br><span class="line">        <span class="type">List</span>&lt;<span class="type">Shop</span>&gt; ids <span class="operator">=</span> query().select(<span class="string">&quot;id&quot;</span>).list();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">Shop</span> shop: ids) &#123;</span><br><span class="line">            bloomFilter.add(shop.getId());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">Result</span> queryById(<span class="type">Long</span> id) &#123;</span><br><span class="line">        <span class="type">String</span> key <span class="operator">=</span> <span class="type">CACHE_SHOP_KEY</span> <span class="operator">+</span> id;</span><br><span class="line">        <span class="comment">//0. 先查布隆过滤器</span></span><br><span class="line">        <span class="type">RBloomFilter</span>&lt;<span class="type">Object</span>&gt; bloomFilter <span class="operator">=</span> redissonClient.getBloomFilter(<span class="string">&quot;shop&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="operator">!</span>bloomFilter.contains(id)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="type">Result</span>.fail(<span class="string">&quot;shop doesn&#x27;t exist!!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="comment">//1. 布隆过滤器有，再查缓存</span></span><br><span class="line">        <span class="operator">...</span></span><br><span class="line">        <span class="comment">//2. 缓存没有，再查数据库</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
-</li>
-<li><p>增强id的复杂度，避免被猜测id规律</p>
-</li>
-<li><p>做好数据的基础格式校验</p>
-</li>
-<li><p>加强用户权限校验</p>
-</li>
-<li><p>做好热点参数的限流</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-2-缓存雪崩"><a href="#3-2-缓存雪崩" class="headerlink" title="3.2 缓存雪崩"></a>3.2 缓存雪崩</h2><ul>
-<li>定义：同一时段<strong>大量的缓存key失效</strong>或者Redis服务宕机，导致大量请求到达数据库</li>
-<li>解决方案：<ul>
-<li>给不同的key的TTL添加随机值</li>
-<li>利用Redis集群提高服务可用性</li>
-<li>给缓存业务添加降级限流策略</li>
-<li>给业务添加多级缓存</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-3-缓存击穿"><a href="#3-3-缓存击穿" class="headerlink" title="3.3 缓存击穿"></a>3.3 缓存击穿</h2><ul>
-<li>定义：缓存击穿也叫<strong>热点key</strong>问题，即一个高并发访问并且缓存重建业务较复杂的key突然失效，无数请求直接打到数据库上。</li>
-<li>解决方案</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>互斥锁</th>
-<th>逻辑过期</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>概念</td>
-<td>线程A发现缓存过期，加锁重建缓存，后续线程获取锁失败自旋重试直至线程A释放锁，此时缓存重建成功</td>
-<td>不设置过期时间，但在value中添加逻辑过期字段，线程A查询热点key发现value中逻辑时间过期，则线程A加锁并另起线程B重建缓存，线程A直接返回旧数据（不需等待线程B执行结束），后续线程C查询缓存发现过期后尝试加锁，如果加锁失败则说明有线程正在重建缓存，线程C也直接返回旧数据即可，线程B重建完缓存后释放锁</td>
-</tr>
-<tr>
-<td>优点</td>
-<td>没有额外的内存消耗<br />保证一致性<br />实现简单</td>
-<td>线程无需等待，性能较好</td>
-</tr>
-<tr>
-<td>缺点</td>
-<td>线程需要等待，性能受到影响<br />可能有死锁风险</td>
-<td>不保证一致性<br />有额外内存消耗<br />实现复杂</td>
-</tr>
-<tr>
-<td>示意图</td>
-<td>![image-20250119151602588](&#x2F;Users&#x2F;effy&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20250119151602588.png)</td>
-<td>![image-20250119151633156](&#x2F;Users&#x2F;effy&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20250119151633156.png)</td>
-</tr>
-</tbody></table>
-<h1 id="4-全局唯一ID生成器如何实现的？"><a href="#4-全局唯一ID生成器如何实现的？" class="headerlink" title="4. 全局唯一ID生成器如何实现的？"></a>4. 全局唯一ID生成器如何实现的？</h1><ul>
-<li><p>项目中使用的ID是一个64位的整数，其中第一位是符号位，永远为0，然后拼接31位的时间戳，再拼接32位Redis中存的自增值。</p>
-<ul>
-<li><p>时间戳以秒为单位，根据当前时间和基准时间的时间差计算得来，基准时间是预先设置好的，31位的时间戳最长可以支持69年左右；</p>
-</li>
-<li><p>32位的自增值是秒内的计数器，支持每秒产生2^32个不同的ID</p>
-</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisIDWorker</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 开始时间戳，20220101</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">BEGIN_STAMP</span> <span class="operator">=</span> <span class="number">1640995200L</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 序列号位数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">COUNT_BITS</span> <span class="operator">=</span> <span class="number">32</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> StringRedisTemplate stringRedisTemplate;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RedisIDWorker</span><span class="params">(StringRedisTemplate stringRedisTemplate)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.stringRedisTemplate = stringRedisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">nextId</span><span class="params">(String keyPrefix)</span> &#123;</span><br><span class="line">        <span class="comment">//1. 生成时间戳</span></span><br><span class="line">        <span class="type">LocalDateTime</span> <span class="variable">now</span> <span class="operator">=</span> LocalDateTime.now();</span><br><span class="line">        <span class="type">long</span> <span class="variable">nowSecond</span> <span class="operator">=</span> now.toEpochSecond(ZoneOffset.UTC);</span><br><span class="line">        <span class="type">long</span> <span class="variable">timeStamp</span> <span class="operator">=</span> nowSecond - BEGIN_STAMP;</span><br><span class="line">        <span class="comment">//2. 生成序列号</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">date</span> <span class="operator">=</span> now.format(DateTimeFormatter.ofPattern(<span class="string">&quot;yyyyMMdd&quot;</span>));</span><br><span class="line">        <span class="type">long</span> <span class="variable">count</span> <span class="operator">=</span> stringRedisTemplate.opsForValue().increment(<span class="string">&quot;icr:&quot;</span> + keyPrefix + <span class="string">&quot;:&quot;</span> + date);</span><br><span class="line">        System.out.println(<span class="string">&quot;icr:&quot;</span> + keyPrefix + <span class="string">&quot;:&quot;</span> + date);</span><br><span class="line">        <span class="keyword">return</span> timeStamp &lt;&lt; COUNT_BITS | count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>补充：</p>
-<ul>
-<li><p>全局ID生成器，是一种在分布式系统下用来生成全局唯一ID的工具，一般需要满足：</p>
-<ul>
-<li>唯一性</li>
-<li>高可用</li>
-<li>高性能</li>
-<li>递增性</li>
-<li>安全性</li>
-</ul>
-</li>
-<li><p>常见全局唯一ID生成策略：</p>
-<ul>
-<li>UUID</li>
-<li>Redis自增：时间戳 + 计数器</li>
-<li>雪花算法</li>
-<li>数据库自增</li>
-</ul>
-</li>
-</ul>
-<h1 id="5-如何解决超卖问题？"><a href="#5-如何解决超卖问题？" class="headerlink" title="5. 如何解决超卖问题？"></a>5. 如何解决超卖问题？</h1><p>项目中参考乐观锁的思想解决超卖问题。一开始是以CAS的方式，扣减库存的时候判断库存和之前读出来的值是否一致，如果一致就可以正常扣减，如果不一致就不能扣减，实际应用中发现会有很多请求失败，因为扣减库存的时候发现和原来读的值不一样，结合实际业务需求，简化成只要大于0就可以成功扣减。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//乐观锁解决超卖</span></span><br><span class="line"><span class="comment">//原实现，请求失败率高</span></span><br><span class="line"><span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">  .setSql(<span class="string">&quot;stock = stock - 1&quot;</span>)</span><br><span class="line">  .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).eq(<span class="string">&quot;stock&quot;</span>, voucher.getStock()).update();</span><br><span class="line"></span><br><span class="line"><span class="comment">//简化后</span></span><br><span class="line"><span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">                .setSql(<span class="string">&quot;stock = stock - 1&quot;</span>)</span><br><span class="line">                .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).gt(<span class="string">&quot;stock&quot;</span>, <span class="number">0</span>).update();</span><br></pre></td></tr></table></figure>
-
-<p>补充：</p>
-<ul>
-<li><p>悲观锁：添加同步锁，让线程串行执行</p>
-<ul>
-<li><p>优点：简单粗暴</p>
-</li>
-<li><p>缺点：性能一般</p>
-</li>
-</ul>
-</li>
-<li><p>乐观锁：不加锁，在更新数据时比较数据是否被修改过</p>
-<ul>
-<li><p>CAS、版本号</p>
-</li>
-<li><p>优点：性能好</p>
-</li>
-<li><p>缺点：存在成功率低的问题</p>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="6-怎么解决一人一单问题？"><a href="#6-怎么解决一人一单问题？" class="headerlink" title="6. 怎么解决一人一单问题？"></a>6. 怎么解决一人一单问题？</h1><p><strong>单体情况下：</strong></p>
-<ul>
-<li>采用用悲观锁的方式，对同一用户userId.toString().intern()加synchronized关键字，确保同一用户的请求是串行执行，减少了锁定资源的范围，一定程度上提高了项目的并发性（加在方法上锁的是当前实例，变成所有用户都得串行执行）</li>
-<li>注意点一：加锁的范围没有包括整个事务，导致synchronized代码块执行完退出后，事务还没有提交，此时新的线程又进入到synchronized代码块，所以应该锁整个方法</li>
-<li>注意点二：还有一个问题是当使用return createVoucherOrder(voucherId)直接调用的是this的方法，由于Spring的事务是通过代理对象来实现的，所以会导致事务失效，应此应该调用代理对象的的方法</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用synchronized实现一人一单</span></span><br><span class="line"><span class="comment">//存在线程安全问题，synchronized代码块执行完退出后，事务还没有提交</span></span><br><span class="line"><span class="meta">@Transactional(rollbackFor = Exception.class)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">createVoucherOrder</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line">    <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">    <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> query().eq(<span class="string">&quot;user_id&quot;</span>, userId).eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).count();</span><br><span class="line">    <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        log.error(<span class="string">&quot;已经购买过一次&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">synchronized</span> (userId.toString().intern()) &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">                .setSql(<span class="string">&quot;stock = stock - 1&quot;</span>)</span><br><span class="line">                .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).gt(<span class="string">&quot;stock&quot;</span>, <span class="number">0</span>).update();</span><br><span class="line">        <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;库存不足&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">VoucherOrder</span> <span class="variable">voucherOrder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">VoucherOrder</span>();</span><br><span class="line">        <span class="type">long</span> <span class="variable">orderId</span> <span class="operator">=</span> redisIDWorker.nextId(<span class="string">&quot;order&quot;</span>);</span><br><span class="line">        voucherOrder.setId(orderId);</span><br><span class="line">        voucherOrder.setUserId(userId);</span><br><span class="line">        voucherOrder.setVoucherId(voucherId);</span><br><span class="line">        save(voucherOrder);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Result.ok(orderId);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//加锁到整个事务，存在事务失效的问题</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">seckillVoucher</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line">	<span class="comment">//判断秒杀是否开始、是否结束、判断库存是否充足</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">  <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUSer().getId();</span><br><span class="line">  <span class="keyword">synchronized</span> (userId.toString().intern()) &#123;</span><br><span class="line">    <span class="keyword">return</span> createVoucherOder(voucherId);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Transactional(rollbackFor = Exception.class)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">createVoucherOrder</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line">    <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUser().getId();</span><br><span class="line">    <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> query().eq(<span class="string">&quot;user_id&quot;</span>, userId).eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).count();</span><br><span class="line">    <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        log.error(<span class="string">&quot;已经购买过一次&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">            .setSql(<span class="string">&quot;stock = stock - 1&quot;</span>)</span><br><span class="line">            .eq(<span class="string">&quot;voucher_id&quot;</span>, voucherId).gt(<span class="string">&quot;stock&quot;</span>, <span class="number">0</span>).update();</span><br><span class="line">    <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">        log.error(<span class="string">&quot;库存不足&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">VoucherOrder</span> <span class="variable">voucherOrder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">VoucherOrder</span>();</span><br><span class="line">    <span class="type">long</span> <span class="variable">orderId</span> <span class="operator">=</span> redisIDWorker.nextId(<span class="string">&quot;order&quot;</span>);</span><br><span class="line">    voucherOrder.setId(orderId);</span><br><span class="line">    voucherOrder.setUserId(userId);</span><br><span class="line">    voucherOrder.setVoucherId(voucherId);</span><br><span class="line">    save(voucherOrder);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Result.ok(orderId);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用当前类的代理类</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">seckillVoucher</span><span class="params">(Long voucherId)</span> &#123;</span><br><span class="line">	<span class="comment">//判断秒杀是否开始、是否结束、判断库存是否充足</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">  <span class="type">Long</span> <span class="variable">userId</span> <span class="operator">=</span> UserHolder.getUSer().getId();</span><br><span class="line">  <span class="keyword">synchronized</span> (userId.toString().intern()) &#123;</span><br><span class="line">    <span class="comment">//获取事务有关的代理对象</span></span><br><span class="line">    <span class="type">IVoucherOrderService</span> <span class="variable">proxy</span> <span class="operator">=</span> (IVoucherOrderService) AopContext.currentProxy();</span><br><span class="line">    <span class="keyword">return</span> createVoucherOder(voucherId);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>集群情况下：使用分布式锁</strong></p>
-<h1 id="7-你是如何实现分布式锁的？"><a href="#7-你是如何实现分布式锁的？" class="headerlink" title="7. 你是如何实现分布式锁的？"></a>7. 你是如何实现分布式锁的？</h1><p>主要是使用Redis的setnx命令来实现分布式锁的。setnx是互斥的，可以设置超时时间，当要set的key已经存在的时候，set就会失败，key不存在时才会成功，对应的方法是setIfAbsent。 </p>
-<p>自己实现的分布式锁有两个核心方法，<strong>获取锁tryLock</strong>和<strong>释放锁unlock</strong>。获取锁的时候是互斥、非阻塞的，尝试一次，成功就返回true，失败就返回false。释放锁有两种方式，手动调用unlock释放或者当setnx时设置的超时时间到会自动释放。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">SimpleRedisLock</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> StringRedisTemplate stringRedisTemplate;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">KEY_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;lock:&quot;</span>;</span><br><span class="line">  	<span class="keyword">public</span> <span class="title function_">SimpleRedisLocl</span><span class="params">(String name, StringRedisTemplate stringRedisTemplate)</span> &#123;</span><br><span class="line">    	<span class="built_in">this</span>.name = name;</span><br><span class="line">    	<span class="built_in">this</span>.stringRedisTemplate = stringRedisTemplate;</span><br><span class="line">  	&#125;</span><br><span class="line">  	<span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">tryLock</span><span class="params">(<span class="type">long</span> timeoutSec)</span> &#123;</span><br><span class="line">    	<span class="comment">//获取线程标识</span></span><br><span class="line">    	<span class="type">long</span> <span class="variable">threadId</span> <span class="operator">=</span> Thread.currentThread().getId();</span><br><span class="line">    	<span class="comment">//获取锁</span></span><br><span class="line">    	<span class="type">Boolean</span> <span class="variable">success</span> <span class="operator">=</span> stringRedisTemplate.opsForValue().setIfAbsent(KEY_PREFIX + name, threadId + <span class="string">&quot;&quot;</span>, timeoutSec);</span><br><span class="line">    </span><br><span class="line">    	<span class="keyword">return</span> Boolean.TRUE.equals(success);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">unlock</span><span class="params">()</span> &#123;</span><br><span class="line">    	stringRedisTemplate.delete(KEY_PREFIX + name);</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="7-1-自定义分布式锁的误删问题"><a href="#7-1-自定义分布式锁的误删问题" class="headerlink" title="7.1 自定义分布式锁的误删问题"></a>7.1 自定义分布式锁的误删问题</h2><p>自定义的分布式锁可能存在误删的问题，比如线程1在获取锁后，由于业务操作耗时久或，导致Redis超时释放，此时线程2来获取锁成功了，开始执行业务操作，线程1执行完后释放了Redis锁，但是此时锁已经被线程2获取了，导致线程1释放的是线程2的锁，就出现误删问题。</p>
-<p>解决方案是在获取锁时存入线程标示，在释放锁时先获取锁中的线程标识，判断是否和当前线程标识一致，如果一致就释放锁，不一致就不释放锁。</p>
-<p>线程不能直接使用线程ID，因为集群模式下容易出现冲突，而是用UUID。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleRedisLock</span> <span class="keyword">implements</span> <span class="title class_">ILock</span> &#123;</span><br><span class="line">  		<span class="comment">//线程标识前缀</span></span><br><span class="line">  		<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ID_PREFIX</span> <span class="operator">=</span> UUID.randomUUID().toString(<span class="literal">true</span>) + <span class="string">&quot;-&quot;</span>;</span><br><span class="line">  		<span class="meta">@Override</span></span><br><span class="line">      <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">tryLock</span><span class="params">(<span class="type">long</span> timeoutSec)</span> &#123;</span><br><span class="line">        <span class="comment">//获取线程标识 前缀 + 线程ID</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">threadId</span> <span class="operator">=</span> ID_PREFIX + Thread.currentThread().getId();</span><br><span class="line">        <span class="type">Boolean</span> <span class="variable">success</span> <span class="operator">=</span> stringRedisTemplate.opsForValue().setIfAbsent(KEY_PREFIX + name, threadId, timeoutSec, TimeUnit.SECONDS);</span><br><span class="line">        <span class="keyword">return</span> BooleanUtil.isTrue(success);</span><br><span class="line">    &#125;</span><br><span class="line">  		</span><br><span class="line">  		<span class="meta">@Override</span></span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">unlock</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">threadId</span> <span class="operator">=</span> ID_PREFIX + Thread.currentThread().getId();</span><br><span class="line">        <span class="type">String</span> <span class="variable">id</span> <span class="operator">=</span> stringRedisTemplate.opsForValue().get(KEY_PREFIX + name);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//线程标识解决分布式锁误删的问题</span></span><br><span class="line">        <span class="keyword">if</span> (threadId.equals(id)) &#123;</span><br><span class="line">            stringRedisTemplate.delete(KEY_PREFIX + name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<h2 id="7-2-自定义分布式锁的原子性问题"><a href="#7-2-自定义分布式锁的原子性问题" class="headerlink" title="7.2 自定义分布式锁的原子性问题"></a>7.2 自定义分布式锁的原子性问题</h2><p>解决误删时由于 <strong>判断锁标识是否是自己</strong>和<strong>释放锁</strong> 两步操作不是原子的，还是可能出现误删的问题，所以要借助Lua脚本保证一致性</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> DefaultRedisScript&lt;Long&gt; UNLOCK_SCRIPT;</span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    UNLOCK_SCRIPT = <span class="keyword">new</span> <span class="title class_">DefaultRedisScript</span>&lt;&gt;();</span><br><span class="line">    UNLOCK_SCRIPT.setLocation(<span class="keyword">new</span> <span class="title class_">ClassPathResource</span>(<span class="string">&quot;unlock.lua&quot;</span>));</span><br><span class="line">    UNLOCK_SCRIPT.setResultType(Long.class);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 调用lua脚本原子释放锁</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">unlock</span><span class="params">()</span> &#123;</span><br><span class="line">    stringRedisTemplate.execute(</span><br><span class="line">            UNLOCK_SCRIPT,</span><br><span class="line">            Collections.singletonList(KEY_PREFIX + name),</span><br><span class="line">            ID_PREFIX + Thread.currentThread().getId());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//unlock.lua</span></span><br><span class="line">--比较线程标示与锁中的标示是否一致</span><br><span class="line"><span class="keyword">if</span> (redis.call(<span class="string">&#x27;get&#x27;</span>,KEYS[<span class="number">1</span>]) == ARGV[<span class="number">1</span>]) then</span><br><span class="line">    -- 释放锁 del key</span><br><span class="line">    <span class="keyword">return</span> redis.call(<span class="string">&#x27;del&#x27;</span>,KEYS[<span class="number">1</span>])</span><br><span class="line">end</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<p>补充：</p>
-<p>分布式锁特点：</p>
-<ul>
-<li>多进程可见</li>
-<li>互斥</li>
-<li>高可用</li>
-<li>高性能</li>
-<li>安全性</li>
-</ul>
-<h2 id="7-3-基于setnx实现的分布式锁的问题"><a href="#7-3-基于setnx实现的分布式锁的问题" class="headerlink" title="7.3 基于setnx实现的分布式锁的问题"></a>7.3 基于setnx实现的分布式锁的问题</h2><ol>
-<li>不可重入，同一个线程无法多次获取同一把锁</li>
-<li>不可重试，获取锁只尝试一次就返回false，没有重试机制</li>
-<li>超时释放，超时释放虽然可以避免死锁，但如果是业务执行耗时较长，也会导致锁释放，存在安全隐患</li>
-<li>主从一致性，如果Redis提供了主从集群，主从同步存在延迟，当主宕机时，如果从并同步主中的锁数据，则会出现锁失效</li>
-</ol>
-<h2 id="7-4-基于ZooKeeper实现分布式锁"><a href="#7-4-基于ZooKeeper实现分布式锁" class="headerlink" title="7.4 基于ZooKeeper实现分布式锁"></a>7.4 基于ZooKeeper实现分布式锁</h2><ul>
-<li>基于<strong>临时顺序节点</strong>和**Watcher（事件监听器）**机制</li>
-</ul>
-<h1 id="8-Redisson有什么功能？"><a href="#8-Redisson有什么功能？" class="headerlink" title="8. Redisson有什么功能？"></a>8. Redisson有什么功能？</h1><p>可重入锁、可重试、锁延时</p>
-<h2 id="8-1-Redisson的可重入锁怎么实现的？"><a href="#8-1-Redisson的可重入锁怎么实现的？" class="headerlink" title="8.1 Redisson的可重入锁怎么实现的？"></a><img data-src="https://gitee.com/snailhking/my-picture/raw/master/Image/202403072136332.png" alt="img">8.1 Redisson的可重入锁怎么实现的？</h2><ul>
-<li>用hash结构记录线程id和重入次数</li>
-<li>获取锁时，判断当前锁是否已被获取过，如果未获取，则锁记录线程标识，同时锁计数加一；如果获取过，判断线程标识是否一致，如果一致则是重入，锁计数加一，重新设置有效期，如果不一致，则获取锁失败</li>
-<li>释放锁时，判断锁是否存在，如果存在，判断是否是自己线程，如果是则将锁计数-1，判断是否为0，如果为0就释放锁，并发布消息通知，通知正在等待该锁的线程，不为0则重置有效期</li>
-</ul>
-<h2 id="8-2-Redisson的锁重试如何实现？"><a href="#8-2-Redisson的锁重试如何实现？" class="headerlink" title="8.2 Redisson的锁重试如何实现？"></a>8.2 Redisson的锁重试如何实现？</h2><ul>
-<li>获取锁时可以传入最大等待时间，第一次获取锁失败时，会订阅并等待释放锁的信号，在有效期内锁释放后会发布通知，收到通知后会尝试再次获取锁，又获取失败后，则会根据信号量等待一段时间后再次获取锁，然后外层套while true循环</li>
-<li>在这期间会多次比较当前剩余等待时间是否已经超时，如果已经超过最大等待时间，直接返回false；</li>
-<li>同时也不会无意义的尝试获取锁，而是通过消息订阅、信号量的方式判断是否能获取锁</li>
-</ul>
-<h2 id="8-3-Redisson的锁超时怎么解决？"><a href="#8-3-Redisson的锁超时怎么解决？" class="headerlink" title="8.3 Redisson的锁超时怎么解决？"></a>8.3 Redisson的锁超时怎么解决？</h2><ul>
-<li>当过期时间设置为-1时，会开启看门狗，释放锁的时候取消watch dog</li>
-<li>每隔一段时间，重置超时时间利用超时和续期机制实现逻辑上永不过期，直到业务完成或者业务异常退出</li>
-<li>默认超时时间30s，每10s续期一次</li>
-</ul>
-<h1 id="9-RocketMQ怎么用的？"><a href="#9-RocketMQ怎么用的？" class="headerlink" title="9.RocketMQ怎么用的？"></a>9.RocketMQ怎么用的？</h1><ul>
-<li>我是在抢购优惠券的时候使用到的，对于一些大额的优惠券，可能会在短时间内有大量的下单请求，如果这些请求全部落到数据库上，由于并发加锁的问题，会造成接口的性能大幅下降，所以在这个地方我使用了RocketMQ来解耦Redis扣减和数据库扣减。</li>
-<li>首先把库存信息缓存到Redis当中，然后直接在Lua脚本中用Redis判断库存容量够不够、当前用户有没有重复购买，如果都校验成功，就先在Redis扣减，然后生成一个订单，加入到消息队列中，此时接口可以直接返回。</li>
-<li>消费者再从消息队列中获取订单信息，加锁写到数据库中，实现了流量的削峰。</li>
-<li>经过解耦后的接口在本地简单测试性能提升约50%，响应时间500+ms降低至200+ms</li>
-</ul>
-<h2 id="9-1-如何解决顺序消费？"><a href="#9-1-如何解决顺序消费？" class="headerlink" title="9.1 如何解决顺序消费？"></a>9.1 如何解决顺序消费？</h2><ul>
-<li>生产者：单一生产者串行发送</li>
-<li>全局有序：可以通过将所有消息路由到同一个队列来实现</li>
-<li>局部有序：同一生产者组通过MessageQueueSelector保证消息在同一组</li>
-<li>消费者：通过MessageListenerOrderly保证对同一个队列的串行消费</li>
-</ul>
-<p>当前系统其实只在生成优惠券订单的时候使用了消息队列，下游服务只有将订单保存至数据库，没有其他下游服务，所以也就不存在需要保证顺序消费的情况，因为所有订单之间都是无序的。当然如果业务扩展，以后下游有多个服务时，可以通过Hash取模的方法把同一系列的消息放到同一个消息队列中，因为相同的消息队列消费的顺序是有序的，所以就保证了顺序消费</p>
-<h2 id="9-2-如何解决消息丢失问题"><a href="#9-2-如何解决消息丢失问题" class="headerlink" title="9.2 如何解决消息丢失问题"></a>9.2 如何解决消息丢失问题</h2><ul>
-<li>生产者：<ul>
-<li>同步：确保成功发送给消息队列才执行后续代码，可以放在同一个本地事务中</li>
-<li>异步 + 重试 + 补偿：写入消息队列不阻塞，通过回调如果写入失败就重试，如果重试超过3次，就记录到数据库后续补偿</li>
-</ul>
-</li>
-<li>broker：<ul>
-<li>异步刷盘宕机时内存中的消息丢失</li>
-<li>同步刷盘：写入到磁盘中再返回给生产者成功</li>
-<li>同步复制：同步复制给从节点</li>
-</ul>
-</li>
-<li>消费者<ul>
-<li>重试 + 幂等性 + 死信队列</li>
-<li>减轻单节点负担</li>
-</ul>
-</li>
-</ul>
-<h2 id="9-2-如何解决重复消费"><a href="#9-2-如何解决重复消费" class="headerlink" title="9.2 如何解决重复消费"></a>9.2 如何解决重复消费</h2><ul>
-<li>什么时候出现重复消费：消费者消费超时，没有给broker返回ACK，broker此时会重新投递</li>
-<li>存入Redis，并把状态设置为消费中</li>
-</ul>
-<p>解决重复消费是我把保存订单至数据库的服务设计成幂等的，对于重复的订单，在插入数据库时如果订单ID相同会插入失败。</p>
-<h2 id="9-3-如何解决消息堆积"><a href="#9-3-如何解决消息堆积" class="headerlink" title="9.3 如何解决消息堆积"></a>9.3 如何解决消息堆积</h2><p>水平扩展消费者数量，检查是否有消费错误、是否有线程卡死，增加消费者数量的同时需要增加主题的队列数。</p>
-<h2 id="9-4-如何保证高性能读写"><a href="#9-4-如何保证高性能读写" class="headerlink" title="9.4 如何保证高性能读写"></a>9.4 如何保证高性能读写</h2><p>传统IO需要多次用户态内核态切换，以及数据拷贝，RocketMQ使用零拷贝的计数，将内核缓冲区和Socket缓冲区共享，减少一次拷贝操作</p>
-<h2 id="9-3-消息队列还有哪些用处？"><a href="#9-3-消息队列还有哪些用处？" class="headerlink" title="9.3 消息队列还有哪些用处？"></a>9.3 消息队列还有哪些用处？</h2><p>可以用来实现分布式事务，数据库binlog日志同步</p>
-<h2 id="9-4-如何保证消息被成功消费，如果消费失败呢？"><a href="#9-4-如何保证消息被成功消费，如果消费失败呢？" class="headerlink" title="9.4 如何保证消息被成功消费，如果消费失败呢？"></a>9.4 如何保证消息被成功消费，如果消费失败呢？</h2><h2 id="其他的中间件消息队列你知道哪些？"><a href="#其他的中间件消息队列你知道哪些？" class="headerlink" title="其他的中间件消息队列你知道哪些？"></a>其他的中间件消息队列你知道哪些？</h2><p>用消息队列可以降低系统耦合性、实现任务异步、有效地进行流量削峰，是分布式和微服务系统中重要的组件之一.</p>
-<ul>
-<li>RabbitMQ 在吞吐量方面虽然稍逊于 Kafka、RocketMQ 和 Pulsar，但是由于它基于 Erlang 开发，所以并发能力很强，性能极其好，延时很低，达到微秒级。但是也因为 RabbitMQ 基于 Erlang 开发，所以国内很少有公司有实力做 Erlang 源码级别的研究和定制。如果业务场景对并发量要求不是太高（十万级、百万级），那这几种消息队列中，RabbitMQ 或许是你的首选。</li>
-<li>RocketMQ 和 Pulsar 支持强一致性，对消息一致性要求比较高的场景可以使用。</li>
-<li>RocketMQ 阿里出品，Java 系开源项目，源代码我们可以直接阅读，然后可以定制自己公司的 MQ，并且 RocketMQ 有阿里巴巴的实际业务场景的实战考验。</li>
-<li>Kafka 的特点其实很明显，就是仅仅提供较少的核心功能，但是提供超高的吞吐量，ms 级的延迟，极高的可用性以及可靠性，而且分布式可以任意扩展。同时 Kafka 最好是支撑较少的 topic 数量即可，保证其超高吞吐量。Kafka 唯一的一点劣势是有可能消息重复消费，那么对数据准确性会造成极其轻微的影响，在大数据领域中以及日志采集中，这点轻微影响可以忽略这个特性天然适合大数据实时计算以及日志收集。如果是大数据领域的实时计算、日志采集等场景，用 Kafka 是业内标准的，绝对没问题，社区活跃度很高，绝对不会黄，何况几乎是全世界这个领域的事实性规范。</li>
-</ul>
-<p>![image-20250311115801061](&#x2F;Users&#x2F;effy&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20250311115801061.png)</p>
-<h1 id="10-限流是怎么实现的？"><a href="#10-限流是怎么实现的？" class="headerlink" title="10. 限流是怎么实现的？"></a>10. 限流是怎么实现的？</h1><ul>
-<li>首先是自定义了一个注解，主要是两个属性type是被限流的key，count表明这个key每秒最大的请求数</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(value = ElementType.METHOD)</span></span><br><span class="line"><span class="meta">@Retention(value = RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> RateConfigAnno &#123;</span><br><span class="line">    String <span class="title function_">limitType</span><span class="params">()</span>;</span><br><span class="line">    <span class="type">double</span> <span class="title function_">limitCount</span><span class="params">()</span> <span class="keyword">default</span> <span class="number">5d</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>然后是写了一个切面，拦截所有被RateConfigAnno注解的方法，在方法执行前调用Google Guava的RateLimiter，获取这个key下的limiter，如果能成功获取到令牌就继续执行被拦截方法的业务逻辑，如果获取失败就直接返回限流信息，不再继续执行后续业务。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Order(1)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GuavaLimitAOP</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before(&quot;execution(@RateConfigAnno * *(..))&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">limit</span><span class="params">(JoinPoint joinPoint)</span> &#123;</span><br><span class="line">        <span class="comment">//1. 获取当前调用的方法</span></span><br><span class="line">        <span class="type">Method</span> <span class="variable">currentMethod</span> <span class="operator">=</span> getCurrentMethod(joinPoint);</span><br><span class="line">        <span class="keyword">if</span> (Objects.isNull(currentMethod)) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2. 从方法注解定义上获取限流的类型</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">limitType</span> <span class="operator">=</span> currentMethod.getAnnotation(RateConfigAnno.class).limitType();</span><br><span class="line">        <span class="type">double</span> <span class="variable">limitCount</span> <span class="operator">=</span> currentMethod.getAnnotation(RateConfigAnno.class).limitCount();</span><br><span class="line">        <span class="comment">//3. 使用guava的令牌桶算法获取一个令牌，获取不到先等待</span></span><br><span class="line">        <span class="type">RateLimiter</span> <span class="variable">rateLimiter</span> <span class="operator">=</span> RateLimiterHelper.getRateLimiter(limitType, limitCount);</span><br><span class="line"></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">flag</span> <span class="operator">=</span> rateLimiter.tryAcquire();</span><br><span class="line">        <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;获取令牌成功&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            log.info(<span class="string">&quot;获取令牌失败&quot;</span>);</span><br><span class="line">            <span class="type">HttpServletResponse</span> <span class="variable">resp</span> <span class="operator">=</span> ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();</span><br><span class="line">            <span class="type">JSONObject</span> <span class="variable">jsonObject</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>();</span><br><span class="line">            jsonObject.put(<span class="string">&quot;success&quot;</span>, <span class="literal">false</span>);</span><br><span class="line">            jsonObject.put(<span class="string">&quot;msg&quot;</span>, <span class="string">&quot;限流中&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                output(resp, jsonObject.toString());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                log.error(<span class="string">&quot;error, e: &#123;&#125;&quot;</span>, e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Method <span class="title function_">getCurrentMethod</span><span class="params">(JoinPoint joinPoint)</span> &#123;</span><br><span class="line">        Method[] methods = joinPoint.getTarget().getClass().getMethods();</span><br><span class="line">        <span class="type">Method</span> <span class="variable">target</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Method method : methods) &#123;</span><br><span class="line">            <span class="keyword">if</span> (method.getName().equals(joinPoint.getSignature().getName())) &#123;</span><br><span class="line">                target = method;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> target;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">output</span><span class="params">(HttpServletResponse response, String msg)</span> &#123;</span><br><span class="line">        response.setContentType(<span class="string">&quot;application/json;charset=UTF-8&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span>(<span class="type">ServletOutputStream</span> <span class="variable">outputStream</span> <span class="operator">=</span> response.getOutputStream()) &#123;</span><br><span class="line">            outputStream.write(msg.getBytes());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="11-库存是怎么写到Redis的？"><a href="#11-库存是怎么写到Redis的？" class="headerlink" title="11. 库存是怎么写到Redis的？"></a>11. 库存是怎么写到Redis的？</h1><p>因为新增优惠券是商家端的操作，并发一般都比较小，所以我是直接在写数据库的同时写入缓存。</p>
-<p>然后在服务启动的时候也需要把mysql中的库存同步到redis中，是写在了@PostConstruct注解下，表明这个方法需要在Bean加载前执行</p>
-<h1 id="6-点赞功能如何实现的"><a href="#6-点赞功能如何实现的" class="headerlink" title="6. 点赞功能如何实现的"></a>6. 点赞功能如何实现的</h1><p>使用Set，因为Set类型的数据结构具有</p>
-<ul>
-<li>不重复，符合业务的特点，一个用户只能点赞一次</li>
-<li>高性能，Set集合内部实现了高效的数据结构(Hash表)</li>
-<li>灵活性，Set集合可以实现一对多，一个博客被多个用户点赞</li>
-</ul>
-<p>当然也可以选择使用Hash（Hash占用空间比Set更小），如果想要点赞排序也可以选用Sorted Set</p>
-<h1 id="8-设计秒杀系统需要关注那些？"><a href="#8-设计秒杀系统需要关注那些？" class="headerlink" title="8. 设计秒杀系统需要关注那些？"></a>8. 设计秒杀系统需要关注那些？</h1><h2 id="高并发和高性能"><a href="#高并发和高性能" class="headerlink" title="高并发和高性能"></a>高并发和高性能</h2><p>①热点数据的处理：处理热点数据的问题的关键就在于 我们如何找到这些热点数据（或者说热 key），然后将它们存在 jvm 内存里。对于本项目来说，其实可以直接放入到redis即可，因为并发量不可能过高，但是如果是像京东那种，可能就直接把redis集群给干趴下了。</p>
-<p>②通过消息队列来进行流量削峰。验证码和回答问题来筛选出可能存在的脚本。</p>
-<h2 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h2><p>如果我们想要保证系统中某一个组件的高可用，往往需要搭建集群来避免单点风险，比如说 Nginx 集<br>群、Kafka 集群、Redis 集群（哨兵机制）。</p>
-<p>限流：限流是从用户访问压力的角度来考虑如何应对系统故障。限流为了对服务端的接口接受请求的频率进行限制，防止服务挂掉。可以用redis，也可以用Sentinel。</p>
-<p>排队：限流是直接拒绝用户的请求，而排队是让用户等待一定的时间。</p>
-<p>降级：降级是从系统功能优先级的角度应对系统故障，比如请求到一定阈值之后，我们对系统中一些非核心的功能直接关闭或者让他们的功能降低。（比如双十一期间，蚂蚁森林等功能可以进行降低）</p>
-<p>熔断：应对当前系统依赖的外部系统或者第三方系统的崩溃。例如秒杀服务位于服务A，A还有其他服务比如用户积分的管理，如果积分管理的服务接口响应特别慢的时候，其他服务直接不再请求这个接口，从而避免其他服务被这个服务拖累。</p>
-<h2 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h2><p>减库存：下单减扣库存</p>
-<p>接口幂等：分布式锁。我们通过加锁的方式限制用户在第一次请求未结束之前，无法进行第二次请求。</p>
-<h1 id="如何解决超卖问题"><a href="#如何解决超卖问题" class="headerlink" title="如何解决超卖问题"></a>如何解决超卖问题</h1><p>通过加锁，悲观锁或者乐观锁，乐观锁分为版本号和CAS操作</p>
-<p>本项目使用分布式锁 + lua脚本实现原子性</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> voucherId = ARGV[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">local</span> userId = ARGV[<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 库存key</span></span><br><span class="line"><span class="keyword">local</span> stockKey = <span class="string">&#x27;seckill:stock:&#x27;</span> .. voucherId</span><br><span class="line"><span class="comment">---·订单key</span></span><br><span class="line"><span class="keyword">local</span> orderKey = <span class="string">&#x27;seckill:order:&#x27;</span> .. voucherId</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 判断库存是否充足</span></span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">tonumber</span>(redis.call(<span class="string">&#x27;get&#x27;</span>, stockKey)) &lt;= <span class="number">0</span>) <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">--- 判断用户是否重复购买</span></span><br><span class="line"><span class="keyword">if</span>(redis.call(<span class="string">&#x27;sismember&#x27;</span>, orderKey, userId) == <span class="number">1</span>) <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- 扣减库存，并记录用户购买信息</span></span><br><span class="line">redis.call(<span class="string">&#x27;incrby&#x27;</span>, stockKey, <span class="number">-1</span>)</span><br><span class="line">redis.call(<span class="string">&#x27;sadd&#x27;</span>, orderKey, userId)</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="后续优化点"><a href="#后续优化点" class="headerlink" title="后续优化点"></a>后续优化点</h1><p>2.使用线程池实现查询商品详情信息等复杂任务的并行计算，并使用 Completableruture 异步编排任务，提高系统响应速度。</p>
-<h1 id="用什么做并发测试？"><a href="#用什么做并发测试？" class="headerlink" title="用什么做并发测试？"></a>用什么做并发测试？</h1><p>jmeter</p>
-<h1 id="10-数据库相关"><a href="#10-数据库相关" class="headerlink" title="10. 数据库相关"></a>10. 数据库相关</h1><h2 id="1-订单表-tb-voucher-order"><a href="#1-订单表-tb-voucher-order" class="headerlink" title="1. 订单表(tb_voucher_order)"></a>1. 订单表(tb_voucher_order)</h2><p>每个店铺都可以发布优惠券，当用户抢购优惠券时，会生成订单并保存到tb_voucher_order表中</p>
-<h3 id="1-1-为什么订单表不使用数据库自增ID？"><a href="#1-1-为什么订单表不使用数据库自增ID？" class="headerlink" title="1.1 为什么订单表不使用数据库自增ID？"></a>1.1 为什么订单表不使用数据库自增ID？</h3><ul>
-<li>id规律性太明显，容易被猜出来</li>
-<li>随着订单增长，单张表数据量有限，分表多张表自增ID会重复</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/01/18/RedisProject/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

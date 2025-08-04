@@ -164,7 +164,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -239,7 +239,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-11 15:21:26" itemprop="dateModified" datetime="2025-03-11T15:21:26+08:00">2025-03-11</time>
+      <time title="修改时间：2025-08-05 00:51:43" itemprop="dateModified" datetime="2025-08-05T00:51:43+08:00">2025-08-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -297,60 +297,14 @@
 
 <h3 id="2-取模"><a href="#2-取模" class="headerlink" title="2. 取模"></a>2. 取模</h3><p>然后进行取模：<strong>hash &amp; (length - 1)</strong></p>
 <p>为什么是 <code>&amp;</code> ？： 当length是2的n次方时，hash % length 等于 hash &amp; (length - 1)。</p>
-<h2 id="二-底层实现"><a href="#二-底层实现" class="headerlink" title="二 底层实现"></a>二 底层实现</h2><p><strong>JDK8之前</strong>：数组 + 链表。</p>
-<p><strong>JDK8</strong>：数据 + 链表&#x2F;红黑树。当链表长度大于阈值（默认为8）且数组长度不小于64时，会转为红黑树。</p>
-<h2 id="三-扩容机制"><a href="#三-扩容机制" class="headerlink" title="三 扩容机制"></a>三 扩容机制</h2><p>hashmap的默认容量capacity为16，当其中的元素数量超过阈值threshold（容量*负载因子）后，会触发扩容。</p>
-<p>每次扩容都是原来的容量的两倍，这使得容量始终为2的幂次方（即使通过构造函数指定非 2 的幂值，HashMap 也会自动调整为最近的 2 的幂）。</p>
-<p>如果旧容量已经达到 HashMap 支持的最大容量 MAXIMUM_CAPACITY（2^30），就不会扩容，同时将阈值设为 Integer.MAX_VALUE（2^31-1），这样就不会再触发扩容。</p>
-<p>如果容量小于16，会自动设为16。</p>
-<p>扩容时，会创建一个新数组，将旧数组的每个元素重新计算hash后，填入新数组。</p>
-<p>由于hashmap的容量始终为2的幂次方，映射函数为<code>hash &amp; (length - 1)</code>，因此会产生这样一个性质：那么一个元素在扩容被转移时，要么留在原位置（index &#x3D; oldIndex），要么迁移到原位置+旧容量（index &#x3D; oldIndex + oldCap）。在jdk8中，元素转移时利用了这个性质，直接利用 <code>(e.hash &amp; oldCap) == 0</code> 判断（即判断哈希值在旧容量的最高位是否为0），如果成立则index &#x3D; oldIndex，否则index &#x3D; oldIndex + oldCap。</p>
-<h2 id="四-线程不安全"><a href="#四-线程不安全" class="headerlink" title="四 线程不安全"></a>四 线程不安全</h2><h3 id="1-并发下扩容死循环（jdk8前）"><a href="#1-并发下扩容死循环（jdk8前）" class="headerlink" title="1. 并发下扩容死循环（jdk8前）"></a>1. 并发下扩容死循环（jdk8前）</h3><p>对于链表中元素的转移，<strong>在jdk8前使用的是头插法</strong>，即假如原来的一个桶中的元素是1-&gt;3-&gt;7，那么转移后结果是7-&gt;3-&gt;1（假如还在一个桶中）。而<strong>jdk8后使用的是尾插法</strong>，这样元素的顺序并不会改变。</p>
-<p>在jdk7时，假设初始链表为 <code>Entry1 → Entry2</code>，两个线程同时扩容：</p>
-<ol>
-<li><strong>线程 1</strong> 迁移 <code>Entry1</code> 到新数组，此时 <code>Entry1.next = null</code>，但<strong>未完成迁移</strong>就被挂起。</li>
-<li><strong>线程 2</strong> 完成整个链表的迁移，新链表顺序变为 <code>Entry2 → Entry1</code>（头插法）。</li>
-<li><strong>线程 1</strong> 恢复后继续迁移，此时它看到的链表已被线程 2 修改，导致 <code>Entry1.next = Entry2</code>，而 <code>Entry2.next = Entry1</code>，形成环形链表 <code>Entry1 ⇄ Entry2</code>。</li>
-</ol>
-<h3 id="2-多线程put导致元素丢失"><a href="#2-多线程put导致元素丢失" class="headerlink" title="2. 多线程put导致元素丢失"></a>2. 多线程put导致元素丢失</h3><p>两个线程 1,2 同时进行 put 操作，并且发生了哈希冲突（hash 函数计算出的插入下标是相同的）。</p>
-<ol>
-<li><p>不同的线程可能在不同的时间片获得 CPU 执行的机会，当前线程 1 执行完哈希冲突判断后，由于时间片耗尽挂起。线程 2 先完成了插入1操作。</p>
-</li>
-<li><p>随后，线程 1 获得时间片，由于之前已经进行过 hash 碰撞的判断，所有此时会直接进行插入，这就导致线程 2 插入的数据被线程 1 覆盖了。</p>
-</li>
-</ol>
-<p>还有一种情况是这两个线程同时 <code>put</code> 操作导致 <code>size</code> 的值不正确，进而导致数据覆盖的问题：</p>
-<ol>
-<li>线程 1 执行 <code>if(++size &gt; threshold)</code> 判断时，假设获得 <code>size</code> 的值为 10，由于时间片耗尽挂起。</li>
-<li>线程 2 也执行 <code>if(++size &gt; threshold)</code> 判断，获得 <code>size</code> 的值也为 10，并将元素插入到该桶位中，并将 <code>size</code> 的值更新为 11。</li>
-<li>随后，线程 1 获得时间片，它也将元素放入桶位中，并将 size 的值更新为 11。</li>
-<li>线程 1、2 都执行了一次 <code>put</code> 操作，但是 <code>size</code> 的值只增加了 1，也就导致实际上只有一个元素被添加到了 <code>HashMap</code> 中。</li>
-</ol>
-<h3 id="3-put-和-get-并发时会导致-get-到-null"><a href="#3-put-和-get-并发时会导致-get-到-null" class="headerlink" title="3. put 和 get 并发时会导致 get 到 null"></a>3. put 和 get 并发时会导致 get 到 null</h3><ol>
-<li>线程 1 执行 put 时，因为元素个数超出阈值而导致出现扩容</li>
-<li>线程 1 执行完 table &#x3D; newTab </li>
-<li>线程 2 此时执行 get，由于元素还没有转移完成，get到null</li>
-</ol>
-<h1 id="CurrentHashMap详解"><a href="#CurrentHashMap详解" class="headerlink" title="CurrentHashMap详解"></a>CurrentHashMap详解</h1><h2 id="一-底层实现"><a href="#一-底层实现" class="headerlink" title="一 底层实现"></a>一 底层实现</h2><p><strong>JDK1.7</strong>：分段的数组 + 链表。ConcurrentHashMap 对整个桶数组进行了分割分段(Segment，分段锁)，每一把锁只锁容器其中一部分数据，多线程访问容器里不同数据段的数据，就不会存在锁竞争，提高并发访问率。一般分为16段，因此最大并发数为16。</p>
-<p><strong>JDK1.8</strong>：Node数组 + 链表&#x2F;红黑树。不再使用段的概念，而是使用 CAS + Synchronized保证并发安全。锁粒度更细，<code>synchronized</code> 只锁定当前链表或红黑二叉树的首节点，这样只要 hash 不冲突，就不会产生并发，就不会影响其他 Node 的读写，效率大幅提升。</p>
-<h2 id="二-ConcurrentHashMap-能保证复合操作的原子性吗？"><a href="#二-ConcurrentHashMap-能保证复合操作的原子性吗？" class="headerlink" title="二 ConcurrentHashMap 能保证复合操作的原子性吗？"></a>二 ConcurrentHashMap 能保证复合操作的原子性吗？</h2><p><code>ConcurrentHashMap</code> 是线程安全的，意味着它可以保证多个线程同时对它进行读写操作时，不会出现数据不一致的情况。但是，这并不意味着它可以保证所有的复合操作都是原子性的。</p>
-<p>例如先判断某个键是否存在<code>containsKey(key)</code>，然后根据结果进行插入或更新<code>put(key, value)</code>。这种操作在执行过程中可能会被其他线程打断，导致结果不符合预期。</p>
-<p><strong>那如何保证 <code>ConcurrentHashMap</code> 复合操作的原子性呢？</strong></p>
-<p><code>ConcurrentHashMap</code> 提供了一些原子性的复合操作，如 <code>putIfAbsent</code>、<code>compute</code>、<code>computeIfAbsent</code> 、<code>computeIfPresent</code>、<code>merge</code>等。这些方法都可以接受一个函数作为参数，根据给定的 key 和 value 来计算一个新的 value，并且将其更新到 map 中。</p>
-<h2 id="三-ConcurrentHashMap-为什么-key-和-value-不能为-null？"><a href="#三-ConcurrentHashMap-为什么-key-和-value-不能为-null？" class="headerlink" title="三 ConcurrentHashMap 为什么 key 和 value 不能为 null？"></a>三 ConcurrentHashMap 为什么 key 和 value 不能为 null？</h2><p><code>ConcurrentHashMap</code> 的 key 和 value 不能为 null 主要是为了避免二义性。null 是一个特殊的值，表示没有对象或没有引用。如果你用 null 作为键，那么你就无法区分这个键是否存在于 <code>ConcurrentHashMap</code> 中，还是根本没有这个键。同样，如果你用 null 作为值，那么你就无法区分这个值是否是真正存储在 <code>ConcurrentHashMap</code> 中的，还是因为找不到对应的键而返回的。</p>
-<p>与此形成对比的是，<code>HashMap</code> 可以存储 null 的 key 和 value，但 null 作为键只能有一个，null 作为值可以有多个。如果传入 null 作为参数，就会返回 hash 值为 0 的位置的值。单线程环境下，不存在一个线程操作该 HashMap 时，其他的线程将该 <code>HashMap</code> 修改的情况，所以可以通过 <code>contains(key)</code>来做判断是否存在这个键值对，从而做相应的处理，也就不存在二义性问题。</p>
-<p>也就是说，多线程下无法正确判定键值对是否存在（存在其他线程修改的情况），单线程是可以的（不存在其他线程修改的情况）。或者是单线程下可以容忍歧义，而多线程下无法容忍。</p>
-<h1 id="CopyOnWriteArrayList详解"><a href="#CopyOnWriteArrayList详解" class="headerlink" title="CopyOnWriteArrayList详解"></a>CopyOnWriteArrayList详解</h1><p>在JDK1.5之前，实现线程安全的List为Vector，但是Vector是一个增删改查都要加synchronized锁的老旧集合，已经被淘汰。在JDK1.5中，引入了一个新的线程安全的List——CopyOnWriteArrayList。</p>
-<p>CopyOnWriteArrayList的读取操作是完全不需要加锁的，同时写操作也不会阻塞读操作，只有写写互斥，极大地提高了性能。</p>
-<p>CopyOnWriteArrayList线程安全的核心在于其采用了 <strong>写时复制（Copy-On-Write）</strong> 的策略，当需要修改（ <code>add</code>，<code>set</code>、<code>remove</code> 等操作） CopyOnWriteArrayList 的内容时，不会直接修改原数组，而是会先创建底层数组的副本，对副本数组进行修改，修改完之后再将修改后的数组赋值回去，这样就可以保证写操作不会影响读操作了。</p>
-<p>不过，写时复制机制并不是银弹，其依然存在一些缺点，下面列举几点：</p>
-<ol>
-<li>内存占用：每次写操作都需要复制一份原始数据，会占用额外的内存空间，在数据量比较大的情况下，可能会导致内存资源不足。</li>
-<li>写操作开销：每一次写操作都需要复制一份原始数据，然后再进行修改和替换，所以写操作的开销相对较大，在写入比较频繁的场景下，性能可能会受到影响。</li>
-<li>数据一致性问题：修改操作不会立即反映到最终结果中，还需要等待复制完成，这可能会导致一定的数据一致性问题。</li>
-<li>……</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/12/20/Java%E9%9D%A2%E7%BB%8F%E2%80%94%E2%80%94Java%E9%9B%86%E5%90%88/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

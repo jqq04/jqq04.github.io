@@ -24,7 +24,7 @@
 
     <meta name="description" content="Redo log 重做日志作用：redo log为innodb独有，用于崩溃恢复，保证数据的持久性和完整性。 刷盘时机 根据innodb_flush_log_at_trx_commit： 0：每次事务提交不进行刷盘 1：每次事务提交都进行刷盘 2：每次事务提交，将log buffer中的redo log写入page cache   当log buffer中缓存的redo log占其容量约一半时，进">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Jinqq&#39;s Home">
+<meta property="og:title" content="Mysql——三大日志">
 <meta property="og:url" content="http://jinqq.gitlab.io/2025/03/05/Mysql%E5%85%AB%E8%82%A1%E2%80%94%E2%80%94%E4%B8%89%E5%A4%A7%E6%97%A5%E5%BF%97/index.html">
 <meta property="og:site_name" content="Jinqq&#39;s Home">
 <meta property="og:description" content="Redo log 重做日志作用：redo log为innodb独有，用于崩溃恢复，保证数据的持久性和完整性。 刷盘时机 根据innodb_flush_log_at_trx_commit： 0：每次事务提交不进行刷盘 1：每次事务提交都进行刷盘 2：每次事务提交，将log buffer中的redo log写入page cache   当log buffer中缓存的redo log占其容量约一半时，进">
@@ -34,9 +34,10 @@
 <meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250312112610370.png">
 <meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250312112617451.png">
 <meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250312113240348.png">
-<meta property="article:published_time" content="2025-03-05T09:07:51.064Z">
-<meta property="article:modified_time" content="2025-03-12T03:41:26.951Z">
+<meta property="article:published_time" content="2025-03-05T10:43:00.000Z">
+<meta property="article:modified_time" content="2025-08-04T16:31:43.557Z">
 <meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250312112041112.png">
 
@@ -44,10 +45,10 @@
 <link rel="canonical" href="http://jinqq.gitlab.io/2025/03/05/Mysql%E5%85%AB%E8%82%A1%E2%80%94%E2%80%94%E4%B8%89%E5%A4%A7%E6%97%A5%E5%BF%97/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2025/03/05/Mysql%E5%85%AB%E8%82%A1%E2%80%94%E2%80%94%E4%B8%89%E5%A4%A7%E6%97%A5%E5%BF%97/","path":"2025/03/05/Mysql八股——三大日志/","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2025/03/05/Mysql%E5%85%AB%E8%82%A1%E2%80%94%E2%80%94%E4%B8%89%E5%A4%A7%E6%97%A5%E5%BF%97/","path":"2025/03/05/Mysql八股——三大日志/","title":"Mysql——三大日志"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title> | Jinqq's Home</title>
+<title>Mysql——三大日志 | Jinqq's Home</title>
   
 
 
@@ -173,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -226,12 +227,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Jinqq's Home">
+      <meta itemprop="name" content="Mysql——三大日志 | Jinqq's Home">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          Mysql——三大日志
         </h1>
 
         <div class="post-meta-container">
@@ -242,14 +243,23 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2025-03-05 17:07:51" itemprop="dateCreated datePublished" datetime="2025-03-05T17:07:51+08:00">2025-03-05</time>
+      <time title="创建时间：2025-03-05 18:43:00" itemprop="dateCreated datePublished" datetime="2025-03-05T18:43:00+08:00">2025-03-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-03-12 11:41:26" itemprop="dateModified" datetime="2025-03-12T11:41:26+08:00">2025-03-12</time>
+      <time title="修改时间：2025-08-05 00:31:43" itemprop="dateModified" datetime="2025-08-05T00:31:43+08:00">2025-08-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
+        </span>
     </span>
 
   
@@ -314,6 +324,8 @@
 <li>mysql服务器关闭时，会刷新</li>
 </ol>
 <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250312112041112.png" alt="image-20250312112041112" style="zoom:50%;" />
+
+<span id="more"></span>
 
 <h3 id="存储形式"><a href="#存储形式" class="headerlink" title="存储形式"></a>存储形式</h3><p>redo log以日志文件组的形式存储在磁盘上，每个日志文件组包含多个日志文件，每个文件大小一样。</p>
 <p>采用环形数组形式，从头循环写。</p>
@@ -393,7 +405,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://jinqq.gitlab.io/2025/03/05/Mysql%E5%85%AB%E8%82%A1%E2%80%94%E2%80%94%E4%B8%89%E5%A4%A7%E6%97%A5%E5%BF%97/" title="">http://jinqq.gitlab.io/2025/03/05/Mysql八股——三大日志/</a>
+      <a href="http://jinqq.gitlab.io/2025/03/05/Mysql%E5%85%AB%E8%82%A1%E2%80%94%E2%80%94%E4%B8%89%E5%A4%A7%E6%97%A5%E5%BF%97/" title="Mysql——三大日志">http://jinqq.gitlab.io/2025/03/05/Mysql八股——三大日志/</a>
   </li>
   <li class="post-copyright-license">
       <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -401,6 +413,9 @@
 </ul>
 </div>
 
+          <div class="post-tags">
+              <a href="/tags/MySQL/" rel="tag"><i class="fa fa-tag"></i> MySQL</a>
+          </div>
 
         
   <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
@@ -414,13 +429,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2025/03/05/JVM%E8%AF%A6%E8%A7%A3%E2%80%94%E2%80%94%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" rel="prev" title="">
-                  <i class="fa fa-angle-left"></i> 
+                <a href="/2025/03/01/Java%E5%B9%B6%E5%8F%91%E2%80%94%E2%80%94%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="prev" title="Java并发——线程池">
+                  <i class="fa fa-angle-left"></i> Java并发——线程池
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2025/03/06/Mysql%E5%85%AB%E8%82%A1%E2%80%94%E2%80%94%E7%B4%A2%E5%BC%95/" rel="next" title="">
-                   <i class="fa fa-angle-right"></i>
+                <a href="/2025/03/06/Mysql%E5%85%AB%E8%82%A1%E2%80%94%E2%80%94%E7%B4%A2%E5%BC%95/" rel="next" title="Mysql——索引">
+                  Mysql——索引 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
