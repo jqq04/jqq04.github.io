@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="围棋规则及入门注：本篇是用组会报告时的ppt转来的，因此更像是一份ppt而不是博客。  围棋规则介绍                围棋棋盘：围棋使用 19 × 19 路棋盘，棋子落在横竖线交叉点上。      星位：九个标志点，便于定位棋子的布局。      天元：棋盘中央的圆点。         黑白交替落子               	围棋由黑白双方对弈，遵循以下规则：         黑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="围棋基本规则及入门">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/14/%E5%9B%B4%E6%A3%8B%E5%9F%BA%E6%9C%AC%E8%A7%84%E5%88%99%E5%8F%8A%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="围棋规则及入门注：本篇是用组会报告时的ppt转来的，因此更像是一份ppt而不是博客。  围棋规则介绍                围棋棋盘：围棋使用 19 × 19 路棋盘，棋子落在横竖线交叉点上。      星位：九个标志点，便于定位棋子的布局。      天元：棋盘中央的圆点。         黑白交替落子               	围棋由黑白双方对弈，遵循以下规则：         黑">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_0.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_1.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_2.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_3.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_4.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_5.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_6.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_7.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_8.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_9.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_10.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_11.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_12.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_13.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_15.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_17.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_18.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_19.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_20.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_21.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_22.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_23.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_24.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_25.png">
+<meta property="article:published_time" content="2024-12-14T05:14:20.000Z">
+<meta property="article:modified_time" content="2024-12-18T16:17:45.664Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="围棋">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/%E7%BB%84%E4%BC%9A%E6%B1%87%E6%8A%A5_%E5%9B%B4%E6%A3%8B_%E9%9D%B3%E7%90%A6%E6%B8%85_522024320076_0.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/14/%E5%9B%B4%E6%A3%8B%E5%9F%BA%E6%9C%AC%E8%A7%84%E5%88%99%E5%8F%8A%E5%85%A5%E9%97%A8/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/14/%E5%9B%B4%E6%A3%8B%E5%9F%BA%E6%9C%AC%E8%A7%84%E5%88%99%E5%8F%8A%E5%85%A5%E9%97%A8/","path":"2024/12/14/围棋基本规则及入门/","title":"围棋基本规则及入门"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>围棋基本规则及入门 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%B4%E6%A3%8B%E8%A7%84%E5%88%99%E5%8F%8A%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">围棋规则及入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%B4%E6%A3%8B%E8%A7%84%E5%88%99%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">围棋规则介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BB%91%E7%99%BD%E4%BA%A4%E6%9B%BF%E8%90%BD%E5%AD%90"><span class="nav-number">1.2.</span> <span class="nav-text">黑白交替落子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B0%94"><span class="nav-number">1.3.</span> <span class="nav-text">气</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%AD%90"><span class="nav-number">1.4.</span> <span class="nav-text">提子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A6%81%E7%9D%80%E7%82%B9"><span class="nav-number">1.5.</span> <span class="nav-text">禁着点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9C%BC"><span class="nav-number">1.6.</span> <span class="nav-text">眼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B4%BB%E6%A3%8B"><span class="nav-number">1.7.</span> <span class="nav-text">活棋</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%BB%E6%A3%8B%E4%B8%8E%E5%81%87%E7%9C%BC"><span class="nav-number">1.8.</span> <span class="nav-text">死棋与假眼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%8A%AB"><span class="nav-number">1.9.</span> <span class="nav-text">打劫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E8%83%9C%E8%B4%9F"><span class="nav-number">1.10.</span> <span class="nav-text">计算胜负</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.10.0.1.</span> <span class="nav-text">为什么是“3 又 3&#x2F;4 子”？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86-%E2%80%94%E2%80%94-%E5%B8%83%E5%B1%80"><span class="nav-number">1.11.</span> <span class="nav-text">入门知识 —— 布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%83%E5%B1%80-%E2%80%94%E2%80%94-%E5%AE%9A%E5%BC%8F"><span class="nav-number">1.12.</span> <span class="nav-text">布局 —— 定式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%83%E5%B1%80-%E2%80%94%E2%80%94-%E5%AE%9E%E5%9C%B0%E4%B8%8E%E5%8E%9A%E5%8A%BF"><span class="nav-number">1.13.</span> <span class="nav-text">布局 —— 实地与厚势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%BB%E6%B4%BB"><span class="nav-number">1.14.</span> <span class="nav-text">死活</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E7%9B%98"><span class="nav-number">1.15.</span> <span class="nav-text">中盘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B6%E5%AE%98"><span class="nav-number">1.16.</span> <span class="nav-text">收官</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C"><span class="nav-number">1.17.</span> <span class="nav-text">一些实战经验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.17.1.</span> <span class="nav-text">推荐资源</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">1.18.</span> <span class="nav-text">最后</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/14/%E5%9B%B4%E6%A3%8B%E5%9F%BA%E6%9C%AC%E8%A7%84%E5%88%99%E5%8F%8A%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="围棋基本规则及入门 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          围棋基本规则及入门
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-14 13:14:20" itemprop="dateCreated datePublished" datetime="2024-12-14T13:14:20+08:00">2024-12-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-19 00:17:45" itemprop="dateModified" datetime="2024-12-19T00:17:45+08:00">2024-12-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9B%B4%E6%A3%8B/" itemprop="url" rel="index"><span itemprop="name">围棋</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/14/%E5%9B%B4%E6%A3%8B%E5%9F%BA%E6%9C%AC%E8%A7%84%E5%88%99%E5%8F%8A%E5%85%A5%E9%97%A8/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/14/%E5%9B%B4%E6%A3%8B%E5%9F%BA%E6%9C%AC%E8%A7%84%E5%88%99%E5%8F%8A%E5%85%A5%E9%97%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="围棋规则及入门"><a href="#围棋规则及入门" class="headerlink" title="围棋规则及入门"></a>围棋规则及入门</h1><p>注：本篇是用组会报告时的ppt转来的，因此更像是一份ppt而不是博客。</p>
+<hr>
+<h2 id="围棋规则介绍"><a href="#围棋规则介绍" class="headerlink" title="围棋规则介绍"></a>围棋规则介绍</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_0.png" 
+         style="width: 300px;margin-left: 20px; margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+     <p><strong>围棋棋盘：</strong>围棋使用 19 × 19 路棋盘，棋子落在横竖线交叉点上。</p>
+     <p><strong>星位：</strong>九个标志点，便于定位棋子的布局。</p>
+     <p><strong>天元：</strong>棋盘中央的圆点。</p>
+    </div>
+</div>
+
+<hr>
+<h2 id="黑白交替落子"><a href="#黑白交替落子" class="headerlink" title="黑白交替落子"></a>黑白交替落子</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_1.png" 
+         style="width: 300px;margin-left: 20px; margin-right: 20px; border: 1px solid #ccc!;">
+    <div>
+    	<p>围棋由黑白双方对弈，遵循以下规则：</p>
+        <p><strong>黑方先手：</strong>黑棋在每盘棋中率先落子。</p>
+        <p><strong>交替落子：</strong>双方轮流下子，直至棋局结束。</p>
+    </div>
+</div>
+
+<span id="more"></span>
+
+<hr>
+<h2 id="气"><a href="#气" class="headerlink" title="气"></a>气</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_2.png" 
+         style="width: 300px;margin-left: 20px; margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+    	<p><strong>什么是“气”？</strong></p>
+        <ul>
+            <li>“气”是指棋子周围紧邻的空点。</li>
+            <li>多个同色棋子相连时，共享这些空点作为“气”。</li>
+            <li>棋盘边界或对手棋子会减少气。</li>
+    </div>
+</div>
+
+
+<hr>
+<h2 id="提子"><a href="#提子" class="headerlink" title="提子"></a>提子</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_3.png" 
+         style="width: 200px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+        <p><strong>提子：</strong>当一个棋子或一组棋子失去所有“气”时，这些棋子会被对方吃掉，称为“提子”。</p>
+    </div>
+</div>
+
+<div>
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_4.png" 
+         style="width: 200px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+</div>
+
+
+
+<hr>
+<h2 id="禁着点"><a href="#禁着点" class="headerlink" title="禁着点"></a>禁着点</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_5.png" 
+         style="width: 200px;margin-left: 20px; margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+        <p><strong>禁着点：</strong>当一个棋子在落子后无法获得“气”，则该位置称为禁着点，不能落子。</p>
+    </div>
+</div>
+<div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_6.png" 
+         style="width: 200px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+        <p><strong>禁着点的反例：</strong></p>
+        <p>如果落子后无气，但能够吃掉对方棋子，则该位置仍然可以落子。</p>
+    </div>
+</div>
+
+<div>
+     <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_7.png" 
+         style="width: 200px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+</div>
+
+
+
+<hr>
+<h2 id="眼"><a href="#眼" class="headerlink" title="眼"></a>眼</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_8.png" 
+         style="width: 200px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+        <p><strong>什么是“眼”？</strong></p>
+        <ul>
+            <li>如果对方无法落子的位置，称为“眼”。</li>
+            <li>对于对方来说，眼是一个禁着点。</li>
+        </ul>
+    </div>
+</div>
+
+
+<hr>
+<h2 id="活棋"><a href="#活棋" class="headerlink" title="活棋"></a>活棋</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_9.png" 
+         style="width: 200px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+ 		<p><strong>活棋：</strong>拥有两个真眼的棋组称为“活棋”。</p>
+        <ul>
+            <li>活棋无法被对方提子。</li>
+            <li>它们可以稳定地占有地盘。</li>
+        </ul>
+    </div>
+</div>
+
+
+
+<hr>
+<h2 id="死棋与假眼"><a href="#死棋与假眼" class="headerlink" title="死棋与假眼"></a>死棋与假眼</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_10.png" 
+         style="width: 200px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+ <p><strong>死棋：</strong>是指没有眼位并且无法活的棋子，它们会在对方的攻击下被提掉。</p>
+        <p><strong>假眼：</strong>是指看似能帮助棋子活的点，但实际上由于对方可以在其周围形成提子，假眼无法真正提供“气”来救活棋子。</p>
+    </div>
+</div>
+
+
+<hr>
+<h2 id="打劫"><a href="#打劫" class="headerlink" title="打劫"></a>打劫</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_11.png" 
+         style="width: 200px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+        <p><strong>打劫：</strong>为避免双方无限循环提子，规定一方提子后，另一方必须在其他地方落子后才能重新提回。</p>
+    </div>
+</div>
+
+<div>
+      <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_12.png" 
+         style="width: 200px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+</div>
+
+
+
+<hr>
+<h2 id="计算胜负"><a href="#计算胜负" class="headerlink" title="计算胜负"></a>计算胜负</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_13.png" 
+         style="width: 300px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+        <p><strong>计算胜负：</strong>围棋的胜负通过比较双方围成的地盘大小来决定，地盘大的玩家获胜。</p>
+        <p>具体计算胜负时，黑方有先手优势，因此需要加上<strong>贴目</strong>：</p>
+        <ul>
+            <li><strong>中国规则：</strong>胜负按“子”计算。</li>
+            <li>黑贴 3 又 3/4 子</li>
+            <li>因此，黑棋占 185 子胜，184 子则负。</li>
+        </ul>
+    </div>
+</div>
+
+<h4>为什么是“3 又 3/4 子”？</h4>
+<div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_15.png" 
+         style="width: 300px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+        <ul>
+            <li>这是为了防止出现平局的情况。</li>
+            <li><strong>“双活”</strong>：双方都无法杀死对方，因此共同存活。如果双方都在中间共享一颗子，便会瓜分这颗子。</li>
+        </ul>
+    </div>
+</div>
+
+
+
+<hr>
+<h2 id="入门知识-——-布局"><a href="#入门知识-——-布局" class="headerlink" title="入门知识 —— 布局"></a>入门知识 —— 布局</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_17.png" 
+         style="width: 300px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+        <p><strong>布局：</strong>棋局开始时，双方抢占棋盘的边角和全局的关键位置，确立战略方向。布局阶段注重效率和速度。</p>
+    </div>
+</div>
+
+<div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_18.png" 
+         style="width: 300px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+        <p><strong>口诀：</strong>金角银边草肚皮<p>
+        <p>围角的效率要高于围边，围边的效率高于围中央</p>
+    </div>
+</div>
+
+<div style="display: flex; align-items: flex-start;">
+        <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_19.png" 
+         style="width: 300px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+</div>
+
+
+
+
+<hr>
+<h2 id="布局-——-定式"><a href="#布局-——-定式" class="headerlink" title="布局 —— 定式"></a>布局 —— 定式</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_20.png" 
+         style="width: 250px;margin-left: 20px; margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+        <p><strong>定式：</strong>定式是指在特定局部（例如角部）经过长期实践和研究，形成的常用下法。</p>
+        <p>通过定式，双方的局面可以大致安定，利益大小基本均衡。</p>
+    </div>
+</div>
+
+
+<hr>
+<h2 id="布局-——-实地与厚势"><a href="#布局-——-实地与厚势" class="headerlink" title="布局 —— 实地与厚势"></a>布局 —— 实地与厚势</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_21.png" 
+         style="width: 250px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+        <p>在布局阶段，常常有取地还是取势之分。</p>
+        <p><strong>实地：</strong>是指明确围成的地盘区域。</p>
+        <p><strong>厚势：</strong>指的是对局部或全局有强大影响力的棋形。</p>
+    </div>
+</div>
+
+
+
+<hr>
+<h2 id="死活"><a href="#死活" class="headerlink" title="死活"></a>死活</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_22.png" 
+         style="width: 200px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+ 		<p>死活指：一方努力做出两个眼以做活 / 或者另一方破坏对方眼位以杀棋</p>
+        <p><strong>考验：</strong>计算力</p>
+    </div>
+</div>
+
+<div>
+     <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_23.png" 
+         style="width: 200px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+</div>
+
+
+
+
+<hr>
+<h2 id="中盘"><a href="#中盘" class="headerlink" title="中盘"></a>中盘</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_24.png" 
+         style="width: 300px;margin-left: 20px; margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+           <p><strong>中盘：</strong>布局完成后，双方进行攻防，争夺主动权，并扩大战果。</p>
+           <p><strong>考验：</strong>计算力和判断力在此阶段尤为重要。</p>
+    </div>
+</div>
+
+
+<hr>
+<h2 id="收官"><a href="#收官" class="headerlink" title="收官"></a>收官</h2><div style="display: flex; align-items: flex-start;">
+    <img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/组会汇报_围棋_靳琦清_522024320076_25.png" 
+         style="width: 300px; margin-left: 20px;margin-right: 20px; border: 1px solid #ccc;">
+    <div>
+        <p><strong>收官：</strong>在棋局的最后阶段，双方开始收尾抢占空白点，并修补之前的漏洞。胜负通常取决于这时的精确计算。</p>
+    </div>
+</div>
+
+
+<hr>
+<h2 id="一些实战经验"><a href="#一些实战经验" class="headerlink" title="一些实战经验"></a>一些实战经验</h2><p>围棋的学习不仅仅是了解规则，还需要不断的实践与总结。以下是一些有助于提高围棋水平的经验：</p>
+
+<ol>
+    <li><strong>学习定式与手筋：</strong>掌握常见的定式和手筋，理解其背后的战略思想。定式不仅帮助你在局部获得稳定的形势，还能提高你的计算能力。</li>
+    <li><strong>多做死活题：</strong>死活题是围棋中非常重要的部分，解决死活题能有效培养你的计算力和判断力。</li>
+    <li><strong>多看围棋教程：</strong>通过书籍和视频教程深入理解围棋的各类战术和战略，切忌闭门造车。</li>
+    <li><strong>多实战：</strong>无论是与人对弈，还是参加棋盘模拟，都能帮助你在实践中提升。同时记住，<strong>胜败乃兵家常事</strong>。</li>
+</ol>
+
+
+<h3>推荐资源</h3>
+<p>以下是一些优秀的围棋学习资源，帮助你更好地入门和提高：</p>
+<ul>
+    <li><a href="https://www.bilibili.com/video/BV1tt4y1G7KR/?share_source=copy_web&vd_source=acbcb2f114f7508436343c73d901bc1e" target="_blank">邱百瑞带你零基础学围棋【全集】</a>（适合初学者，循序渐进地讲解围棋基础）</li>
+    <li><a href="https://www.bilibili.com/video/BV1uW411W7xK/?share_source=copy_web&vd_source=acbcb2f114f7508436343c73d901bc1e" target="_blank">20天从零学会下围棋</a>（一个快速入门的围棋教程，帮助你在短时间内掌握基础）</li>
+</ul>
+
+<hr>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>你已经掌握了围棋的基本规则，接下来就是通过不断实战来积累经验！</p>
+<p>相信你已经准备好了，去挑战柯洁和阿法狗吧！</p>
+
+<blockquote>
+<p>来自2024lf组会</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/14/%E5%9B%B4%E6%A3%8B%E5%9F%BA%E6%9C%AC%E8%A7%84%E5%88%99%E5%8F%8A%E5%85%A5%E9%97%A8/" title="围棋基本规则及入门">http://jinqq.gitlab.io/2024/12/14/围棋基本规则及入门/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%9B%B4%E6%A3%8B/" rel="tag"><i class="fa fa-tag"></i> 围棋</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/14/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C2%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="prev" title="软件安全实验二——实验报告">
+                  <i class="fa fa-angle-left"></i> 软件安全实验二——实验报告
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/14/%E3%80%8A%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%90%86%E8%AE%BA%E4%B8%8E%E5%AE%9E%E8%B7%B5%E2%85%A0%E3%80%8B%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A%E2%91%A0/" rel="next" title="《大数据理论与实践Ⅰ》实验报告①">
+                  《大数据理论与实践Ⅰ》实验报告① <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/14/%E5%9B%B4%E6%A3%8B%E5%9F%BA%E6%9C%AC%E8%A7%84%E5%88%99%E5%8F%8A%E5%85%A5%E9%97%A8/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="完整项目地址：homework3 · main · 垃圾桶 &#x2F; Data-Intergration · GitLab 一 数据收集与盘点1. 初选合适字段​	一共有23张原始数据表，从中初选出的合适字段有以下：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据集成-作业三">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%89/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="完整项目地址：homework3 · main · 垃圾桶 &#x2F; Data-Intergration · GitLab 一 数据收集与盘点1. 初选合适字段​	一共有23张原始数据表，从中初选出的合适字段有以下：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/inventory.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/inventory_bar.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/inventory_box.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/credit_std.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/scroe-chi2.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/star_decision_tree_confusion_matrix.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/predict_result.png">
+<meta property="article:published_time" content="2024-12-15T15:52:00.000Z">
+<meta property="article:modified_time" content="2025-01-05T06:57:30.953Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="数据集成">
+<meta property="article:tag" content="数据预处理">
+<meta property="article:tag" content="特征工程">
+<meta property="article:tag" content="模型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/inventory.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%89/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%89/","path":"2024/12/15/数据集成-作业三/","title":"数据集成-作业三"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>数据集成-作业三 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86%E4%B8%8E%E7%9B%98%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">一 数据收集与盘点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%88%9D%E9%80%89%E5%90%88%E9%80%82%E5%AD%97%E6%AE%B5"><span class="nav-number">1.1.</span> <span class="nav-text">1. 初选合适字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E8%A1%A8%E5%86%85%E6%8C%89uid%E5%90%88%E5%B9%B6"><span class="nav-number">1.2.</span> <span class="nav-text">2. 表内按uid合并</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%A4%9A%E8%A1%A8%E6%8C%89uid%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.3.</span> <span class="nav-text">3. 多表按uid连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%8C%BA%E5%88%86%E8%AE%AD%E7%BB%83%E9%9B%86%E4%B8%8E%E6%B5%8B%E8%AF%95%E9%9B%86"><span class="nav-number">1.4.</span> <span class="nav-text">4. 区分训练集与测试集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E6%95%B0%E6%8D%AE%E7%9B%98%E7%82%B9"><span class="nav-number">1.5.</span> <span class="nav-text">5. 数据盘点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C-%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">二 数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%BC%BA%E5%A4%B1%E5%80%BC%E5%A4%84%E7%90%86"><span class="nav-number">2.1.</span> <span class="nav-text">1. 缺失值处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%BC%82%E5%B8%B8%E5%80%BC%E5%A4%84%E7%90%86"><span class="nav-number">2.2.</span> <span class="nav-text">2. 异常值处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2"><span class="nav-number">2.3.</span> <span class="nav-text">3. 数据转换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%95%B0%E6%8D%AE%E6%A0%87%E5%87%86%E5%8C%96"><span class="nav-number">2.4.</span> <span class="nav-text">4. 数据标准化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89-%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B8%8E%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9"><span class="nav-number">3.</span> <span class="nav-text">三 特征工程与特征选择</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">1. 特征工程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-%E7%9A%AE%E5%B0%94%E9%80%8A%E7%9B%B8%E5%85%B3%E7%B3%BB%E6%95%B0"><span class="nav-number">3.1.1.</span> <span class="nav-text">1.1 皮尔逊相关系数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-%E4%BA%92%E4%BF%A1%E6%81%AF"><span class="nav-number">3.1.2.</span> <span class="nav-text">1.2 互信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-%E5%8D%A1%E6%96%B9%E6%A3%80%E9%AA%8C"><span class="nav-number">3.1.3.</span> <span class="nav-text">1.3 卡方检验</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9"><span class="nav-number">3.2.</span> <span class="nav-text">2. 特征选择</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B-%E6%A8%A1%E5%9E%8B%E9%80%89%E6%8B%A9%E4%B8%8E%E8%AE%AD%E7%BB%83"><span class="nav-number">4.</span> <span class="nav-text">四 模型选择与训练</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92"><span class="nav-number">4.1.</span> <span class="nav-text">1. 逻辑回归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%86%B3%E7%AD%96%E6%A0%91"><span class="nav-number">4.2.</span> <span class="nav-text">2. 决策树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97"><span class="nav-number">4.3.</span> <span class="nav-text">3. 随机森林</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-XGBoost"><span class="nav-number">4.4.</span> <span class="nav-text">4. XGBoost</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="nav-number">4.5.</span> <span class="nav-text">5. 神经网络</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0"><span class="nav-number">5.</span> <span class="nav-text">五 模型评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AD-%E6%A8%A1%E5%9E%8B%E5%BA%94%E7%94%A8"><span class="nav-number">6.</span> <span class="nav-text">六 模型应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="nav-number">7.</span> <span class="nav-text">项目结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%A2%E9%98%9F%E5%88%86%E5%B7%A5"><span class="nav-number">8.</span> <span class="nav-text">团队分工</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="数据集成-作业三 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据集成-作业三
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-15 23:52:00" itemprop="dateCreated datePublished" datetime="2024-12-15T23:52:00+08:00">2024-12-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-05 14:57:30" itemprop="dateModified" datetime="2025-01-05T14:57:30+08:00">2025-01-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90/" itemprop="url" rel="index"><span itemprop="name">数据集成</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%89/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%89/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>27k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>48 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>完整项目地址：<a target="_blank" rel="noopener" href="https://git.nju.edu.cn/bin/data-intergration/-/tree/main/homework3?ref_type=heads">homework3 · main · 垃圾桶 &#x2F; Data-Intergration · GitLab</a></p>
+<h3 id="一-数据收集与盘点"><a href="#一-数据收集与盘点" class="headerlink" title="一 数据收集与盘点"></a>一 数据收集与盘点</h3><h4 id="1-初选合适字段"><a href="#1-初选合适字段" class="headerlink" title="1. 初选合适字段"></a>1. 初选合适字段</h4><p>​	一共有23张原始数据表，从中初选出的合适字段有以下：</p>
+<span id="more"></span>
+
+<table>
+<thead>
+<tr>
+<th>uid</th>
+<th>证件号码</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>credit_level</td>
+<td>信用等级</td>
+<td></td>
+</tr>
+<tr>
+<td>star_level</td>
+<td>客户星级</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>贷记卡开户明细</strong></td>
+<td><strong>dm_v_as_djk_info</strong></td>
+<td>贷记卡中一般反应了与信用等级有关的信息</td>
+</tr>
+<tr>
+<td>is_withdrw</td>
+<td>是否开通取现功能</td>
+<td>信用等级越高越有可能开通</td>
+</tr>
+<tr>
+<td>is_transfer</td>
+<td>是否开通转账功能</td>
+<td>信用等级越高越有可能开通</td>
+</tr>
+<tr>
+<td>is_deposit</td>
+<td>是否开通存款功能</td>
+<td>信用等级越高越有可能开通</td>
+</tr>
+<tr>
+<td>is_purchse</td>
+<td>是否开通消费功能</td>
+<td>信用等级越高越有可能开通</td>
+</tr>
+<tr>
+<td>cred_limit</td>
+<td>信用额度</td>
+<td>直接与信用挂钩</td>
+</tr>
+<tr>
+<td>dlay_amt</td>
+<td>逾期金额</td>
+<td>直接与信用挂钩</td>
+</tr>
+<tr>
+<td>five_class</td>
+<td>五级分类</td>
+<td>与信用相关</td>
+</tr>
+<tr>
+<td>is_mob_bank</td>
+<td>是否绑定手机银行</td>
+<td>信用等级越高越有可能绑定</td>
+</tr>
+<tr>
+<td>is_etc</td>
+<td>是否绑定ETC</td>
+<td>信用等级越高越有可能绑定</td>
+</tr>
+<tr>
+<td>bal</td>
+<td>余额</td>
+<td>一般与信用等级正相关</td>
+</tr>
+<tr>
+<td>dlay_mths</td>
+<td>逾期期数</td>
+<td>直接与信用挂钩</td>
+</tr>
+<tr>
+<td><strong>贷记卡分期付款明细</strong></td>
+<td><strong>dm_v_as_djkfq_info</strong></td>
+<td>贷记卡中一般反应了与信用等级有关的信息</td>
+</tr>
+<tr>
+<td>mp_type</td>
+<td>分期类型</td>
+<td>与信用等级相关</td>
+</tr>
+<tr>
+<td>mp_status</td>
+<td>分期付款状态</td>
+<td>直接影响信用</td>
+</tr>
+<tr>
+<td>total_amt</td>
+<td>总产品金额</td>
+<td>可能与信用等级相关</td>
+</tr>
+<tr>
+<td>rem_ppl</td>
+<td>剩余未还本金</td>
+<td>未还越少一般信用等级越高</td>
+</tr>
+<tr>
+<td>total_fee</td>
+<td>总费用</td>
+<td>可能与信用等级相关</td>
+</tr>
+<tr>
+<td>rem_fee</td>
+<td>剩余未还费用</td>
+<td>未还越少一般信用等级越高</td>
+</tr>
+<tr>
+<td>rec_fee</td>
+<td>已收手续费</td>
+<td>间接反映还款能力，与信用等级相关</td>
+</tr>
+<tr>
+<td><strong>存款账号信息</strong></td>
+<td><strong>pri_cust_asset_acct_info</strong></td>
+<td>存款账户反应客户的财务能力，与星级有关</td>
+</tr>
+<tr>
+<td>term</td>
+<td>存款期限</td>
+<td>期限越长一般客户星级越高</td>
+</tr>
+<tr>
+<td>acct_char</td>
+<td>账户性质</td>
+<td>账户性质能反应客户星级</td>
+</tr>
+<tr>
+<td>deps_type</td>
+<td>存款种类</td>
+<td>存款种类可能与客户星级有关</td>
+</tr>
+<tr>
+<td>is_secu_card</td>
+<td>是否社保卡</td>
+<td>是社保卡往往更重要，与客户星级有关</td>
+</tr>
+<tr>
+<td>acct_sts</td>
+<td>账户状态</td>
+<td>账户状态反应客户星级</td>
+</tr>
+<tr>
+<td>frz_sts</td>
+<td>冻结状态</td>
+<td>客户星级高的一般不冻结</td>
+</tr>
+<tr>
+<td>stp_sts</td>
+<td>止付状态</td>
+<td>客户星级高的一般不止付</td>
+</tr>
+<tr>
+<td>acct_bal</td>
+<td>原币余额</td>
+<td>余额高的一般客户星级高</td>
+</tr>
+<tr>
+<td>bal</td>
+<td>余额</td>
+<td>余额高的一般客户星级高</td>
+</tr>
+<tr>
+<td>avg_mth</td>
+<td>月日均</td>
+<td>月均高的一般客户星级高</td>
+</tr>
+<tr>
+<td>avg_qur</td>
+<td>季度日均</td>
+<td>季均高的一般客户星级高</td>
+</tr>
+<tr>
+<td>avg_year</td>
+<td>年日均</td>
+<td>年均高的一般客户星级高</td>
+</tr>
+<tr>
+<td><strong>存款汇总信息</strong></td>
+<td><strong>pri_cust_asset_info</strong></td>
+<td>存款汇总信息反应客户财务能力，与星级有关</td>
+</tr>
+<tr>
+<td>all_bal</td>
+<td>总余额</td>
+<td>余额高的一般客户星级高</td>
+</tr>
+<tr>
+<td>avg_mth</td>
+<td>月日均</td>
+<td>月均高的一般客户星级高</td>
+</tr>
+<tr>
+<td>avg_qur</td>
+<td>季度日均</td>
+<td>季均高的一般客户星级高</td>
+</tr>
+<tr>
+<td>avg_year</td>
+<td>年日均</td>
+<td>年均高的一般客户星级高</td>
+</tr>
+<tr>
+<td>sa_bal</td>
+<td>活期余额</td>
+<td>余额高的一般客户星级高</td>
+</tr>
+<tr>
+<td>td_bal</td>
+<td>定期余额</td>
+<td>余额高的一般客户星级高</td>
+</tr>
+<tr>
+<td>fin_bal</td>
+<td>理财余额</td>
+<td>余额高的一般客户星级高</td>
+</tr>
+<tr>
+<td>sa_crd_bal</td>
+<td>卡活期余额</td>
+<td>余额高的一般客户星级高</td>
+</tr>
+<tr>
+<td>td_crd_bal</td>
+<td>卡内定期</td>
+<td>定期存款高的一般客户星级高</td>
+</tr>
+<tr>
+<td>sa_td_bal</td>
+<td>定活两便</td>
+<td>两便存款余额高的一般客户星级高</td>
+</tr>
+<tr>
+<td>ntc_bal</td>
+<td>通知存款</td>
+<td>存款余额高的一般客户星级高</td>
+</tr>
+<tr>
+<td>td_3m_bal</td>
+<td>定期3个月</td>
+<td>定期存款高的一般客户星级高</td>
+</tr>
+<tr>
+<td>td_6m_bal</td>
+<td>定期6个月</td>
+<td>定期存款高的一般客户星级高</td>
+</tr>
+<tr>
+<td>td_1y_bal</td>
+<td>定期1年</td>
+<td>定期存款高的一般客户星级高</td>
+</tr>
+<tr>
+<td>td_2y_bal</td>
+<td>定期2年</td>
+<td>定期存款高的一般客户星级高</td>
+</tr>
+<tr>
+<td>td_3y_bal</td>
+<td>定期3年</td>
+<td>定期存款高的一般客户星级高</td>
+</tr>
+<tr>
+<td>td_5y_bal</td>
+<td>定期5年</td>
+<td>定期存款高的一般客户星级高</td>
+</tr>
+<tr>
+<td>oth_td_bal</td>
+<td>定期其他余额</td>
+<td>定期存款高的一般客户星级高</td>
+</tr>
+<tr>
+<td>cd_bal</td>
+<td>大额存单余额</td>
+<td>定期存款高的一般客户星级高</td>
+</tr>
+<tr>
+<td><strong>个人基本信息</strong></td>
+<td><strong>pri_cust_base_info</strong></td>
+<td>个人基本信息能反映个人经济水平，与星级相关</td>
+</tr>
+<tr>
+<td>sex</td>
+<td>性别</td>
+<td>无明显关联</td>
+</tr>
+<tr>
+<td>marrige</td>
+<td>婚姻状况</td>
+<td>无明显关联</td>
+</tr>
+<tr>
+<td>education</td>
+<td>教育程度</td>
+<td>教育程度高的一般经济能力强，与星级相关</td>
+</tr>
+<tr>
+<td>career</td>
+<td>职业</td>
+<td>职业反映经济能力，与星级相关</td>
+</tr>
+<tr>
+<td>prof_titl</td>
+<td>职称</td>
+<td>职称反映经济能力，与星级相关</td>
+</tr>
+<tr>
+<td>country</td>
+<td>国籍</td>
+<td>无明显关联</td>
+</tr>
+<tr>
+<td>is_employee</td>
+<td>员工标志</td>
+<td>无明显关联</td>
+</tr>
+<tr>
+<td>is_shareholder</td>
+<td>是否股东</td>
+<td>股东经济能力强，与星级相关</td>
+</tr>
+<tr>
+<td>is_black</td>
+<td>是否黑名单</td>
+<td>进入黑名单一般星级低</td>
+</tr>
+<tr>
+<td>is_contact</td>
+<td>是否关联人</td>
+<td>无明显关联</td>
+</tr>
+<tr>
+<td>is_mgr_dep</td>
+<td>是否营销部客户</td>
+<td>营销部客户一般星级高</td>
+</tr>
+<tr>
+<td><strong>贷款账号信息</strong></td>
+<td><strong>pri_cust_liab_acct_info</strong></td>
+<td>贷款账号信息直接反应信用等级</td>
+</tr>
+<tr>
+<td>loan_amt</td>
+<td>贷款金额</td>
+<td>可能与信用等级有关</td>
+</tr>
+<tr>
+<td>loan_bal</td>
+<td>贷款余额</td>
+<td>余额越少，一般信用等级越低</td>
+</tr>
+<tr>
+<td>vouch_type</td>
+<td>主要担保方式</td>
+<td>担保方式反应信用</td>
+</tr>
+<tr>
+<td>is_mortgage</td>
+<td>是否按揭</td>
+<td>按揭一般信用比不按揭的信用好</td>
+</tr>
+<tr>
+<td>is_online</td>
+<td>是否线上贷款</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td>is_extend</td>
+<td>是否展期</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td>five_class</td>
+<td>五级分类</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td>overdue_class</td>
+<td>逾期细分</td>
+<td>直接影响信用</td>
+</tr>
+<tr>
+<td>overdue_flag</td>
+<td>逾期标志</td>
+<td>直接影响信用</td>
+</tr>
+<tr>
+<td>owed_int_flag</td>
+<td>欠息标志</td>
+<td>直接影响信用</td>
+</tr>
+<tr>
+<td>credit_amt</td>
+<td>合同金额</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td>owed_int_in</td>
+<td>表内欠息金额</td>
+<td>欠息越少信用越高</td>
+</tr>
+<tr>
+<td>owed_int_out</td>
+<td>表外欠息金额</td>
+<td>欠息越少信用越高</td>
+</tr>
+<tr>
+<td>delay_bal</td>
+<td>逾期金额</td>
+<td>预期越少信用越高</td>
+</tr>
+<tr>
+<td>is_book_acct</td>
+<td>是否授信台账客户</td>
+<td>授信一般信用高</td>
+</tr>
+<tr>
+<td><strong>贷款账户汇总</strong></td>
+<td><strong>pri_cust_liab_info</strong></td>
+<td>贷款账户一般能反映信用等级</td>
+</tr>
+<tr>
+<td>all_bal</td>
+<td>总余额</td>
+<td>余额越多一般信用越高</td>
+</tr>
+<tr>
+<td>bad_bal</td>
+<td>不良余额</td>
+<td>不良越少信用越高</td>
+</tr>
+<tr>
+<td>due_intr</td>
+<td>欠息总额</td>
+<td>欠息越少信用越高</td>
+</tr>
+<tr>
+<td>norm_bal</td>
+<td>正常余额</td>
+<td>正常总额越高一般信用越高</td>
+</tr>
+<tr>
+<td>delay_bal</td>
+<td>逾期总额</td>
+<td>逾期越少信用越高</td>
+</tr>
+<tr>
+<td><strong>合同明细</strong></td>
+<td><strong>dm_v_tr_contract_mx</strong></td>
+<td>合同明细反应信用等级</td>
+</tr>
+<tr>
+<td>buss_amt</td>
+<td>金额</td>
+<td>无明显关联</td>
+</tr>
+<tr>
+<td>bal</td>
+<td>余额</td>
+<td>无明显关联</td>
+</tr>
+<tr>
+<td>norm_bal</td>
+<td>正常余额</td>
+<td>余额越多一般信用越高</td>
+</tr>
+<tr>
+<td>dlay_bal</td>
+<td>逾期余额</td>
+<td>逾期越少信用越高</td>
+</tr>
+<tr>
+<td>dull_bal</td>
+<td>呆滞余额</td>
+<td>呆滞越少信用越高</td>
+</tr>
+<tr>
+<td>owed_int_in</td>
+<td>表内欠息金额</td>
+<td>欠息越少信用越高</td>
+</tr>
+<tr>
+<td>owed_int_out</td>
+<td>表外欠息余额</td>
+<td>欠息越少信用越高</td>
+</tr>
+<tr>
+<td>fine_pr_int</td>
+<td>本金罚息</td>
+<td>罚息越少信用越高</td>
+</tr>
+<tr>
+<td>fine_intr_int</td>
+<td>利息罚息</td>
+<td>罚息越少信用越高</td>
+</tr>
+<tr>
+<td>dlay_days int4 NULL,</td>
+<td>逾期天数</td>
+<td>逾期天数越少信用越高</td>
+</tr>
+<tr>
+<td>five_class</td>
+<td>五级分类</td>
+<td>与信用相关</td>
+</tr>
+<tr>
+<td>is_bad</td>
+<td>不良记录标志</td>
+<td>不良记录直接影响信用</td>
+</tr>
+<tr>
+<td>frz_amt</td>
+<td>冻结金额</td>
+<td>冻结余额直接影响信用</td>
+</tr>
+<tr>
+<td>due_intr_days</td>
+<td>欠息天数</td>
+<td>欠息天数越少信用越高</td>
+</tr>
+<tr>
+<td>shift_bal</td>
+<td>移交余额</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td><strong>贷记卡交易</strong></td>
+<td><strong>dm_v_tr_djk_mx</strong></td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td>tran_amt</td>
+<td>交易金额</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td><strong>第三方交易</strong></td>
+<td><strong>dm_v_tr_dsf_mx</strong></td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td>tran_amt</td>
+<td>交易金额</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td><strong>借据明细</strong></td>
+<td><strong>dm_v_tr_duebill_mx</strong></td>
+<td>借据明细直接反应信用</td>
+</tr>
+<tr>
+<td>buss_amt</td>
+<td>金额</td>
+<td>金额约低一般信用越高</td>
+</tr>
+<tr>
+<td>bal</td>
+<td>余额</td>
+<td>余额越高一般信用越高</td>
+</tr>
+<tr>
+<td>norm_bal</td>
+<td>正常余额</td>
+<td>余额越高一般信用越高</td>
+</tr>
+<tr>
+<td>dlay_amt</td>
+<td>逾期金额</td>
+<td>逾期余额越高一般信用越低</td>
+</tr>
+<tr>
+<td>dull_amt</td>
+<td>呆滞金额</td>
+<td>呆滞余额越高一般信用越低</td>
+</tr>
+<tr>
+<td>bad_debt_amt</td>
+<td>呆帐金额</td>
+<td>呆账余额越高一般信用越低</td>
+</tr>
+<tr>
+<td>owed_int_in</td>
+<td>表内欠息金额</td>
+<td>欠息余额越高一般信用越低</td>
+</tr>
+<tr>
+<td>owed_int_out</td>
+<td>表外欠息金额</td>
+<td>欠息余额越高一般信用越低</td>
+</tr>
+<tr>
+<td>fine_pr_int</td>
+<td>本金罚息</td>
+<td>罚息额越高一般信用越低</td>
+</tr>
+<tr>
+<td>fine_intr_int</td>
+<td>利息罚息</td>
+<td>罚息额越高一般信用越低</td>
+</tr>
+<tr>
+<td>dlay_days</td>
+<td>逾期天数</td>
+<td>天数越高一般信用越低</td>
+</tr>
+<tr>
+<td>due_intr_days</td>
+<td>欠息天数</td>
+<td>天数越高一般信用越低</td>
+</tr>
+<tr>
+<td>pay_freq</td>
+<td>还款频率</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td><strong>ETC交易</strong></td>
+<td><strong>dm_v_tr_etc_mx</strong></td>
+<td>反映客户星级</td>
+</tr>
+<tr>
+<td>tran_amt_fen</td>
+<td>交易金额</td>
+<td>金额越高星级越高</td>
+</tr>
+<tr>
+<td>real_amt</td>
+<td>实收金额</td>
+<td>金额越高星级越高</td>
+</tr>
+<tr>
+<td>conces_amt</td>
+<td>优惠金额</td>
+<td>金额越高星级越高</td>
+</tr>
+<tr>
+<td><strong>个人网银交易</strong></td>
+<td><strong>dm_v_tr_grwy_mx</strong></td>
+<td>反映客户星级</td>
+</tr>
+<tr>
+<td>tran_amt</td>
+<td>交易金额</td>
+<td>金额越高星级越高</td>
+</tr>
+<tr>
+<td><strong>工资代发明细</strong></td>
+<td><strong>dm_v_tr_gzdf_m</strong></td>
+<td>反映客户星级</td>
+</tr>
+<tr>
+<td>tran_amt</td>
+<td>交易金额</td>
+<td>金额越高星级越高</td>
+</tr>
+<tr>
+<td><strong>贷款还本明细</strong></td>
+<td><strong>dm_v_tr_huanb_mx</strong></td>
+<td>反应客户信用</td>
+</tr>
+<tr>
+<td>tran_amt</td>
+<td>交易金额</td>
+<td>贷款金额越低一般信用越高</td>
+</tr>
+<tr>
+<td>bal</td>
+<td>余额</td>
+<td>贷款余额额越低一般信用越低</td>
+</tr>
+<tr>
+<td>pay_term</td>
+<td>还款期数</td>
+<td>期数越高一般信用越高</td>
+</tr>
+<tr>
+<td>pprd_rfn_amt</td>
+<td>每期还款金额</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td>pprd_amotz_intr</td>
+<td>每期摊还额计算利息</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td><strong>贷款还息明细</strong></td>
+<td><strong>dm_v_tr_huanx_mx</strong></td>
+<td>反应客户信用</td>
+</tr>
+<tr>
+<td>tran_amt</td>
+<td>利息</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td>cac_intc_pr</td>
+<td>计息本金</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td>pay_term</td>
+<td>还款期数</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td>intr</td>
+<td>利率</td>
+<td>可能与信用相关</td>
+</tr>
+<tr>
+<td><strong>活期交易</strong></td>
+<td><strong>dm_v_tr_sa_mx</strong></td>
+<td>交易额越高，客户星级越高</td>
+</tr>
+<tr>
+<td>tran_amt</td>
+<td>交易金额</td>
+<td>交易额越高，客户星级越高</td>
+</tr>
+<tr>
+<td><strong>社保医保交易</strong></td>
+<td><strong>dm_v_tr_sbyb_mx</strong></td>
+<td>交易额越高，客户星级越高</td>
+</tr>
+<tr>
+<td>tran_amt_fen</td>
+<td>交易金额</td>
+<td>交易额越高，客户星级越高</td>
+</tr>
+<tr>
+<td><strong>水电燃气交易</strong></td>
+<td><strong>dm_v_tr_sdrq_mx</strong></td>
+<td>交易额越高，客户星级越高</td>
+</tr>
+<tr>
+<td>tran_amt_fen</td>
+<td>交易金额</td>
+<td>交易额越高，客户星级越高</td>
+</tr>
+<tr>
+<td><strong>商户交易明细</strong></td>
+<td><strong>dm_v_tr_shop_mx</strong></td>
+<td>交易额越高，客户星级越高</td>
+</tr>
+<tr>
+<td>tran_amt</td>
+<td>交易金额</td>
+<td>交易额越高，客户星级越高</td>
+</tr>
+<tr>
+<td>score_num</td>
+<td>优惠积分</td>
+<td>积分越高，客户星级越高</td>
+</tr>
+<tr>
+<td><strong>手机银行交易</strong></td>
+<td><strong>dm_v_tr_sjyh_mx</strong></td>
+<td>交易额越高，客户星级越高</td>
+</tr>
+<tr>
+<td>tran_amt</td>
+<td>交易金额</td>
+<td>交易额越高，客户星级越高</td>
+</tr>
+</tbody></table>
+<h4 id="2-表内按uid合并"><a href="#2-表内按uid合并" class="headerlink" title="2. 表内按uid合并"></a>2. 表内按uid合并</h4><p>​	在每张表内，可能同一个uid会出现多次，需要进行合并，使得每张表内每个uid都是唯一的，具体处理策略为：</p>
+<ul>
+<li><p>对于数值型列，如果是可加的使用sum合并，如果是不能相加的（一些特殊的），使用mean合并；</p>
+</li>
+<li><p>对于非数值列，使用众数合并；</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 表内按照uid合并</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">inner_merge</span>(<span class="params">df, table_name</span>):</span><br><span class="line">    <span class="comment"># 将能转换成数字的都转换成数字，不能转化的保留</span></span><br><span class="line">    df = df.apply(pd.to_numeric, errors=<span class="string">&#x27;ignore&#x27;</span>)</span><br><span class="line">    <span class="comment"># 按uid排序，方便合并</span></span><br><span class="line">    df = df.sort_values(<span class="string">&#x27;uid&#x27;</span>, ascending=<span class="literal">True</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 先选择合适字段</span></span><br><span class="line">    df_selected = df[select_cols[table_name]]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对于不良标记（is_bad)列，没有时应填充，以防被后面过滤</span></span><br><span class="line">    df_selected = df_selected.copy()</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;is_bad&#x27;</span> <span class="keyword">in</span> df_selected.columns:</span><br><span class="line">        df_selected.fillna(<span class="string">&#x27;N&#x27;</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 找出数值列与非数值列</span></span><br><span class="line">    numeric_cols = df_selected.select_dtypes(include=<span class="string">&#x27;number&#x27;</span>).columns</span><br><span class="line">    non_numeric_cols = df_selected.select_dtypes(exclude=<span class="string">&#x27;number&#x27;</span>).columns</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 特殊处理: 当’five_class‘为非数值型时，转化为数值型</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;five_class&#x27;</span> <span class="keyword">in</span> non_numeric_cols:</span><br><span class="line">        df[<span class="string">&#x27;five_class&#x27;</span>] = df[<span class="string">&#x27;five_class&#x27;</span>].<span class="built_in">str</span>.extract(<span class="string">r&#x27;(\d+)&#x27;</span>)</span><br><span class="line">        df[<span class="string">&#x27;five_class&#x27;</span>] = pd.to_numeric(df[<span class="string">&#x27;five_class&#x27;</span>])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 定义列的合并方式，对可取和的数值型的列，使用sum合并，不能取和的使用mean合并;对于枚举型字符串的列，使用众数合并</span></span><br><span class="line">    agg_function = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> numeric_cols:</span><br><span class="line">        <span class="keyword">if</span> col <span class="keyword">in</span> [<span class="string">&#x27;five_class&#x27;</span>]:</span><br><span class="line">            agg_function[col] = <span class="string">&#x27;mean&#x27;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            agg_function[col] = <span class="string">&#x27;sum&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> non_numeric_cols:</span><br><span class="line">        <span class="keyword">if</span> col == <span class="string">&#x27;uid&#x27;</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        agg_function[col] = util.util.compute_mode</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 按uid合并</span></span><br><span class="line">    df_merged = df_selected.groupby(<span class="string">&#x27;uid&#x27;</span>).agg(agg_function).reset_index()</span><br><span class="line">    df_merged = df_merged.sort_values(<span class="string">&#x27;uid&#x27;</span>, ascending=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> df_merged</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="3-多表按uid连接"><a href="#3-多表按uid连接" class="headerlink" title="3. 多表按uid连接"></a>3. 多表按uid连接</h4><p>​	将所有表按照uid进行连接，合并成一个很多列的大表，为了区分不同表之间可能重复的列名，将除了uid、star_level、credit_level以外的列名改为’表名:列名‘。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 多表按uid合并为一个大表</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">table_aggregate</span>(<span class="params">tables</span>):</span><br><span class="line">    df_merged = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> table_name, table_data <span class="keyword">in</span> tables.items():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;now aggregate table &quot;</span> + table_name)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 将除了uid、star_level、credit_level以外的列名改为 表名+列名</span></span><br><span class="line">        prefix = <span class="string">f&#x27;<span class="subst">&#123;table_name&#125;</span>:&#x27;</span></span><br><span class="line">        table_data.columns = [prefix + col <span class="keyword">if</span> col <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;uid&#x27;</span>, <span class="string">&#x27;credit_level&#x27;</span>, <span class="string">&#x27;star_level&#x27;</span>] <span class="keyword">else</span> col <span class="keyword">for</span> col <span class="keyword">in</span> table_data.columns]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> df_merged <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            df_merged = table_data.copy()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            df_merged = pd.merge(df_merged, table_data, on=<span class="string">&#x27;uid&#x27;</span>, how=<span class="string">&#x27;outer&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> df_merged</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-区分训练集与测试集"><a href="#4-区分训练集与测试集" class="headerlink" title="4. 区分训练集与测试集"></a>4. 区分训练集与测试集</h4><p>​	根据’star_level‘列和’credit_level‘列是否为-1来区分测试集和训练集，并且将这两列的值为空的行排除。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 区分用户星级的训练集与测试集，并过滤掉用户星级为空的行</span></span><br><span class="line">df_star_train = df_merged.loc[df_merged[<span class="string">&#x27;star_level&#x27;</span>] != -<span class="number">1</span>]</span><br><span class="line">df_star_train = df_star_train.dropna(subset=[<span class="string">&#x27;star_level&#x27;</span>]).drop(<span class="string">&#x27;credit_level&#x27;</span>, axis=<span class="number">1</span>)</span><br><span class="line">df_star_test = df_merged.loc[df_merged[<span class="string">&#x27;star_level&#x27;</span>] == -<span class="number">1</span>].drop(<span class="string">&#x27;credit_level&#x27;</span>, axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 区分客户信用的训练集与测试集，并过滤掉客户信用为空的行</span></span><br><span class="line">df_credit_train = df_merged.loc[df_merged[<span class="string">&#x27;credit_level&#x27;</span>] != -<span class="number">1</span>]</span><br><span class="line">df_credit_train = df_credit_train.dropna(subset=[<span class="string">&#x27;credit_level&#x27;</span>]).drop(<span class="string">&#x27;star_level&#x27;</span>, axis=<span class="number">1</span>)</span><br><span class="line">df_credit_test = df_merged.loc[df_merged[<span class="string">&#x27;credit_level&#x27;</span>] == -<span class="number">1</span>].drop(<span class="string">&#x27;star_level&#x27;</span>, axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-数据盘点"><a href="#5-数据盘点" class="headerlink" title="5. 数据盘点"></a>5. 数据盘点</h4><p>​	使用pandas的describe函数进行数据盘点，统计数据集各字段的平均数、最小值、最大值、四位位数和标准差，结果保存在resources&#x2F;inventory&#x2F;中，示例如下：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/inventory.png" alt="inventory"></p>
+<p>​	数据盘点的可视化使用matplot绘制数据集的柱状图和箱线图，结果保存在resources&#x2F;inventory&#x2F;中，示例如下：</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/inventory_bar.png" alt="inventory_bar" style="zoom:50%;" />
+
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/inventory_box.png" alt="inventory_box" style="zoom:50%;" />
+
+<p>​	在数据盘点时，由于是否处理异常值会影响盘点结果，在处理异常值前和后都进行了一次数据盘点，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># star</span></span><br><span class="line">df = pd.read_csv(<span class="string">&quot;resources/star/star_train.csv&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据盘点，此时数据还没有经过异常值处理</span></span><br><span class="line">description = df.describe()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存数据盘点结果</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Description(before handling missing values):\n&quot;</span>, description)</span><br><span class="line">description.to_csv(<span class="string">&#x27;resources/inventory/star_train_description_before_handling_missing.csv&#x27;</span>, index=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制柱状图</span></span><br><span class="line">description.plot(kind=<span class="string">&#x27;bar&#x27;</span>, figsize=(<span class="number">20</span>, <span class="number">16</span>))</span><br><span class="line">plt.title(<span class="string">&#x27;Descriptive Statistics&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Statistics&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Values&#x27;</span>)</span><br><span class="line">plt.legend(loc=<span class="string">&#x27;best&#x27;</span>)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制箱线图</span></span><br><span class="line">description.plot(kind=<span class="string">&#x27;box&#x27;</span>, figsize=(<span class="number">20</span>, <span class="number">16</span>))</span><br><span class="line">plt.title(<span class="string">&#x27;Descriptive Statistics&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Statistics&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Values&#x27;</span>)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行异常值处理后，再盘点一次</span></span><br><span class="line">df_handled = preprocess.handle_missing_values(df, is_test=<span class="literal">False</span>)</span><br><span class="line">description_handled = df_handled.describe()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存数据盘点结果</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Description(after handling missing values):\n&quot;</span>, description_handled)</span><br><span class="line">description_handled.to_csv(<span class="string">&#x27;resources/inventory/star_train_description_after_handling_missing.csv&#x27;</span>, index=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制柱状图</span></span><br><span class="line">description_handled.plot(kind=<span class="string">&#x27;bar&#x27;</span>, figsize=(<span class="number">20</span>, <span class="number">16</span>))</span><br><span class="line">plt.title(<span class="string">&#x27;Descriptive Statistics&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Statistics&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Values&#x27;</span>)</span><br><span class="line">plt.legend(loc=<span class="string">&#x27;best&#x27;</span>)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制箱线图</span></span><br><span class="line">description_handled.plot(kind=<span class="string">&#x27;box&#x27;</span>, figsize=(<span class="number">20</span>, <span class="number">16</span>))</span><br><span class="line">plt.title(<span class="string">&#x27;Descriptive Statistics&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Statistics&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Values&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="二-数据预处理"><a href="#二-数据预处理" class="headerlink" title="二 数据预处理"></a>二 数据预处理</h3><h4 id="1-缺失值处理"><a href="#1-缺失值处理" class="headerlink" title="1. 缺失值处理"></a>1. 缺失值处理</h4><p>​	首先剔除缺失率大于0.7的列，然后对于剩下的缺失值进行填充，具体的，对于数值型变量，用中位数填充缺失值；对于类别型变量，用众数填充缺失值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">handle_missing_values</span>(<span class="params">df, is_test</span>):</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对于训练集，需要剔除缺失率大的列，而测试集的列应与训练集保持一致</span></span><br><span class="line">    <span class="keyword">if</span> is_test <span class="keyword">is</span> <span class="literal">False</span>:</span><br><span class="line">        <span class="comment"># 计算每列的缺失率</span></span><br><span class="line">        missing_rate = df.isna().mean()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 根据缺失率剔除缺失率大的列</span></span><br><span class="line">        min_missing_rate = <span class="number">0.7</span></span><br><span class="line">        df = df.loc[:, (missing_rate &lt; min_missing_rate) | (df.columns.isin(columns_to_keep))]</span><br><span class="line"></span><br><span class="line">    df = df.copy()</span><br><span class="line">    <span class="comment"># 对于数值型变量，用中位数填充缺失值</span></span><br><span class="line">    numeric_cols = df.select_dtypes(include=<span class="string">&#x27;number&#x27;</span>).columns</span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> numeric_cols:</span><br><span class="line">        <span class="keyword">if</span> col <span class="keyword">in</span> columns_to_keep:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        median = df[col].median()</span><br><span class="line">        df[col].fillna(median, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对于类别型变量，用众数填充缺失值</span></span><br><span class="line">    non_numeric_cols = df.select_dtypes(include=<span class="string">&#x27;object&#x27;</span>).columns</span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> non_numeric_cols:</span><br><span class="line">        <span class="keyword">if</span> col <span class="keyword">in</span> columns_to_keep:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        mode = df[col].mode()[<span class="number">0</span>]</span><br><span class="line">        df[col].fillna(mode, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    df_handled = df</span><br><span class="line">    <span class="keyword">return</span> df_handled</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-异常值处理"><a href="#2-异常值处理" class="headerlink" title="2. 异常值处理"></a>2. 异常值处理</h4><p>​	对于数值型列，将小于5%和大于95%的使用5%和95%的数据替换。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">handle_outliers</span>(<span class="params">df</span>):</span><br><span class="line"></span><br><span class="line">    numeric_cols = df.select_dtypes(include=<span class="string">&#x27;number&#x27;</span>).columns</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> numeric_cols:</span><br><span class="line">        <span class="keyword">if</span> col <span class="keyword">in</span> columns_to_keep:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        lower_threshold = df[col].quantile(<span class="number">0.05</span>)</span><br><span class="line">        upper_threshold = df[col].quantile(<span class="number">0.95</span>)</span><br><span class="line"></span><br><span class="line">        df.loc[df[col] &lt; lower_threshold, col] = lower_threshold</span><br><span class="line">        df.loc[df[col] &gt; upper_threshold, col] = upper_threshold</span><br><span class="line"></span><br><span class="line">    df_handled = df</span><br><span class="line">    <span class="keyword">return</span> df_handled</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-数据转换"><a href="#3-数据转换" class="headerlink" title="3. 数据转换"></a>3. 数据转换</h4><p>​	使用标签编码（Label Encoding），将非数值特征转换为数值特征。在数据转换时，排除uid、credit_level 、star_level三个列。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">transfer_nonnumerical</span>(<span class="params">df</span>):</span><br><span class="line"></span><br><span class="line">    label_encoder = LabelEncoder()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 选择非数值型列</span></span><br><span class="line">    non_numeric_cols = df.select_dtypes(exclude=<span class="string">&#x27;number&#x27;</span>).columns</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> non_numeric_cols:</span><br><span class="line">        <span class="keyword">if</span> col <span class="keyword">in</span> columns_to_keep:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        df[col] = label_encoder.fit_transform(df[col])</span><br><span class="line"></span><br><span class="line">    df_transferred = df</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> df_transferred</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-数据标准化"><a href="#4-数据标准化" class="headerlink" title="4. 数据标准化"></a>4. 数据标准化</h4><p>​	使用Min-Max标准化（Normalization），通过线性变换将数据缩放到指定的范围，通常是0到1之间，转换公式：<br>$$<br>x* &#x3D; ( x − min ) &#x2F; ( max − min )<br>$$<br>​	 为了在之后预测时复用同一个标准化工具对象，使得标准化过程一致，需要使用pickle保存标准化对象（scaler）；在标准化时，排除uid、credit_level 、star_level三个列。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">standardize</span>(<span class="params">df, is_test</span>):</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 为了在之后预测时复用同一个标准化工具对象，需要保存标准化对象（scaler）</span></span><br><span class="line">    save_scaler_pickle_path = <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 选择不想被标准化的列</span></span><br><span class="line">    y_columns = [<span class="string">&#x27;uid&#x27;</span>]</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;credit_level&#x27;</span> <span class="keyword">in</span> df.columns:</span><br><span class="line">        y_columns.append(<span class="string">&#x27;credit_level&#x27;</span>)</span><br><span class="line">        save_scaler_pickle_path = <span class="string">&#x27;resources/pickle/credit_scaler_pickle.pk1&#x27;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        y_columns.append(<span class="string">&#x27;star_level&#x27;</span>)</span><br><span class="line">        save_scaler_pickle_path = <span class="string">&#x27;resources/pickle/star_scaler_pickle.pk1&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 如果是训练集，需要新建一个标准化对象并拟合；如果是测试集，则复用之前的</span></span><br><span class="line">    <span class="keyword">if</span> is_test <span class="keyword">is</span> <span class="literal">False</span>:</span><br><span class="line">        scaler = MinMaxScaler()</span><br><span class="line">        scaler.fit(df.drop(y_columns, axis=<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 将拟合后的标准化对象保存</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(save_scaler_pickle_path, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">            pickle.dump(scaler, file)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(save_scaler_pickle_path, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">            scaler = pickle.load(file)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对数据进行标准化</span></span><br><span class="line">    df_standardized = scaler.transform(df.drop(y_columns, axis=<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将未被标准化的列添加回来</span></span><br><span class="line">    df_standardized = pd.DataFrame(df_standardized, columns=df.drop(y_columns, axis=<span class="number">1</span>).columns)</span><br><span class="line">    df_standardized = pd.concat([df[y_columns], df_standardized], axis=<span class="number">1</span>)  <span class="comment"># 合并 DataFrame</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> df_standardized</span><br></pre></td></tr></table></figure>
+
+<p>​	经过标准化后的数据示例如下：<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/credit_std.png" alt="credit_std"></p>
+<h3 id="三-特征工程与特征选择"><a href="#三-特征工程与特征选择" class="headerlink" title="三 特征工程与特征选择"></a>三 特征工程与特征选择</h3><h4 id="1-特征工程"><a href="#1-特征工程" class="headerlink" title="1. 特征工程"></a>1. 特征工程</h4><p>​	特征工程（Feature Engineering）是数据预处理的一部分，涉及创建新的特征或转化现有特征以便更好地表示潜在问题，以提高机器学习模型的性能。它是通过使用领域知识来提取从原始数据中提取有用特征的过程。它有着如下作用：</p>
+<ol>
+<li>改善模型性能：通过创建与预测目标更密切相关的特征，可以提高模型的预测准确性。</li>
+<li>降低计算成本：去除不相关或冗余的特征可以减少模型训练和预测所需的计算资源。</li>
+<li>提高模型的可解释性：对于某些类型的模型，如决策树和线性模型，创建有意义的特征可以让模型的决策过程更容易理解。</li>
+</ol>
+<p>​	特征工程的常见方法包括缩放、离散化、交互、编码、缺失值处理等。这些方法的选择和实施通常需要依赖于实际问题的具体情况，如数据类型（例如，连续的、类别的、有序的等）、数据质量（例如，是否存在缺失值、异常值等）、预测目标、所使用的模型类型等。</p>
+<p>​	本次实验中，我们选择如下的特征选择方式：</p>
+<h5 id="1-1-皮尔逊相关系数"><a href="#1-1-皮尔逊相关系数" class="headerlink" title="1.1 皮尔逊相关系数"></a>1.1 皮尔逊相关系数</h5><p>$$<br>\rho_{x,y} &#x3D; \frac{cov(X,Y)}{\sigma_{x}\sigma_{y}} &#x3D; \frac{E((X - \mu_{X})(Y - \mu_{Y}))}{\sigma_{x}\sigma_{y}} &#x3D; \frac{E(XY) - E(X)E(Y)}{\sqrt{E(X^{2}) - E^{2}(X)} - \sqrt{E(Y^{2}) - E^{2}(Y)}}<br>$$</p>
+<p>$$<br>\rho_{x,y} &#x3D; \frac{N\Sigma{XY} - \Sigma{X}\Sigma{Y}}{\sqrt{N\Sigma{X^{2}} - (\Sigma{X})^{2}}\sqrt{N\Sigma{Y^{2}} - (\Sigma{Y})^{2}}}<br>$$</p>
+<p>​	皮尔逊相关系数（Pearson correlation coefficient）是一种衡量两个变量之间线性关系强度和方向的统计量。它的值范围在-1和1之间，其中：</p>
+<p>​	1 表示完全正相关（一个变量增加，另一个变量也增加）。</p>
+<p>​	-1 表示完全负相关（一个变量增加，另一个变量减少）。</p>
+<p>​	0 表示两个变量之间没有线性关系。</p>
+<p>皮尔逊相关系数的主要作用如下：</p>
+<p>​	关系强度和方向：皮尔逊相关系数是最常用的方法之一，用于量化两个连续变量之间关系的强度和方向。但是，皮尔逊相关系数只衡量线性关系。如果两个变量之间的关系是非线性的，即使它们非常紧密，皮尔逊相关系数也可能接近于零。此外，皮尔逊相关系数对离群值非常敏感，这可能会对结果产生显著影响。因此，在进行相关性分析时，也需要考虑这些因素。</p>
+<p><strong>代码如下：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot; </span></span><br><span class="line"><span class="string">根据Pearson相关系数选择关联最大的k个特征</span></span><br><span class="line"><span class="string">输入为合并表后的路径，k为待选择的特征数量  </span></span><br><span class="line"><span class="string">返回值为一个二维列表，每一维长度均为k，分别代表对credit_level和star_level最相关的k个特征  </span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pearson_select_features</span>(<span class="params">file_path, k</span>):</span><br><span class="line">    f = <span class="built_in">open</span>(file_path, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    y[0]代表credit_level</span></span><br><span class="line"><span class="string">    y[1]代表star_level</span></span><br><span class="line"><span class="string">    tbd，x[i]对应的就是第i个特征</span></span><br><span class="line"><span class="string">    scores[i][j]代表第j个特征对第i个标签的pearson相关系数，内容为(string:&lt;label_name&gt;, float:score)</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    y = [[], []]</span><br><span class="line">    x = []</span><br><span class="line">    scores = [[], []]</span><br><span class="line">    <span class="comment"># 初始化 x,y</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">        line = line[<span class="number">1</span>:-<span class="number">1</span>]</span><br><span class="line">        lst = line.split(<span class="string">&quot;,&quot;</span>)</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> lst:</span><br><span class="line">            key = item.split(<span class="string">&quot;:&quot;</span>)[<span class="number">0</span>]</span><br><span class="line">            value = item.split(<span class="string">&quot;:&quot;</span>)[<span class="number">1</span>]</span><br><span class="line">            <span class="keyword">if</span> key == <span class="string">&quot;credit_level&quot;</span> <span class="keyword">or</span> key == <span class="string">&quot;star_level&quot;</span>:</span><br><span class="line">                y[dict_tag[key]].append(value)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                x[dict_label[key]].append(value)</span><br><span class="line">    label_lst = <span class="built_in">list</span>(dict_label.keys())</span><br><span class="line">    <span class="keyword">for</span> j, feature <span class="keyword">in</span> <span class="built_in">enumerate</span>(x):</span><br><span class="line">        <span class="keyword">for</span> i, tag <span class="keyword">in</span> <span class="built_in">enumerate</span>(y):</span><br><span class="line">            scores[i][j] = (label_lst[j], np.corrcoef(feature, tag))</span><br><span class="line">    res = [[], []]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(scores)):</span><br><span class="line">        tag_scores = scores[i]</span><br><span class="line">        res[i] = select_k_features(tag_scores, k)</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-2-互信息"><a href="#1-2-互信息" class="headerlink" title="1.2 互信息"></a>1.2 互信息</h5><p>$$<br>I(X;Y) &#x3D; \int_{X} \int_{Y} P(X,Y)log\frac{P(X,Y)}{P(X)P(Y)}<br>$$</p>
+<p>$$<br>&#x3D; \int_{X} \int_{Y}P(X,Y)log\frac{P(X,Y)}{P(X)} - \int_{X} \int_{Y}P(X,Y)logP(Y)<br>$$</p>
+<p>$$<br>&#x3D; \int_{X} \int_{Y}P(X)\int_{Y}P(Y|X)log(Y|X) - \int_{Y}P(Y)logP(Y)<br>$$</p>
+<p>$$<br>&#x3D; - \int_{X}P(X)H(Y|X&#x3D;x) + H(Y) &#x3D; H(Y) - H(Y|X)<br>$$</p>
+<p>​	互信息，Mutual Information，缩写为MI，表示两个变量X与Y是否有关系，以及关系的强弱。互信息度量两个随机变量共享的信息——知道随机变量X,对随机变量Y的不确定性减少的程度（或者知道随机变量Y，对随机变量X的不确定性减少的程度。</p>
+<p><strong>代码如下：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">皮尔逊系数只能衡量线性相关性，但互信息系数能够解决这一局限</span></span><br><span class="line"><span class="string">互信息系数能够很好地度量各种相关性，得到相关性后可以排序选择特征</span></span><br><span class="line"><span class="string">输入为合并表后的路径，k为待选择的特征数量  </span></span><br><span class="line"><span class="string">返回值为一个二维列表，每一维长度均为k，分别代表对credit_level和star_level最相关的k个特征</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">mutual_select_features</span>(<span class="params">file_path, k</span>):</span><br><span class="line">  df = pd.read_csv(file_path)</span><br><span class="line">  df.pop(<span class="string">&#x27;uid&#x27;</span>)</span><br><span class="line">  y = df.pop(<span class="string">&#x27;credit_level&#x27;</span>)</span><br><span class="line">  X = df</span><br><span class="line">  best_features = SelectKBest(score_func=mutual_info_classif, k=<span class="built_in">len</span>(X.columns))</span><br><span class="line">  fit = best_features.fit(X, y)</span><br><span class="line">  df_scores = pd.DataFrame(fit.scores_)</span><br><span class="line">  df_columns = pd.DataFrame(X.columns)</span><br><span class="line">  df_feature_scores = pd.concat([df_columns, df_scores], axis=<span class="number">1</span>)</span><br><span class="line">  df_feature_scores.columns = [<span class="string">&#x27;Feature&#x27;</span>, <span class="string">&#x27;Score&#x27;</span>]</span><br><span class="line">  df_feature_scores = df_feature_scores.sort_values(by=<span class="string">&#x27;Score&#x27;</span>, ascending=<span class="literal">False</span>)</span><br><span class="line">  f = <span class="built_in">open</span>(<span class="string">&#x27;resources/feature/credit_scores_mutual.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">  <span class="keyword">for</span> line <span class="keyword">in</span> df_feature_scores.iterrows():</span><br><span class="line">    f.write(<span class="built_in">str</span>(line) + <span class="string">&quot;\n&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-3-卡方检验"><a href="#1-3-卡方检验" class="headerlink" title="1.3 卡方检验"></a>1.3 卡方检验</h5><p>$$<br>X &#x3D; \Sigma{(0-E)&#x2F;E}<br>$$</p>
+<p>​	卡方检验可以用于特征选择，特别是在处理分类问题时。基本思想是看特征与目标变量之间的关联程度，关联度越高，特征就越重要。卡方统计量度量了观察分布和期望分布之间的差异，卡方值越大，差异就越大，这意味着特征和目标变量之间的关联性更强，反之亦然。因此，可以通过计算每个特征的卡方统计量来对特征进行评分，并选择得分最高的特征。</p>
+<p>​	这种方法适用于分类目标变量和分类特征，它不适用于连续变量。如果你的特征或目标变量是连续的，你可能需要先将其离散化或考虑使用其他方法，如基于皮尔逊相关系数或基于模型的特征选择。</p>
+<p>​	需要注意的是，尽管卡方检验可以帮助我们找出与目标变量有强关联的特征，但它并不能检测出特征之间的交互作用。这意味着，如果一个特征只有在与另一个特征相结合时才对目标变量有影响，卡方检验可能无法识别出这个特征的重要性。</p>
+<p><strong>代码如下：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">chi2_select_features</span>(<span class="params">file_path, k</span>):</span><br><span class="line">  df = pd.read_csv(file_path)</span><br><span class="line">  df.pop(<span class="string">&#x27;uid&#x27;</span>)</span><br><span class="line">  y = df.pop(<span class="string">&#x27;credit_level&#x27;</span>)</span><br><span class="line">  X = df</span><br><span class="line">  best_features = SelectKBest(score_func=chi2, k=<span class="built_in">len</span>(X.columns))</span><br><span class="line">  fit = best_features.fit(X, y)</span><br><span class="line">  df_scores = pd.DataFrame(fit.scores_)</span><br><span class="line">  df_columns = pd.DataFrame(X.columns)</span><br><span class="line">  df_feature_scores = pd.concat([df_columns, df_scores], axis=<span class="number">1</span>)</span><br><span class="line">  df_feature_scores.columns = [<span class="string">&#x27;Feature&#x27;</span>, <span class="string">&#x27;Score&#x27;</span>]</span><br><span class="line">  df_feature_scores = df_feature_scores.sort_values(by=<span class="string">&#x27;Score&#x27;</span>, ascending=<span class="literal">False</span>)</span><br><span class="line">  f = <span class="built_in">open</span>(<span class="string">&#x27;resources/feature/credit_scores_chi2.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">  <span class="keyword">for</span> line <span class="keyword">in</span> df_feature_scores.iterrows():</span><br><span class="line">    f.write(<span class="built_in">str</span>(line) + <span class="string">&quot;\n&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-特征选择"><a href="#2-特征选择" class="headerlink" title="2. 特征选择"></a>2. 特征选择</h4><p>​	根据前面的三种方法，我们最终决定使用<strong>基于经验、基于卡方检验、基于互信息</strong>的三种情形作为我们最终的特征选择。</p>
+<p>选择credit_scores_chi2（卡方检验得分）部分展示：</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/scroe-chi2.png" alt="scroe-chi2" style="zoom:50%;" />
+
+<p>​	首先选取每种情况下最大得分的5%的所有特征，然后取这些特征的并集作为最终的特征集，将数据中的在特征集以外的列丢弃。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">select_feature</span>(<span class="params">feature_scores, proportion</span>):</span><br><span class="line">  select_features = []</span><br><span class="line">  max_score = <span class="built_in">max</span>(feature_scores.values())</span><br><span class="line">  <span class="keyword">for</span> feature, score <span class="keyword">in</span> feature_scores.items():</span><br><span class="line">    <span class="keyword">if</span> score &gt;= max_score * proportion:</span><br><span class="line">      select_features.append(feature)</span><br><span class="line">  <span class="keyword">return</span> select_features</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">credit_chisquare_scores_path = <span class="string">&#x27;resources/feature/credit_scores_chi2.txt&#x27;</span></span><br><span class="line">credit_chisquare_feature_scores = read_feature_scores(credit_chisquare_scores_path)</span><br><span class="line">credit_chisquare_select_features = select_feature(credit_chisquare_feature_scores, <span class="number">0.05</span>)</span><br><span class="line"></span><br><span class="line">credit_mutual_scores_path = <span class="string">&#x27;resources/feature/credit_scores_mutual.txt&#x27;</span></span><br><span class="line">credit_mutual_feature_scores = read_feature_scores(credit_mutual_scores_path)</span><br><span class="line">credit_mutual_select_features = select_feature(credit_mutual_feature_scores, <span class="number">0.05</span>)</span><br><span class="line"></span><br><span class="line">credit_select_features = <span class="built_in">list</span>(<span class="built_in">set</span>(credit_chisquare_select_features).union(<span class="built_in">set</span>(credit_chisquare_select_features)))</span><br></pre></td></tr></table></figure>
+
+<h3 id="四-模型选择与训练"><a href="#四-模型选择与训练" class="headerlink" title="四 模型选择与训练"></a>四 模型选择与训练</h3><p>​	从已知标签的数据集中以7：3比例分割为训练集和测试集，分别得到特征和标签。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_features_and_labels</span>(<span class="params">train_csv, test_csv, level</span>):</span><br><span class="line">    train_data = pd.read_csv(train_csv)</span><br><span class="line">    test_data = pd.read_csv(test_csv)</span><br><span class="line">    <span class="comment"># 分离特征和标签</span></span><br><span class="line">    features = train_data.drop([<span class="string">&#x27;uid&#x27;</span>, level], axis=<span class="number">1</span>)</span><br><span class="line">    label = train_data[level]</span><br><span class="line">    label = label.astype(<span class="built_in">int</span>)</span><br><span class="line">    train1, test1, train2, test2 = train_test_split(features, label, test_size=<span class="number">0.3</span>, random_state=<span class="number">18</span>)</span><br><span class="line">    <span class="keyword">return</span> train1, test1, train2, test2, test_data</span><br></pre></td></tr></table></figure>
+
+<p>​	选用了逻辑回归、决策树、随机森林、XGBoost和神经网络作为模型，将相应模型传入run_model方法进行训练。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># category代表是credit还是start</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">run_model</span>(<span class="params">model, train_features, train_label, test_features, test_label, test, category</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;credit:&#x27;</span>)</span><br><span class="line">    model.fit(train_features, train_label)</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-逻辑回归"><a href="#1-逻辑回归" class="headerlink" title="1. 逻辑回归"></a>1. 逻辑回归</h4><p>​	默认最大迭代次数为100次，在运行实践中发现会报算法没有收敛，得到最优解就结束的错误。通过实践将其设置为1000次，既可以充分收敛得到最优解，又不至于因为迭代次数过多，影响效率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 逻辑回归</span></span><br><span class="line">lr = LogisticRegression(max_iter=<span class="number">1000</span>)  <span class="comment"># 默认最大迭代次数为100次，没有收敛到最优解</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Logistic Regression:&#x27;</span>)</span><br><span class="line">    run_model(lr, X_credit_train, y_credit_train, X_credit_test, y_credit_test, credit_test,</span><br><span class="line">              [<span class="string">&#x27;credit&#x27;</span>, <span class="string">&#x27;logistic_regression&#x27;</span>])</span><br><span class="line">    run_model(lr, X_star_train, y_star_train, X_star_test, y_star_test, star_test,</span><br><span class="line">              [<span class="string">&#x27;star&#x27;</span>, <span class="string">&#x27;logistic_regression&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-决策树"><a href="#2-决策树" class="headerlink" title="2. 决策树"></a>2. 决策树</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 决策树</span></span><br><span class="line">dt = DecisionTreeClassifier()</span><br><span class="line">run_model(dt, X_credit_train, y_credit_train, X_credit_test, y_credit_test, credit_test,</span><br><span class="line">              [<span class="string">&#x27;credit&#x27;</span>, <span class="string">&#x27;decision_tree&#x27;</span>])</span><br><span class="line">    run_model(dt, X_star_train, y_star_train, X_star_test, y_star_test, star_test,</span><br><span class="line">              [<span class="string">&#x27;star&#x27;</span>, <span class="string">&#x27;decision_tree&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-随机森林"><a href="#3-随机森林" class="headerlink" title="3. 随机森林"></a>3. 随机森林</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 随机森林</span></span><br><span class="line">rt = RandomForestClassifier()</span><br><span class="line">run_model(rt, X_credit_train, y_credit_train, X_credit_test, y_credit_test, credit_test,</span><br><span class="line">              [<span class="string">&#x27;credit&#x27;</span>, <span class="string">&#x27;random_forest&#x27;</span>])</span><br><span class="line">    run_model(rt, X_star_train, y_star_train, X_star_test, y_star_test, star_test,</span><br><span class="line">              [<span class="string">&#x27;star&#x27;</span>, <span class="string">&#x27;random_forest&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-XGBoost"><a href="#4-XGBoost" class="headerlink" title="4. XGBoost"></a>4. XGBoost</h4><p>​	由于XGBoost要求标签类别必须是从0开始的整数序列，所以进行如下转换，将标签映射为0~n的整数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建XGBoost模型</span></span><br><span class="line">xgb_model = xgb.XGBClassifier()</span><br><span class="line"><span class="comment"># 定义映射关系</span></span><br><span class="line">star_map = &#123;<span class="number">1</span>: <span class="number">0</span>, <span class="number">2</span>: <span class="number">1</span>, <span class="number">3</span>: <span class="number">2</span>, <span class="number">4</span>: <span class="number">3</span>, <span class="number">5</span>: <span class="number">4</span>, <span class="number">6</span>: <span class="number">5</span>, <span class="number">7</span>: <span class="number">6</span>, <span class="number">8</span>: <span class="number">7</span>, <span class="number">9</span>: <span class="number">8</span>&#125;</span><br><span class="line">credit_map = &#123;<span class="number">35</span>: <span class="number">0</span>, <span class="number">50</span>: <span class="number">1</span>, <span class="number">60</span>: <span class="number">2</span>, <span class="number">70</span>: <span class="number">3</span>, <span class="number">85</span>: <span class="number">4</span>&#125;</span><br><span class="line"><span class="comment"># 将标签列进行映射</span></span><br><span class="line">y_star_train_mapped = y_star_train.<span class="built_in">map</span>(star_map)</span><br><span class="line">y_star_test_mapped = y_star_test.<span class="built_in">map</span>(star_map)</span><br><span class="line">y_credit_train_mapped = y_credit_train.<span class="built_in">map</span>(credit_map)</span><br><span class="line">y_credit_test_mapped = y_credit_test.<span class="built_in">map</span>(credit_map)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;XGBoost:&#x27;</span>)</span><br><span class="line">run_model(xgb_model, X_credit_train, y_credit_train_mapped, X_credit_test, y_credit_test_mapped, credit_test,</span><br><span class="line">          [<span class="string">&#x27;credit&#x27;</span>, <span class="string">&#x27;XGBoost&#x27;</span>])</span><br><span class="line">run_model(xgb_model, X_star_train, y_star_train_mapped, X_star_test, y_star_test_mapped, star_test,</span><br><span class="line">          [<span class="string">&#x27;star&#x27;</span>, <span class="string">&#x27;XGBoost&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-神经网络"><a href="#5-神经网络" class="headerlink" title="5. 神经网络"></a>5. 神经网络</h4><p>通过搭建神经网络来进行模型训练与预测，其中star模型的网络结构如下（对credit的结构同理）：</p>
+<ol>
+<li>输入层：接受输入数据，大小为14，对应了14个输入属性。</li>
+<li>隐藏层1：包含128个神经元，通过线性变换和ReLU激活函数对输入进行处理。</li>
+<li>隐藏层2：包含64个神经元，同样通过线性变换和ReLU激活函数对隐藏层1的输出进行处理。</li>
+<li>输出层：包含9个神经元，对应了1~9的star评级，通过线性变换得到最终的输出结果，然后使用对数 softmax 函数对输出进行归一化。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Net</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>(Net, <span class="variable language_">self</span>).__init__()</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">self</span>.fc1 = nn.Linear(<span class="number">39</span>, <span class="number">128</span>)</span><br><span class="line">        <span class="variable language_">self</span>.fc2 = nn.Linear(<span class="number">128</span>, <span class="number">64</span>)</span><br><span class="line">        <span class="variable language_">self</span>.fc3 = nn.Linear(<span class="number">64</span>, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        x = F.relu(<span class="variable language_">self</span>.fc1(x))</span><br><span class="line">        x = F.relu(<span class="variable language_">self</span>.fc2(x))</span><br><span class="line">        x = <span class="variable language_">self</span>.fc3(x)</span><br><span class="line">        <span class="keyword">return</span> F.log_softmax(x, dim=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>数据集类如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyDataset</span>(torch.utils.data.Dataset):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, csv_file, train=<span class="literal">True</span></span>):</span><br><span class="line">        <span class="variable language_">self</span>.train = train</span><br><span class="line">        csv = pd.read_csv(csv_file)</span><br><span class="line">        csv = csv.drop([<span class="string">&#x27;uid&#x27;</span>], axis=<span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 8:2划分训练集和验证集</span></span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>.train:</span><br><span class="line">            <span class="variable language_">self</span>.data, _ = train_test_split(csv, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            _, <span class="variable language_">self</span>.data = train_test_split(csv, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, index</span>):</span><br><span class="line">        <span class="comment"># 将数据和标签转换为PyTorch的Tensor对象</span></span><br><span class="line">        data_tensor = torch.tensor(<span class="variable language_">self</span>.data.iloc[index, <span class="number">0</span>:-<span class="number">9</span>].values, dtype=torch.float32).to(device)</span><br><span class="line">        label_tensor = torch.tensor(<span class="variable language_">self</span>.data.iloc[index, -<span class="number">9</span>:].values, dtype=torch.float32).to(device)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> data_tensor, label_tensor</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__len__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(<span class="variable language_">self</span>.data)</span><br></pre></td></tr></table></figure>
+
+<p>进行30次迭代后，loss值基本稳定：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># device为cuda，使用GPU进行训练</span></span><br><span class="line">model = Net().to(device)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义损失函数为均方误差损失函数</span></span><br><span class="line">criterion = nn.MSELoss()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义优化器为Adam优化器，学习率为0.001</span></span><br><span class="line">optimizer = torch.optim.Adam(model.parameters(), lr=<span class="number">0.001</span>)</span><br><span class="line"></span><br><span class="line">train_dataset = MyDataset(<span class="string">&quot;star_train_std_selected_split.csv&quot;</span>, <span class="literal">True</span>)</span><br><span class="line">train_dataloader = DataLoader(train_dataset, batch_size=<span class="number">5000</span>, shuffle=<span class="literal">True</span>, drop_last=<span class="literal">True</span>,</span><br><span class="line">                              num_workers=<span class="number">0</span>) <span class="comment"># 一批量为5000条数据</span></span><br><span class="line"></span><br><span class="line">valid_dataset = MyDataset(<span class="string">&quot;star_train_std_selected_split.csv&quot;</span>, <span class="literal">False</span>)</span><br><span class="line">valid_dataloader = DataLoader(valid_dataset, batch_size=<span class="number">5000</span>, shuffle=<span class="literal">True</span>, drop_last=<span class="literal">True</span>,</span><br><span class="line">                              num_workers=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">30</span>):</span><br><span class="line">    <span class="comment"># 训练</span></span><br><span class="line">    <span class="keyword">for</span> i, (data, label) <span class="keyword">in</span> <span class="built_in">enumerate</span>(train_dataloader):</span><br><span class="line">        data = data.to(device)</span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        output = model(data)</span><br><span class="line">        loss = criterion(output, label)</span><br><span class="line">        loss.backward()</span><br><span class="line">        optimizer.step()</span><br><span class="line">        </span><br><span class="line">    <span class="comment"># 测试</span></span><br><span class="line">    <span class="keyword">for</span> i, (data, label) <span class="keyword">in</span> <span class="built_in">enumerate</span>(valid_dataloader):</span><br><span class="line">        output = model(data)</span><br><span class="line">        loss = criterion(output, label)</span><br><span class="line">        accuracy = (output.argmax(dim=<span class="number">1</span>) == label.argmax(dim=<span class="number">1</span>)).<span class="built_in">float</span>().mean()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Epoch: &#123;&#125;, Iter: &#123;&#125;, Accuracy: &#123;&#125;, loss: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(epoch, i, accuracy.item(), loss.data))</span><br><span class="line">        predictions = output.argmax(dim=<span class="number">1</span>).cpu().numpy()</span><br><span class="line">        true_labels = label.argmax(dim=<span class="number">1</span>).cpu().numpy()</span><br></pre></td></tr></table></figure>
+
+<p>最后，用现有模型进行star预测：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 存放分类对应的index</span></span><br><span class="line">predictions = []</span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> inference_dataloader:</span><br><span class="line">        data = data.to(device)</span><br><span class="line">        output = model(data)</span><br><span class="line">        batch_predictions = output.argmax(dim=<span class="number">1</span>).cpu().numpy()</span><br><span class="line">        predictions.extend(batch_predictions)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印预测分类的index列表</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Predictions:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(predictions)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 映射到uid:star_level</span></span><br><span class="line">df_temp = pd.DataFrame(predictions, columns=[<span class="string">&#x27;star_level&#x27;</span>])</span><br><span class="line">df = pd.read_csv(<span class="string">&#x27;star_test_std_selected.csv&#x27;</span>)</span><br><span class="line">df[<span class="string">&#x27;star_level&#x27;</span>] = df_temp[<span class="string">&#x27;star_level&#x27;</span>] + <span class="number">1</span></span><br><span class="line">df = df[[<span class="string">&#x27;uid&#x27;</span>, <span class="string">&#x27;star_level&#x27;</span>]]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测结果写入csv文件</span></span><br><span class="line">df.to_csv(<span class="string">&#x27;star_neural_network_predict.csv&#x27;</span>, index=<span class="literal">False</span>)</span><br><span class="line"><span class="built_in">print</span>(df)</span><br></pre></td></tr></table></figure>
+
+<h3 id="五-模型评估"><a href="#五-模型评估" class="headerlink" title="五 模型评估"></a>五 模型评估</h3><p>​	模型评估使用准确率、混淆矩阵、精确率、召回率、F1分数和Cohen’s Kappa系数。</p>
+<p>​	其中对于精确率、召回率和F1分数分别采取macro和weighted作为average参数的值，得到相应结果。两者的区别在于前者采取宏平均，对每个类别单独计算指标，然后对所有类别的指标取算术平均值；而后者采取加权平均，根据每个类别在真实标签中的样本数量进行加权平均。由于预处理后得到的数据各类别标签个数相差较大，所以本小组认为weighted更加合理，但同时也给出了macro作为参数值时的结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">predictions = model.predict(test_features)</span><br><span class="line"><span class="comment"># 模型评估</span></span><br><span class="line">evaluate(test_label, predictions, category)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># # 计算混淆矩阵</span></span><br><span class="line">confusion = confusion_matrix(label, predictions)</span><br><span class="line">draw_confusion(confusion, category)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Confusion Matrix&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 计算准确率 = (TP + TN) / (TP + TN + FP + FN)</span></span><br><span class="line">accuracy = accuracy_score(label, predictions)</span><br><span class="line"><span class="comment"># 计算Cohen&#x27;s Kappa系数</span></span><br><span class="line">kappa_score = cohen_kappa_score(label, predictions)</span><br><span class="line"><span class="comment"># 计算精确率 = TP / (TP + FP)</span></span><br><span class="line">macro_precision = precision_score(label, predictions, average=<span class="string">&#x27;macro&#x27;</span>, zero_division=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 计算召回率 = TP / (TP + FN)</span></span><br><span class="line">macro_recall = recall_score(label, predictions, average=<span class="string">&#x27;macro&#x27;</span>)</span><br><span class="line"><span class="comment"># 计算F1分数 = 2 * (精确率 * 召回率) / (精确率 + 召回率)</span></span><br><span class="line">macro_f1 = f1_score(label, predictions, average=<span class="string">&#x27;macro&#x27;</span>)</span><br><span class="line"><span class="comment"># 计算精确率 = TP / (TP + FP)</span></span><br><span class="line">weighted_precision = precision_score(label, predictions, average=<span class="string">&#x27;weighted&#x27;</span>, zero_division=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 计算召回率 = TP / (TP + FN)</span></span><br><span class="line">weighted_recall = recall_score(label, predictions, average=<span class="string">&#x27;weighted&#x27;</span>)</span><br><span class="line"><span class="comment"># 计算F1分数 = 2 * (精确率 * 召回率) / (精确率 + 召回率)</span></span><br><span class="line">weighted_f1 = f1_score(label, predictions, average=<span class="string">&#x27;weighted&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">draw_confusion</span>(<span class="params">confusion, category</span>):</span><br><span class="line">    <span class="comment"># 绘制混淆矩阵图</span></span><br><span class="line">    plt.imshow(confusion, cmap=<span class="string">&#x27;Blues&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> category[<span class="number">0</span>] == <span class="string">&#x27;star&#x27;</span>:</span><br><span class="line">        class_names = [<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;9&#x27;</span>]</span><br><span class="line">    <span class="keyword">elif</span> category[<span class="number">0</span>] == <span class="string">&#x27;credit&#x27;</span>:</span><br><span class="line">        class_names = [<span class="string">&#x27;35&#x27;</span>, <span class="string">&#x27;50&#x27;</span>, <span class="string">&#x27;60&#x27;</span>, <span class="string">&#x27;70&#x27;</span>, <span class="string">&#x27;85&#x27;</span>]</span><br><span class="line">    <span class="comment"># 添加颜色条</span></span><br><span class="line">    plt.colorbar()</span><br><span class="line">    <span class="comment"># 设置标签</span></span><br><span class="line">    tick_marks = np.arange(<span class="built_in">len</span>(class_names))</span><br><span class="line">    plt.xticks(tick_marks, class_names)</span><br><span class="line">    plt.yticks(tick_marks, class_names)</span><br><span class="line">    <span class="comment"># 添加数值</span></span><br><span class="line">    thresh = confusion.<span class="built_in">max</span>() / <span class="number">2</span></span><br><span class="line">    <span class="keyword">for</span> i, j <span class="keyword">in</span> itertools.product(<span class="built_in">range</span>(confusion.shape[<span class="number">0</span>]), <span class="built_in">range</span>(confusion.shape[<span class="number">1</span>])):</span><br><span class="line">        plt.text(j, i, <span class="built_in">format</span>(confusion[i, j], <span class="string">&#x27;d&#x27;</span>),</span><br><span class="line">                 horizontalalignment=<span class="string">&quot;center&quot;</span>,</span><br><span class="line">                 color=<span class="string">&quot;white&quot;</span> <span class="keyword">if</span> confusion[i, j] &gt; thresh <span class="keyword">else</span> <span class="string">&quot;black&quot;</span>)</span><br><span class="line">    <span class="comment"># 添加轴标签</span></span><br><span class="line">    plt.xlabel(<span class="string">&#x27;Predicted Label&#x27;</span>)</span><br><span class="line">    plt.ylabel(<span class="string">&#x27;True Label&#x27;</span>)</span><br><span class="line">    <span class="comment"># 调整布局</span></span><br><span class="line">    plt.tight_layout()</span><br><span class="line">    <span class="comment"># 保存为图片</span></span><br><span class="line">    save_path = <span class="string">&#x27;resources/evaluation results/&#x27;</span>+category[<span class="number">0</span>]+<span class="string">&#x27;_&#x27;</span>+category[<span class="number">1</span>]+<span class="string">&#x27;_confusion_matrix.png&#x27;</span></span><br><span class="line">    plt.savefig(save_path)</span><br><span class="line">    <span class="comment"># 显示图像</span></span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>部分结果展示：</p>
+<p>混淆矩阵图片(采用决策树模型针对star_level做评估)：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/star_decision_tree_confusion_matrix.png"></p>
+<p>准确率、精确率、召回率、F1分数和Cohen’s Kappa系数：</p>
+<table>
+<thead>
+<tr>
+<th align="center">star</th>
+<th align="center">准确率</th>
+<th align="center">精确率(weighted)</th>
+<th align="center">召回率(weighted)</th>
+<th align="center">F1分数(weighted)</th>
+<th>精确率(macro)</th>
+<th>召回率(macro)</th>
+<th>F1分数(macro)</th>
+<th align="center">Cohen’s Kappa系数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">逻辑回归模型</td>
+<td align="center">0.8443</td>
+<td align="center">0.8388</td>
+<td align="center">0.8443</td>
+<td align="center">0.8353</td>
+<td>0.6835</td>
+<td>0.4218</td>
+<td>0.4268</td>
+<td align="center">0.7419</td>
+</tr>
+<tr>
+<td align="center">决策树模型</td>
+<td align="center">0.8865</td>
+<td align="center">0.8873</td>
+<td align="center">0.8865</td>
+<td align="center">0.8868</td>
+<td>0.6732</td>
+<td>0.4530</td>
+<td>0.4519</td>
+<td align="center">0.8183</td>
+</tr>
+<tr>
+<td align="center">随机森林模型</td>
+<td align="center">0.9059</td>
+<td align="center">0.9067</td>
+<td align="center">0.9059</td>
+<td align="center">0.9061</td>
+<td>0.6945</td>
+<td>0.4726</td>
+<td>0.4717</td>
+<td align="center">0.8500</td>
+</tr>
+<tr>
+<td align="center">XGBoost模型</td>
+<td align="center">0.9114</td>
+<td align="center">0.9137</td>
+<td align="center">0.9114</td>
+<td align="center">0.9120</td>
+<td>0.7063</td>
+<td>0.4870</td>
+<td>0.4833</td>
+<td align="center">0.8589</td>
+</tr>
+<tr>
+<td align="center">神经网络</td>
+<td align="center">0.9039</td>
+<td align="center">0.9066</td>
+<td align="center">0.9040</td>
+<td align="center">0.9003</td>
+<td></td>
+<td></td>
+<td></td>
+<td align="center">0.8435</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center">credit</th>
+<th align="center">准确率</th>
+<th align="center">精确率(weighted)</th>
+<th align="center">召回率(weighted)</th>
+<th align="center">F1分数(weighted)</th>
+<th>精确率(macro)</th>
+<th>召回率(macro)</th>
+<th>F1分数(macro)</th>
+<th align="center">Cohen’s Kappa系数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">逻辑回归模型</td>
+<td align="center">0.6628</td>
+<td align="center">0.6158</td>
+<td align="center">0.6628</td>
+<td align="center">0.6139</td>
+<td>0.7065</td>
+<td>0.2703</td>
+<td>0.2550</td>
+<td align="center">0.3000</td>
+</tr>
+<tr>
+<td align="center">决策树模型</td>
+<td align="center">0.6101</td>
+<td align="center">0.6142</td>
+<td align="center">0.6101</td>
+<td align="center">0.6121</td>
+<td>0.2885</td>
+<td>0.2895</td>
+<td>0.2890</td>
+<td align="center">0.2857</td>
+</tr>
+<tr>
+<td align="center">随机森林模型</td>
+<td align="center">0.6845</td>
+<td align="center">0.6523</td>
+<td align="center">0.6845</td>
+<td align="center">0.6615</td>
+<td>0.5260</td>
+<td>0.3049</td>
+<td>0.3063</td>
+<td align="center">0.3773</td>
+</tr>
+<tr>
+<td align="center">XGBoost模型</td>
+<td align="center">0.6869</td>
+<td align="center">0.6620</td>
+<td align="center">0.6869</td>
+<td align="center">0.6680</td>
+<td>0.5289</td>
+<td>0.3109</td>
+<td>0.3108</td>
+<td align="center">0.3932</td>
+</tr>
+<tr>
+<td align="center">神经网络</td>
+<td align="center">0.6800</td>
+<td align="center">0.6474</td>
+<td align="center">0.6800</td>
+<td align="center">0.9003</td>
+<td>0.6506</td>
+<td></td>
+<td></td>
+<td align="center">0.3694</td>
+</tr>
+</tbody></table>
+<h3 id="六-模型应用"><a href="#六-模型应用" class="headerlink" title="六 模型应用"></a>六 模型应用</h3><p>​	对测试数据进行预处理（包括缺失值处理、数据转化、数据标准化）后，使用模型预测最终测试集（即未知的数据，’star_level’和’credit_level’是-1的），并将结果保存至resources&#x2F;predict&#x2F;中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模型应用</span></span><br><span class="line">   label = category[<span class="number">0</span>]+<span class="string">&#x27;_level&#x27;</span></span><br><span class="line">   predictions_test = model.predict(test.drop([<span class="string">&#x27;uid&#x27;</span>, label], axis=<span class="number">1</span>))</span><br><span class="line">   <span class="comment"># 对预测结果进行处理</span></span><br><span class="line">   predictions_test = predictions_test.astype(<span class="built_in">int</span>)</span><br><span class="line">   <span class="comment"># 如果是XGBoost模型要将其映射回去</span></span><br><span class="line">   <span class="keyword">if</span> category[<span class="number">1</span>] == <span class="string">&#x27;XGBoost&#x27;</span>:</span><br><span class="line">       <span class="keyword">if</span> category[<span class="number">0</span>] == <span class="string">&#x27;star&#x27;</span>:</span><br><span class="line">           <span class="comment"># 定义映射关系</span></span><br><span class="line">           label_map = &#123;<span class="number">0</span>: <span class="number">1</span>, <span class="number">1</span>: <span class="number">2</span>, <span class="number">2</span>: <span class="number">3</span>, <span class="number">3</span>: <span class="number">4</span>, <span class="number">4</span>: <span class="number">5</span>, <span class="number">5</span>: <span class="number">6</span>, <span class="number">6</span>: <span class="number">7</span>, <span class="number">7</span>: <span class="number">8</span>, <span class="number">8</span>: <span class="number">9</span>&#125;</span><br><span class="line">       <span class="keyword">elif</span> category[<span class="number">0</span>] == <span class="string">&#x27;credit&#x27;</span>:</span><br><span class="line">           label_map = &#123;<span class="number">0</span>: <span class="number">35</span>, <span class="number">1</span>: <span class="number">50</span>, <span class="number">2</span>: <span class="number">60</span>, <span class="number">3</span>: <span class="number">70</span>, <span class="number">4</span>: <span class="number">85</span>&#125;</span><br><span class="line">       <span class="comment"># 使用列表推导式映射标签</span></span><br><span class="line">       predictions_test_mapped = [label_map[l] <span class="keyword">for</span> l <span class="keyword">in</span> predictions_test]</span><br><span class="line">       predictions_test_mapped = np.array(predictions_test_mapped)</span><br><span class="line">       test[label] = predictions_test_mapped</span><br><span class="line">   <span class="keyword">else</span>:</span><br><span class="line">       test[label] = predictions_test</span><br><span class="line"></span><br><span class="line">   <span class="comment"># 只取uid和目标列</span></span><br><span class="line">   test = test[[<span class="string">&#x27;uid&#x27;</span>, category[<span class="number">0</span>]+<span class="string">&#x27;_level&#x27;</span>]]</span><br><span class="line">   <span class="comment"># 保存预测结果至csv 文件</span></span><br><span class="line">   test.to_csv(<span class="string">&#x27;resources/predict/&#x27;</span>+category[<span class="number">0</span>]+<span class="string">&#x27;_&#x27;</span>+category[<span class="number">1</span>]+<span class="string">&#x27;_predict.csv&#x27;</span>, index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>​	预测结果示例（逻辑回归的star预测）：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/predict_result.png" alt="predict_result"></p>
+<h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">├─ pictures	                    存放文档所需的图片								</span><br><span class="line">├─ resources 					</span><br><span class="line">│   ├─ credit 					信用等级相关数据</span><br><span class="line">│   ├─ evaluation results		模型评估结果</span><br><span class="line">│   ├─ feature					特征工程结果</span><br><span class="line">│   ├─ inventory				数据盘点结果</span><br><span class="line">│   ├─ pickle								</span><br><span class="line">│   ├─ predict					预测分类结果</span><br><span class="line">│   ├─ raw data					原始数据</span><br><span class="line">│   └─ star						客户星级相关数据</span><br><span class="line">├─ util							工具类					</span><br><span class="line">├─ inventory<span class="selector-class">.py</span>					数据盘点</span><br><span class="line">├─ merge<span class="selector-class">.py</span>						表合并</span><br><span class="line">├─ model<span class="selector-class">.py</span>						模型训练、应用</span><br><span class="line">├─ nn_model<span class="selector-class">.py</span>					神经网络模型</span><br><span class="line">├─ preprocess<span class="selector-class">.py</span>				预处理</span><br><span class="line">├─ select_feature<span class="selector-class">.py</span>			特征工程与特征选择</span><br><span class="line">└─ 数据集成实验报告<span class="selector-class">.md</span></span><br><span class="line">└─ 数据集成实验报告.pdf</span><br></pre></td></tr></table></figure>
+
+<h3 id="团队分工"><a href="#团队分工" class="headerlink" title="团队分工"></a>团队分工</h3><table>
+<thead>
+<tr>
+<th>姓名</th>
+<th>学号</th>
+<th>分工</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xxx</td>
+<td>xxxxxxxxx</td>
+<td>模型训练、模型评估、模型应用</td>
+</tr>
+<tr>
+<td>xxx</td>
+<td>xxxxxxxxx</td>
+<td>数据收集、数据预处理</td>
+</tr>
+<tr>
+<td>xxx</td>
+<td>xxxxxxxxx</td>
+<td>特征工程、特征选择</td>
+</tr>
+<tr>
+<td>xxx</td>
+<td>xxxxxxxxx</td>
+<td>模型训练、模型评估、模型应用</td>
+</tr>
+<tr>
+<td>xxx</td>
+<td>xxxxxxxxx</td>
+<td>数据盘点与可视化</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%89/" title="数据集成-作业三">http://jinqq.gitlab.io/2024/12/15/数据集成-作业三/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90/" rel="tag"><i class="fa fa-tag"></i> 数据集成</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/" rel="tag"><i class="fa fa-tag"></i> 数据预处理</a>
+              <a href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> 特征工程</a>
+              <a href="/tags/%E6%A8%A1%E5%9E%8B/" rel="tag"><i class="fa fa-tag"></i> 模型</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%BA%8C/" rel="prev" title="数据集成-作业二">
+                  <i class="fa fa-angle-left"></i> 数据集成-作业二
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/16/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%85%AB%EF%BC%89%E2%80%94%E2%80%94%E9%9F%B3%E4%B9%90%E6%92%AD%E6%94%BE%E5%99%A8/" rel="next" title="如何搭建个人网页（八）—— 音乐播放器">
+                  如何搭建个人网页（八）—— 音乐播放器 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%89/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

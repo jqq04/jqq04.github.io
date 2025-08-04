@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="复习建议 开卷考试，建议携带材料：  数据仓库白皮书（数据仓库与数据挖掘） +  黑皮书 （数据挖掘：概念与技术），可能会考一些往年没有的题，这个时候翻书就很有用了； 往年卷题型解答（最好是你自己写的过程）； 对数表、分数表、信息熵计算表；   题型与往年题相同，数据会变，因此推荐面向往年题复习。  一道数据仓库 + 一道关联 + 一道数据预处理与分类 + 一道聚类； 复习时建议动笔计算，只有动手">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据仓库与知识发现2024 期末复习">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/30/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8F%91%E7%8E%B0-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="复习建议 开卷考试，建议携带材料：  数据仓库白皮书（数据仓库与数据挖掘） +  黑皮书 （数据挖掘：概念与技术），可能会考一些往年没有的题，这个时候翻书就很有用了； 往年卷题型解答（最好是你自己写的过程）； 对数表、分数表、信息熵计算表；   题型与往年题相同，数据会变，因此推荐面向往年题复习。  一道数据仓库 + 一道关联 + 一道数据预处理与分类 + 一道聚类； 复习时建议动笔计算，只有动手">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241229151929947.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241229153041093.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250102095053143.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241229155211279.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/v2-c14628116cf9d7fdb56c36163b730ea5_1440w.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/v2-67d2ca6cb07153c985a7f5e99afd774b_1440w.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/v2-f706bce800a8b6b6335cf6712bd354f8_1440w.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241229161243268.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230124904038.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230125857356.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230132126486.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230135417471.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230135800049.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/e5653bbbf8d43248cc17e66dcbcb448a.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230150240180.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250102102552171.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250102102634347.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230165021639.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/resul2331siiq899t.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/fe1bad26580124f66288cc104d8169f.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/64a36f3e-b3a1-46f4-8d12-a46fe8bd37fc.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/dec448b0-49fd-4f8f-96ea-47a90d212569.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241231132058491.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241231133503356.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241231134542983.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/8d9e710a-ce22-4960-93e8-5fdb495b8039.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/cffa8b86-01cb-491b-bbfb-22f6211891a4.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241231152833735.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241231151904032.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241231154042104.png">
+<meta property="article:published_time" content="2024-12-30T12:59:00.000Z">
+<meta property="article:modified_time" content="2025-01-05T07:03:58.566Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="期末复习">
+<meta property="article:tag" content="数据仓库与知识发现">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241229151929947.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/30/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8F%91%E7%8E%B0-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/30/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8F%91%E7%8E%B0-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/","path":"2024/12/30/数据仓库与知识发现-期末复习/","title":"数据仓库与知识发现2024 期末复习"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>数据仓库与知识发现2024 期末复习 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E4%B9%A0%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.</span> <span class="nav-text">复习建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E5%8F%8A%E5%85%B6%E5%AE%9E%E7%8E%B0%E6%8A%80%E6%9C%AF"><span class="nav-number">2.</span> <span class="nav-text">数据仓库及其实现技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B1-%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E7%9A%84%E4%BD%9C%E7%94%A8%E5%92%8C%E5%9C%B0%E4%BD%8D"><span class="nav-number">2.1.</span> <span class="nav-text">题型1 数据仓库的作用和地位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B2-B%E6%A0%91"><span class="nav-number">2.2.</span> <span class="nav-text">题型2 B树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B3-BITMAP%E7%B4%A2%E5%BC%95"><span class="nav-number">2.3.</span> <span class="nav-text">题型3 BITMAP索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B4-Join-Index%E7%B4%A2%E5%BC%95"><span class="nav-number">2.4.</span> <span class="nav-text">题型4 Join Index索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B5-%E6%95%B0%E6%8D%AE%E7%AB%8B%E6%96%B9%E4%BD%93"><span class="nav-number">2.5.</span> <span class="nav-text">题型5 数据立方体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B6-%E8%A1%A8%E5%90%88%E5%B9%B6%E3%80%81%E8%A1%A8%E5%86%97%E4%BD%99%E3%80%81%E8%A1%A8%E5%88%86%E5%89%B2"><span class="nav-number">2.6.</span> <span class="nav-text">题型6 表合并、表冗余、表分割</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E8%81%94"><span class="nav-number">3.</span> <span class="nav-text">关联</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B1-Apriori%E7%AE%97%E6%B3%95%E6%B1%82%E9%A2%91%E7%B9%81%E9%9B%86"><span class="nav-number">3.1.</span> <span class="nav-text">题型1 Apriori算法求频繁集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B2-FP%E5%A2%9E%E9%95%BF%E7%AE%97%E6%B3%95%E6%B1%82%E9%A2%91%E7%B9%81%E9%9B%86"><span class="nav-number">3.2.</span> <span class="nav-text">题型2 FP增长算法求频繁集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B3-%E6%9E%84%E9%80%A0%E5%85%B3%E8%81%94%E8%A7%84%E5%88%99"><span class="nav-number">3.3.</span> <span class="nav-text">题型3 构造关联规则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E4%B8%8E%E5%88%86%E7%B1%BB"><span class="nav-number">4.</span> <span class="nav-text">数据预处理与分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B1-%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A%E8%BF%9B%E8%A1%8C%E5%B1%9E%E6%80%A7%E7%AD%9B%E9%80%89"><span class="nav-number">4.1.</span> <span class="nav-text">题型1 信息增益进行属性筛选</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B2-%E7%AD%89%E5%AE%BD%E5%88%86%E6%A1%B6%E3%80%81%E7%AD%89%E6%B7%B1%E5%88%86%E6%A1%B6%E3%80%813-4-5%E5%88%86%E6%A1%B6"><span class="nav-number">4.2.</span> <span class="nav-text">题型2 等宽分桶、等深分桶、3-4-5分桶</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B3-%E6%9E%84%E9%80%A0%E5%86%B3%E7%AD%96%E6%A0%91"><span class="nav-number">4.3.</span> <span class="nav-text">题型3 构造决策树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B4-%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%96%B9%E6%B3%95"><span class="nav-number">4.4.</span> <span class="nav-text">题型4 朴素贝叶斯方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%81%9A%E7%B1%BB"><span class="nav-number">5.</span> <span class="nav-text">聚类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B1-%E6%9B%BC%E5%93%88%E9%A1%BF%E8%B7%9D%E7%A6%BB%E3%80%81%E7%9B%B8%E5%BC%82%E7%9F%A9%E9%98%B5"><span class="nav-number">5.1.</span> <span class="nav-text">题型1 曼哈顿距离、相异矩阵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B2-K-Means%E6%96%B9%E6%B3%95%E8%81%9A%E7%B1%BB"><span class="nav-number">5.2.</span> <span class="nav-text">题型2 K-Means方法聚类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B3-%E5%87%9D%E8%81%9A%E5%BC%8F%E5%B1%82%E6%AC%A1%E5%BC%8F%E6%96%B9%E6%B3%95%E8%81%9A%E7%B1%BB"><span class="nav-number">5.3.</span> <span class="nav-text">题型3 凝聚式层次式方法聚类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2024%E5%9B%9E%E5%BF%86"><span class="nav-number">6.</span> <span class="nav-text">2024回忆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/30/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8F%91%E7%8E%B0-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="数据仓库与知识发现2024 期末复习 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据仓库与知识发现2024 期末复习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-30 20:59:00" itemprop="dateCreated datePublished" datetime="2024-12-30T20:59:00+08:00">2024-12-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-05 15:03:58" itemprop="dateModified" datetime="2025-01-05T15:03:58+08:00">2025-01-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8F%91%E7%8E%B0/" itemprop="url" rel="index"><span itemprop="name">数据仓库与知识发现</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/30/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8F%91%E7%8E%B0-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/30/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8F%91%E7%8E%B0-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>17 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="复习建议"><a href="#复习建议" class="headerlink" title="复习建议"></a>复习建议</h3><ul>
+<li><p>开卷考试，建议携带材料：</p>
+<ul>
+<li>数据仓库白皮书（数据仓库与数据挖掘） +  黑皮书 （数据挖掘：概念与技术），可能会考一些往年没有的题，这个时候翻书就很有用了；</li>
+<li>往年卷题型解答（最好是你自己写的过程）；</li>
+<li>对数表、分数表、信息熵计算表；</li>
+</ul>
+</li>
+<li><p>题型与往年题相同，数据会变，因此推荐面向往年题复习。</p>
+<ul>
+<li>一道数据仓库 + 一道关联 + 一道数据预处理与分类 + 一道聚类；</li>
+<li><strong>复习时建议动笔计算，只有动手了才更好理解如何计算；</strong></li>
+<li>一定要使用题目要求的算法；</li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+
+<h3 id="数据仓库及其实现技术"><a href="#数据仓库及其实现技术" class="headerlink" title="数据仓库及其实现技术"></a>数据仓库及其实现技术</h3><h4 id="题型1-数据仓库的作用和地位"><a href="#题型1-数据仓库的作用和地位" class="headerlink" title="题型1 数据仓库的作用和地位"></a>题型1 数据仓库的作用和地位</h4><p><strong>问：简述数据仓库在知识发现过程中的作用和地位。（2012、2013）</strong></p>
+<p>答：</p>
+<p>作用：数据仓库是一个面向主题的（subject-oriented）、集成的（integrated）、时变的（time-variant）、非易失的（nonvolatile）数据集合，通常用于辅助决策支持。数据仓库通过数据清理、数据变化、继承和定期刷新等办法，从一个或多个数据源收集数据，存放在一个一致的模式下。数据仓库能够提供大量的、按照实际要求集成的不同主题的数据，通过OLAP引擎对其进行数据挖掘，发现知识。</p>
+<p>地位：数据仓库是知识发现过程中不可或缺的一环，它是进行数据挖掘的必要基础。数据仓库能提供非冗余的有效数据，这些数据都是面向主题的，因此能够大大提高知识发现的能力和效率。没有数据仓库，知识发现就没有数据源。</p>
+<h4 id="题型2-B树"><a href="#题型2-B树" class="headerlink" title="题型2 B树"></a>题型2 B树</h4><p><strong>问：为何B树等在数据库中广泛使用的索引技术无法被直接引入数据仓库？（2012、2013）</strong></p>
+<p>答：</p>
+<ol>
+<li>B树要求属性必须具有许多不同的值，比如iteamID、customID等；</li>
+<li>B树要求查询应具有更简单的条件和更少的结果；</li>
+<li>创建B树的空间和时间复杂度很大；</li>
+</ol>
+<h4 id="题型3-BITMAP索引"><a href="#题型3-BITMAP索引" class="headerlink" title="题型3 BITMAP索引"></a>题型3 BITMAP索引</h4><p><strong>问：试采用BITMAP索引方式对图中的维度表进行索引。（2012、2013、2014、2015）</strong></p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241229151929947.png" alt="image-20241229151929947" style="zoom: 67%;" />
+
+<p>答：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241229153041093.png" alt="image-20241229153041093"></p>
+<h4 id="题型4-Join-Index索引"><a href="#题型4-Join-Index索引" class="headerlink" title="题型4 Join Index索引"></a>题型4 Join Index索引</h4><p><strong>问：试采用 Join Index 对图中的事实表和维表进行索引。（2014、2015）</strong></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250102095053143.png" alt="image-20250102095053143"></p>
+<p>答：</p>
+<p>将维表连线到事实表即可，如下：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241229155211279.png" alt="image-20241229155211279"></p>
+<h4 id="题型5-数据立方体"><a href="#题型5-数据立方体" class="headerlink" title="题型5 数据立方体"></a>题型5 数据立方体</h4><p><strong>问：数据立方体是什么？什么是数据立方体的多层和多维度？（2019）</strong></p>
+<p>答：</p>
+<p><strong>数据立方体是什么？</strong></p>
+<p>数据立方体（Data Cube）是一种用于表示和处理多维数据的数据结构。在数据库和数据仓库系统中，它是一个常用的概念，特别是在在线分析处理（OLAP）和多维数据分析中。数据立方体使得用户可以从多个维度（如时间、地区、产品类型等）分析数据，支持复杂的数据查询和汇总操作。<br>以下是数据立方体的几个关键特点：</p>
+<ol>
+<li><strong>多维视图</strong>：数据立方体提供多维的视图，使用户能够从不同的角度和维度分析数据。</li>
+<li><strong>聚合操作</strong>：它支持聚合操作，如求和、平均、最大值和最小值等，以便对数据进行汇总分析。</li>
+<li><strong>切片和切块操作</strong>：用户可以进行切片（Slice）和切块（Dice）操作，以便查看数据的特定部分。切片是指在某个维度上进行数据的筛选，而切块是指在多个维度上同时进行筛选。</li>
+<li><strong>数据钻取</strong>：数据立方体允许用户在不同层级上钻取数据，比如从年度数据钻取到季度或月度数据。</li>
+<li><strong>灵活性和可扩展性</strong>：数据立方体设计灵活，可以根据需要进行扩展，以包含更多维度或数据。</li>
+</ol>
+<p>在实际应用中，数据立方体能够帮助企业和组织快速获取关键的业务洞察，支持决策制定过程。通过数据立方体，用户可以轻松地执行复杂的数据查询，无需进行复杂的数据库编程。</p>
+<p>数据立方体是一种多维数据模型，主要有星形模式、雪花模式和事实星座模式。</p>
+<ul>
+<li>星形模式 它是最常见的模式，它包括一个大的中心表（事实表），包含了大批数据但是不冗余；一组小的附属表（维表），每维一个。如下所示，从item、time、branch、location四个维度去观察数据，中心表是Sales Fact Table，包含了四个维表的标识符（由系统产生）和三个度量。每一维使用一个表表示，表中的属性可能会形成一个层次或格。</li>
+</ul>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/v2-c14628116cf9d7fdb56c36163b730ea5_1440w.jpg" alt="img" style="zoom:50%;" />
+
+<p>雪花模式它是星模式的变种，将其中某些表规范化，把数据进一步的分解到附加的表中，形状类似雪花。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/v2-67d2ca6cb07153c985a7f5e99afd774b_1440w.jpg" alt="img" style="zoom:50%;" />
+
+<p>事实星座</p>
+<p>允许多个事实表共享维表，可以看作是星形模式的汇集。如下所示，Sales和Shipping两个事实表共享了time、item、location三个维表。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/v2-f706bce800a8b6b6335cf6712bd354f8_1440w.jpg" alt="img" style="zoom:50%;" />
+
+<p>在数据仓库中多用事实星座模式，因为它能对多个相关的主题建模；而在数据集市流行用星形或雪花模式。</p>
+<p><strong>什么是数据立方体的多层和多维度？</strong></p>
+<p>数据立方体的“多层”和“多维度”是两个关键的概念，它们在多维数据分析中起着重要的作用：<br><strong>多维度（Multidimensionality）</strong></p>
+<ul>
+<li><strong>定义</strong>：在数据立方体中，多维度是指数据可以沿着多个不同的维度进行组织和分析。每个维度代表数据的一个特定方面或分类。</li>
+<li><strong>例子</strong>：常见的维度包括时间（例如年、月、日）、地理位置（如国家、城市）、产品类别等。例如，一个零售业务的数据立方体可能包含时间、产品类别和地区三个维度。</li>
+<li><strong>作用</strong>：多维度使得用户能够从不同角度查看和分析数据，以便更全面地理解业务情况和趋势。</li>
+</ul>
+<p><strong>多层（Multilevel）</strong></p>
+<ul>
+<li><strong>定义</strong>：在数据立方体中，多层指的是每个维度内部的层次结构。一个维度可以被分解成不同的层次，每个层次提供不同粒度的数据视图。</li>
+<li><strong>例子</strong>：以时间维度为例，时间可以被分解为年、季、月、日等层次。用户可以选择查看年度总结数据，也可以深入到月度或日度数据进行更详细的分析。</li>
+<li><strong>作用</strong>：多层结构允许用户在不同的粒度级别上进行数据分析，从而进行更深入的数据挖掘和洞察。</li>
+</ul>
+<p>在实际应用中，数据立方体的多维度和多层特性使其成为一个强大的工具，用于支持复杂的数据分析和决策制定过程。用户可以通过在不同维度和层次上进行分析，获得更深入、更全面的业务洞察。</p>
+<h4 id="题型6-表合并、表冗余、表分割"><a href="#题型6-表合并、表冗余、表分割" class="headerlink" title="题型6 表合并、表冗余、表分割"></a>题型6 表合并、表冗余、表分割</h4><p><strong>问：数据仓库数据存储据设计中，表合并、表冗余、表分割三者的原理。（2019）</strong></p>
+<p>在数据仓库存储设计中，表合并、表冗余和表分割是三个关键的概念，它们各自基于不同的原理，旨在优化数据存储、查询性能和数据整合。下面我将详细解释每一个概念：<br><strong>表合并（Table Merging）</strong></p>
+<ul>
+<li>原理：表合并是将多个相关的表合并为一个更大的表的过程。这通常发生在维度表与事实表之间，或者是当多个维度表具有高度相关性时。例如，在一个销售数据仓库中，可以将产品信息、供应商信息和价格信息合并为一个大表。</li>
+<li>目的：主要目的是为了简化查询，通过减少需要进行连接操作的表的数量来提高查询效率。这对于需要频繁访问多个表的数据分析尤为重要。</li>
+<li>优点：减少了查询时的表连接操作，简化了查询逻辑，提高了查询效率。</li>
+<li>缺点：可能导致数据冗余和存储空间的增加。</li>
+</ul>
+<p><strong>表冗余（Table Redundancy）</strong></p>
+<ul>
+<li>原理：表冗余是指在一个或多个表中故意存储重复数据的做法。在数据仓库中，这通常意味着某些数据在多个地方被复制和存储。</li>
+<li>目的：主要是为了优化查询性能，尤其是在分布式系统中，通过本地化数据来减少查询时的网络延迟。</li>
+<li>优点：提高了数据检索的速度，减少了复杂的表连接和数据聚合操作。</li>
+<li>缺点：增加了存储需求，可能导致数据一致性维护的复杂性增加。</li>
+</ul>
+<p><strong>表分割（Table Partitioning）</strong></p>
+<ul>
+<li>原理：表分割是将一个大表分割成多个更小的、管理起来更容易的部分。这可以是水平分割（根据行），也可以是垂直分割（根据列）。</li>
+<li>目的：旨在提高大数据集的管理效率和查询性能。分割后，查询可以仅针对相关的数据分区进行，而不是整个表。</li>
+<li>优点：提高了大型表的管理效率，优化了查询性能，降低了维护成本。</li>
+<li>缺点：如果分割策略设计不当，可能会导致数据分布不均匀，影响查询性能。</li>
+</ul>
+<p>综上所述，这三种策略在数据仓库设计中都扮演着重要角色。选择哪种策略取决于特定的数据特征、查询需求和系统架构。正确地应用这些策略可以显著提高数据仓库的性能和效率。</p>
+<h3 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h3><h4 id="题型1-Apriori算法求频繁集"><a href="#题型1-Apriori算法求频繁集" class="headerlink" title="题型1 Apriori算法求频繁集"></a>题型1 Apriori算法求频繁集</h4><p><strong>问：针对图中的交易事务数据，采用Apriori算法求取频率项集，假设最小支持度为&gt;&#x3D;30%。（2012）</strong></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241229161243268.png" alt="image-20241229161243268"></p>
+<p>答：</p>
+<blockquote>
+<p>支持度计算公式：support(X) &#x3D; count(X∈T)  &#x2F; |D|</p>
+</blockquote>
+<p>Apriori算法求解过程如下：</p>
+<p>首先产生 1-候选集C1，然后在C1上去除支持度小于sup_min的项集，形成 1-频繁集L1：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230124904038.png" alt="image-20241230124904038"></p>
+<p>然后将L1中的各项集组合连接，产生 2-候选集C2，并且再次在C2上筛除支持度小于sup_min的项集，形成 2-频繁集L2：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230125857356.png" alt="image-20241230125857356"></p>
+<p>然后将L2中的各项集组合连接，注意：<strong>只有最后一个项目不同的两个项集才可以进行连接</strong>，例如{a,b}和{a,d}可以连接，但{a,b}和{b,c}不可以连接；<strong>并且还要判断产生的项集的子集是否都在L2中，即频繁集的子集必须是频繁集</strong>，例如{b,c}和{b,e}连接成{b,c,e}后，由于{c,e}不在L2中，因此要筛除。</p>
+<p>连接后产生 3-候选集C3，并且再次在C3上筛除支持度小于sup_min的项集，形成 3-频繁集L3：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230132126486.png" alt="image-20241230132126486"></p>
+<p>然后重复上述步骤，继续将L3的各项集组合连接，发现C4为空。</p>
+<h4 id="题型2-FP增长算法求频繁集"><a href="#题型2-FP增长算法求频繁集" class="headerlink" title="题型2 FP增长算法求频繁集"></a>题型2 FP增长算法求频繁集</h4><p><strong>问：针对图中（见题型1）的交易事务数据，采用FP增长算法求取频率项集，假设最小支持度为&gt;&#x3D;30%。（2013、2014、2015）</strong></p>
+<p><strong>答：</strong></p>
+<p>FP增长算法求解过程如下：</p>
+<p>首先扫描交易记录集D，计算每个项目的计数值，选出支持度计数大于3的项，<strong>降序排列</strong>，放在列表L中：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230135417471.png" alt="image-20241230135417471"></p>
+<p>然后将交易记录集D中的项目按照L中的顺序表示，如下：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230135800049.png" alt="image-20241230135800049"></p>
+<p>开始构建FP树，先创建一个标记为null的根节点，然后依次扫描交易记录集D的每个交易，建立对应的路径（如果路径不存在），并将路径上各节点的计数+1（一个更简便的方法是，先将树画出来，然后检查每个节点所对应的路径在D中出现了几次）。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/e5653bbbf8d43248cc17e66dcbcb448a.png" alt="e5653bbbf8d43248cc17e66dcbcb448a"></p>
+<p>然后对 列表L <strong>从下往上</strong>遍历项目：</p>
+<p>对于项目C：有{dbec:1}、{dbc:1}、{deac:1}、{dc:1}、{bac:1}五条路径，搜索这些路径，可以得到包含项目C的<strong>频繁集</strong>为：{c} 5、{dc} 4、{bc} 3；</p>
+<p>对于项目A：有{dbea:2}、{dea:2}、{ba:1}三条路径，可以得到包含项目A的频繁集为：{a} 5 、{da} 4、{ea} 4、{ba} 3、{dea} 4；</p>
+<p>对于项目E，有{dbe:4}、{de:2}两条路径，可以得到包含项目E的频繁集为：{e} 6、{de} 6、{be} 4、{bde} 4；</p>
+<p>对于项目B，有{db:6}、{b:1}两条路径，可以得到包含项目B的频繁集为：{b} 7、{db} 6;</p>
+<p>对于项目D，有{d:9}一条路径，可以得到包含项目D的频繁集为{d} 9。</p>
+<h4 id="题型3-构造关联规则"><a href="#题型3-构造关联规则" class="headerlink" title="题型3 构造关联规则"></a>题型3 构造关联规则</h4><p><strong>问：基于上述频繁项集（见题型1 2），构造关联规则，要求最小置信度&gt;&#x3D;50%。(2012、2013、2014、2015）</strong></p>
+<blockquote>
+<p> 关联规则置信度计算公式：confidence(X&#x3D;&gt;Y)  &#x3D;  support(X∪Y)  &#x2F; support(X)</p>
+</blockquote>
+<p>答：</p>
+<p>我们可以从频繁项集中产生关联规则，并且这些规则都会自动地满足最小支持度。</p>
+<p>由频繁集{a,d,e}得到关联规则：</p>
+<p>​	{a,d}&#x3D;&gt;{e}, confidence &#x3D; support(a,d,e) &#x2F; support(a,d)   &#x3D; 4&#x2F;4 &#x3D; 1</p>
+<p>​	{a,e}&#x3D;&gt;{d}, confidence &#x3D; 4&#x2F;4 &#x3D; 1</p>
+<p>​	{d,e}&#x3D;&gt;{a}, confidence &#x3D; 4&#x2F;6 ≈ 0.67</p>
+<p>​	{a}&#x3D;&gt;{d,e}, confidence &#x3D; 4&#x2F;5 &#x3D; 0.8</p>
+<p>​	{d}&#x3D;&gt;{a,e}, confidence &#x3D; 4&#x2F;9 ≈ 0.44  舍弃</p>
+<p>​	{e}&#x3D;&gt;{a,d}, confidence &#x3D; 4&#x2F;6 ≈ 0.67</p>
+<p>由频繁集{b,d,e}得到关联规则：</p>
+<p>​	{b,d}&#x3D;&gt;{e}, confidence &#x3D; 4&#x2F;6 ≈ 0.67</p>
+<p>​	{b,e}&#x3D;&gt;{d}, confidence &#x3D; 4&#x2F;4 &#x3D; 1</p>
+<p>​	{d,e}&#x3D;&gt;{b}, confidence &#x3D; 4&#x2F;6 ≈ 0.67</p>
+<p>​	{b}&#x3D;&gt;{d,e}, confidence &#x3D; 4&#x2F;7 ≈ 0.57</p>
+<p>​	{d}&#x3D;&gt;{b,e}, confidence &#x3D; 4&#x2F;9 ≈ 0.44  舍弃</p>
+<p>​	{e}&#x3D;&gt;{b,d}, confidence &#x3D; 4&#x2F;6 ≈ 0.67</p>
+<p>由频繁集{a,b}得到关联规则：</p>
+<p>​	{a}&#x3D;&gt;{b}, confidence &#x3D; 3&#x2F;5 &#x3D; 0.6</p>
+<p>​	{b}&#x3D;&gt;{a}, confidence &#x3D; 3&#x2F;7  舍弃</p>
+<p>由频繁集{a,d}得到关联规则：</p>
+<p>​	{a}&#x3D;&gt;{d}, confidence &#x3D; 4&#x2F;5 &#x3D; 0.8</p>
+<p>​	{d}&#x3D;&gt;{a}, confidence &#x3D; 4&#x2F;9  舍弃</p>
+<p>由频繁集{a,e}得到关联规则：</p>
+<p>​	{a}&#x3D;&gt;{e}, confidence &#x3D; 4&#x2F;5 &#x3D; 0.8</p>
+<p>​	{e}&#x3D;&gt;{a}, confidence &#x3D; 4&#x2F;6 ≈ 0.67</p>
+<p>由频繁集{b,c}得到关联规则：</p>
+<p>​	{b}&#x3D;&gt;{c}, confidence &#x3D; 3&#x2F;7  舍弃</p>
+<p>​	{c}&#x3D;&gt;{b}, confidence &#x3D; 3&#x2F;5 &#x3D; 0.6</p>
+<p>由频繁集{b,d}得到关联规则：</p>
+<p>​	{b}&#x3D;&gt;{d}, confidence &#x3D; 6&#x2F;7</p>
+<p>​	{d}&#x3D;&gt;{b}, confidence &#x3D; 6&#x2F;9</p>
+<p>由频繁集{b,e}得到关联规则：</p>
+<p>​	{b}&#x3D;&gt;{e}, confidence &#x3D; 4&#x2F;7</p>
+<p>​	{e}&#x3D;&gt;{b}, confidence &#x3D; 4&#x2F;6</p>
+<p>由频繁集{c,d}得到关联规则：</p>
+<p>​	{c}&#x3D;&gt;{d}, confidence &#x3D; 4&#x2F;5</p>
+<p>​	{d}&#x3D;&gt;{c}, confidence &#x3D; 4&#x2F;9  舍弃</p>
+<p>由频繁集{d,e}得到关联规则：</p>
+<p>​	{d}&#x3D;&gt;{e}, confidence &#x3D; 6&#x2F;9</p>
+<p>​	{e}&#x3D;&gt;{d}, confidence &#x3D; 6&#x2F;6</p>
+<p>最后得到的关联规则有：</p>
+<p>​	{a,d}&#x3D;&gt;{e}、{a,e}&#x3D;&gt;{d}、{d,e}&#x3D;&gt;{a}、{a}&#x3D;&gt;{d,e}、{e}&#x3D;&gt;{b,d}、{b,d}&#x3D;&gt;{e}、{b,e}&#x3D;&gt;{d}、{d,e}&#x3D;&gt;{b}、{b}&#x3D;&gt;{d,e}、{e}&#x3D;&gt;{b,d}、{a}&#x3D;&gt;{b}、{a}&#x3D;&gt;{d}、{a}&#x3D;&gt;{e}、{e}&#x3D;&gt;{a}、{c}&#x3D;&gt;{b}、{b}&#x3D;&gt;{d}、{d}&#x3D;&gt;{b}、{b}&#x3D;&gt;{e}、{e}&#x3D;&gt;{b}、{c}&#x3D;&gt;{d}、{d}&#x3D;&gt;{c}、{d}&#x3D;&gt;{e}、{e}&#x3D;&gt;{d}。</p>
+<h3 id="数据预处理与分类"><a href="#数据预处理与分类" class="headerlink" title="数据预处理与分类"></a>数据预处理与分类</h3><h4 id="题型1-信息增益进行属性筛选"><a href="#题型1-信息增益进行属性筛选" class="headerlink" title="题型1 信息增益进行属性筛选"></a>题型1 信息增益进行属性筛选</h4><p><strong>问：给定图中的目标集（DOG）和对比集（CAT），使用信息增益计算各个属性与当前概念描述任务之间的相关性。并采用T&#x3D;0.1作为阈值，对属性进行筛选。（2014、2015）</strong></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230150240180.png" alt="image-20241230150240180"></p>
+<blockquote>
+<p>首先推荐阅读文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/u013172930/article/details/142676655">什么是信息增益-CSDN博客</a>，理解信息熵、信息增益等知识。</p>
+<p>省流：</p>
+<p>信息熵 &#x3D; -ΣPi*log2(Pi)，表示信息的不确定性，特点：</p>
+<ul>
+<li>当所有事件的概率相等时，熵最大，即最不确定。</li>
+<li>当一个事件的概率为 1，其他事件的概率为 0 时，熵为 0，即完全确定。</li>
+</ul>
+<p>信息增益（Information Gain）表示由于引入某一特征或条件而使得系统的不确定性减少的程度，它是信息熵的减少量。</p>
+</blockquote>
+<p>答：</p>
+<p>注：在计算时建议对照信息熵计算表辅助计算。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250102102552171.png" alt="image-20250102102552171" style="zoom:50%;" />
+
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250102102634347.png" alt="image-20250102102634347" style="zoom:50%;" />
+
+<h4 id="题型2-等宽分桶、等深分桶、3-4-5分桶"><a href="#题型2-等宽分桶、等深分桶、3-4-5分桶" class="headerlink" title="题型2 等宽分桶、等深分桶、3-4-5分桶"></a>题型2 等宽分桶、等深分桶、3-4-5分桶</h4><p><strong>问：针对图中的训练数据集进行离散化处理。要求采用等宽分桶的方式将age和incoming属性离散到3个区间。（2012、2013、2014、2015等宽分桶，2017、2018等深分桶，2020 3-4-5分桶）</strong>	</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241230165021639.png" alt="image-20241230165021639"></p>
+<p><strong>等宽分桶（Equal-width binning）</strong>：</p>
+<ul>
+<li><p>在等宽分桶中，数据的范围被分割成宽度相等的区间。</p>
+</li>
+<li><p>每个区间的宽度由数据的最大值和最小值决定。</p>
+</li>
+<li><p>这种方法的优点是实现简单，但缺点是可能不会很好地处理数据中的异常值或非均匀分布。</p>
+</li>
+<li><p>假设我们有一组年龄数据：20,22,25,30,32,35,38,40,45,50。</p>
+<ul>
+<li>我们想要将这些数据分成4个等宽的区间。</li>
+<li>数据的范围是20到50，因此每个区间的宽度为 (50−20)&#x2F;4&#x3D;7.5(50−20)&#x2F;4&#x3D;7.5。</li>
+<li>因此，分桶后的区间为：20−27.5, 27.5−35, 35−42.5, 42.5−50。</li>
+</ul>
+</li>
+</ul>
+<p><strong>等深分桶（Equal-frequency binning）</strong>：</p>
+<ul>
+<li><p>等深分桶将数据分割成包含大致相同数量数据点的区间。</p>
+</li>
+<li><p>这意味着每个桶的宽度可能会不同，但每个桶中的数据点数量相似。</p>
+</li>
+<li><p>这种方法对于处理有偏分布的数据较为有效，但可能会导致区间的界限不够明确。</p>
+</li>
+<li><p>使用同样的数据：20,22,25,30,32,35,38,40,45,50。</p>
+<ul>
+<li>假设我们想要分成3个包含大致相同数量的数据点的区间。</li>
+<li>每个区间将包含大约3或4个数据点。</li>
+<li>因此，分桶后的区间可能是：20,22,25,30,  32,35,38,  40,45,50。</li>
+</ul>
+</li>
+</ul>
+<p><strong>3-4-5原则分桶</strong>：</p>
+<ul>
+<li><p>这是一种更加定性的分桶方法，通常用于商业和市场分析。</p>
+</li>
+<li><p>它基于这样一个观察：人类倾向于更好地记住和理解3到5个类别。</p>
+</li>
+<li><p>在应用这个原则时，数据被分割成3到5个区间，以使结果更容易被人理解和记忆。</p>
+</li>
+<li><p>这种方法更多地依赖于业务理解和目标，而不是严格的数学规则。</p>
+</li>
+<li><p>假设我们有一家公司的销售额数据，我们需要将这些数据分为容易理解的几个区间。</p>
+<ul>
+<li><p>数据范围很广，从几千到几百万不等。</p>
+</li>
+<li><p>应用3-4-5原则，我们可能会选择分成4个区间：小型销售（数千至数万），中型销售（数万至十万），大型销售（十万至百万），超大型销售（超过百万）。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>答：</p>
+<p><strong>等宽分桶 age：</strong></p>
+<p>​	d &#x3D; (max - min) &#x2F; N &#x3D; (66 - 21) &#x2F; 3 &#x3D; 15，共3个区间，区间宽度为15。</p>
+<p>​	[21, 36) :  1,4,7,8,10,13,14</p>
+<p>​	[36, 51) :  2,5,11,12,16</p>
+<p>​	[51, 66] :  5,6,9,15</p>
+<p><strong>等宽分桶 income:</strong></p>
+<p>​	d &#x3D;  (max - min) &#x2F; N &#x3D; (78000 - 12000) &#x2F; 3 &#x3D; 22000， 共3个区间，区间宽度为22000。</p>
+<p>​	[12000, 34000) :  3,4,5,10,13</p>
+<p>​	[34000, 56000) :  2,7,8,11,15                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </p>
+<p>​	[56000, 78000] :  1,6,9,12,14,16</p>
+<h4 id="题型3-构造决策树"><a href="#题型3-构造决策树" class="headerlink" title="题型3 构造决策树"></a>题型3 构造决策树</h4><p><strong>问：依据训练集（见题型2），采用信息增益作为指标构造决策树。（2012）</strong></p>
+<blockquote>
+<p> 构造决策树的过程大概是：</p>
+<ul>
+<li><p>计算所有属性（<strong>age</strong>、<strong>income</strong>、<strong>student</strong>）的信息增益。</p>
+</li>
+<li><p>选择信息增益最大的属性作为根节点。</p>
+</li>
+<li><p>针对根节点的每个分支递归进行划分，直到无法继续分裂（比如信息增益小于某阈值或样本全属于一个类别）。</p>
+</li>
+<li><p>用分类结果填充叶节点。</p>
+</li>
+</ul>
+</blockquote>
+<p>答：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/resul2331siiq899t.png" alt="resul2331siiq899t"></p>
+<p>注：这道题数据出的不好，导致在income&gt;56000段划分不出来，老师给出的说法是随机选一个，我就都选了&gt;2000。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/fe1bad26580124f66288cc104d8169f.png" alt="fe1bad26580124f66288cc104d8169f" style="zoom:33%;" />
+
+<p><strong>问：采用构造出的决策树，分类未知元组（24，75000，yes）。</strong></p>
+<p>答：</p>
+<p>按照上面得到的决策树，（24，75000，yes）分类为 &gt; 2000。</p>
+<h4 id="题型4-朴素贝叶斯方法"><a href="#题型4-朴素贝叶斯方法" class="headerlink" title="题型4 朴素贝叶斯方法"></a>题型4 朴素贝叶斯方法</h4><p><strong>问： 依据训练集（见题型2），采用朴素贝叶斯方法分类未知元组（24，75000，yes），对分类属性Classs:buys_MP进行预测。（2013、2014、2015）</strong></p>
+<p>答：</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/64a36f3e-b3a1-46f4-8d12-a46fe8bd37fc.png" alt="64a36f3e-b3a1-46f4-8d12-a46fe8bd37fc" style="zoom:50%;" />
+
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/dec448b0-49fd-4f8f-96ea-47a90d212569.png" alt="dec448b0-49fd-4f8f-96ea-47a90d212569" style="zoom:50%;" />
+
+<h3 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h3><h4 id="题型1-曼哈顿距离、相异矩阵"><a href="#题型1-曼哈顿距离、相异矩阵" class="headerlink" title="题型1 曼哈顿距离、相异矩阵"></a>题型1 曼哈顿距离、相异矩阵</h4><p><strong>问： 针对图中的数据，采用曼哈顿距离作为距离函数，给出对应的相异矩阵。（2012、2013、2014、2015）</strong></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241231132058491.png" alt="image-20241231132058491"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241231133503356.png" alt="image-20241231133503356"></p>
+<p>答：</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241231134542983.png" alt="image-20241231134542983" style="zoom:67%;" />
+
+<h4 id="题型2-K-Means方法聚类"><a href="#题型2-K-Means方法聚类" class="headerlink" title="题型2 K-Means方法聚类"></a>题型2 K-Means方法聚类</h4><p><strong>问： 采用K-平均点方法对该数据集（见题型1）进行聚类，其中K&#x3D;3，起始中心点ID&#x3D;1，ID&#x3D;2，ID&#x3D;3，即，(3,5)；(2,6)；(3,8)。（2012）</strong></p>
+<blockquote>
+<p>K-means聚类流程：</p>
+<ol>
+<li><p>随机选择k个起始中心点；</p>
+</li>
+<li><p>计算每个数据点到每个中心点的距离，然后将数据点分配到距离最近的中心点，最终分成k类；</p>
+</li>
+<li><p>在每一个类中，计算其中数据的均值，作为新的中心点；</p>
+</li>
+<li><p>重复2-3步，直到聚类不再发生变化。</p>
+</li>
+</ol>
+</blockquote>
+<p>答：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/8d9e710a-ce22-4960-93e8-5fdb495b8039.png" alt="8d9e710a-ce22-4960-93e8-5fdb495b8039"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/cffa8b86-01cb-491b-bbfb-22f6211891a4.png" alt="cffa8b86-01cb-491b-bbfb-22f6211891a4"></p>
+<h4 id="题型3-凝聚式层次式方法聚类"><a href="#题型3-凝聚式层次式方法聚类" class="headerlink" title="题型3 凝聚式层次式方法聚类"></a>题型3 凝聚式层次式方法聚类</h4><p><strong>问：采用凝聚式层次式方法对数据集进行聚类，聚类间的距离使用聚类中数据的平均曼哈顿距离进行度量。（2013）</strong></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241231152833735.png" alt="image-20241231152833735"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241231151904032.png" alt="image-20241231151904032"></p>
+<p>省流：两个簇之间的平均距离计算方法为，将两个簇中的数据点的距离两两相加，求得总和后除以两个簇的大小。</p>
+<blockquote>
+<p>凝聚式层次式聚类流程：</p>
+<ol>
+<li><p>将每个数据点看作一个独立的簇，即一开始有n个簇；</p>
+</li>
+<li><p>计算每个簇之间的距离；</p>
+</li>
+<li><p>合并最相似的两个簇；</p>
+</li>
+<li><p>重复2-3步，直到所有数据点合并为一个单一的簇。</p>
+</li>
+</ol>
+<p>在这个过程中，可以使用树状图来表示簇的合并过程。</p>
+</blockquote>
+<p>答：</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241231154042104.png" alt="image-20241231154042104" style="zoom:50%;" />
+
+<p><strong>问：采用凝聚式层次式方法对数据集进行聚类，聚类间的距离使用聚类中数据之间的最大距离进行度量。（2014、2015）</strong></p>
+<blockquote>
+<p>聚类中数据之间的最大距离，即两个簇之间最远的两个点之间的距离。</p>
+</blockquote>
+<p>答：</p>
+<p>过程类似，用最大距离替换平均距离进行计算即可。</p>
+<h3 id="2024回忆"><a href="#2024回忆" class="headerlink" title="2024回忆"></a>2024回忆</h3><ol>
+<li>基于保险公司背景，分析数据立方体、多维多层次概念，OLAP基本操作；<strong>OLAP与特征规则挖掘的联系与区别</strong>。</li>
+<li>DOG集与CAT集计算信息增益；</li>
+<li>Apriori算法求频繁集；构造关联规则。</li>
+<li>等宽分桶；朴素贝叶斯。</li>
+<li>曼哈顿距离相异矩阵；<strong>K-中间点算法（不是K-Means！！！）</strong>。</li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/677631759">南京大学软件学院-2023-数据仓库（研究生）期末复习参考 - 知乎</a></li>
+<li>数据仓库与数据挖掘（第二版）</li>
+<li>2012-2015往年卷</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/30/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8F%91%E7%8E%B0-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="数据仓库与知识发现2024 期末复习">http://jinqq.gitlab.io/2024/12/30/数据仓库与知识发现-期末复习/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 期末复习</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8F%91%E7%8E%B0/" rel="tag"><i class="fa fa-tag"></i> 数据仓库与知识发现</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/25/%E9%AB%98%E7%BA%A7%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="prev" title="高级软件设计2024 期末复习">
+                  <i class="fa fa-angle-left"></i> 高级软件设计2024 期末复习
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/01/04/C++%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A12024%E6%9C%9F%E6%9C%AB%E5%9B%9E%E5%BF%86/" rel="next" title="C++高级程序设计2024 期末回忆">
+                  C++高级程序设计2024 期末回忆 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/30/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8F%91%E7%8E%B0-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

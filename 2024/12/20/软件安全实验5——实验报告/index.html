@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="实验要求操作实验：熊猫烧香病毒分析。实验内容如下。  基于虚拟机软件及其快照功能，搭建一个恶意代码分析实验环境。 分析熊猫烧香病毒的程序结构和入侵过程。  实验过程一 搭建恶意代码分析实验环境测试环境：VMWare WorkStation + Windowx XP Home Edition  通过共享文件夹，将病毒样本zip和所需工具上传到windows xp中，然后禁用共享文件夹。  关闭虚拟机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件安全实验五——实验报告">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/20/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C5%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="实验要求操作实验：熊猫烧香病毒分析。实验内容如下。  基于虚拟机软件及其快照功能，搭建一个恶意代码分析实验环境。 分析熊猫烧香病毒的程序结构和入侵过程。  实验过程一 搭建恶意代码分析实验环境测试环境：VMWare WorkStation + Windowx XP Home Edition  通过共享文件夹，将病毒样本zip和所需工具上传到windows xp中，然后禁用共享文件夹。  关闭虚拟机">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220150624994.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220150743736.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220151151877.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220152350781.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220152607275.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220153520361.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220152843889.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220153006063.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220153125920.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220154321515.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220155422697.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220155532102.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220155742962.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163023845.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163045453.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163101110.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163122027.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163621592.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163650603.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163730004.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163751690.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG327.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG328.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG329.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG334.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG337.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG338.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG340.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG341.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG342.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG344.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG345.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG346.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG347.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG348.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG349.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG350.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG351.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG352.jpg">
+<meta property="article:published_time" content="2024-12-20T08:38:20.000Z">
+<meta property="article:modified_time" content="2024-12-23T08:43:52.053Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="软件安全">
+<meta property="article:tag" content="windows xp">
+<meta property="article:tag" content="vmware">
+<meta property="article:tag" content="ollyDbg">
+<meta property="article:tag" content="IDA">
+<meta property="article:tag" content="病毒分析">
+<meta property="article:tag" content="PEID">
+<meta property="article:tag" content="火绒剑">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220150624994.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/20/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C5%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/20/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C5%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/","path":"2024/12/20/软件安全实验5——实验报告/","title":"软件安全实验五——实验报告"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>软件安全实验五——实验报告 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%A6%81%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">实验要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">实验过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80-%E6%90%AD%E5%BB%BA%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="nav-number">2.1.</span> <span class="nav-text">一 搭建恶意代码分析实验环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C-%E8%A1%8C%E4%B8%BA%E5%88%86%E6%9E%90"><span class="nav-number">2.2.</span> <span class="nav-text">二 行为分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89-%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">2.3.</span> <span class="nav-text">三 代码分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-sub-40819C%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90"><span class="nav-number">2.4.</span> <span class="nav-text">1. sub_40819C函数分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-sub-40D18C%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90"><span class="nav-number">2.5.</span> <span class="nav-text">2. sub_40D18C函数分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-sub-40D088%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90"><span class="nav-number">2.6.</span> <span class="nav-text">3. sub_40D088函数分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/20/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C5%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="软件安全实验五——实验报告 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          软件安全实验五——实验报告
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-20 16:38:20" itemprop="dateCreated datePublished" datetime="2024-12-20T16:38:20+08:00">2024-12-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-23 16:43:52" itemprop="dateModified" datetime="2024-12-23T16:43:52+08:00">2024-12-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">软件安全</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/20/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C5%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/20/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C5%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="实验要求"><a href="#实验要求" class="headerlink" title="实验要求"></a>实验要求</h3><p>操作实验：熊猫烧香病毒分析。实验内容如下。</p>
+<ol>
+<li>基于虚拟机软件及其快照功能，搭建一个恶意代码分析实验环境。</li>
+<li>分析熊猫烧香病毒的程序结构和入侵过程。</li>
+</ol>
+<h3 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h3><h4 id="一-搭建恶意代码分析实验环境"><a href="#一-搭建恶意代码分析实验环境" class="headerlink" title="一 搭建恶意代码分析实验环境"></a>一 搭建恶意代码分析实验环境</h4><p>测试环境：VMWare WorkStation + Windowx XP Home Edition</p>
+<ol>
+<li><p>通过共享文件夹，将病毒样本zip和所需工具上传到windows xp中，然后禁用共享文件夹。</p>
+</li>
+<li><p>关闭虚拟机的网络，防止病毒通过网络传播：</p>
+</li>
+</ol>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220150624994.png" alt="image-20241220150624994" style="zoom:50%;" />
+
+<span id="more"></span>
+
+<ol start="3">
+<li><p>关闭虚拟机的防火墙；</p>
+</li>
+<li><p>创建虚拟机快照，作为还原点：</p>
+</li>
+</ol>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220150743736.png" alt="image-20241220150743736" style="zoom:50%;" />
+
+<ol start="5">
+<li>解压熊猫烧香.zip，释放病毒，病毒样本：</li>
+</ol>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220151151877.png" alt="image-20241220151151877" style="zoom:50%;" />
+
+<h4 id="二-行为分析"><a href="#二-行为分析" class="headerlink" title="二 行为分析"></a>二 行为分析</h4><p>运行病毒，进程中出现<code>spo0lsv.ext</code>进程。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220152350781.png" alt="image-20241220152350781"></p>
+<p>提取样本，放入火绒剑进行监控分析。</p>
+<ol>
+<li>发现文件创建、写入、修改、修改权限等操作，创建了大量Desktop_.ini文件：</li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220152607275.png" alt="image-20241220152607275"></p>
+<p>表现为大量感染系统中的exe文件：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220153520361.png" alt="image-20241220153520361"></p>
+<ol start="2">
+<li>发现有注册表操作，包括设置启动项、隐藏文件等：</li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220152843889.png" alt="image-20241220152843889"></p>
+<ol start="3">
+<li>发现进程操作：</li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220153006063.png" alt="image-20241220153006063"></p>
+<ol start="4">
+<li>发现网络操作：</li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220153125920.png" alt="image-20241220153125920"></p>
+<p><strong>总结：</strong></p>
+<ol>
+<li><p><strong>文件操作</strong>：病毒创建大量 Desktop_.ini 文件，感染系统中的 .exe 文件，导致文件无法正常运行并显示熊猫图标。</p>
+</li>
+<li><p><strong>注册表操作</strong>：修改注册表设置自启动项，并隐藏恶意文件，确保病毒在每次启动后重新运行。</p>
+</li>
+<li><p><strong>进程操作</strong>：创建或修改进程，保持病毒在系统中的存在，同时影响其他进程。</p>
+</li>
+<li><p><strong>网络操作</strong>：病毒与外部服务器通信，可能用于远程控制或数据窃取。</p>
+</li>
+</ol>
+<h4 id="三-代码分析"><a href="#三-代码分析" class="headerlink" title="三 代码分析"></a>三 代码分析</h4><p>使用PEID进行查壳，发现程序带PSG 2.0壳。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220154321515.png" alt="image-20241220154321515" style="zoom:50%;" />
+
+<p>使用ollydbg进行脱壳，单步跟踪，0x0040D278为程序的原始入口点，在该地址处，右键dump程序。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220155422697.png" alt="image-20241220155422697" style="zoom:50%;" />
+
+<p>使用ImportRCE对dump文件进行IAT修复，发现不能完整识别所有的导入函数，观察IAT的起点是0x0041012C</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220155532102.png" alt="image-20241220155532102" style="zoom:50%;" />
+
+<p>发现模块之间被 7FFFFFFF 填充，修改为00000000，从而清理掉这些无效数据，修复完成。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241220155742962.png" alt="image-20241220155742962"></p>
+<p>修复完成后的dump文件用IDA打开</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163023845.png" alt="image-20241223163023845"></p>
+<p>添加签名便于分析，搜索Delphi，找到Delphi6-7的特征库，应用可以识别出很多库函数</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163045453.png" alt="image-20241223163045453"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163101110.png" alt="image-20241223163101110"></p>
+<p>使用F5将其转换为伪代码，便于后续分析。</p>
+<p>从start处开始，先分析第一个函数sub_405205。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163122027.png" alt="image-20241223163122027"></p>
+<p>回到OllyDBG，进入该函数：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163621592.png" alt="image-20241223163621592"></p>
+<p>结合IDA中代码：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163650603.png" alt="image-20241223163650603"></p>
+<p>在调用sub_405250之后，有LStrCmp字符串比较函数的调用，之后又有判断返回值的代码，可以猜测函数sub_405250应该是解密字符串函数。我们可以在IDA中改一下他的名字：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163730004.png" alt="image-20241223163730004"></p>
+<p>剩下的sub_40819C、sub_40D18C、sub_40D088三个函数应该是执行恶意代码的函数，最后有一个消息循环，猜测是要等待恶意代码执行完毕以后退出：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223163751690.png" alt="image-20241223163751690"></p>
+<h4 id="1-sub-40819C函数分析"><a href="#1-sub-40819C函数分析" class="headerlink" title="1. sub_40819C函数分析"></a>1. sub_40819C函数分析</h4><p>发现是在每一个目录下创建<code>Desktop_.ini</code>文件</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG327.jpg" alt="WechatIMG327"></p>
+<p>继续往下走：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG328.jpg" alt="WechatIMG328"></p>
+<p>首先4053AC函数的功能是获取Windows系统目录(System目录)的完整路径名。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG329.jpg" alt="WechatIMG329"></p>
+<p>405FC4函数在IDA中不易分析，回到OllyDBG中，找到具体使用的地方：</p>
+<p>发现此是EAX中存储的是病毒程序的名称。</p>
+<p>找到调用该函数的位置，进入下一步后，发现返回了1，判断此处功能应该是结束程序名为”spo0lsv.exe”的程序。</p>
+<p>继续往下，sub_407B68函数内为写入bat批处理文件的操作以及启动未被感染的程序。</p>
+<p>继续分析，这段代码是用于判断当前是否为源病毒程序，如果是则进入判断语句，不是则结束进程。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG334.jpg" alt="WechatIMG334"></p>
+<p><strong>汇总</strong></p>
+<ul>
+<li>sub_4053AC：获取Windows系统目录(System目录)的完整路径名；</li>
+<li>sub_405FC4：结束程序名为”spo0lsv.exe”的程序；</li>
+<li>sub_407B68：写入bat批处理文件的操作以及启动未被感染的程序；</li>
+</ul>
+<h4 id="2-sub-40D18C函数分析"><a href="#2-sub-40D18C函数分析" class="headerlink" title="2. sub_40D18C函数分析"></a>2. sub_40D18C函数分析</h4><p>发现包含这些函数：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG337.jpg" alt="WechatIMG337"></p>
+<p>首先是40A5B0函数，进入后发现：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG338.jpg" alt="WechatIMG338"></p>
+<p>在进入40A48C函数，根据之前的判断，这里应该是在创建Desktop.ini文件。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG340.jpg" alt="WechatIMG340"></p>
+<p>然后是40C374函数：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG341.jpg" alt="WechatIMG341"></p>
+<p>进入TimerFunc函数中，实际功能就是检查C盘中setup.exe和autorun.inf文件是否存在，若不存在则创建。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG342.jpg" alt="WechatIMG342"></p>
+<p>最后是40BACC函数，进入后再进入sub_40B864函数发现是与网络连接相关的一些函数。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG344.jpg" alt="WechatIMG344"></p>
+<p><strong>汇总</strong></p>
+<ul>
+<li>sub_40A5B0：创建线程，遍历目录创建Desktop_.ini文件；</li>
+<li>sub_403C74：设置函数定时器，检查C盘中setup.exe和autorun.inf文件是否存在，如果不存在就创建；</li>
+<li>sub_40BACC：创建线程，进行网络连接；</li>
+</ul>
+<h4 id="3-sub-40D088函数分析"><a href="#3-sub-40D088函数分析" class="headerlink" title="3. sub_40D088函数分析"></a>3. sub_40D088函数分析</h4><p>进入后是这个样子：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG345.jpg" alt="WechatIMG345"></p>
+<p>先进入40CEE4函数，发现是添加启动项、修改注册表的操作。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG346.jpg" alt="WechatIMG346"></p>
+<p>进入sub_40D040函数，再进入sub_40CC34，再进入sub_40C9B0，结合网络博客发现这里在访问网站并获取系统目录，应该是从服务器下载恶意代码。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG347.jpg" alt="WechatIMG347"></p>
+<p>再进入40D048函数，发现内部有两个函数，函数sub_40CC34与函数sub_40CDEC：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG348.jpg" alt="WechatIMG348"></p>
+<p>40CC34函数与40D040函数功能相同，也是下载恶意代码，40CDEC函数方面，发现其为执行cmd命令，关闭网络共享。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG349.jpg" alt="WechatIMG349"></p>
+<p>进入sub_407430函数，再进入sub_406E44函数，发现熟悉的McAfree，用于删除杀毒软件启动项、关闭杀毒软件服务的操作：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG350.jpg" alt="WechatIMG350"></p>
+<p>进入sub_40CC4C函数，结合网上博客，这个函数是用于打开解密之后的网页：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG351.jpg" alt="WechatIMG351"></p>
+<p>进入sub_40C728函数，再进入sub_40C5E0函数，结合博客，发现与sub_40D040功能类似，此处函数功能大概也是下载恶意代码。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/WechatIMG352.jpg" alt="WechatIMG352"></p>
+<p><strong>汇总</strong></p>
+<ul>
+<li>sub_40CEE4：关闭杀软窗口和进程，添加启动项、修改注册表</li>
+<li>sub_40D040：下载恶意代码</li>
+<li>sub_40D048：下载恶意代码，执行cmd命令</li>
+<li>sub_407430：删除杀毒软件启动项，关闭杀软服务</li>
+<li>sub_40CC4C：打开解密之后的网页</li>
+<li>sub_40C728：下载恶意代码</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://holger-zh.notion.site/5-342-13-fd7ba5e649e140538636e33c25d6a061">5: 熊猫烧香病毒分析</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1569939-1-1.html">经典病毒分析——熊猫烧香 - 吾爱破解 - 52pojie.cn</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/datouyu0824/article/details/115032961">熊猫烧香病毒分析</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/20/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C5%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" title="软件安全实验五——实验报告">http://jinqq.gitlab.io/2024/12/20/软件安全实验5——实验报告/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8/" rel="tag"><i class="fa fa-tag"></i> 软件安全</a>
+              <a href="/tags/windows-xp/" rel="tag"><i class="fa fa-tag"></i> windows xp</a>
+              <a href="/tags/vmware/" rel="tag"><i class="fa fa-tag"></i> vmware</a>
+              <a href="/tags/ollyDbg/" rel="tag"><i class="fa fa-tag"></i> ollyDbg</a>
+              <a href="/tags/IDA/" rel="tag"><i class="fa fa-tag"></i> IDA</a>
+              <a href="/tags/%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/" rel="tag"><i class="fa fa-tag"></i> 病毒分析</a>
+              <a href="/tags/PEID/" rel="tag"><i class="fa fa-tag"></i> PEID</a>
+              <a href="/tags/%E7%81%AB%E7%BB%92%E5%89%91/" rel="tag"><i class="fa fa-tag"></i> 火绒剑</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/20/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C4%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="prev" title="软件安全实验四——实验报告">
+                  <i class="fa fa-angle-left"></i> 软件安全实验四——实验报告
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/20/Java%E9%9D%A2%E7%BB%8F%E2%80%94%E2%80%94Java%E9%9B%86%E5%90%88/" rel="next" title="Java面经——Java集合">
+                  Java面经——Java集合 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/20/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C5%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

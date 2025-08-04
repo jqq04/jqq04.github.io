@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="实践二_通过约束生成测试用例输入 实验报告实验任务本次实践的主要任务是将实践一转换得到的 CPP 代码通过约束求解得到的约束，借助大语言模型得到相 应约束的测试用例输入，一是进一步评估大语言模型对于抽象表示的识别能力，二是探索生成测试用例 输入的新方法，在下述样例中会详细阐述。 在上交实践一成果后，助教会生成好对应代码的约束，分发给各位同学作为实践二的原始材料，不需要 大家去仔细学习约束求解的过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="嵌入式方向实践实验二">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E4%BA%8C/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="实践二_通过约束生成测试用例输入 实验报告实验任务本次实践的主要任务是将实践一转换得到的 CPP 代码通过约束求解得到的约束，借助大语言模型得到相 应约束的测试用例输入，一是进一步评估大语言模型对于抽象表示的识别能力，二是探索生成测试用例 输入的新方法，在下述样例中会详细阐述。 在上交实践一成果后，助教会生成好对应代码的约束，分发给各位同学作为实践二的原始材料，不需要 大家去仔细学习约束求解的过程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145233358.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145304984.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145317585.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145330823.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145340644.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145355814.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145401463.png">
+<meta property="article:published_time" content="2024-12-15T07:45:20.000Z">
+<meta property="article:modified_time" content="2024-12-15T12:48:21.596Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="LLM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145233358.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E4%BA%8C/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E4%BA%8C/","path":"2024/12/15/嵌入式方向实践实验二/","title":"嵌入式方向实践实验二"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>嵌入式方向实践实验二 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E4%BA%8C-%E9%80%9A%E8%BF%87%E7%BA%A6%E6%9D%9F%E7%94%9F%E6%88%90%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E8%BE%93%E5%85%A5-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A"><span class="nav-number">1.</span> <span class="nav-text">实践二_通过约束生成测试用例输入 实验报告</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.1.</span> <span class="nav-text">实验任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A"><span class="nav-number">1.2.</span> <span class="nav-text">实验报告</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E4%BA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="嵌入式方向实践实验二 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          嵌入式方向实践实验二
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-12-15 15:45:20 / 修改时间：20:48:21" itemprop="dateCreated datePublished" datetime="2024-12-15T15:45:20+08:00">2024-12-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">嵌入式方向</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E4%BA%8C/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E4%BA%8C/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="实践二-通过约束生成测试用例输入-实验报告"><a href="#实践二-通过约束生成测试用例输入-实验报告" class="headerlink" title="实践二_通过约束生成测试用例输入 实验报告"></a>实践二_通过约束生成测试用例输入 实验报告</h2><h3 id="实验任务"><a href="#实验任务" class="headerlink" title="实验任务"></a>实验任务</h3><p>本次实践的主要任务是将实践一转换得到的 CPP 代码通过约束求解得到的约束，借助大语言模型得到相 应约束的测试用例输入，一是进一步评估大语言模型对于抽象表示的识别能力，二是探索生成测试用例 输入的新方法，在下述样例中会详细阐述。 在上交实践一成果后，助教会生成好对应代码的约束，分发给各位同学作为实践二的原始材料，不需要 大家去仔细学习约束求解的过程，大概了解约束是怎样的东西即可，想了解的同学也可以查看附录内容 自行探索。</p>
+<span id="more"></span>
+
+<p> 举例：</p>
+<p>以下仍旧以  008_sum_product.cpp 举例（下简称  008 ），我们聚焦于主函数（有略微改动，会解释 原因）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// other codes ...</span></span><br><span class="line"> <span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> std::vector&lt;<span class="type">int</span>&gt; numbers = &#123;&#125;;</span><br><span class="line"> std::tuple&lt;<span class="type">int</span>, <span class="type">int</span>&gt; result = <span class="built_in">sum_product</span>(numbers);</span><br><span class="line"> <span class="type">int</span> sum = std::<span class="built_in">get</span>&lt;<span class="number">0</span>&gt;(result);</span><br><span class="line"> <span class="type">int</span> product = std::<span class="built_in">get</span>&lt;<span class="number">1</span>&gt;(result);</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在主函数中主要是对功能函数  sum_product() 的调用与测试，我们的约束则会聚焦于功能函数的入 参，即  numbers 。（相较于实践一说明中的代码，这里将入参变为变量，方便后续操作） numbers 的类型为  素 el vector ，对于该容器来说，约束求解会聚焦于其长度  ements 。在  size 以及其中的元 008 样例中，容器元素的变化并不会对约束产生影响（对于其他的代码，可能会产 生影响），所以  008 样例求解生成的约束主要针对  size 。 简单理解为，在  008 程序中，当  size 有不同的取值，程序就会运行不同的分支。抽象表示  取值范围，就是所谓的<strong>约束</strong>。</p>
+<blockquote>
+<p>此处仅为举例，在其他程序中，约束可能会同时针对多个变量，如  vector&lt;&gt; 的长度与元素都会 有约束。</p>
+</blockquote>
+<p>为了约束不那么冗长，助教在生成约束前会将类似  size 的变量限定在一个较小的范围内，如  [0,3) 。以下是  008 样例根据约束求解的要求更改后的代码：（这一步不需要大家完成，由助教来 做，此处仅为示意，以解释约束是怎么得来的，是长什么样的）</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// other codes ...</span></span><br><span class="line"> <span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> std::vector&lt;<span class="type">int</span>&gt; numbers = &#123;&#125;;</span><br><span class="line"> <span class="type">int</span> size;</span><br><span class="line"> <span class="built_in">klee_make_symbolic</span>(&amp;size, <span class="built_in">sizeof</span>(size), <span class="string">&quot;size&quot;</span>); <span class="comment">// 这是约束求解用到的符号生成函</span></span><br><span class="line">数</span><br><span class="line">&#125;</span><br><span class="line"> <span class="comment">// 约束求解时会使 size 变为不同的值，所以此处没有初始化</span></span><br><span class="line"><span class="type">int</span> elements[<span class="number">3</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;; <span class="comment">// 该程序中元素不进入约束表达式</span></span><br><span class="line"><span class="comment">// 对于其他程序，也会为每个元素生成符号，加入约束求解中</span></span><br><span class="line"><span class="keyword">if</span> (size &gt;= <span class="number">0</span>) &#123;</span><br><span class="line"> <span class="comment">// 限定 numbers 的实际 size 在 [0,3) 范围内</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size &amp;&amp; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line"> numbers.<span class="built_in">push_back</span>(elements[i]);</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> std::tuple&lt;<span class="type">int</span>, <span class="type">int</span>&gt; result = <span class="built_in">sum_product</span>(numbers);</span><br><span class="line"> <span class="comment">// 由于只需要约束求解，所以不需要运行后续测试</span></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以下即为上述更改后的  008 样例求解得到的约束：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">Constraints <span class="number">1</span>:</span><br><span class="line"> (Eq <span class="keyword">false</span></span><br><span class="line"> (Sle <span class="number">0</span></span><br><span class="line"> (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>)))----------------</span><br><span class="line"> Constraints <span class="number">2</span>:</span><br><span class="line"> (Sle <span class="number">0</span></span><br><span class="line"> (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>))</span><br><span class="line"> (Eq <span class="keyword">false</span></span><br><span class="line"> (Slt <span class="number">0</span></span><br><span class="line"> (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>)))----------------</span><br><span class="line"> Constraints <span class="number">3</span>:</span><br><span class="line"> (Sle <span class="number">0</span></span><br><span class="line"> (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>))</span><br><span class="line"> (Slt <span class="number">0</span></span><br><span class="line"> (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>))</span><br><span class="line"> (Eq <span class="keyword">false</span></span><br><span class="line"> (Slt <span class="number">1</span></span><br><span class="line"> (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>)))----------------</span><br><span class="line"> Constraints <span class="number">4</span>:</span><br><span class="line"> (Sle <span class="number">0</span></span><br><span class="line"> (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>))</span><br><span class="line"> (Slt <span class="number">0</span></span><br><span class="line">(ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>))</span><br><span class="line"> (Slt <span class="number">1</span></span><br><span class="line"> (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>))</span><br><span class="line"> (Eq <span class="keyword">false</span></span><br><span class="line"> (Slt <span class="number">2</span></span><br><span class="line"> (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>)))----------------</span><br><span class="line"> Constraints <span class="number">5</span>:</span><br><span class="line"> (Sle <span class="number">0</span></span><br><span class="line"> (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>))</span><br><span class="line"> (Slt <span class="number">0</span></span><br><span class="line"> (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>))</span><br><span class="line"> (Slt <span class="number">1</span></span><br><span class="line"> (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>))</span><br><span class="line"> (Slt <span class="number">2</span></span><br><span class="line"> (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>))----------------</span><br></pre></td></tr></table></figure>
+
+<p>由于 008 代码十分简单，所以这些约束也相对规整。因为在  size 取不同的值时，程序都会运行到不 同的分支（最终影响就是  numbers 的不同，即功能函数运行的分支不同），所以上述约束看起来就是 枚举 size 的不同取值，用合取范式表示。 解释一下，约束一表示的意思是  (0 &lt;&#x3D; size) &#x3D;&#x3D; false， 约束二表示的意思是  0 &lt;&#x3D; size &amp;&amp; ((0 &lt; size) &#x3D;&#x3D; false)，以此类推。 这样的约束文本就是大家在上交实践一成果后会得到的实践二原材料。请大家设计相应的提示语 （prompt），让大语言模型理解这样的约束，并生成相应的测试用例输入。</p>
+<blockquote>
+<p>注意，如 008 样例，约束中仅含有  size 变量，所以大语言模型可能只会生成不同的  变量作为测试用例输入，但其实  008 需要的测试用例输入是一个  size  vector 类型的变量，不 止是它的  size ，所以请大家自行想办法生成合法的测试用例输入（即完整的  numbers ），例如 使用随机数去填充容器，让大语言模型额外生成容器的元素等等。</p>
+</blockquote>
+<h3 id="实验报告"><a href="#实验报告" class="headerlink" title="实验报告"></a>实验报告</h3><p>使用的大模型为<strong>chatgpt3.5</strong>；</p>
+<p>设计的<strong>prompt</strong>为两部分，第一部分为给大模型一个例子用以理解和作为语境：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">我们可以根据约束生成测试用例，以下是一个约束的例子：</span><br><span class="line">Constraints:</span><br><span class="line">(Sle <span class="number">0</span></span><br><span class="line">      (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>))</span><br><span class="line">(Slt <span class="number">0</span></span><br><span class="line">      (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>))</span><br><span class="line">(Eq <span class="keyword">false</span></span><br><span class="line">     (Sle <span class="number">0</span></span><br><span class="line">          (ReadLSB w32 <span class="number">0</span> x0)))</span><br><span class="line">(Eq <span class="keyword">false</span></span><br><span class="line">     (Slt <span class="number">1</span></span><br><span class="line">          (ReadLSB w32 <span class="number">0</span> <span class="keyword">size</span>)))</span><br><span class="line">这些的含义是：</span><br><span class="line"><span class="keyword">size</span> &gt;=<span class="number">0</span></span><br><span class="line"><span class="keyword">size</span> &gt; <span class="number">0</span></span><br><span class="line">x0 &gt; <span class="number">0</span>  为 <span class="keyword">false</span></span><br><span class="line"><span class="keyword">size</span> &gt; <span class="number">1</span> 为 <span class="keyword">false</span></span><br><span class="line">根据这几个条件可知，<span class="keyword">size</span> 只能为<span class="number">1</span>，x0为<span class="number">0</span>或者负数，按照此随机生成一个测试用例为：<span class="keyword">size</span> = <span class="number">1</span>，array = [<span class="number">0</span>]</span><br><span class="line">你现在理解约束的含义了吗</span><br></pre></td></tr></table></figure>
+
+<p>第二部分则把约束给大模型，让大模型根据约束生成测试用例，例如：</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">现在请理解以下约束的含义，并为此随机生成一个测试用例：</span><br><span class="line">Constraints:</span><br><span class="line">(Sle 0</span><br><span class="line">      (ReadLSB w32<span class="number"> 0 </span>size))</span><br><span class="line">(Slt 0</span><br><span class="line">      (ReadLSB w32<span class="number"> 0 </span>size))</span><br><span class="line">(Sle 0</span><br><span class="line">      (ReadLSB w32<span class="number"> 0 </span>x0))</span><br><span class="line">(Sle (ReadLSB w32<span class="number"> 0 </span>x0)</span><br><span class="line">      3)</span><br><span class="line">(Eq false</span><br><span class="line">     (Slt 1</span><br><span class="line">          (ReadLSB w32<span class="number"> 0 </span>size)))</span><br><span class="line">(Eq false</span><br><span class="line">     (Eq 1</span><br><span class="line">         (SRem w32 (ReadLSB w32<span class="number"> 0 </span>x0)</span><br><span class="line">                   2)))</span><br></pre></td></tr></table></figure>
+
+
+
+<p>大模型对这些较简单的约束的理解基本没问题，但在生成测试用例时有以下几点问题：</p>
+<ol>
+<li>一开始不知道`Eq false`的含义，因此还需要解释与纠错；</li>
+<li>大模型对条件的结合有时候会出现问题，当出现对一个变量的多个条件时，可能会出现数学上的错误；</li>
+<li>大模型对生成字符串的约束并不理解，还是会生成纯数字的测试用例；</li>
+<li>对于在prompt中没有出现过例子的约束条件，大模型可能会理解错误；</li>
+</ol>
+<p>以下是与大模型对话的截图：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145233358.png" alt="image-20231201145233358"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145304984.png" alt="image-20231201145304984"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145317585.png" alt="image-20231201145317585"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145330823.png" alt="image-20231201145330823"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145340644.png" alt="image-20231201145340644"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145355814.png" alt="image-20231201145355814"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231201145401463.png" alt="image-20231201145401463"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E4%BA%8C/" title="嵌入式方向实践实验二">http://jinqq.gitlab.io/2024/12/15/嵌入式方向实践实验二/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/LLM/" rel="tag"><i class="fa fa-tag"></i> LLM</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E4%B8%80/" rel="prev" title="嵌入式方向实践实验一">
+                  <i class="fa fa-angle-left"></i> 嵌入式方向实践实验一
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E4%B8%89/" rel="next" title="嵌入式方向实践实验三">
+                  嵌入式方向实践实验三 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E4%BA%8C/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

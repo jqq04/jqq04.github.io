@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="关于考试开卷考试，允许携带一张A4纸，可以展示大家的压缩字体能力和眼部放大镜能力了。 本章只是对本课所有课件的一个整理，同时还偷了一些来自参考的整理。 没有银弹NoSilverBulletAuthor：Fredrick P. Brooks1986 主要思想 没有任何一种单纯的技术或管理上的进展，能够独立地承诺十年内使生产率、可靠性或简洁性获得数量级上的进步。 所有大家看到的技术、管理方法都不会给软">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件工程管理2024 期末复习">
+<meta property="og:url" content="http://jinqq.gitlab.io/2025/01/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="关于考试开卷考试，允许携带一张A4纸，可以展示大家的压缩字体能力和眼部放大镜能力了。 本章只是对本课所有课件的一个整理，同时还偷了一些来自参考的整理。 没有银弹NoSilverBulletAuthor：Fredrick P. Brooks1986 主要思想 没有任何一种单纯的技术或管理上的进展，能够独立地承诺十年内使生产率、可靠性或简洁性获得数量级上的进步。 所有大家看到的技术、管理方法都不会给软">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107143637687.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107152029010.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106103837884.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106173918549.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106145748115.png">
+<meta property="article:published_time" content="2025-01-07T09:17:00.000Z">
+<meta property="article:modified_time" content="2025-01-08T05:06:10.005Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="期末复习">
+<meta property="article:tag" content="软件工程管理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107143637687.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2025/01/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2025/01/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/","path":"2025/01/07/软件工程管理-期末复习/","title":"软件工程管理2024 期末复习"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>软件工程管理2024 期末复习 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E8%80%83%E8%AF%95"><span class="nav-number">1.</span> <span class="nav-text">关于考试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B2%A1%E6%9C%89%E9%93%B6%E5%BC%B9NoSilverBullet"><span class="nav-number">2.</span> <span class="nav-text">没有银弹NoSilverBullet</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3"><span class="nav-number">2.1.</span> <span class="nav-text">主要思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B9%E6%9C%AC%E4%BB%BB%E5%8A%A1%E5%92%8C%E6%AC%A1%E8%A6%81%E4%BB%BB%E5%8A%A1"><span class="nav-number">2.2.</span> <span class="nav-text">根本任务和次要任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%B6%E5%BC%B9"><span class="nav-number">2.3.</span> <span class="nav-text">银弹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B9%E6%9C%AC%E5%9B%B0%E9%9A%BE%E2%80%94%E2%80%94%E8%BD%AF%E4%BB%B6%E7%89%B9%E6%80%A7%E4%B8%AD%E5%9B%BA%E6%9C%89%E7%9A%84%E5%9B%B0%E9%9A%BE"><span class="nav-number">2.4.</span> <span class="nav-text">根本困难——软件特性中固有的困难</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.4.1.</span> <span class="nav-text">复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7"><span class="nav-number">2.4.2.</span> <span class="nav-text">一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="nav-number">2.4.3.</span> <span class="nav-text">可变性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="nav-number">2.4.4.</span> <span class="nav-text">不可见性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%93%E5%B9%B4%E7%9A%84%E9%93%B6%E5%BC%B9"><span class="nav-number">2.5.</span> <span class="nav-text">当年的银弹</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%BA%E6%9C%88%E7%A5%9E%E8%AF%9DTheMythicalMan-Month"><span class="nav-number">3.</span> <span class="nav-text">人月神话TheMythicalMan-Month</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E5%BA%A6"><span class="nav-number">3.1.</span> <span class="nav-text">进度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%90%E8%A7%82%E4%B8%BB%E4%B9%89"><span class="nav-number">3.2.</span> <span class="nav-text">乐观主义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%BA%E6%9C%88"><span class="nav-number">3.3.</span> <span class="nav-text">人月</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%B5%8B%E8%AF%95"><span class="nav-number">3.4.</span> <span class="nav-text">系统测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A9%BA%E6%B3%9B%E7%9A%84%E4%BC%B0%E7%AE%97"><span class="nav-number">3.5.</span> <span class="nav-text">空泛的估算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Brooks%E6%B3%95%E5%88%99"><span class="nav-number">3.6.</span> <span class="nav-text">Brooks法则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A7%E6%95%99%E5%A0%82%E4%B8%8E%E9%9B%86%E5%B8%82TheCathedralAndTheBazaar"><span class="nav-number">4.</span> <span class="nav-text">大教堂与集市TheCathedralAndTheBazaar</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3-1"><span class="nav-number">4.1.</span> <span class="nav-text">主要思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9D%E5%A4%A7%E6%95%99%E5%A0%82%E2%80%9C%E4%B8%8E%E2%80%9D%E9%9B%86%E5%B8%82%E2%80%9C"><span class="nav-number">4.2.</span> <span class="nav-text">”大教堂“与”集市“</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9C%E9%9B%86%E5%B8%82%E2%80%9D%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%BC%80%E5%8F%91%E6%96%B9%E5%BC%8F"><span class="nav-number">4.3.</span> <span class="nav-text">“集市”模式的开发方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux"><span class="nav-number">4.4.</span> <span class="nav-text">Linux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fetchmail%EF%BC%9ALinux%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.5.</span> <span class="nav-text">Fetchmail：Linux开发模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E9%9B%86%E9%A3%8E%E6%A0%BC%E7%9A%84%E5%BF%85%E8%A6%81%E7%9A%84%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6"><span class="nav-number">4.6.</span> <span class="nav-text">市集风格的必要的先决条件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E6%BA%90%E8%BD%AF%E4%BB%B6%E7%BB%8F%E6%B5%8E%E5%AD%A6"><span class="nav-number">5.</span> <span class="nav-text">开源软件经济学</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Charactering-the-software-process"><span class="nav-number">6.</span> <span class="nav-text">Charactering the software process</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%8D%87%E8%BD%AF%E4%BB%B6%E8%83%BD%E5%8A%9B-%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AACMM%E6%A1%86%E6%9E%B6"><span class="nav-number">6.1.</span> <span class="nav-text">提升软件能力&#x2F;如何开发一个CMM框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SEI%E6%88%90%E7%86%9F%E5%BA%A6%E6%A1%86%E6%9E%B6"><span class="nav-number">6.2.</span> <span class="nav-text">SEI成熟度框架</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Scrum"><span class="nav-number">7.</span> <span class="nav-text">Scrum</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E8%AE%BA%E7%82%B9%E5%92%8C%E7%BB%93%E6%9E%84"><span class="nav-number">7.1.</span> <span class="nav-text">主要论点和结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrum3355%E6%A1%86%E6%9E%B6"><span class="nav-number">7.2.</span> <span class="nav-text">Scrum3355框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrum%E4%B8%BB%E8%A6%81%E8%A7%92%E8%89%B2"><span class="nav-number">7.3.</span> <span class="nav-text">Scrum主要角色</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A7%E5%93%81%E8%B4%9F%E8%B4%A3%E4%BA%BA"><span class="nav-number">7.3.1.</span> <span class="nav-text">产品负责人</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ScrumMaster"><span class="nav-number">7.3.2.</span> <span class="nav-text">ScrumMaster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E5%9B%A2%E9%98%9F%E6%88%90%E5%91%98"><span class="nav-number">7.3.3.</span> <span class="nav-text">开发团队成员</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%AE%E8%A7%82%E7%AE%A1%E7%90%86%E5%8F%8A%E5%85%B6%E5%8D%B1%E5%AE%B3"><span class="nav-number">7.3.3.1.</span> <span class="nav-text">微观管理及其危害</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8C%AA%E4%B8%8E%E9%B8%A1%E7%9A%84%E6%AF%94%E5%96%BB"><span class="nav-number">7.4.</span> <span class="nav-text">猪与鸡的比喻</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B"><span class="nav-number">7.5.</span> <span class="nav-text">用户故事</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3C%E5%8E%9F%E5%88%99"><span class="nav-number">7.5.1.</span> <span class="nav-text">3C原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DoD%EF%BC%88DefinitionofDone%EF%BC%89"><span class="nav-number">7.5.2.</span> <span class="nav-text">DoD（DefinitionofDone）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E4%B8%BA%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91%EF%BC%88BDD%EF%BC%89"><span class="nav-number">7.5.3.</span> <span class="nav-text">行为驱动开发（BDD）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BDD%E7%9A%84%E5%AE%9E%E8%B7%B5%E6%B5%81%E7%A8%8B"><span class="nav-number">7.5.3.1.</span> <span class="nav-text">BDD的实践流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8BINVEST%E5%8E%9F%E5%88%99"><span class="nav-number">7.5.4.</span> <span class="nav-text">用户故事INVEST原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A7%E5%93%81Backlog"><span class="nav-number">7.5.5.</span> <span class="nav-text">产品Backlog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E6%95%85%E4%BA%8B%E5%9C%B0%E5%9B%BE"><span class="nav-number">7.5.6.</span> <span class="nav-text">用户故事地图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">7.5.6.1.</span> <span class="nav-text">解决的问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sprint%E8%AE%A1%E5%88%92"><span class="nav-number">7.6.</span> <span class="nav-text">Sprint计划</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%9A%E8%AE%AE%E5%87%86%E5%A4%87"><span class="nav-number">7.6.1.</span> <span class="nav-text">会议准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%9A%E8%AE%AE%E7%9B%AE%E6%A0%87"><span class="nav-number">7.6.2.</span> <span class="nav-text">会议目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AASprint%E5%A4%9A%E9%95%BF%EF%BC%9F"><span class="nav-number">7.6.3.</span> <span class="nav-text">一个Sprint多长？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%B0%E7%AE%97"><span class="nav-number">7.6.4.</span> <span class="nav-text">估算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%B0%E7%AE%97%E5%8D%95%E4%BD%8D"><span class="nav-number">7.6.4.1.</span> <span class="nav-text">估算单位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%B0%E7%AE%97%E8%BF%87%E7%A8%8B"><span class="nav-number">7.6.4.2.</span> <span class="nav-text">估算过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%A1%E5%88%92%E6%89%91%E5%85%8B"><span class="nav-number">7.6.4.2.1.</span> <span class="nav-text">计划扑克</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%A1%E7%89%87%E9%98%9F%E5%88%97%E4%BC%B0%E7%AE%97%E6%B3%95"><span class="nav-number">7.6.4.2.2.</span> <span class="nav-text">卡片队列估算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E2%80%9D%E9%87%91%E5%8F%91%E5%A5%B3%E5%AD%A9%E2%80%9C%E4%BC%B0%E7%AE%97%E6%8A%80%E6%9C%AF"><span class="nav-number">7.6.4.2.3.</span> <span class="nav-text">”金发女孩“估算技术</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%B0%E7%AE%97%E6%9C%89%E5%B7%AE%E5%BC%82%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">7.6.4.3.</span> <span class="nav-text">估算有差异的原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%8F%E5%B0%8F%E6%95%85%E4%BA%8B%E8%A7%84%E6%A8%A1"><span class="nav-number">7.6.4.4.</span> <span class="nav-text">减小故事规模</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E5%88%92%E4%BC%9A%E8%AE%AE"><span class="nav-number">7.6.5.</span> <span class="nav-text">计划会议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%A7%E7%89%A9%EF%BC%9ASprint%E4%BF%A1%E6%81%AF%E9%A1%B5"><span class="nav-number">7.6.5.1.</span> <span class="nav-text">产物：Sprint信息页</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%A1%E7%90%86%EF%BC%9A%E7%99%BD%E6%9D%BF"><span class="nav-number">7.6.5.2.</span> <span class="nav-text">管理：白板</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%9F%E8%B8%AA%E8%BF%9B%E5%BA%A6%EF%BC%9A%E7%87%83%E5%B0%BD%E5%9B%BE"><span class="nav-number">7.6.5.3.</span> <span class="nav-text">跟踪进度：燃尽图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%83%E7%BD%AE%E6%88%BF%E9%97%B4"><span class="nav-number">7.6.5.4.</span> <span class="nav-text">布置房间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E9%BB%98%E6%97%B6%E9%97%B4"><span class="nav-number">7.6.5.5.</span> <span class="nav-text">静默时间</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%8F%E6%97%A5%E7%AB%99%E4%BC%9A"><span class="nav-number">7.6.6.</span> <span class="nav-text">每日站会</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sprint%E6%BC%94%E7%A4%BA%E4%BC%9A%E8%AE%AE"><span class="nav-number">7.6.7.</span> <span class="nav-text">Sprint演示会议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AE%9A%E4%B9%89Sprint%E7%BB%93%E6%9D%9F%E4%BA%8E%E6%BC%94%E7%A4%BA%EF%BC%9F"><span class="nav-number">7.6.7.1.</span> <span class="nav-text">为什么定义Sprint结束于演示？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E5%88%97%E8%A1%A8"><span class="nav-number">7.6.7.2.</span> <span class="nav-text">检查列表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sprint%E5%9B%9E%E9%A1%BE%E4%BC%9A%E8%AE%AE"><span class="nav-number">7.6.8.</span> <span class="nav-text">Sprint回顾会议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scrum%E5%B1%80%E9%99%90"><span class="nav-number">7.7.</span> <span class="nav-text">Scrum局限</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91"><span class="nav-number">8.</span> <span class="nav-text">敏捷开发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%8F%E6%8D%B7%E5%AE%A3%E8%A8%80"><span class="nav-number">8.1.</span> <span class="nav-text">敏捷宣言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AA%E4%BD%93%E5%92%8C%E4%BA%92%E5%8A%A8%E9%AB%98%E4%BA%8E%E6%B5%81%E7%A8%8B%E5%92%8C%E5%B7%A5%E5%85%B7"><span class="nav-number">8.1.1.</span> <span class="nav-text">个体和互动高于流程和工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E7%9A%84%E8%BD%AF%E4%BB%B6%E9%AB%98%E4%BA%8E%E8%AF%A6%E5%B0%BD%E7%9A%84%E6%96%87%E6%A1%A3"><span class="nav-number">8.1.2.</span> <span class="nav-text">工作的软件高于详尽的文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E5%90%88%E4%BD%9C%E9%AB%98%E4%BA%8E%E5%90%88%E5%90%8C%E8%B0%88%E5%88%A4"><span class="nav-number">8.1.3.</span> <span class="nav-text">客户合作高于合同谈判</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E5%8F%98%E5%8C%96%E9%AB%98%E4%BA%8E%E9%81%B5%E5%BE%AA%E8%AE%A1%E5%88%92"><span class="nav-number">8.1.4.</span> <span class="nav-text">响应变化高于遵循计划</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90"><span class="nav-number">9.</span> <span class="nav-text">持续集成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">9.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%AE%9E%E8%B7%B5"><span class="nav-number">9.2.</span> <span class="nav-text">关键实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%B4%E6%8A%A4%E4%B8%80%E4%B8%AA%E5%8D%95%E4%B8%80%E7%9A%84%E4%BB%A3%E7%A0%81%E5%BA%93"><span class="nav-number">9.2.1.</span> <span class="nav-text">维护一个单一的代码库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E6%9E%84%E5%BB%BA%E8%87%AA%E5%8A%A8%E5%8C%96"><span class="nav-number">9.2.2.</span> <span class="nav-text">使构建自动化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E6%9E%84%E5%BB%BA%E8%87%AA%E6%B5%8B%E8%AF%95"><span class="nav-number">9.2.3.</span> <span class="nav-text">使构建自测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%8F%E4%BA%BA%E6%AF%8F%E5%A4%A9%E9%83%BD%E5%90%91%E4%BB%A3%E7%A0%81%E5%BA%93%E6%8F%90%E4%BA%A4%E4%BB%A3%E7%A0%81"><span class="nav-number">9.2.4.</span> <span class="nav-text">每人每天都向代码库提交代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%8F%E6%AC%A1%E6%8F%90%E4%BA%A4%E9%83%BD%E5%BA%94%E5%9C%A8%E9%9B%86%E6%88%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E8%BF%9B%E8%A1%8C%E6%9E%84%E5%BB%BA"><span class="nav-number">9.2.5.</span> <span class="nav-text">每次提交都应在集成服务器上进行构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%9E%84%E5%BB%BA"><span class="nav-number">9.2.6.</span> <span class="nav-text">快速构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E4%B8%8E%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E7%9B%B8%E5%90%8C%E7%9A%84%E7%8E%AF%E5%A2%83%E4%B8%AD%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95"><span class="nav-number">9.2.7.</span> <span class="nav-text">在与生产环境相同的环境中运行测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E4%BB%BB%E4%BD%95%E4%BA%BA%E9%83%BD%E8%83%BD%E8%BD%BB%E6%98%93%E8%8E%B7%E5%BE%97%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6"><span class="nav-number">9.2.8.</span> <span class="nav-text">使任何人都能轻易获得可执行文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%BA%E4%BA%BA%E9%83%BD%E8%83%BD%E7%9C%8B%E5%88%B0%E6%AD%A3%E5%9C%A8%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88"><span class="nav-number">9.2.9.</span> <span class="nav-text">人人都能看到正在发生什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2"><span class="nav-number">9.2.10.</span> <span class="nav-text">自动化部署</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="nav-number">9.3.</span> <span class="nav-text">持续集成的好处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%85%A5%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90"><span class="nav-number">9.4.</span> <span class="nav-text">引入持续集成</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9C%8B%E6%9D%BF%E6%96%B9%E6%B3%95Kanban"><span class="nav-number">10.</span> <span class="nav-text">看板方法Kanban</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">10.1.</span> <span class="nav-text">核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BD%E6%9D%BF%EF%BC%9A%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E4%BD%9C"><span class="nav-number">10.1.1.</span> <span class="nav-text">白板：可视化工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WIP%EF%BC%88WorkinProgress%EF%BC%89"><span class="nav-number">10.1.2.</span> <span class="nav-text">WIP（WorkinProgress）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A7%E6%80%A5%E5%B7%A5%E4%BD%9C"><span class="nav-number">10.1.3.</span> <span class="nav-text">紧急工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%A6%E9%87%8F"><span class="nav-number">10.1.4.</span> <span class="nav-text">度量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9C%8B%E6%9D%BF%E4%B8%8D%E6%98%AF%EF%BC%9F"><span class="nav-number">10.2.</span> <span class="nav-text">看板不是？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kanban%E4%B8%8EScrum"><span class="nav-number">10.3.</span> <span class="nav-text">Kanban与Scrum</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XP%E6%9E%81%E9%99%90%E7%BC%96%E7%A8%8B"><span class="nav-number">11.</span> <span class="nav-text">XP极限编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E5%91%A8%E6%9C%9F"><span class="nav-number">11.1.</span> <span class="nav-text">开发周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XP%E7%9A%84%E5%BF%83%E8%B7%B3%E2%80%94%E2%80%94%E5%BC%80%E5%8F%91%E5%91%A8%E6%9C%9F"><span class="nav-number">11.1.1.</span> <span class="nav-text">XP的心跳——开发周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E5%91%A8"><span class="nav-number">11.1.2.</span> <span class="nav-text">开发周</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">11.1.3.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E6%9B%B4%E6%88%90%E6%9C%AC"><span class="nav-number">11.2.</span> <span class="nav-text">变更成本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E6%9B%B4%E6%88%90%E6%9C%AC-1"><span class="nav-number">11.2.1.</span> <span class="nav-text">变更成本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E6%9B%B4%E6%88%90%E6%9C%AC%E7%9A%84%E5%81%87%E8%AE%BE"><span class="nav-number">11.2.2.</span> <span class="nav-text">变更成本的假设</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%8D%E4%BD%8E%E5%8F%98%E6%9B%B4%E6%88%90%E6%9C%AC%E7%9A%84%E6%8A%80%E6%9C%AF"><span class="nav-number">11.2.3.</span> <span class="nav-text">降低变更成本的技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E6%9B%B4%E6%88%90%E6%9C%AC%E5%8F%AF%E8%83%BD%E4%B8%8D%E4%BC%9A%E9%9A%8F%E6%97%B6%E9%97%B4%E6%80%A5%E5%89%A7%E4%B8%8A%E5%8D%87"><span class="nav-number">11.2.4.</span> <span class="nav-text">变更成本可能不会随时间急剧上升</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XP%E7%9A%84%E6%8A%80%E6%9C%AF%E5%89%8D%E6%8F%90"><span class="nav-number">11.2.5.</span> <span class="nav-text">XP的技术前提</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E5%8F%98%E6%9B%B4%E6%88%90%E6%9C%AC%E5%BE%88%E5%B0%8F%EF%BC%8C%E4%BD%A0%E4%BC%9A%E6%80%8E%E4%B9%88%E5%81%9A"><span class="nav-number">11.2.6.</span> <span class="nav-text">如果变更成本很小，你会怎么做</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E6%8C%81%E5%8F%98%E6%9B%B4%E6%88%90%E6%9C%AC%E4%BD%8E"><span class="nav-number">11.2.7.</span> <span class="nav-text">保持变更成本低</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E9%A9%BE%E9%A9%B6"><span class="nav-number">11.3.</span> <span class="nav-text">学习驾驶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E8%B5%84%E6%BA%90"><span class="nav-number">11.3.1.</span> <span class="nav-text">问题与解决方案资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E5%B9%85%E5%BA%A6%E8%B0%83%E6%95%B4%E4%B8%8E%E5%85%B3%E6%B3%A8"><span class="nav-number">11.3.2.</span> <span class="nav-text">小幅度调整与关注</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E4%B8%AA%E4%BB%B7%E5%80%BC%E8%A7%82"><span class="nav-number">11.4.</span> <span class="nav-text">四个价值观</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B2%9F%E9%80%9A"><span class="nav-number">11.4.1.</span> <span class="nav-text">沟通</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95"><span class="nav-number">11.4.2.</span> <span class="nav-text">简单</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B2%9F%E9%80%9A%E4%B8%8E%E7%AE%80%E5%8D%95%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">11.4.2.1.</span> <span class="nav-text">沟通与简单的关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E9%A6%88"><span class="nav-number">11.4.3.</span> <span class="nav-text">反馈</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E9%A6%88%E3%80%81%E6%B2%9F%E9%80%9A%E4%B8%8E%E7%AE%80%E5%8D%95%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">11.4.3.1.</span> <span class="nav-text">反馈、沟通与简单的关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8B%87%E6%B0%94"><span class="nav-number">11.4.4.</span> <span class="nav-text">勇气</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8B%87%E6%B0%94%E4%B8%8E%E5%85%B6%E4%BB%96%E4%BB%B7%E5%80%BC%E8%A7%82"><span class="nav-number">11.4.4.1.</span> <span class="nav-text">勇气与其他价值观</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%B7%E5%80%BC%E8%A7%82%E7%9A%84%E5%AE%9E%E8%B7%B5%E2%80%94%E2%80%94%E5%B0%8A%E9%87%8D"><span class="nav-number">11.4.5.</span> <span class="nav-text">价值观的实践——尊重</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E5%BD%92%E5%9F%BA%E7%A1%80"><span class="nav-number">11.5.</span> <span class="nav-text">回归基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%85%E9%A1%BB%E5%81%9A%E7%9A%84%E4%BA%8B%E6%83%85"><span class="nav-number">11.5.1.</span> <span class="nav-text">必须做的事情</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E7%A0%81"><span class="nav-number">11.5.2.</span> <span class="nav-text">编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">11.5.3.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%84%9F%E6%9F%93"><span class="nav-number">11.5.3.1.</span> <span class="nav-text">测试感染</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B5%8B%E8%AF%95%EF%BC%9F"><span class="nav-number">11.5.3.2.</span> <span class="nav-text">为什么测试？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%B5%8B%E8%AF%95%EF%BC%9F"><span class="nav-number">11.5.3.3.</span> <span class="nav-text">什么类型的测试？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%80%BE%E5%90%AC"><span class="nav-number">11.5.4.</span> <span class="nav-text">倾听</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1"><span class="nav-number">11.5.5.</span> <span class="nav-text">设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">11.5.6.</span> <span class="nav-text">结论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%81%E9%99%90%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5"><span class="nav-number">11.6.</span> <span class="nav-text">极限编程实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E5%88%92%E6%B8%B8%E6%88%8F"><span class="nav-number">11.6.1.</span> <span class="nav-text">计划游戏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E8%A7%84%E6%A8%A1%E5%8F%91%E5%B8%83"><span class="nav-number">11.6.2.</span> <span class="nav-text">小规模发布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E5%96%BB"><span class="nav-number">11.6.3.</span> <span class="nav-text">隐喻</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E8%AE%BE%E8%AE%A1"><span class="nav-number">11.6.4.</span> <span class="nav-text">简单设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-1"><span class="nav-number">11.6.5.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E6%9E%84"><span class="nav-number">11.6.6.</span> <span class="nav-text">重构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E5%AF%B9%E7%BC%96%E7%A8%8B"><span class="nav-number">11.6.7.</span> <span class="nav-text">结对编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E4%BD%93%E6%89%80%E6%9C%89%E6%9D%83"><span class="nav-number">11.6.8.</span> <span class="nav-text">集体所有权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90-1"><span class="nav-number">11.6.9.</span> <span class="nav-text">持续集成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#40%E5%B0%8F%E6%97%B6%E5%B7%A5%E4%BD%9C%E5%88%B6"><span class="nav-number">11.6.10.</span> <span class="nav-text">40小时工作制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%B0%E5%9C%BA%E5%AE%A2%E6%88%B7"><span class="nav-number">11.6.11.</span> <span class="nav-text">现场客户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E6%A0%87%E5%87%86"><span class="nav-number">11.6.12.</span> <span class="nav-text">编码标准</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%99%E6%A0%B7%E5%A6%82%E4%BD%95%E8%83%BD%E8%A1%8C%EF%BC%9F"><span class="nav-number">11.7.</span> <span class="nav-text">这样如何能行？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E7%AB%A0%E5%A6%82%E4%BD%95%E7%BB%84%E7%BB%87%EF%BC%9F"><span class="nav-number">11.7.1.</span> <span class="nav-text">本章如何组织？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E5%88%92%E6%B8%B8%E6%88%8F-1"><span class="nav-number">11.7.2.</span> <span class="nav-text">计划游戏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%AD%E5%91%A8%E6%9C%9F%E5%8F%91%E5%B8%83"><span class="nav-number">11.7.3.</span> <span class="nav-text">短周期发布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E5%96%BB-1"><span class="nav-number">11.7.4.</span> <span class="nav-text">隐喻</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E8%AE%BE%E8%AE%A1-1"><span class="nav-number">11.7.5.</span> <span class="nav-text">简单设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E8%AE%BE%E8%AE%A1-2"><span class="nav-number">11.7.5.1.</span> <span class="nav-text">简单设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-2"><span class="nav-number">11.7.6.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E6%9E%84-1"><span class="nav-number">11.7.7.</span> <span class="nav-text">重构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E5%AF%B9%E7%BC%96%E7%A8%8B-1"><span class="nav-number">11.7.8.</span> <span class="nav-text">结对编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E4%BD%93%E6%89%80%E6%9C%89%E6%9D%83-1"><span class="nav-number">11.7.9.</span> <span class="nav-text">集体所有权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90-2"><span class="nav-number">11.7.10.</span> <span class="nav-text">持续集成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#40%E5%B0%8F%E6%97%B6%E5%B7%A5%E4%BD%9C%E5%88%B6-1"><span class="nav-number">11.7.11.</span> <span class="nav-text">40小时工作制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%B0%E5%9C%BA%E5%AE%A2%E6%88%B7-1"><span class="nav-number">11.7.12.</span> <span class="nav-text">现场客户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E6%A0%87%E5%87%86-1"><span class="nav-number">11.7.13.</span> <span class="nav-text">编码标准</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA-1"><span class="nav-number">11.7.14.</span> <span class="nav-text">结论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%AD%96%E7%95%A5"><span class="nav-number">11.8.</span> <span class="nav-text">测试策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8B%AC%E7%AB%8B%E4%B8%94%E8%87%AA%E5%8A%A8"><span class="nav-number">11.8.1.</span> <span class="nav-text">独立且自动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E6%B3%95%E7%BB%9D%E5%AF%B9%E6%B5%8B%E8%AF%95%E4%B8%80%E5%88%87"><span class="nav-number">11.8.2.</span> <span class="nav-text">无法绝对测试一切</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%81%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95%EF%BC%9F%E2%80%94%E2%80%94%E7%A8%8B%E5%BA%8F%E5%91%98"><span class="nav-number">11.8.3.</span> <span class="nav-text">谁编写测试？——程序员</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%81%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95%EF%BC%9F%E2%80%94%E2%80%94%E5%AE%A2%E6%88%B7"><span class="nav-number">11.8.4.</span> <span class="nav-text">谁编写测试？——客户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%B5%8B%E8%AF%95"><span class="nav-number">11.8.5.</span> <span class="nav-text">其他测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%B7%B2%E6%AD%BB"><span class="nav-number">11.9.</span> <span class="nav-text">设计已死</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%B7%B2%E6%AD%BB%EF%BC%9F"><span class="nav-number">11.9.1.</span> <span class="nav-text">设计已死？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%94%E8%BF%9B%E5%BC%8F%E8%AE%BE%E8%AE%A1"><span class="nav-number">11.9.2.</span> <span class="nav-text">演进式设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E5%88%92%E5%BC%8F%E8%AE%BE%E8%AE%A1"><span class="nav-number">11.9.3.</span> <span class="nav-text">计划式设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">11.9.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B0%E6%96%B9%E6%B3%95%E5%AD%A6"><span class="nav-number">12.</span> <span class="nav-text">新方法学</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%8F%E6%8D%B7%E6%96%B9%E6%B3%95"><span class="nav-number">12.1.</span> <span class="nav-text">敏捷方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E9%9D%A2%E5%8C%BA%E5%88%AB"><span class="nav-number">12.1.1.</span> <span class="nav-text">表面区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E8%B4%A8%E5%8C%BA%E5%88%AB"><span class="nav-number">12.1.2.</span> <span class="nav-text">本质区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E9%A2%84%E8%A7%81%E6%80%A7"><span class="nav-number">12.2.</span> <span class="nav-text">不可预见性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E7%9A%84%E4%B8%8D%E5%8F%AF%E9%A2%84%E8%A7%81%E6%80%A7"><span class="nav-number">12.2.1.</span> <span class="nav-text">需求的不可预见性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E8%A7%81%E6%80%A7%E6%98%AF%E4%B8%8D%E5%8F%AF%E8%83%BD%E7%9A%84"><span class="nav-number">12.2.2.</span> <span class="nav-text">预见性是不可能的</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%98"><span class="nav-number">12.3.</span> <span class="nav-text">关键问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E5%8F%98%E6%9B%B4"><span class="nav-number">12.4.</span> <span class="nav-text">需求变更</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%84%E4%BB%B7%E9%A1%B9%E7%9B%AE%E6%88%90%E5%8A%9F"><span class="nav-number">12.5.</span> <span class="nav-text">评价项目成功</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%A6%E9%87%8F%E7%9A%84%E5%9B%B0%E9%9A%BE%E6%80%A7"><span class="nav-number">12.6.</span> <span class="nav-text">度量的困难性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2024%E6%9C%9F%E6%9C%AB%E5%9B%9E%E5%BF%86"><span class="nav-number">13.</span> <span class="nav-text">2024期末回忆</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E9%A2%98"><span class="nav-number">13.1.</span> <span class="nav-text">选择题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98"><span class="nav-number">13.2.</span> <span class="nav-text">简答题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B2%A1%E6%9C%89%E9%93%B6%E5%BC%B9%E5%92%8C%E6%9C%AC%E8%B4%A8%E7%89%B9%E6%80%A7%EF%BC%8810%E5%88%86%EF%BC%89"><span class="nav-number">13.2.1.</span> <span class="nav-text">没有银弹和本质特性（10分）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linus%E5%92%8CBrooks%EF%BC%8810%E5%88%86%EF%BC%89"><span class="nav-number">13.2.2.</span> <span class="nav-text">Linus和Brooks（10分）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XP%E5%AE%9E%E8%B7%B5%EF%BC%8820%E5%88%86%EF%BC%89"><span class="nav-number">13.2.3.</span> <span class="nav-text">XP实践（20分）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scrum%E5%92%8CXP%EF%BC%8830%E5%88%86%EF%BC%89"><span class="nav-number">13.2.4.</span> <span class="nav-text">Scrum和XP（30分）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">14.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2025/01/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="软件工程管理2024 期末复习 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          软件工程管理2024 期末复习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-01-07 17:17:00" itemprop="dateCreated datePublished" datetime="2025-01-07T17:17:00+08:00">2025-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-08 13:06:10" itemprop="dateModified" datetime="2025-01-08T13:06:10+08:00">2025-01-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">软件工程管理</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2025/01/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2025/01/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>27k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>49 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="关于考试"><a href="#关于考试" class="headerlink" title="关于考试"></a>关于考试</h1><p>开卷考试，允许携带一张A4纸，可以展示大家的压缩字体能力和眼部放大镜能力了。</p>
+<p>本章只是对本课所有课件的一个整理，同时还偷了一些来自参考的整理。</p>
+<h1 id="没有银弹NoSilverBullet"><a href="#没有银弹NoSilverBullet" class="headerlink" title="没有银弹NoSilverBullet"></a>没有银弹NoSilverBullet</h1><p><strong>Author：Fredrick P. Brooks1986</strong></p>
+<h2 id="主要思想"><a href="#主要思想" class="headerlink" title="主要思想"></a>主要思想</h2><ul>
+<li>没有任何一种单纯的技术或管理上的进展，能够独立地承诺十年内使生产率、可靠性或简洁性获得数量级上的进步。</li>
+<li>所有大家看到的技术、管理方法都不会给软件开发带来意想不到的效果。</li>
+<li>软件开发在根本上就是困难的。</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="根本任务和次要任务"><a href="#根本任务和次要任务" class="headerlink" title="根本任务和次要任务"></a>根本任务和次要任务</h2><ul>
+<li><p>根本任务(essential)——打造由抽象软件实体构成的复杂概念结构。</p>
+</li>
+<li><p>次要任务(accidental)——使用编程语言表达这些抽象实体，在空间和时间限制内将它们映射成机器语言。</p>
+</li>
+<li><p>除非次要任务占了所有工作的9&#x2F;10，否则即使全部次要任务的时间缩减到零，也不会给生产率带来数量级上的提高。</p>
+</li>
+</ul>
+<h2 id="银弹"><a href="#银弹" class="headerlink" title="银弹"></a>银弹</h2><ul>
+<li><p>人狼——可以完全出乎意料地从熟悉的面孔变成可怕的怪物。</p>
+</li>
+<li><p>消灭人狼——银弹。</p>
+</li>
+<li><p>软件项目——常常看似简单明了的东西，却有可能变成⼀个落后进度、超出预算、存在大量缺陷的怪物。</p>
+</li>
+</ul>
+<h2 id="根本困难——软件特性中固有的困难"><a href="#根本困难——软件特性中固有的困难" class="headerlink" title="根本困难——软件特性中固有的困难"></a>根本困难——软件特性中固有的困难</h2><ul>
+<li>我认为软件开发中困难的部分是规格化、设计和测试这些概念上的结构，而不是对概念进行表达和对实现逼真程度进行验证。</li>
+<li>如果这是事实，那么软件开发总是非常困难的。天生就没有银弹。</li>
+<li>现代软件系统中无法规避的内在特性：<strong>复杂度、一致性、可变性和不可见性</strong>。</li>
+</ul>
+<h3 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h3><ol>
+<li>软件实体可能⽐任何由⼈类创造的其他实体都要复杂，因为没有任何两个软件部分是相同的，如果有我们会将它们合并。</li>
+<li>数字计算机本身就⽐⼈类建造的⼤多数东⻄复杂。计算机拥有⼤量的状态，这使得构思、描述和测试都⾮常困难。软件系统的状态⼜⽐计算机系统状态多若⼲个数量级。</li>
+<li>软件实体的扩展也不仅仅是相同元素重复添加，⽽必须是不同元素实体的添加。整个软件的复杂度以很⼤的⾮线性级数增⻓。</li>
+<li>软件的复杂度是必要属性，不是次要因素。抽掉复杂度的软件实体描述常常也去掉了⼀些本质属性</li>
+</ol>
+<ul>
+<li><p>复杂度问题造成软件产品开发问题</p>
+<ul>
+<li><p>团队成员之间的沟通⾮常困难，导致了产品瑕疵、成本超⽀和进度延迟</p>
+</li>
+<li><p>由于复杂度，列举和理解所有可能的状态⼗分困难，影响了产品的可靠性</p>
+</li>
+<li><p>由于函数的复杂度，函数调⽤变得困难，导致程序难以使⽤</p>
+</li>
+<li><p>由于结构性复杂度，程序难以在不产⽣副作⽤的情况下⽤新函数扩充</p>
+</li>
+<li><p>由于结构性复杂度，造成很多安全机制状态上的不可⻅</p>
+</li>
+</ul>
+</li>
+<li><p>复杂度引发管理上的问题</p>
+<ul>
+<li>全⾯理解问题变得困难，从⽽妨碍了概念上的完整性</li>
+<li>它使所有离散出⼝难以寻找和控制</li>
+<li>它引起了⼤量学习和理解上的负担，使开发慢慢演变成了⼀场灾难</li>
+</ul>
+</li>
+</ul>
+<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><ul>
+<li>物理学家⾯对异常复杂的事物，他们坚信必定存在着某种通⽤原理。物理学是研究上帝创造的东⻄。</li>
+<li>软件开发⾯对的复杂度往往是随⼼所欲、毫⽆规则可⾔的，来⾃若⼲必须遵循的⼈为惯例和系统。软件开发⾯对的是⼈，不是上帝。</li>
+<li>很多复杂性来⾃保持与其他接⼝的⼀致。</li>
+</ul>
+<h3 id="可变性"><a href="#可变性" class="headerlink" title="可变性"></a>可变性</h3><ul>
+<li>软件实体经常会遭受到持续的变更压⼒。</li>
+<li>软件的变更<ul>
+<li>⼈们要求扩展，更改功能</li>
+<li>硬件的变化</li>
+</ul>
+</li>
+<li>软件与整个社会联成⼀体，后者在不断变动，它强迫软件也跟着变动。</li>
+</ul>
+<h3 id="不可见性"><a href="#不可见性" class="headerlink" title="不可见性"></a>不可见性</h3><ul>
+<li>软件是不可⻅的和⽆法可视化的</li>
+<li>软件的客观存在不具有空间的形体特征：现在没有任何⼀种2维、3维的图形可以描述软件。</li>
+<li>这限制了个⼈的设计过程，也严重的阻碍了相互之间的交流。</li>
+<li>UML</li>
+</ul>
+<h2 id="当年的银弹"><a href="#当年的银弹" class="headerlink" title="当年的银弹"></a>当年的银弹</h2><p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107143637687.png" alt="image-20250107143637687"></p>
+<h1 id="人月神话TheMythicalMan-Month"><a href="#人月神话TheMythicalMan-Month" class="headerlink" title="人月神话TheMythicalMan-Month"></a>人月神话TheMythicalMan-Month</h1><p><strong>Author：FredrickP.Brooks</strong></p>
+<h2 id="进度"><a href="#进度" class="headerlink" title="进度"></a>进度</h2><p>在众多软件项目中，缺乏合理的时间进度是造成项目滞后的最主要原因，它比其他所有因素加起来的影响还大。</p>
+<ul>
+<li>首先，我们对估算技术缺乏有效的研究</li>
+<li>第二，我们采用的估算技术隐含地假设人和月可以互换，错误地将进度与工作量相互混淆。</li>
+<li>第三，由于对自己的估算缺乏信心，软件经理通常不会有耐心持续地进行估算这项工作。</li>
+<li>第四，对进度缺少跟踪和监督。其他工程领域中，经过验证的跟踪技术和常规监督程序，在软件工程中常常被认为是无谓的举动。</li>
+<li>第五，当意识到进度的偏移时，下意识（以及传统）的反应是增加人力。这就像使用汽油灭火一样，只会使事情更糟。越来越大的火势需要更多的汽油，从而进入了一场注定会导致灾难的循环。</li>
+</ul>
+<h2 id="乐观主义"><a href="#乐观主义" class="headerlink" title="乐观主义"></a>乐观主义</h2><ul>
+<li>所有的编程人员都是乐观主义者</li>
+<li>所有系统编程的进度安排背后的第一个假设是：一切都将运作良好，每一项任务仅花费它所“应该”花费的时间。</li>
+<li>计算机编程基于十分容易掌握的介质，编程人员通过非常纯粹的思维活动——概念以及灵活的表现形式来开发程序。正由于介质的易于驾驭，我们期待在实现过程中不会碰到困难，因此造成了乐观主义的弥漫</li>
+</ul>
+<h2 id="人月"><a href="#人月" class="headerlink" title="人月"></a>人月</h2><ul>
+<li><p>第二个谬误的思考方式是在估计和进度安排中使用的工作量单位：人月。</p>
+</li>
+<li><p>成本的确随开发产品的人数和时间的不同，有着很大的变化，进度却不是如此。因此我认为用人月作为衡量一项工作的规模是一个危险和带有欺骗性的神话。它暗示着人员数量和时间是可以相互替换的。</p>
+</li>
+<li><p>沟通所增加的负担由两个部分组成，培训和相互的交流。每个成员需要进行技术、项目目标以及总体策略上的培训。这种培训不能分解，因此这部分增加的工作量随人员的数量呈线性变化.</p>
+</li>
+<li><p>相互之间交流的情况更糟一些。如果任务的每个部分必须分别和其他部分单独协作，则工作量按照n(n-1)&#x2F;2递增。</p>
+</li>
+<li><p>因为软件开发本质上是一项系统工作——错综复杂关系下的一种实践——沟通、交流的工作量非常大，它很快会消耗任务分解所节省下来的个人时间。从而，添加更多的人手，实际上是延长了，而不是缩短了时间进度</p>
+</li>
+</ul>
+<h2 id="系统测试"><a href="#系统测试" class="headerlink" title="系统测试"></a>系统测试</h2><ul>
+<li><p>由于乐观主义，通常实际出现的缺陷数量比预料的要多得多。</p>
+</li>
+<li><p>进度安排：1&#x2F;3计划；1&#x2F;6编码；1&#x2F;4构件测试和早期系统测试；1&#x2F;4系统测试，所有的构件已完成</p>
+<ul>
+<li><p>分配给计划的时间比寻常的多。即便如此，仍不足以产生详细和稳定的计划规格说明，也不足以容纳对全新技术的研究和摸索。</p>
+</li>
+<li><p>对所完成代码的调试和测试，投入近一半的时间，比平常的安排多很多。</p>
+</li>
+<li><p>容易估计的部分，即编码，仅仅分配了六分之一的时间。</p>
+</li>
+</ul>
+</li>
+<li><p>不为系统测试安排足够的时间简直就是一场灾难。</p>
+</li>
+<li><p>直到项目的发布日期，才有人发现进度上的问题。</p>
+</li>
+<li><p>此时此刻的延迟具有不寻常的、严重的财务和心理上的反应。</p>
+</li>
+</ul>
+<h2 id="空泛的估算"><a href="#空泛的估算" class="headerlink" title="空泛的估算"></a>空泛的估算</h2><ul>
+<li>还没有可靠的估算技术出现。</li>
+<li>在基于可靠基础的估算出现之前，项目经理需要挺直腰杆，坚持他们的估计，确信自己的经验和直觉总比从期望派生出的结果要强得多。</li>
+</ul>
+<h2 id="Brooks法则"><a href="#Brooks法则" class="headerlink" title="Brooks法则"></a>Brooks法则</h2><ul>
+<li>向进度落后的项目中增加人手，只会使进度更加落后。</li>
+<li>在众多软件项目中，缺乏合理的时间进度是造成项目滞后的最主要原因，它比其他所有因素加起来的影响还要大。</li>
+</ul>
+<h1 id="大教堂与集市TheCathedralAndTheBazaar"><a href="#大教堂与集市TheCathedralAndTheBazaar" class="headerlink" title="大教堂与集市TheCathedralAndTheBazaar"></a>大教堂与集市TheCathedralAndTheBazaar</h1><p><strong>埃里克·斯蒂芬·雷蒙（Eric Steven Raymond）1999</strong></p>
+<h2 id="主要思想-1"><a href="#主要思想-1" class="headerlink" title="主要思想"></a>主要思想</h2><p>**大教堂：**一种是封闭的、垂直的、集中式的开发模式，反映一种由权利关系所预先控制的极权制度；</p>
+<p>**集市：**一种并行的、点对点的、动态的开发模式。</p>
+<p>他在文中论证了自由软件不仅仅是一种乌托邦的理想，而是在开发模式上真正代表着“先进生产力”，代表着历史发展趋势的必然。</p>
+<h2 id="”大教堂“与”集市“"><a href="#”大教堂“与”集市“" class="headerlink" title="”大教堂“与”集市“"></a>”大教堂“与”集市“</h2><p>**大教堂：**传统的软件开发（本书限定在1990年以前）是“大教堂”模式，开发者在一个相对封闭的环境中进行设计和编码，直到产品基本完成、内部测试后，才会推向大众。软件的开发过程局限在项目组（一般是公司、实验室、科研单位等），在产品发布前，大众对此一无所知。</p>
+<p>**集市：**Linux的诞生过程(1991年)后颠覆了传统模式，被作者称为”集市“模式，从项目启动伊始就将产品推向大众，并根据大众的反馈不断迭代，并且大众也可以为该项目贡献代码、提交缺陷。软件开发过程从项目组扩展为所有人。</p>
+<h2 id="“集市”模式的开发方式"><a href="#“集市”模式的开发方式" class="headerlink" title="“集市”模式的开发方式"></a>“集市”模式的开发方式</h2><ul>
+<li><p>**组织者描述产品，给出雏形。**任何对此产品有兴趣的开发者均可参与开发，开发过程是公开透明的，参与者可以看到项目的所有进展。</p>
+</li>
+<li><p>**快速迭代。**产品发布的频率极高，初期可达到每天一次，后期每周一次。紧张的交付周期可以鞭策开发者的开发效率。</p>
+</li>
+<li><p>**开源社区。**任何人都能拿到产品的源代码，任何人都可以是产品的贡献者。开发者是无私奉献的。</p>
+</li>
+<li><p>**开发阶段和测试阶段并行。**允许多人同时开发和测试，分布式的力量加速了项目的进展，且由于产品面向大众，任何人都是测试人员，“群众的眼睛是雪亮的，群众的力量是无穷的”。任何细小或深处的缺陷都能够被发现，因为这是产品使用时真实遇到的问题。同时，由于代码是开源的，人们指出问题时，可以将问题定位到代码行级，极大方便了开发人员修正缺陷。</p>
+</li>
+</ul>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p>Linux的影响是非常巨大的。甚至在５年以前，有谁能够想象一个世界级的操作系统能够仅仅依靠用细细的Internet连接起来的、散布在全球的几千个开发人员以业余时间来创造呢？</p>
+<p>Linux推翻了许多我认为自己明白的事情。</p>
+<p>我以前相信多数重要的软件（操作系统和象Emacs一样的真正大型的工具）需要象建造大教堂一样来开发，需要一群与世隔绝的奇才的细心工作，在成功之前没有beta版的发布。</p>
+<p>LinusTorvalds的开发风格（尽早尽多的发布，委托所有可以委托的事，对所有的改动和融合开放）令人惊奇的降临了。</p>
+<p>这里没有安静的、虔诚的大教堂的建造工作——相反，Linux团体看起来像一个巨大的有各种不同议程和方法的乱哄哄的集市（Linux归档站点接受任何人的建议和作品，并聪明的加以管理），一个一致而稳定的系统就象奇迹一般从这个集市中产生了。</p>
+<h2 id="Fetchmail：Linux开发模式"><a href="#Fetchmail：Linux开发模式" class="headerlink" title="Fetchmail：Linux开发模式"></a>Fetchmail：Linux开发模式</h2><ol>
+<li>每个好的软件工作都开始于搔到了开发者本人的痒处。</li>
+<li>好程序员知道该写什么，伟大的程序员知道该重写（和重用）什么。</li>
+<li>“计划好抛弃，无论如何，你会的”(FredBrooks,TheMythicalMan-Month,Chapter11）</li>
+<li>如果你有正确的态度，有趣的问题会找上你的。</li>
+<li>当你对一个程序失去兴趣时，你最后的责任就是把它传给一个能干的后继者。</li>
+<li>把用户当做协作开发者是快速改进代码和高效调试的无可争辩的方式。</li>
+<li>早发布、常发布、听取客户的建议。</li>
+<li>**Linus定理：**如果有一个足够大的beta测试人员和协作开发人员的基础，几乎所有的问题都可以被快速的找出并被一些人纠正。（<strong>建造教堂和集市模式的核心区别</strong>）</li>
+<li>聪明的数据结构和笨拙的代码要比相反的搭配工作的更好（自己编程的认识）。</li>
+<li>如果你象对待最宝贵的资源一样对待你的beta测试员，他们就会成为你最宝贵的资源。</li>
+</ol>
+<p>（以下7条针对Fetchmail的开发）</p>
+<ol start="11">
+<li>想出好主意是好事，从你的用户那里发现好主意也是好事，有时候后者更好。</li>
+<li>最重要和最有创新的解决方案常常来自于你认识到你对问题的概念是错误的。（你在开发中碰壁了，头破血流，反省后才能得到最好的解决方案）</li>
+<li>“最好的设计不是再也没有什么东西可以添加了，而是再也没有什么东西可以去掉。”</li>
+<li>任何工具都应该能以预想的方式使用，但是一个伟大的工具提供你没料到的功能。</li>
+<li>当写任何种类的网关型程序时，多费点力，尽量少干扰数据流，永远不要抛弃信息，除非接收方强迫这么作!</li>
+<li>如果你的语言一点也不象是图灵完备的，严格的语法会有好处。（rcfile,controlfilesyntax)</li>
+<li>一个安全系统只能和它的秘密一样安全，当心伪安全。</li>
+<li>要解决一个有趣的问题，请从发现让你感兴趣的问题开始。</li>
+<li>如果开发协调人员有至少和Internet一样好的媒介，而且知道怎样不通过强迫来领导，许多头脑将不可避免地比一个好。</li>
+</ol>
+<h2 id="市集风格的必要的先决条件"><a href="#市集风格的必要的先决条件" class="headerlink" title="市集风格的必要的先决条件"></a>市集风格的必要的先决条件</h2><ul>
+<li>不能以市集模式从头开发一个软件，我们可以以市集模式测试、调试和改进，但是以市集模式从头开始一个项目将是非常困难的。</li>
+<li>当你开始创建社团时，你需要演示的是一个诺言，你的程序不需要工作的很好，它可以很粗糙、很笨拙、不完整和缺少文档、它不能忽略的东西是要吸引大家卷入一个有趣的项目。</li>
+</ul>
+<h1 id="开源软件经济学"><a href="#开源软件经济学" class="headerlink" title="开源软件经济学"></a>开源软件经济学</h1><p>替代物品是首选商品太贵时会改买的另一种东西。</p>
+<p>互补物品是通常会和其它产品一起购买的产品。</p>
+<ul>
+<li>当商品的价格下降时互补物品的需求就会增加。</li>
+<li>很多有责任尽量提升股东价值的大型上市公司，投入很多资金支持开放源码软件(通常是负担大型程序团队的开发费用)。而这正可以用互补物的原理来解释。</li>
+<li>聪明的公司试图让产品的互补物普及化。IT顾问是企业软件的互补物品，IBM必须让企业软件普及化，因此支持开放源码软件。</li>
+</ul>
+<h1 id="Charactering-the-software-process"><a href="#Charactering-the-software-process" class="headerlink" title="Charactering the software process"></a>Charactering the software process</h1><p>**软件过程管理基本定律（CMM基本假设）：**如果开发过程可以在统计控制下，改进过程就可以导致更好的结果。将整个软件开发任务作为一个可控制，可度量，可改进的过程。</p>
+<h2 id="提升软件能力-如何开发一个CMM框架"><a href="#提升软件能力-如何开发一个CMM框架" class="headerlink" title="提升软件能力&#x2F;如何开发一个CMM框架"></a>提升软件能力&#x2F;<strong>如何开发一个</strong>CMM框架</h2><ol>
+<li>明白当前过程状态；</li>
+<li>开发一个期望过程的版本；</li>
+<li>按优先级建立要求的活动</li>
+<li>制定完成活动的计划</li>
+<li>提交资源完成计划。</li>
+</ol>
+<h2 id="SEI成熟度框架"><a href="#SEI成熟度框架" class="headerlink" title="SEI成熟度框架"></a>SEI成熟度框架</h2><ol>
+<li><strong>初始级（Level1:Initial）</strong><ul>
+<li>**特点：**过程是无序的、混乱的，依赖个人英雄主义。</li>
+<li>**风险：**成功高度依赖特定人员，过程不可预测。</li>
+<li>**示例：**大多数初创公司和早期项目。</li>
+</ul>
+</li>
+<li><strong>已管理级（Level2:Managed）</strong><ul>
+<li>**特点：**基本项目管理过程到位，可以规划和监控项目。</li>
+<li>**成就：**在类似项目中可以重复过去的经验。</li>
+<li>**示例：**有明确的需求、计划，但质量管理较弱。</li>
+</ul>
+</li>
+<li><strong>已定义级（Level3:Defined）</strong><ul>
+<li>**特点：**组织的过程被定义、文档化，所有项目使用标准过程。</li>
+<li>**成就：**开发和维护过程标准化，具有组织级过程资产库。</li>
+<li>**示例：**项目管理和开发遵循清晰的流程模板。</li>
+</ul>
+</li>
+<li><strong>量化管理级（Level4:Quantitatively Managed）</strong><ul>
+<li>**特点：**对过程进行定量管理和监控，强调可量化的目标。</li>
+<li>**成就：**能够预测性能，识别并改进瓶颈。</li>
+<li>**示例：**使用统计和量化技术优化质量和效率。</li>
+</ul>
+</li>
+<li><strong>优化级（Level5:Optimizing）</strong><ul>
+<li>**特点：**组织关注持续改进，能迅速适应变化。</li>
+<li>**成就：**基于定量反馈和创新改进流程。</li>
+<li>**示例：**持续的过程优化和创新，快速应对市场变化。</li>
+</ul>
+</li>
+</ol>
+<h1 id="Scrum"><a href="#Scrum" class="headerlink" title="Scrum"></a>Scrum</h1><h2 id="主要论点和结构"><a href="#主要论点和结构" class="headerlink" title="主要论点和结构"></a>主要论点和结构</h2><p><strong>与传统的瀑布模式不同，Scrum是一种迭代增量式的开发过程，用于敏捷开发。</strong></p>
+<h2 id="Scrum3355框架"><a href="#Scrum3355框架" class="headerlink" title="Scrum3355框架"></a>Scrum3355框架</h2><ul>
+<li><strong>三个角色</strong>：ScrumMaster、ProductOwner（产品负责人）和Team（团队）。•</li>
+<li><strong>三个工件</strong>：ProductBacklog（产品待办事项）、SprintBacklog（Sprint待办事项）和可交付产品增量（也有说是燃尽图）。</li>
+<li><strong>五大仪式（事件）</strong>：Sprint（冲刺）、SprintPlanning（Sprint规划）、SprintDailyStandup（每日站会）、SprintReview（Sprint评审）和SprintRetrospective（回顾）。</li>
+<li><strong>五大价值观</strong>：Courage（勇气）、Openness（开放）、Focus（专注）、Commitment（承诺）和Respect（尊重）。</li>
+</ul>
+<h2 id="Scrum主要角色"><a href="#Scrum主要角色" class="headerlink" title="Scrum主要角色"></a>Scrum主要角色</h2><h3 id="产品负责人"><a href="#产品负责人" class="headerlink" title="产品负责人"></a>产品负责人</h3><p><strong>产品负责人</strong>负责确定产品目标、代表客户、划定优先级，是<strong>团队和客户进行交互</strong>的窗口；清晰的表达产品代办事项列表条目；对产品待办事项列表中的条目进行排序，最好地实现目标和使命；确保开发团队所执行工作的价值；确保产品待办事项列表对所有人可见、透明、清晰，并且显示Scrum团队的下一步工作；确保开发团队对产品待办事项列表中的条目达到一定程度的理解。</p>
+<ul>
+<li>产品负责人负责最大化产品以及开发团队工作的价值。产品负责人是唯一有权要求团队做事以及改变列表条目优先级的人。</li>
+<li>持有产品愿景、代表业务（thebusiness）、代表客户、拥有产品列表、划定故事优先级、设立故事的接收标准、有空回答团队成员们的问题。</li>
+<li>产品负责人和团队其他人之间有一层天生的紧张关系，产品负责人总想要更多，而团队则必须维护可持续的速率。只要不是单方面说了算，这层紧张关系就还是有益的。</li>
+<li>不要合并产品负责人和scrummaster。</li>
+<li>产品负责人是管理产品待办事项列表的唯一责任人。产品待办事项列表的管理包括:<ul>
+<li>清晰地表达产品代办事项列表条目；</li>
+<li>对产品代办事项列表中的条目进行排序,最好地实现目标和使命；</li>
+<li>确保开发团队所执行工作的价值；</li>
+<li>确保产品代办事项列表对所有人可见、透明、清晰,并且显示Scrum团队的下一步工作；</li>
+<li>确保开发团队对产品代办事项列表中的条目达到一定程度的理解</li>
+</ul>
+</li>
+</ul>
+<h3 id="ScrumMaster"><a href="#ScrumMaster" class="headerlink" title="ScrumMaster"></a>ScrumMaster</h3><p><strong>ScrumMaster</strong>不是团队的老板，而是团队的守护者、引导者、捍卫者、谏言者和专家，致力于<strong>清除障碍</strong>，维护流程的有效性。知道团队自组织和跨功能；教导并领导开发团队创造高价值的产品；按需推动Scrum事件；在Scrum还未完全被采纳和理解的组织环境下指导开发团队。</p>
+<ul>
+<li>ScrumMaster负责确保Scrum被理解并实施。</li>
+<li>Scrummaster担当教练角色，引领团队达到更高级的凝聚力、自组织和表现。ScrumMaster以各种方式服务于开发团队,包括:<ul>
+<li>指导开发团队自组织和跨功能</li>
+<li>教导并领导开发团队创造高价值的产品</li>
+<li>移除开发团队进展过程中的障碍</li>
+<li>按需推动Scrum事件</li>
+<li>在Scrum还未完全被采纳和理解的组织环境下指导开发团队</li>
+<li>CoachandTeacher</li>
+</ul>
+</li>
+<li>Scrummaster也有可能一并担当直接贡献的责任。这种情况下我们称之为工作型(working)scrummaster，或贡献型(contributor)scrummaster。</li>
+</ul>
+<h3 id="开发团队成员"><a href="#开发团队成员" class="headerlink" title="开发团队成员"></a>开发团队成员</h3><p><strong>开发团队成员</strong>负责所有的<strong>开发工作</strong>，支配估算流程，专注于高质量交付。**不要微观管理（管得太细）。**不包括如测试或业务分析等负责特定领域的子团队。</p>
+<ul>
+<li><p>自组织团队选择如何最好地完成他们的工作,而不是由团队外的其他人来指使他们。</p>
+<ul>
+<li>《为什么我们需要自组织团队》提出必须让团队竭尽他们所有的专业能力，不仅仅是完成他们的工作任务，还要自我监督和控制，自己做决定，甚至设计自己的流程。</li>
+<li>自组织性高的团队往往也能够比其他团队带来更多的好处，比如能够传递更多的商业价值、更加高效地协同工作以及学的更快等。</li>
+<li>降低管理成本！</li>
+</ul>
+</li>
+<li><p>全功能团队拥有完成工作所需要的全部技能,不需要依赖团队外部的人（特性团队）。</p>
+<ul>
+<li>全功能团队是具有不同职能专业或多学科技能的团队。当一个团队拥有满足需求的所有技能和资源时，就称为真正的跨职能。这意味着它不依赖于跟其他团队的工作交接，也不用等待其他团队的工作。</li>
+<li>特性团队：一种组建跨职能团队的常见方式是让团队对某个特性负责。有些人将其称之为特性团队。这个团队对于某个特性从开始到结束全程负责。</li>
+</ul>
+</li>
+</ul>
+<h4 id="微观管理及其危害"><a href="#微观管理及其危害" class="headerlink" title="微观管理及其危害"></a>微观管理及其危害</h4><p>微观管理（Micromanagement）一般是指：在对员工的工作管理中，管理者过度关注和控制工作细节的管理风格和管理行为。</p>
+<p>客观地说，关注细节并非坏事。但是一旦过于关注和控制细节，就会带来种种问题：</p>
+<ol>
+<li>第一，会导致团队成员失去主观能动性。由于完全沦为执行者，导致员工只能按照管理者的思路走，从而失去了自主性和创造力。</li>
+<li>第二，会导致工作中出现决策等待和低效。当实际工作场景与管理者最初设想的不一致时，员工无法继续按照管理者最初的思路工作，就只能把问题反馈给管理者，等待管理者作出决策。</li>
+<li>第三，会影响到团队的积极性和士气。由于团队成员经常处于要向管理者汇报的压力中，经常处于被管理者纠偏的状态，很容易让团队成员感到不自信和缺乏成就感。</li>
+</ol>
+<p>微观管理是打造自组织团队的最大障碍之一。</p>
+<h2 id="猪与鸡的比喻"><a href="#猪与鸡的比喻" class="headerlink" title="猪与鸡的比喻"></a>猪与鸡的比喻</h2><p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107152029010.png" alt="image-20250107152029010"></p>
+<p>猪角色被认为是团队中的核心成员,在一个团队中产品的负责人和Scrum主管和开发团队就是“猪”角色。鸡角色不是Scrum的一部分,但必须要考虑他们，用户，客户或提供商，经理等扮演着“鸡”角色!</p>
+<p>把有兴趣关心，并无利益或价值牵扯的人，排除在项目决策团队以外！</p>
+<h2 id="用户故事"><a href="#用户故事" class="headerlink" title="用户故事"></a>用户故事</h2><p>用户故事是产品列表的基础构件。</p>
+<p>用户故事模板（不是唯一方法）：</p>
+<ul>
+<li>用户角色(who):</li>
+<li>功能(what):</li>
+<li>为什么(why):</li>
+</ul>
+<h3 id="3C原则"><a href="#3C原则" class="headerlink" title="3C原则"></a>3C原则</h3><ul>
+<li><strong>卡片(Card)（placeholder，占位符）</strong>：在一堆卡片上写下你期望的软件特性</li>
+<li><strong>交谈(Conversation)</strong>：聚在一起对要开发的软件进行深人讨论</li>
+<li><strong>确认(Confirmation)</strong>：对完工条件进行确认</li>
+</ul>
+<p>用户故事不是完整的需求或说明书，它们是占位符。</p>
+<p>它们的信息量足以提醒团队有东西要完成，但我们刻意地不过多探讨细节……直到必需之时。</p>
+<h3 id="DoD（DefinitionofDone）"><a href="#DoD（DefinitionofDone）" class="headerlink" title="DoD（DefinitionofDone）"></a>DoD（DefinitionofDone）</h3><p>“DefinitionofDone”（DoD，完成的定义）是敏捷软件开发中的一个关键概念，用于描述一个用户故事、任务或功能何时可以被认为真正“完成”。它是团队对完成工作的标准化定义，确保开发过程中每个增量都符合质量要求并准备好交付。</p>
+<ol>
+<li>提高透明度：DoD明确了完成的标准，减少了团队之间的沟通误解。</li>
+<li>保证质量：通过对代码质量、测试和文档的明确要求，确保产出的增量软件可用且可靠。</li>
+<li>支持验收流程：DoD是验收用户故事或功能的依据。如果工作未达到DoD，任务不能被标记为完成。</li>
+<li>防止技术债：通过明确完成标准，避免开发过程中留下未解决的问题。</li>
+</ol>
+<h3 id="行为驱动开发（BDD）"><a href="#行为驱动开发（BDD）" class="headerlink" title="行为驱动开发（BDD）"></a>行为驱动开发（BDD）</h3><p>行为驱动开发（BDD）是一种基于敏捷的软件开发方法论，其核心思想是通过定义软件的行为来驱动开发过程。BDD的重点是增强团队对需求的理解，并确保开发的软件满足业务目标。</p>
+<p>BDD是从测试驱动开发（TDD）演化而来的，强调在开发开始之前，用自然语言描述软件应如何行为。它通过让技术人员、业务人员和测试人员围绕共同的需求语言进行协作，消除了沟通中的歧义。</p>
+<h4 id="BDD的实践流程"><a href="#BDD的实践流程" class="headerlink" title="BDD的实践流程"></a>BDD的实践流程</h4><ol>
+<li>编写用户故事</li>
+<li>定义验收标准：验收标准是用户故事“完成”的具体条件，通常以场景的形式定义。</li>
+</ol>
+<h3 id="用户故事INVEST原则"><a href="#用户故事INVEST原则" class="headerlink" title="用户故事INVEST原则"></a>用户故事INVEST原则</h3><ol>
+<li>独立性（Independent）：要尽可能的让一个用户故事独立于其他的用户故事。</li>
+<li>可协商性（Negotiable）：一个用户故事的内容要是可以协商的，用户故事不是合同。</li>
+<li>有价值（Valuable）：每个故事必须对客户具有价值（无论是用户还是购买方）。</li>
+<li>可以估算性（Estimable）：—开发团队需要去估计一个用户故事以便确定优先级，工作量，安排计划。</li>
+<li>短小（Small）：一个好的故事在工作量上要尽量短小，至少要确保的是在一个迭代或Sprint中能够完成。</li>
+<li>可测试性（Testable）：一个用户故事要是可以测试的，以便于确认它是可以完成的。</li>
+</ol>
+<h3 id="产品Backlog"><a href="#产品Backlog" class="headerlink" title="产品Backlog"></a>产品Backlog</h3><p>产品Backlog是Scrum的核心，是按重要性排序的需求或故事（Story）的列表（客户语言描述的客户需求）</p>
+<p>&lt;imgsrc&#x3D;”<a target="_blank" rel="noopener" href="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107152859899.png%22alt=%22image-20250107152859899%22style=%22zoom:50%;%22/%3E">https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107152859899.png&quot;alt=&quot;image-20250107152859899&quot;style=&quot;zoom:50%;&quot;/&gt;</a></p>
+<h3 id="用户故事地图"><a href="#用户故事地图" class="headerlink" title="用户故事地图"></a>用户故事地图</h3><p>用户故事地图是一门在需求拆分过程中保持全景图的技术。敏捷软件开发中使用用户故事地图来发现、管理需求。</p>
+<p>&lt;imgsrc&#x3D;”<a target="_blank" rel="noopener" href="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107152936058.png%22alt=%22image-20250107152936058%22style=%22zoom:50%;%22/%3E">https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107152936058.png&quot;alt=&quot;image-20250107152936058&quot;style=&quot;zoom:50%;&quot;/&gt;</a></p>
+<h4 id="解决的问题"><a href="#解决的问题" class="headerlink" title="解决的问题"></a>解决的问题</h4><ol>
+<li>**全局视角缺失：**传统的待办事项列表（Backlog）往往只关注单个功能，缺乏对整体产品的全局视角，导致团队难以理解产品的整体结构和用户体验流程。用户故事地图通过横向展示用户活动，纵向排列功能细节，提供了产品的全貌视图，帮助团队更好地理解用户的使用路径。</li>
+<li>**需求优先级难以确定：**在复杂的项目中，众多需求可能让团队难以确定哪些功能应优先开发。用户故事地图通过将用户故事按照用户活动和任务进行组织，清晰地展示各功能的相对重要性，便于团队合理安排开发顺序。</li>
+<li>**缺乏用户需求聚焦：**开发过程中，团队可能过于关注技术实现，忽视了用户的真实需求。用户故事地图强调从用户角度出发，确保开发的功能真正满足用户需求，提升用户满意度。</li>
+<li>**难以理解功能之间的关系：**在大型项目中，不同功能之间的关系可能复杂，团队难以把握。用户故事地图通过结构化的方式展示功能之间的关联，帮助团队更好地理解和管理这些关系。</li>
+<li>**发布计划不明确：**在敏捷开发中，确定每次发布的功能范围至关重要。用户故事地图通过清晰地展示各功能的优先级和依赖关系，帮助团队制定合理的发布计划，确保每次发布都能为用户提供有价值的功能。</li>
+</ol>
+<h2 id="Sprint计划"><a href="#Sprint计划" class="headerlink" title="Sprint计划"></a>Sprint计划</h2><h3 id="会议准备"><a href="#会议准备" class="headerlink" title="会议准备"></a>会议准备</h3><ul>
+<li>所有重要的backlog条目都已经根据重要性被评过分,不同的重要程度对应不同的分数。分数只是用来根据重要性对backlog条目排序。</li>
+<li>所有人都可以编写添加条目，但只有ProductOwner才能决定优先级。</li>
+</ul>
+<h3 id="会议目标"><a href="#会议目标" class="headerlink" title="会议目标"></a>会议目标</h3><p>以终为始</p>
+<ul>
+<li>sprint目标（尽可能简单的语言，团队成员认同）。</li>
+<li>团队成员名单(以及他们的投入程度,如果不是100%的话)。</li>
+<li>sprintbacklog(即sprint中包括的故事列表)。</li>
+<li>确定好sprint演示日期。</li>
+<li>确定好时间地点,供举行每日scrum会议。</li>
+</ul>
+<p><strong>为什么PO需要参加会议？</strong></p>
+<p>每个故事都含有三个变量（<strong>范围、重要性和估算</strong>），他们两两之间对彼此有着强烈依赖，范围和重要性由PO设置，估算由团队设置，在Sprint计划会议上，经过团队和PO面对面对话，这三个变量会逐步得到调整优化。</p>
+<h3 id="一个Sprint多长？"><a href="#一个Sprint多长？" class="headerlink" title="一个Sprint多长？"></a>一个Sprint多长？</h3><p>确定Sprint长度：Sprint持续多久才算合适？</p>
+<ul>
+<li><p>时间短：“敏捷”——短反馈周期&#x3D;频繁交付&#x3D;频繁客户反馈&#x3D;错误方向持续时间短&#x3D;学习改进速度快……</p>
+</li>
+<li><p>时间长：更多时间作充分准备、解决问题、达成目标，不会被接二连三的会议压的不堪重负。</p>
+</li>
+</ul>
+<p>当前，Scrum周期通常为<strong>2个星期</strong>。</p>
+<h3 id="估算"><a href="#估算" class="headerlink" title="估算"></a>估算</h3><p>根据软件的开发内容、开发工具、开发人员等因素对需求分析、软件设计、编码、测试与整个开发过程所花费的时间、费用及工作量的预测。确定开发时间和开发成本的过程。<strong>估算的偏差</strong>是必然会存在的，估算不在于精确而在于有用。估算是一种手段，为了计划、项目管理。</p>
+<ul>
+<li>估算是很困难的，因为这是在预测未来。而历史证明，我们的估算经常是错误的—误差巨大，而且在很多时候都是这样。</li>
+<li>估算经常是错误的，但是估算过程仍然是有用的。估算过程是管理前方的不确定性的契机，它可以被当做风险管理的工具，让你可以发现误解、不一致以及需要进一步调査的地方。</li>
+<li>团队共同完成估算可以让大家建立对工作一致的理解。但是，根据收益递减原理，你不应在估算上花太多的时间。你可以做出一个快速但不那么准确的估计，也可以再多花一点时间做一个更准确的估计，但花上几天的时间得出精确的小时数就没用了。</li>
+</ul>
+<h4 id="估算单位"><a href="#估算单位" class="headerlink" title="估算单位"></a>估算单位</h4><p><strong>Storypoint：故事点</strong>，选取可识别的最小用例为2个storypoint.其它估算都是相对值，在所有sprint中保持该相对值一致。我们在估算速度时，估计我们能在一个迭代周期内能够完成的storypoint。</p>
+<p>**T恤尺码：**经常使用的序列是S、M、L。如果工作项比L大，他们会把它拆分成大小为S、M和L的更小条目。一个XL的条目会占用团队太多的产能，也不便于管理。必要时可以使用XS和XL。</p>
+<h4 id="估算过程"><a href="#估算过程" class="headerlink" title="估算过程"></a>估算过程</h4><h5 id="计划扑克"><a href="#计划扑克" class="headerlink" title="计划扑克"></a>计划扑克</h5><p>&lt;imgsrc&#x3D;”<a target="_blank" rel="noopener" href="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107153758194.png%22alt=%22image-20250107153758194%22style=%22zoom:33%;%22/%3E">https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107153758194.png&quot;alt=&quot;image-20250107153758194&quot;style=&quot;zoom:33%;&quot;/&gt;</a></p>
+<p><strong>价值：</strong></p>
+<ol>
+<li>传统估算通常是一个人在思考，而使用纸牌估算是，鼓励跨职能团队的多个团队成员参与估算，团队成员可以从不同的视角来思考和分析问题，估算的过程中考虑的更加全面、估算也更加准确</li>
+<li>在估算过程中，团队对估算的结果进行讨论和评判，在一个高度透明的环境下，估算的结果更加真实和客观。这样也避免了很多时候过于武断，或是拍脑袋做出的决定</li>
+<li>估算的过程也是一个只是分享和学习的过程，对某一个条目不清楚的成员通过其他成员的阐述会增加对该条目涉及到的要点的认识</li>
+</ol>
+<h5 id="卡片队列估算法"><a href="#卡片队列估算法" class="headerlink" title="卡片队列估算法"></a>卡片队列估算法</h5><p>&lt;imgsrc&#x3D;”<a target="_blank" rel="noopener" href="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107153916328.png%22alt=%22image-20250107153916328%22style=%22zoom:33%;%22/%3E">https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107153916328.png&quot;alt=&quot;image-20250107153916328&quot;style=&quot;zoom:33%;&quot;/&gt;</a></p>
+<h5 id="”金发女孩“估算技术"><a href="#”金发女孩“估算技术" class="headerlink" title="”金发女孩“估算技术"></a>”金发女孩“估算技术</h5><p>作为对工作项大小估计的替代，你可以把工作项调整到合适的大小。</p>
+<p>你不再是指定每个工作项的大小，而是去分割或组合工作项，让它们的规模大致相当，并便于后续操作。</p>
+<h4 id="估算有差异的原因"><a href="#估算有差异的原因" class="headerlink" title="估算有差异的原因"></a>估算有差异的原因</h4><ol>
+<li>需求理解不同</li>
+<li>技术不熟悉</li>
+</ol>
+<h4 id="减小故事规模"><a href="#减小故事规模" class="headerlink" title="减小故事规模"></a>减小故事规模</h4><p>很多团队要求每个故事的大小在2-8个故事点，大于8要求拆分故事。</p>
+<h3 id="计划会议"><a href="#计划会议" class="headerlink" title="计划会议"></a>计划会议</h3><p>定下每日例会的时间和地点：这必须是每一个成员都能接受的时间和地点。</p>
+<p>确定技术故事：需要完成但是不属于可交付物的东西，如：</p>
+<ul>
+<li>安装持续构建服务器</li>
+<li>编写系统设计概览</li>
+</ul>
+<h4 id="产物：Sprint信息页"><a href="#产物：Sprint信息页" class="headerlink" title="产物：Sprint信息页"></a><strong>产物：Sprint信息页</strong></h4><p>&lt;imgsrc&#x3D;”<a target="_blank" rel="noopener" href="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107154221583.png%22alt=%22image-20250107154221583%22style=%22zoom:33%;%22/%3E">https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107154221583.png&quot;alt=&quot;image-20250107154221583&quot;style=&quot;zoom:33%;&quot;/&gt;</a></p>
+<h4 id="管理：白板"><a href="#管理：白板" class="headerlink" title="管理：白板"></a><strong>管理：白板</strong></h4><p>&lt;imgsrc&#x3D;”<a target="_blank" rel="noopener" href="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107154701158.png%22alt=%22image-20250107154701158%22style=%22zoom:33%;%22/%3E">https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107154701158.png&quot;alt=&quot;image-20250107154701158&quot;style=&quot;zoom:33%;&quot;/&gt;</a></p>
+<h4 id="跟踪进度：燃尽图"><a href="#跟踪进度：燃尽图" class="headerlink" title="跟踪进度：燃尽图"></a><strong>跟踪进度：燃尽图</strong></h4><p>&lt;imgsrc&#x3D;”<a target="_blank" rel="noopener" href="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107154722996.png%22alt=%22image-20250107154722996%22style=%22zoom:33%;%22/%3E">https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107154722996.png&quot;alt=&quot;image-20250107154722996&quot;style=&quot;zoom:33%;&quot;/&gt;</a></p>
+<h4 id="布置房间"><a href="#布置房间" class="headerlink" title="布置房间"></a>布置房间</h4><p>让团队坐在一起，让ProductOwner无路可走，让经理和教练无路可走。</p>
+<h4 id="静默时间"><a href="#静默时间" class="headerlink" title="静默时间"></a>静默时间</h4><p>“flow”心流时间，全神贯注在某件事情，以至于忘记了时间的流逝。</p>
+<p>公司层面可以为程序员设计专门的静默时间。</p>
+<h3 id="每日站会"><a href="#每日站会" class="headerlink" title="每日站会"></a>每日站会</h3><p>不超过15分钟。回答三个问题：</p>
+<ul>
+<li>“昨天我做了什么。”</li>
+<li>“今天准备干什么。”</li>
+<li>“你遇到了什么障碍，需要其他人如何帮你。”</li>
+</ul>
+<p>移动任务板上的即时贴到对应的地方。</p>
+<p>每日例会一结束就要计算剩余工作故事点并更新燃尽图•团队每日报到、简短、及时开始与结束、聚焦重点、有规律性。</p>
+<h3 id="Sprint演示会议"><a href="#Sprint演示会议" class="headerlink" title="Sprint演示会议"></a>Sprint演示会议</h3><h4 id="为什么定义Sprint结束于演示？"><a href="#为什么定义Sprint结束于演示？" class="headerlink" title="为什么定义Sprint结束于演示？"></a>为什么定义Sprint结束于演示？</h4><ul>
+<li>其他人可以了解你的团队在做什么</li>
+<li>团队得到认可，团队成员感觉很好</li>
+<li>不同的团队得到交流，讨论各自工作</li>
+<li>演示可以吸引相干人士的关注，并得到重要的反馈</li>
+<li>演示会迫使团队真正完成一些工作而不是貌似完成，这样不会污染下一个Sprint</li>
+</ul>
+<h4 id="检查列表"><a href="#检查列表" class="headerlink" title="检查列表"></a>检查列表</h4><ul>
+<li>确保明确阐述Sprint目标</li>
+<li>集中精力演示可以实际工作的代码</li>
+<li>演示保持快节奏</li>
+<li>演示我们做了什么而不是我们怎么做的</li>
+<li>不演示细碎bug的修复和微不足道的特性</li>
+</ul>
+<h3 id="Sprint回顾会议"><a href="#Sprint回顾会议" class="headerlink" title="Sprint回顾会议"></a>Sprint回顾会议</h3><p><strong>Sprint回顾是仅次于Sprint计划的第二重要的事件！</strong></p>
+<p>这是做出改进的最佳时期。</p>
+<p>**主题：**我们怎样才能在下个Sprint中做的更好，不是追究责任！</p>
+<p>**活动列表：**根据要讨论的内容范围,设定时间为1至3个小时。</p>
+<p><strong>使用白板</strong></p>
+<h2 id="Scrum局限"><a href="#Scrum局限" class="headerlink" title="Scrum局限"></a>Scrum局限</h2><p>没有技术实践！</p>
+<p>可以使用极限编程技术实践：测试驱动开发、简单设计、重构、持续集成等等。</p>
+<h1 id="敏捷开发"><a href="#敏捷开发" class="headerlink" title="敏捷开发"></a>敏捷开发</h1><h2 id="敏捷宣言"><a href="#敏捷宣言" class="headerlink" title="敏捷宣言"></a>敏捷宣言</h2><p>我们一直在实践中探寻更好的软件开发方法，身体力行的同时也帮助他人。由此我们建立了如下价值观：</p>
+<ol>
+<li>个体和互动高于流程和工具</li>
+<li>工作的软件高于详尽的文档</li>
+<li>客户合作高于合同谈判</li>
+<li>响应变化高于遵循计划</li>
+</ol>
+<p>也就是说，尽管右项有其价值，我们更重视左项的价值。</p>
+<h3 id="个体和互动高于流程和工具"><a href="#个体和互动高于流程和工具" class="headerlink" title="个体和互动高于流程和工具"></a>个体和互动高于流程和工具</h3><p>敏捷力的基本宗旨之一就是，干活的人最清楚该如何完成工作。</p>
+<p>可以建议他们用，让他们尝试，但不要规定！</p>
+<p>流程和工具必须是为人服务的，而不是反过来。</p>
+<h3 id="工作的软件高于详尽的文档"><a href="#工作的软件高于详尽的文档" class="headerlink" title="工作的软件高于详尽的文档"></a>工作的软件高于详尽的文档</h3><p>如果文档着眼于创造价值和以有利方式推动项目进展，那就没问题。例如，对大多数产品来说，用户文档都是很有价值的组成部分。</p>
+<p>但如果关注焦点不再是产品本身，而变成了流程文档，例如“你的测试规程说明报告，记得要用新封皮!”，那就有问题了。</p>
+<p>人们普遍误以为敏捷团队是不写文档不做计划的，但实际上，敏捷团队是做计划的，因为计划需要不断地进行细化和更新。敏捷软件项目中的计划以各种形式出现在我们身边，例如用户故事、列表(backlog)、验收测试、和大型可视图表，它们组成了富沟通环境。</p>
+<p>如果不是文档，敏捷团队该到哪里去找答案呢?你可以求助于可工作软件，它包含了最近构建、测试和集成的一切。</p>
+<h3 id="客户合作高于合同谈判"><a href="#客户合作高于合同谈判" class="headerlink" title="客户合作高于合同谈判"></a>客户合作高于合同谈判</h3><p>敏捷价值观着重强调，开发团队和客户之间要保持尽可能公开和顺畅的对话。</p>
+<p>基于合同的项目侧重方向不对。相关各方就像是一群合伙人，齐心协力在规定时间和预算范围内努力构建最有价值的系统。</p>
+<h3 id="响应变化高于遵循计划"><a href="#响应变化高于遵循计划" class="headerlink" title="响应变化高于遵循计划"></a>响应变化高于遵循计划</h3><p>计划驱动型组织通常都有“变化控制”流程。</p>
+<p>只有在变更可控的情况下，变化控制才会有效果。</p>
+<p>创造价值才是衡量软件开发成功的标准！</p>
+<h1 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>持续集成(ContinuousIntegration,CI)是一种软件开发实践，在实践中项目成员频繁地进行集成，通常每个成员每天都会做集成工作，如此，每天整个项目将会有多次集成。</p>
+<p>许多团队都发现这种方法大大地减少了集成问题，并且能够快速地开发出高内聚性的软件。</p>
+<p>“持续集成”源自于极限编程（XP），并且是XP最初的12种实践之一。</p>
+<h2 id="关键实践"><a href="#关键实践" class="headerlink" title="关键实践"></a>关键实践</h2><h3 id="维护一个单一的代码库"><a href="#维护一个单一的代码库" class="headerlink" title="维护一个单一的代码库"></a>维护一个单一的代码库</h3><p>做为最基本的持续集成实践，请保证你使用一款代码管理系统。</p>
+<p>当你有了代码管理系统之后，确保每个开发者都能方便的获得到源代码。所有东西都必须在代码库里。</p>
+<p>原则是：在一台新机器上checkout代码后构建也能构建成功。新机器上的东西应该尽量的少，通常包括很大的，难于安装的，并且稳定的软件，比如操作系统，Java开发环境或者数据库管理系统等。</p>
+<h3 id="使构建自动化"><a href="#使构建自动化" class="headerlink" title="使构建自动化"></a>使构建自动化</h3><p>将源代码变成一个能运行的软件系统通常是一个复杂的过程，包括编译，文件搬移，加载数据库模式等等。但其中大多数任务都是可以自动化的，并且也应该被自动化。</p>
+<p>构建所需的自动化环境对于软件系统来说是一个通用功能。当你用这些工具构建和启动系统时，请确保只使用一个命令完成任务。</p>
+<p>一个常见的错误是在自动化构建里并没有完全包括构建所需的东西，比如构建过程中应该从代码库里取得数据库模式文件并自动执行之。</p>
+<p>任何人都应该能够在一台新机器上拉下代码库中的代码，并只用一个命令将系统运行起来。</p>
+<p>优秀的构建工具能够分析出哪些地方需要做相应的修改，并将这个分析过程本身做为整个构建过程的一部分。</p>
+<p>根据自己的需要（考虑到集成代价），你可以选择不同的东西进行构建。构建中既可以包括测试，也可以不包括，甚至可以包括不同的测试板块。有些组件可以进行单独构建。构建脚本应该能够允许你针对不同的情形进行不同的构建目标。</p>
+<h3 id="使构建自测试"><a href="#使构建自测试" class="headerlink" title="使构建自测试"></a>使构建自测试</h3><p>一种快速并高效发现bug的方法是将自动化测试包含到构建过程中。当然，测试也不见得完美，但的确能发现很多bug——足够多了。随着极限编程（XP）的流行，测试驱动开发（TDD）也使自测试代码流行起来，越来越多的人开始注意到这种技术的价值所在。</p>
+<p>对于自测试代码而言，你需要一组自动化测试来检测大部分代码库中的bug。测试能通过一个简单得命令来运行并且具备自检功能。测试的结果应该能指出哪些测试是失败的。对于自测试的构建来说，测试失败应导致构建失败。</p>
+<h3 id="每人每天都向代码库提交代码"><a href="#每人每天都向代码库提交代码" class="headerlink" title="每人每天都向代码库提交代码"></a>每人每天都向代码库提交代码</h3><p>集成首先在于交流，它使其他成员能够看到你所做的修改。在这种频繁的交流下，大家都能很快地知道开发过程中所做的修改。</p>
+<p>在向主线提交代码之前，开发人员必须保证本地构建成功。这当然也包括使测试全部通过。另外，在提交之前需要更新本地代码以匹配主线代码，然后在本地解决主线代码与本地代码之间的冲突，再在本地进行构建。如果构建成功，便可以向主线提交代码了。</p>
+<p>在这种频繁提交下，开发者可以快速地发现自己代码与他人代码之间的冲突。快速解决问题的关键在于快速地发现问题。几个小时的提交间隔使得代码冲突也可以在几个小时内发现，此时大家的修改都不多，冲突也不大，因此解决冲突也很简单。对于好几周都发现不了的冲突，通常是很难解决的。</p>
+<h3 id="每次提交都应在集成服务器上进行构建"><a href="#每次提交都应在集成服务器上进行构建" class="headerlink" title="每次提交都应在集成服务器上进行构建"></a>每次提交都应在集成服务器上进行构建</h3><p>应该保证在集成服务器上进行构建，只有当集服务器机上构建成功后，才表明你的任务完成了。由于提交者需要对自己的提交负责，他就得盯着主线上的构建，如果失败，马上修改。</p>
+<p>主线构建：一是手动构建，二是使用持续集成服务器(Jenkins)。</p>
+<h3 id="快速构建"><a href="#快速构建" class="headerlink" title="快速构建"></a>快速构建</h3><p>持续集成的关键在于快速反馈，需要长时间构建的CI是极其糟糕的。</p>
+<p>对于多数项目来说，将构建时间维持在10分钟之内是合理的，这也是XP的方针之一。</p>
+<p>引入阶段性构建——对于企业级应用来说，我们发现构建时间的瓶颈通常发生在测试上，特别是那些需要于外部交互的测试——比如数据库。</p>
+<h3 id="在与生产环境相同的环境中运行测试"><a href="#在与生产环境相同的环境中运行测试" class="headerlink" title="在与生产环境相同的环境中运行测试"></a>在与生产环境相同的环境中运行测试</h3><p>测试旨在发现可能在生产环境中出现的问题，因此如果你的测试环境与生产环境不同，那么测试很有可能发现不了生产环境中的bug。</p>
+<p>虚拟化技术：虚拟机、Docker</p>
+<h3 id="使任何人都能轻易获得可执行文件"><a href="#使任何人都能轻易获得可执行文件" class="headerlink" title="使任何人都能轻易获得可执行文件"></a>使任何人都能轻易获得可执行文件</h3><p>项目中的所有成员都应能够获得最新的可执行文件并能成功的运行，目的可以包括做演示，浏览测试或者仅仅看看项目本周有何修改。</p>
+<p>确保一个通用的地方来存放最新可执行文件。</p>
+<h3 id="人人都能看到正在发生什么"><a href="#人人都能看到正在发生什么" class="headerlink" title="人人都能看到正在发生什么"></a>人人都能看到正在发生什么</h3><p>持续集成主要在于交流，因此应当保证每人都能轻易看到当前系统的状态和已做的修改。</p>
+<p>CI服务器：Jenkins</p>
+<h3 id="自动化部署"><a href="#自动化部署" class="headerlink" title="自动化部署"></a>自动化部署</h3><p>自动化部署脚本，不仅包括测试环境的脚本，也包括针对生产环境的部署脚本。虽然我们不是每天都向生产环境部署，但自动化部署不仅可以加速部署过程，并且能够减少部署错误。</p>
+<p>如果你已经有了生产环境的自动化部署，那么也应该考虑一下相应的自动化回滚。由于失败是时而会发生的事情，在这种情况下，我们希望能快速回滚到失败之前的状态。</p>
+<p>在集群环境中，有每次只向一个节点部署的情况，由此在几个小时之内逐渐完成所有节点的部署。</p>
+<p>对于一些面向公众的Web应用，我所了解的另外一种很有趣的部署方式是，先试验性针对一部分用户进行部署，再通过这些用户的试用情况来决定是否向所有用户部署。（灰度发布、A&#x2F;B测试）</p>
+<h2 id="持续集成的好处"><a href="#持续集成的好处" class="headerlink" title="持续集成的好处"></a>持续集成的好处</h2><ul>
+<li><p>降低风险！</p>
+<ul>
+<li>已经处于项目的末期，但是仍然不知到何时才能结束。</li>
+<li>延期集成的缺点在于，很难预测集成到底要花多少时间，更糟的是，你很难了解集成的进展情况。</li>
+<li>持续集成正好解决了这些问题。每次集成的时间都不长，任何时候你都知道自己所处的情况，软件的哪些地方在工作，哪些没有。</li>
+</ul>
+</li>
+<li><p>Bug</p>
+<ul>
+<li>持续集成并不能消除bug，却能帮你快速的发现bug并予以清除。Bug也存在积累性，bug越多，越难清除。部分原因在于bug之间存在牵连。另外也存在心理因素，bug一多，人便没那么多精力去修了——这就是所谓的“BrokenWindows综合征”。</li>
+</ul>
+</li>
+<li><p>持续部署</p>
+<ul>
+<li>有了持续集成，频繁部署也不是什么难事了。频繁部署的价值在于，你的客户可以快速的享用软件的新功能，并能快速的提出反馈。这将有利于清除客户和开发之间的障碍——我认为这是软件开发最大的障碍。</li>
+</ul>
+</li>
+</ul>
+<h2 id="引入持续集成"><a href="#引入持续集成" class="headerlink" title="引入持续集成"></a>引入持续集成</h2><ol>
+<li>第一步需要将构建自动化，并将你所需的所有东西都放在代码管理系统中，可以通过一个命令来构建整个系统。</li>
+<li>在构建中引入一些自动化测试，试着确定出现问题的主要范围，并用自动化测试去发现这些问题。</li>
+<li>使提交构建快速完成。</li>
+<li>对于新项目，从项目开始就采用持续集成。</li>
+<li>寻找帮助，找有经验的人帮助你。</li>
+</ol>
+<h1 id="看板方法Kanban"><a href="#看板方法Kanban" class="headerlink" title="看板方法Kanban"></a>看板方法Kanban</h1><p>**看板方法（KanbanMethod）**是一种敏捷管理方法，用于帮助团队管理工作流程并逐步改进生产效率。它起源于丰田汽车的精益生产体系，后来被引入软件工程领域，广泛应用于项目管理和产品开发中。</p>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><h3 id="白板：可视化工作"><a href="#白板：可视化工作" class="headerlink" title="白板：可视化工作"></a>白板：可视化工作</h3><p>通过使用看板（Kanbanboard）将工作流程和任务状态以直观的方式展示出来。看板通常分为几列，每列表示工作流程的不同阶段，例如：待处理（ToDo）、进行中（InProgress）、已完成（Done）。</p>
+<h3 id="WIP（WorkinProgress）"><a href="#WIP（WorkinProgress）" class="headerlink" title="WIP（WorkinProgress）"></a>WIP（WorkinProgress）</h3><p>**限制在制品(WIP)**是限制同时进行中的工作数量，减少在制品使其快速流过整个工作流，即前置时间缩短。</p>
+<ul>
+<li>致力于减少同时处理的工作项</li>
+<li>批量规模越小，前置时间越短</li>
+<li>流动效率提升的同时资源效率会有所降低</li>
+<li>立即实施:停止立项并开始完成</li>
+<li>限制在制品将使改进机会浮出水面，着手改进后会获得更快的流动</li>
+<li>不要企图找到一个唯一正确的数字作为团队的在制品限制规模</li>
+<li>在制品限制不是仅为了设立规则，而是为了触发讨论</li>
+</ul>
+<h3 id="紧急工作"><a href="#紧急工作" class="headerlink" title="紧急工作"></a>紧急工作</h3><p>&lt;imgsrc&#x3D;”<a target="_blank" rel="noopener" href="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107162741465.png%22alt=%22image-20250107162741465%22style=%22zoom:33%;%22/%3E">https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250107162741465.png&quot;alt=&quot;image-20250107162741465&quot;style=&quot;zoom:33%;&quot;/&gt;</a></p>
+<h3 id="度量"><a href="#度量" class="headerlink" title="度量"></a>度量</h3><ul>
+<li>有利于团队改进</li>
+<li>团队自己选择度量指标，但不要将度量指标用于绩效考核</li>
+<li>两个常用的度量指标为:<ul>
+<li>前置时间是整个工作流的时间</li>
+<li>吞吐量是一定时间段内完成的工作项数量</li>
+</ul>
+</li>
+</ul>
+<h2 id="看板不是？"><a href="#看板不是？" class="headerlink" title="看板不是？"></a>看板不是？</h2><p>看板并不是一种软件开发生命周期的方法学，也不是一种项目管理的方法。</p>
+<p>实施看板时，需要当前已经有一些在运行的过程，这样便可应用看板来逐步改变当前运行的过程。</p>
+<h2 id="Kanban与Scrum"><a href="#Kanban与Scrum" class="headerlink" title="Kanban与Scrum"></a>Kanban与Scrum</h2><table>
+<thead>
+<tr>
+<th>scrum</th>
+<th>kanban</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>规定了固定时长的迭代。</td>
+<td>固定时长的迭代是可选的。计划、发布、过程改进等活动可以各有各的节奏。它可以由事件驱动，不用非要固定时长。</td>
+</tr>
+<tr>
+<td>用生产率作为计划和过程改进的默认度量手段。</td>
+<td>用生产周期作为计划和过程改进的默认度量手段。</td>
+</tr>
+<tr>
+<td>规定了跨功能团队</td>
+<td>跨功能团队是可选的。可以有专职团队</td>
+</tr>
+<tr>
+<td>任务必须分解以便在1个Sprint里面能做完</td>
+<td>没规定任务规模。</td>
+</tr>
+<tr>
+<td>间接限制(每个Sprint的)WIP.</td>
+<td>直接限制(每个工作流状态的)WIP.</td>
+</tr>
+<tr>
+<td>不能往进行中的Sprint里面加任务。</td>
+<td>只要有人手富余就可以加任务</td>
+</tr>
+<tr>
+<td>一个sprintBacklog归一个团队所有。</td>
+<td>一张看板图可以由多个团队或多人共用</td>
+</tr>
+<tr>
+<td>规定了三种角色(PO、SM、Team)</td>
+<td>没有规定任何角色</td>
+</tr>
+</tbody></table>
+<h1 id="XP极限编程"><a href="#XP极限编程" class="headerlink" title="XP极限编程"></a>XP极限编程</h1><h2 id="开发周期"><a href="#开发周期" class="headerlink" title="开发周期"></a>开发周期</h2><h3 id="XP的心跳——开发周期"><a href="#XP的心跳——开发周期" class="headerlink" title="XP的心跳——开发周期"></a>XP的心跳——开发周期</h3><p>这是程序员实现一个工程任务（最小的调度单位）并与系统其余部分集成的地方。</p>
+<h3 id="开发周"><a href="#开发周" class="headerlink" title="开发周"></a>开发周</h3><ol>
+<li>1张顶层任务卡：“用户管理：登录、登出、组。”</li>
+<li>获取结对编程伙伴</li>
+<li>讨论任务</li>
+<li>测试用例是什么？如果对任何事情不确定，向他人寻求帮助。</li>
+<li>编写测试用例</li>
+<li>测试失败</li>
+<li>编写代码</li>
+<li>运行所有测试用例</li>
+<li>迭代测试用例和代码</li>
+<li>如有需要，重构</li>
+<li>集成，包括测试</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>程序员成对编程。</li>
+<li>开发由测试驱动。</li>
+<li>成对不仅仅是使测试用例运行。成对为系统的分析、设计、实现和测试增加了价值。</li>
+<li>集成紧随开发之后，包括集成测试。</li>
+</ul>
+<h2 id="变更成本"><a href="#变更成本" class="headerlink" title="变更成本"></a>变更成本</h2><h3 id="变更成本-1"><a href="#变更成本-1" class="headerlink" title="变更成本"></a>变更成本</h3><p>在某些情况下，软件变更成本随时间指数上升的趋势可以被平缓化。如果我们能够平缓这个曲线，关于软件开发最佳方式的传统假设就不再成立。</p>
+<h3 id="变更成本的假设"><a href="#变更成本的假设" class="headerlink" title="变更成本的假设"></a>变更成本的假设</h3><p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106103837884.png" alt="img"></p>
+<p>软件工程的一个普遍假设是，随着时间的推移，修改程序的成本会指数上升。</p>
+<p>“软件中修复一个问题的成本随时间指数上升。如果在需求分析阶段发现问题，修复成本可能只需要一美元，但一旦软件投入生产，修复成本可能高达数千美元。”</p>
+<h3 id="降低变更成本的技术"><a href="#降低变更成本的技术" class="headerlink" title="降低变更成本的技术"></a>降低变更成本的技术</h3><p>软件开发界在最近几十年投入了大量资源试图降低变更成本——更好的语言、更好的数据库技术、更好的编程实践、更好的环境和工具、新的符号。</p>
+<h3 id="变更成本可能不会随时间急剧上升"><a href="#变更成本可能不会随时间急剧上升" class="headerlink" title="变更成本可能不会随时间急剧上升"></a>变更成本可能不会随时间急剧上升</h3><p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106173918549.png" alt="img"></p>
+<h3 id="XP的技术前提"><a href="#XP的技术前提" class="headerlink" title="XP的技术前提"></a>XP的技术前提</h3><p>如果变更成本随时间缓慢上升，你的行动方式将与在成本指数上升的假设下完全不同。</p>
+<h3 id="如果变更成本很小，你会怎么做"><a href="#如果变更成本很小，你会怎么做" class="headerlink" title="如果变更成本很小，你会怎么做"></a>如果变更成本很小，你会怎么做</h3><ol>
+<li>你会尽可能晚地做出重大决策，以推迟决策成本，并尽可能确保决策正确。</li>
+<li>你只会实现你必须实现的部分，希望你预见到的明天的需求不会实现。</li>
+<li>你只会在设计中引入简化现有代码或使编写下一段代码更简单的元素。</li>
+</ol>
+<h3 id="保持变更成本低"><a href="#保持变更成本低" class="headerlink" title="保持变更成本低"></a>保持变更成本低</h3><ul>
+<li>在技术方面，对象是一个关键技术。</li>
+<li>简单的设计，没有额外的设计元素——没有尚未使用但预计将来会使用的想法。</li>
+<li>自动化测试，以便我们有信心知道我们是否意外改变了系统的现有行为。</li>
+<li>大量修改设计的实践，以便在需要更改系统时，我们不会害怕尝试。</li>
+</ul>
+<h2 id="学习驾驶"><a href="#学习驾驶" class="headerlink" title="学习驾驶"></a>学习驾驶</h2><h3 id="问题与解决方案资源"><a href="#问题与解决方案资源" class="headerlink" title="问题与解决方案资源"></a>问题与解决方案资源</h3><ul>
+<li>问题——风险的巨大成本，以及通过选择来管理该风险的机会</li>
+<li>塑造解决方案所需的资源：在周期后期进行更改而不显著增加成本的自由。</li>
+</ul>
+<h3 id="小幅度调整与关注"><a href="#小幅度调整与关注" class="headerlink" title="小幅度调整与关注"></a>小幅度调整与关注</h3><ul>
+<li>我们需要通过进行许多小幅度调整来控制软件的开发，而不是通过进行几次大幅度调整，有点像驾驶汽车。</li>
+<li>始终保持关注。</li>
+</ul>
+<h2 id="四个价值观"><a href="#四个价值观" class="headerlink" title="四个价值观"></a>四个价值观</h2><p><strong>沟通、简单、反馈、勇气。</strong></p>
+<h3 id="沟通"><a href="#沟通" class="headerlink" title="沟通"></a>沟通</h3><ul>
+<li>开发者与开发者之间</li>
+<li>开发者与客户之间</li>
+<li>开发者与管理层之间</li>
+<li>XP强制开发者进行沟通：<ul>
+<li>单元测试</li>
+<li>结对编程</li>
+<li>任务估算</li>
+</ul>
+</li>
+</ul>
+<h3 id="简单"><a href="#简单" class="headerlink" title="简单"></a>简单</h3><ul>
+<li>“能够起作用的最简单的事情是什么？”</li>
+<li>XP认为，今天做一件简单的事情，明天如果需要再花一点代价去改变它，比今天做一件可能永远都不会用到的更复杂的事情要好。</li>
+</ul>
+<h4 id="沟通与简单的关系"><a href="#沟通与简单的关系" class="headerlink" title="沟通与简单的关系"></a>沟通与简单的关系</h4><ul>
+<li>你沟通得越多，就越能清楚地看到究竟需要做什么，对那些真正不需要做的事情就越有信心。</li>
+<li>你的系统越简单，需要沟通的内容就越少，这会导致更完整的沟通，特别是如果你能简化系统到只需要更少的程序员时。</li>
+</ul>
+<h3 id="反馈"><a href="#反馈" class="headerlink" title="反馈"></a>反馈</h3><ul>
+<li>关于系统当前状态的具体反馈是绝对无价的。</li>
+<li>首先，反馈在分钟和天的尺度上起作用。<ul>
+<li>开发者的单元测试</li>
+<li>开发者对客户的即时估算</li>
+<li>进度跟踪人员向整个团队提供反馈</li>
+</ul>
+</li>
+<li>反馈也在周和月的尺度上起作用。<ul>
+<li>客户的功能测试</li>
+<li>运行软件</li>
+</ul>
+</li>
+</ul>
+<h4 id="反馈、沟通与简单的关系"><a href="#反馈、沟通与简单的关系" class="headerlink" title="反馈、沟通与简单的关系"></a>反馈、沟通与简单的关系</h4><ul>
+<li>你拥有的反馈越多，沟通就越容易。</li>
+<li>简单的系统更容易测试（反馈）。</li>
+<li>编写测试为你提供了系统可以有多简单的焦点。</li>
+</ul>
+<h3 id="勇气"><a href="#勇气" class="headerlink" title="勇气"></a>勇气</h3><ul>
+<li><strong>丢弃代码</strong>：完全重来。</li>
+<li>**爬山算法：**XP的设计策略类似于爬山算法。你先得到一个简单的设计，然后使其稍微复杂一些，再稍微简单一些，然后再稍微复杂一些。爬山算法的问题在于达到局部最优解，此时没有小的改变可以改善情况，但大的改变可以。</li>
+</ul>
+<h4 id="勇气与其他价值观"><a href="#勇气与其他价值观" class="headerlink" title="勇气与其他价值观"></a>勇气与其他价值观</h4><ul>
+<li>如果没有前三个价值观，勇气本身只是单纯的黑客行为。</li>
+<li>沟通支持勇气，因为它打开了进行更多高风险、高回报实验的可能性。</li>
+<li>简单支持勇气，因为你可以负担得起在一个简单的系统中更加勇敢。</li>
+<li>具体反馈支持勇气，因为如果你可以按下一个按钮并在最后看到测试变为绿色，你会感到更安全地对代码进行激进的手术。</li>
+</ul>
+<h3 id="价值观的实践——尊重"><a href="#价值观的实践——尊重" class="headerlink" title="价值观的实践——尊重"></a>价值观的实践——尊重</h3><ul>
+<li>一个隐藏在其他四个价值观之下的——尊重。</li>
+<li>如果团队成员彼此不在乎以及他们正在做的事情，XP就注定失败。</li>
+<li>如果团队成员不在乎项目，没有什么可以拯救它。</li>
+</ul>
+<h2 id="回归基础"><a href="#回归基础" class="headerlink" title="回归基础"></a>回归基础</h2><h3 id="必须做的事情"><a href="#必须做的事情" class="headerlink" title="必须做的事情"></a>必须做的事情</h3><ul>
+<li>我们希望做我们必须做的一切，以实现稳定、可预测的软件开发。</li>
+<li>开发的四个基本活动是<strong>编码、测试、倾听和设计</strong>。</li>
+</ul>
+<h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><ul>
+<li>它是你的工作成果。</li>
+<li>其他方面：<ul>
+<li>学习</li>
+<li>沟通：精确</li>
+</ul>
+</li>
+</ul>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><ul>
+<li>“无法测量的东西就不存在”——科学哲学（对编程也成立）</li>
+<li>测试让我有机会在实现方式之外思考我想要的东西。然后测试告诉我我是否实现了我认为自己实现的东西。</li>
+</ul>
+<h4 id="测试感染"><a href="#测试感染" class="headerlink" title="测试感染"></a>测试感染</h4><ul>
+<li>测试告诉你何时完成——当测试运行时，你暂时完成了编码。</li>
+<li>当你想不到任何可能失败的测试来编写时，你就完全完成了。</li>
+</ul>
+<h4 id="为什么测试？"><a href="#为什么测试？" class="headerlink" title="为什么测试？"></a>为什么测试？</h4><ul>
+<li>长期答案是测试可以让程序更长久地运行（如果测试被运行和维护）。你可以更长时间地修改程序。</li>
+<li>短期原因：信心</li>
+<li>编程和测试结合在一起也比单纯编程更快。<ul>
+<li>生产力的提高来自于减少调试所花费的时间。</li>
+</ul>
+</li>
+</ul>
+<h4 id="什么类型的测试？"><a href="#什么类型的测试？" class="headerlink" title="什么类型的测试？"></a>什么类型的测试？</h4><ul>
+<li>我们将有程序员编写的单元测试，以说服他们自己的程序按照他们认为的方式工作。</li>
+<li>我们还将有客户编写（或至少由客户指定）的功能测试，以说服他们整个系统按照他们认为整个系统应该的方式工作。</li>
+</ul>
+<h3 id="倾听"><a href="#倾听" class="headerlink" title="倾听"></a>倾听</h3><ul>
+<li>程序员向业务人员请教以获得项目的业务视角。</li>
+<li>程序员帮助业务人员了解软件中什么是容易的，什么是困难的。</li>
+<li>相互倾听（程序员之间、程序员与客户之间）</li>
+</ul>
+<h3 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h3><ul>
+<li>仅仅倾听、编写测试用例、使其运行、再倾听、编写测试用例、使其运行是不够的吗？不是的</li>
+<li>唯一使下一个测试用例运行的方法是破坏另一个。</li>
+<li>或者唯一使测试用例运行的方法是远比值得的麻烦。</li>
+<li>良好的设计：<ul>
+<li>良好的设计将逻辑组织起来，使得对系统一个部分的更改不总是需要对系统的另一个部分进行更改。</li>
+<li>良好的设计确保系统中的每一段逻辑都有且只有一个归属地。</li>
+<li>良好的设计将逻辑放在它操作的数据附近。</li>
+<li>良好的设计允许通过仅在一个地方进行更改来扩展系统。</li>
+</ul>
+</li>
+</ul>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
+<li>因此，你编码是因为如果你不编码，你什么也没做。</li>
+<li>你测试是因为如果你不测试，你就不知道何时完成了编码。</li>
+<li>你倾听是因为如果你不倾听，你就不知道要编码或测试什么。</li>
+<li>你设计是为了能够无限期地继续编码、测试和倾听。</li>
+</ul>
+<h2 id="极限编程实践"><a href="#极限编程实践" class="headerlink" title="极限编程实践"></a>极限编程实践</h2><h3 id="计划游戏"><a href="#计划游戏" class="headerlink" title="计划游戏"></a>计划游戏</h3><ul>
+<li>商业考虑和技术考虑都不应占据主导地位。</li>
+<li>软件开发始终是可能与理想之间不断演变的对话。</li>
+<li>商业不能在真空中做出这些决定。开发需要做出技术决策，为商业决策提供原材料。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">商业人员决定</th>
+<th align="left">技术人员决定</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">范围：为使系统在生产中具有价值，必须解决多少问题？优先级：如果最初只能选择A或B，你想要哪一个？发布的组成：在软件比没有软件更好之前，需要做多少或做多少？发布的日期：哪些重要日期软件（或部分软件）的存在会带来很大不同？</td>
+<td align="left">估算：实现一个功能需要多长时间？后果：有些战略性的商业决策只有在了解技术后果后才能做出。过程：工作和团队将如何组织？详细计划：在一个发布中，哪些故事将首先完成？</td>
+</tr>
+</tbody></table>
+<h3 id="小规模发布"><a href="#小规模发布" class="headerlink" title="小规模发布"></a>小规模发布</h3><ul>
+<li>每次发布都应该尽可能小，包含最有价值的业务需求。</li>
+<li>发布作为一个整体必须有意义。</li>
+<li>计划一个月或两个月的时间要比计划六个月或一年的时间要好得多。</li>
+</ul>
+<h3 id="隐喻"><a href="#隐喻" class="headerlink" title="隐喻"></a>隐喻</h3><ul>
+<li>每个XP软件项目都由一个单一的总体隐喻指导。</li>
+<li>XP中的隐喻取代了其他人所说的“架构”的大部分内容。</li>
+<li>架构并不一定使系统具有任何意义上的内聚性。</li>
+<li>选择一个系统隐喻，通过一致地命名类和方法来保持团队在同一页面上。</li>
+<li>例如，克莱斯勒的工资系统是作为生产线构建的。在另一家汽车制造商中，汽车销售被构建为材料清单。</li>
+<li>搜索引擎是一大群蜘蛛，在网上四处寻找要捕捉的东西，然后把东西带回巢穴。</li>
+</ul>
+<h3 id="简单设计"><a href="#简单设计" class="headerlink" title="简单设计"></a>简单设计</h3><ol>
+<li>运行所有测试。</li>
+<li>没有重复的逻辑。警惕隐藏的重复，如平行类层次结构。</li>
+<li>表达程序员认为重要的每一个意图。</li>
+<li>拥有尽可能少的类和方法。</li>
+</ol>
+<p>反对：“为今天实现，为明天设计。”</p>
+<h3 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h3><ul>
+<li>没有自动化测试的任何程序功能实际上都不存在。</li>
+<li>程序员编写单元测试，以便他们对程序运行的信心可以成为程序本身的一部分。</li>
+<li>客户编写功能测试，以便他们对程序运行的信心也可以成为程序的一部分。</li>
+</ul>
+<h3 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h3><ul>
+<li>在实现程序功能时，程序员总是会问是否有办法改变现有程序，使添加功能变得简单。</li>
+<li>你不会基于猜测进行重构；当系统要求你这样做时，你才会进行重构。<ul>
+<li>当系统要求你复制代码时，它就是在要求重构。</li>
+</ul>
+</li>
+</ul>
+<h3 id="结对编程"><a href="#结对编程" class="headerlink" title="结对编程"></a>结对编程</h3><p>所有生产代码都是由两个人看着一台机器编写的，使用一个键盘和一个鼠标。</p>
+<ul>
+<li>一个伙伴，拥有键盘和鼠标的人，正在思考如何最好地实现这个方法。</li>
+<li>另一个伙伴则更具战略性地思考：<ul>
+<li>这种整体方法会起作用吗？</li>
+<li>还有哪些测试用例可能还没有通过？</li>
+<li>是否有办法简化整个系统，使当前问题消失？</li>
+</ul>
+</li>
+<li>如果两个人在早上结对，下午他们可能很容易与其他同事结对。</li>
+<li>如果你负责一个你不熟悉的领域的任务，你可能会请最近有经验的人与你结对。</li>
+</ul>
+<h3 id="集体所有权"><a href="#集体所有权" class="headerlink" title="集体所有权"></a>集体所有权</h3><p>任何看到有机会为代码任何部分增加价值的人都被要求随时这样做。</p>
+<ul>
+<li>没有所有权：在过去，没有人拥有任何特定的代码部分。如果有人想更改一些代码，他们会根据自己的目的进行更改，不管它是否与已有的代码很好地结合。</li>
+<li>个人代码所有权：只有代码的官方所有者才能更改代码的一部分。任何其他看到代码需要更改的人都必须向所有者提交请求。人们不愿打扰代码所有者。</li>
+</ul>
+<h3 id="持续集成-1"><a href="#持续集成-1" class="headerlink" title="持续集成"></a>持续集成</h3><ul>
+<li>代码在几小时后集成和测试——最多一天的开发。</li>
+<li>一种简单的方法是专门有一台机器用于集成。</li>
+<li>当机器空闲时，有代码要集成的结对会坐下来，加载当前版本，加载他们的更改（检查并解决任何冲突），并运行测试直到通过（100%正确）。</li>
+<li>一次集成一组更改效果很好，因为谁应该修复失败的测试显而易见——应该是我们，因为我们肯定破坏了它，因为上一对离开时测试是100%。</li>
+</ul>
+<h3 id="40小时工作制"><a href="#40小时工作制" class="headerlink" title="40小时工作制"></a>40小时工作制</h3><ul>
+<li>加班是项目上严重问题的症状。</li>
+<li>是否将其转化为每周在工作场所正好40小时并不太重要。</li>
+</ul>
+<h3 id="现场客户"><a href="#现场客户" class="headerlink" title="现场客户"></a>现场客户</h3><ul>
+<li>真正的客户必须与团队坐在一起，随时回答问题，解决争端，并设定小规模优先级。</li>
+<li>对此规则的主要反对意见是，正在开发的系统的真正用户太有价值，不能交给团队。<ul>
+<li>管理者将不得不决定哪个更有价值——让软件更早、更好地工作，还是拥有一个人或两个人的输出。</li>
+</ul>
+</li>
+</ul>
+<h3 id="编码标准"><a href="#编码标准" class="headerlink" title="编码标准"></a>编码标准</h3><p>如果你将让所有这些程序员从系统的一个部分换到另一个部分，每天换几次伙伴，并不断重构彼此的代码，你根本无法负担拥有不同的编码实践。</p>
+<h2 id="这样如何能行？"><a href="#这样如何能行？" class="headerlink" title="这样如何能行？"></a>这样如何能行？</h2><p>这些实践相互支持。一个实践的弱点被其他实践的优势所弥补。</p>
+<h3 id="本章如何组织？"><a href="#本章如何组织？" class="headerlink" title="本章如何组织？"></a>本章如何组织？</h3><ul>
+<li>上述实践没有一个是独特或原创的。</li>
+<li>它们自编写程序以来就已经被使用。</li>
+<li>大多数这些实践由于其弱点变得明显而被更复杂、开销更高的实践所取代。</li>
+<li>如果这些弱点现在被其他实践的优势所弥补会怎样？</li>
+</ul>
+<h3 id="计划游戏-1"><a href="#计划游戏-1" class="headerlink" title="计划游戏"></a>计划游戏</h3><ul>
+<li>你不可能仅凭一个粗略的计划就开始开发。</li>
+<li>你不能不断更新计划——那会花费太多时间并让客户不安。<ul>
+<li>客户根据程序员提供的估算自己更新计划。</li>
+<li>你一开始有足够的计划，让客户对接下来几年可能实现的内容有一个大致的了解。</li>
+</ul>
+</li>
+<li>你进行短周期发布，因此计划中的任何错误最多只会影响几周或几个月。</li>
+<li>你的客户与团队坐在一起，因此他们可以迅速发现潜在的变化和改进机会。</li>
+</ul>
+<h3 id="短周期发布"><a href="#短周期发布" class="headerlink" title="短周期发布"></a>短周期发布</h3><ul>
+<li>你不可能在几个月后就投入生产。<ul>
+<li>计划游戏帮助你专注于最有价值的故事，因此即使是小型系统也具有商业价值。</li>
+<li>你持续集成，因此打包发布成本很小。</li>
+</ul>
+</li>
+<li>你的测试将缺陷率降低到足够低，因此你不需要在允许软件发布之前进行漫长的测试周期。</li>
+<li>你可以进行简单的设计，足以应对此次发布，而不是永远。</li>
+</ul>
+<h3 id="隐喻-1"><a href="#隐喻-1" class="headerlink" title="隐喻"></a>隐喻</h3><p>你不可能仅凭一个隐喻就开始开发。那里没有足够的细节，而且，如果你错了怎么办？</p>
+<ul>
+<li>你很快就能从实际代码和测试中获得关于隐喻是否在实践中有效的具体反馈。</li>
+<li>你的客户能够用隐喻来谈论系统。</li>
+<li>你通过重构不断细化对隐喻在实践中意义的理解。</li>
+</ul>
+<h3 id="简单设计-1"><a href="#简单设计-1" class="headerlink" title="简单设计"></a>简单设计</h3><p>你不可能仅凭今天的代码就拥有足够的设计。你会将自己设计到一个死胡同，然后你将无法继续系统的发展。</p>
+<ul>
+<li>你习惯于重构，因此进行更改不是问题。</li>
+</ul>
+<h4 id="简单设计-2"><a href="#简单设计-2" class="headerlink" title="简单设计"></a>简单设计</h4><ul>
+<li>你有一个清晰的总体隐喻，因此你确信未来的更改会沿着一个收敛的方向发展。</li>
+<li>你与伙伴一起编程，因此你有信心你正在做出一个简单的设计，而不是愚蠢的设计。</li>
+</ul>
+<h3 id="测试-2"><a href="#测试-2" class="headerlink" title="测试"></a>测试</h3><p>你不可能编写所有这些测试。那会花费太多时间。程序员不会编写测试。</p>
+<ul>
+<li>设计尽可能简单，因此编写测试并不那么困难。</li>
+<li>结对编程——伙伴的压力</li>
+<li>当你看到所有测试都在运行时，你会感觉很好。</li>
+<li>当客户看到他们所有的测试都在运行时，他们会感觉系统很好。</li>
+</ul>
+<h3 id="重构-1"><a href="#重构-1" class="headerlink" title="重构"></a>重构</h3><ul>
+<li>你不可能一直重构系统的设计。这会花费太长时间，难以控制，而且很可能破坏系统。<ul>
+<li>你习惯于集体所有制，所以你不在意在需要的地方进行更改。</li>
+<li>你有编码标准，所以在重构之前不需要重新格式化。</li>
+</ul>
+</li>
+<li>你成对编程，因此你更有可能有勇气进行艰难的重构，而且你不太可能破坏东西。</li>
+<li>你有简单的结构，因此重构更容易。</li>
+<li>你有测试，因此你不太可能在不知情的情况下破坏东西。</li>
+<li>你持续集成，因此如果你不小心破坏了远处的东西，或者你的重构与他人的工作冲突，你将在几小时内知道。</li>
+<li>你休息得很好，因此你更有勇气，也更不可能犯错。</li>
+</ul>
+<h3 id="结对编程-1"><a href="#结对编程-1" class="headerlink" title="结对编程"></a>结对编程</h3><ul>
+<li>你不可能成对编写所有生产代码。那会太慢。如果两个人不和怎么办？<ul>
+<li>编码标准减少了琐碎的争吵。</li>
+<li>每个人都休息得很好，进一步减少了无利可图的……呃……讨论的机会。</li>
+</ul>
+</li>
+<li>结对编写测试，让他们在着手实现核心内容之前有机会对理解进行对齐。</li>
+<li>结对有隐喻来指导他们关于命名和基本设计的决策。</li>
+<li>结对在简单的结构中工作，因此他们都能理解发生了什么。</li>
+</ul>
+<h3 id="集体所有权-1"><a href="#集体所有权-1" class="headerlink" title="集体所有权"></a>集体所有权</h3><ul>
+<li>你不可能让每个人都有可能更改任何地方的东西。人们会到处破坏东西，集成的成本会大幅上升。<ul>
+<li>你在足够短的时间内集成，因此冲突的机会减少。</li>
+</ul>
+</li>
+<li>你编写并运行测试，因此意外破坏东西的机会减少。</li>
+<li>你成对编程，因此你不太可能破坏代码，程序员更快地了解他们可以有利地更改的内容。</li>
+<li>你遵循编码标准，因此你不会陷入可怕的花括号大战。</li>
+</ul>
+<h3 id="持续集成-2"><a href="#持续集成-2" class="headerlink" title="持续集成"></a>持续集成</h3><ul>
+<li>你不可能在仅工作几小时后就进行集成。集成花费的时间太长，冲突太多，破坏东西的机会也太多。</li>
+<li>你可以快速运行测试，因此你知道你没有破坏任何东西。</li>
+<li>你成对编程，因此需要集成的更改流减少了一半。</li>
+<li>你重构，因此有更多的小块，减少了冲突的机会。</li>
+</ul>
+<h3 id="40小时工作制-1"><a href="#40小时工作制-1" class="headerlink" title="40小时工作制"></a>40小时工作制</h3><p>你不可能每周工作40小时。</p>
+<ul>
+<li>计划游戏为你提供了更有价值的工作。</li>
+<li>计划游戏和测试的结合减少了你比预期有更多的事情要做的糟糕惊喜的频率。</li>
+<li>整体实践帮助你以最快速度编程，因此你无法更快。</li>
+</ul>
+<h3 id="现场客户-1"><a href="#现场客户-1" class="headerlink" title="现场客户"></a>现场客户</h3><p>你不可能让真正的客户全职坐在团队中。他们可以在其他地方为业务创造更多的价值。</p>
+<ul>
+<li>他们可以通过编写功能测试为项目创造价值。</li>
+<li>他们可以通过为程序员做出小规模的优先级和范围决策为项目创造价值。</li>
+</ul>
+<h3 id="编码标准-1"><a href="#编码标准-1" class="headerlink" title="编码标准"></a>编码标准</h3><p>你不可能要求团队按照共同的标准编码。程序员非常个人主义，宁愿辞职也不愿将花括号放在其他地方。</p>
+<ul>
+<li>整个XP让他们更有可能成为获胜团队的一员。</li>
+</ul>
+<h3 id="结论-1"><a href="#结论-1" class="headerlink" title="结论"></a>结论</h3><p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106145748115.png" alt="img"></p>
+<h2 id="测试策略"><a href="#测试策略" class="headerlink" title="测试策略"></a>测试策略</h2><p>我们将在编码之前编写测试，每分钟都进行。我们将永久保留这些测试，并经常一起运行它们。我们还将从客户的角度推导出测试。</p>
+<h3 id="独立且自动"><a href="#独立且自动" class="headerlink" title="独立且自动"></a>独立且自动</h3><ul>
+<li>首先，每个测试不与其他你编写的测试交互。</li>
+<li>测试也是自动的。</li>
+<li>当压力水平上升，当人们工作过度，当人类判断开始失效时，测试最有价值。因此，测试必须是自动的——给出一个明确的系统是否按预期运行的指示。</li>
+</ul>
+<h3 id="无法绝对测试一切"><a href="#无法绝对测试一切" class="headerlink" title="无法绝对测试一切"></a>无法绝对测试一切</h3><ul>
+<li>你应该测试可能会出错的事情。</li>
+<li>测试是一种赌博。</li>
+<li>测试可以通过的一种方式是当你没有预料到会成功的测试却成功了。</li>
+<li>你只会编写那些能够带来回报的测试。</li>
+</ul>
+<h3 id="谁编写测试？——程序员"><a href="#谁编写测试？——程序员" class="headerlink" title="谁编写测试？——程序员"></a>谁编写测试？——程序员</h3><ul>
+<li>如果方法的接口有任何不清晰之处，你在编写方法之前编写测试。</li>
+<li>如果接口清晰，但你认为实现会有一点复杂，你在编写方法之前编写测试。</li>
+<li>如果你想到了代码应该按预期工作的一个不寻常的情况，你编写一个测试来传达这种情况。</li>
+<li>如果你后来发现一个问题，你编写一个测试来隔离这个问题。</li>
+<li>如果你即将重构一些代码，并且你不确定它应该如何表现，并且没有针对所讨论的行为方面的测试，你先编写测试。</li>
+</ul>
+<p><strong>程序员测试：</strong></p>
+<ul>
+<li>程序员逐方法编写测试。</li>
+<li>程序员编写的单元测试始终运行在100%。</li>
+<li>因为程序员控制单元测试的编写和执行，他们可以保持测试完全同步。</li>
+</ul>
+<h3 id="谁编写测试？——客户"><a href="#谁编写测试？——客户" class="headerlink" title="谁编写测试？——客户"></a>谁编写测试？——客户</h3><ul>
+<li>客户逐故事编写测试。</li>
+<li>他们需要问自己的问题是，“在我对这个故事完成有信心之前，需要检查什么？”他们想到的每个场景都会变成一个测试，在这种情况下是一个功能测试。</li>
+</ul>
+<p><strong>客户测试：</strong></p>
+<ul>
+<li>功能测试不一定始终运行在100%。</li>
+<li>客户通常不能自己编写功能测试。</li>
+<li>这就是为什么任何规模的XP团队至少需要一名专职测试人员。</li>
+</ul>
+<h3 id="其他测试"><a href="#其他测试" class="headerlink" title="其他测试"></a>其他测试</h3><ul>
+<li>平行测试——旨在证明新系统与旧系统完全相同的一种测试。</li>
+<li>压力测试——旨在模拟最糟糕的负载的一种测试。压力测试适用于性能特性不易预测的复杂系统。</li>
+<li>猴子测试——旨在确保系统在面对无意义输入时表现得合理的一种测试。</li>
+</ul>
+<h2 id="设计已死"><a href="#设计已死" class="headerlink" title="设计已死"></a>设计已死</h2><h3 id="设计已死？"><a href="#设计已死？" class="headerlink" title="设计已死？"></a><strong>设计已死？</strong></h3><p>初学者在接触极限编程（XP）时，可能认为XP宣告了传统设计的死亡。XP轻视“冗余的前期设计”（BigUpFrontDesign），如UML、灵活框架和模式。</p>
+<p>实际上，XP并非否定设计，而是提倡演进式设计（EvolutionaryDesign），强调通过代码开发过程中的重构和持续集成来保持设计的简洁。</p>
+<h3 id="演进式设计"><a href="#演进式设计" class="headerlink" title="演进式设计"></a>演进式设计</h3><p>它的本质是系统的设计随着软件开发的过程增长。设计(design)是撰写程序代码过程的一部份，随着程序代码的发展，设计也跟着调整。</p>
+<p>在常见的使用中，演进式设计实在是彻底的失败。设计的结果其实是一堆为了某些特殊条件而巧妙安排的决定所组成，每个条件都会让程序代码更难修改。</p>
+<p>所谓的设计(design)是要能够让你可以长期很简单地修改软件。当设计(design)不如预期时，你应该能够做有效的更改。一段时间之后，设计变得越来越糟，你也体会到这个软件混乱的程度。</p>
+<h3 id="计划式设计"><a href="#计划式设计" class="headerlink" title="计划式设计"></a>计划式设计</h3><p>PlannedDesign的做法正好相反（借鉴其它工程学科）。</p>
+<p>在设计图中确定所有的细节，一部份使用数学分析，但是大部分都是使用建筑规范。所谓的建筑规范就是根据成功的经验(有些是数学分析)制定出如何设计结构体的法则。当设计图完成，她们公司就可以将设计图交给另一个施工的公司按图施工。</p>
+<p>PlannedDesign将同样的方式应用在软件开发。</p>
+<p>Designer先定出重要的部份，程序代码不是由他们来撰写，因为软件并不是他们”建造”的，他们只负责设计。所以designer可以利用像UML这样的技术，不需要太注重撰写程序代码的细节问题，而在一个比较属于抽象的层次上工作。一旦设计的部份完成了，他们就可以将它交给另一个团队(或甚至是另一家公司)去”建造”。因为designer朝着大方向思考，所以他们能够避免因为策略方面不断的更改而导致软件的失序。Programmer就可以依循设计好的方向(如果有遵循设计)写出好的系统。</p>
+<p><strong>优势</strong>：适用于结构稳定、需求明确的项目。</p>
+<p>**缺点：**难以预见所有问题，后期修改成本高。开发者和设计者分离，容易导致脱节，特别是设计者对技术工具和实际需求逐渐不熟悉。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>设计的目的是让代码更易于长期修改和维护。XP强调通过代码体现设计意图，而不是依赖过多的蓝图或文档。UML和模式（Patterns）在XP中仍然有价值，但需简化使用，仅在必要时引入。</p>
+<p>**设计已死？**设计并未真正消失，而是随着敏捷方法的普及，其形式和实现方式发生了改变：追求简单设计，注重重构和渐进式优化。强调设计的实用性而非理论化或过度复杂化。</p>
+<p><strong>总结与建议</strong>：设计应与代码开发结合，而非分离。注重学习和掌握设计模式，同时避免滥用。架构设计需要灵活，应接受修改的可能性。简单设计是XP的基础，但实现简单设计需要持续努力和技巧。</p>
+<h1 id="新方法学"><a href="#新方法学" class="headerlink" title="新方法学"></a>新方法学</h1><h2 id="敏捷方法"><a href="#敏捷方法" class="headerlink" title="敏捷方法"></a>敏捷方法</h2><p>敏捷方法（agilemethodologies）的发展是对这些工程方法的反弹。对许多人来说，这类方法的吸引之处在于对繁文缛节的官僚过程的反叛。它们在无过程和过于繁琐的过程中达到了一种平衡，使得能以不多的步骤过程获取较满意的结果。</p>
+<h3 id="表面区别"><a href="#表面区别" class="headerlink" title="表面区别"></a>表面区别</h3><p>敏捷型与工程型方法有一些显著的区别。其中一个显而易见的不同反映在文档上。敏捷型不是很面向文档，对于一项任务，它们通常只要求尽可能少的文档。从许多方面来看，它们更象是“面向源码”（code-oriented）。事实上，最根本的文档应该是源码。</p>
+<h3 id="本质区别"><a href="#本质区别" class="headerlink" title="本质区别"></a>本质区别</h3><p>文档方面的特点不是敏捷型方法的根本特征。文档减少仅仅是个表象，它其实反映的是两个更深层的特点：</p>
+<ul>
+<li>敏捷型方法是**“适应性”而非“预见性”**。工程方法试图对一个软件开发项目在很长的时间跨度内作出详细的计划，然后依计划进行开发。这类方法在一般情况下工作良好，但（需求、环境等）有变化时就不太灵了。因此它们本质上是拒绝变化的。而敏捷型方法则欢迎变化。其实，它们的目的就是成为适应变化的过程，甚至能允许改变自身来适应变化。</li>
+<li>敏捷型方法是**“面向人”的（people-oriented）而非“面向过程”的（process-oriented）**。工程型方法的目标是定义一个过程，不管是谁用都工作。而敏捷型方法则认为没有任何过程能代替开发人员的技能，过程起的作用是对开发人员的工作提供支持。</li>
+</ul>
+<h2 id="不可预见性"><a href="#不可预见性" class="headerlink" title="不可预见性"></a>不可预见性</h2><h3 id="需求的不可预见性"><a href="#需求的不可预见性" class="headerlink" title="需求的不可预见性"></a><strong>需求的不可预见性</strong></h3><p>要准确获取所有需求是困难的，特别是当开发商不能提供某些需求的费用信息时。作软件开发的费用估算是不容易的，这有多种原因。软件的“不可触摸”性也是一个原因。商业世界的许多变化是完全不可预测的.软件开发的一切都取决于系统需求，如果需求不固定，你就不能制订出一个可预见性的计划。</p>
+<h3 id="预见性是不可能的"><a href="#预见性是不可能的" class="headerlink" title="预见性是不可能的"></a><strong>预见性是不可能的</strong></h3><p>如果你不能遵循一个可预见性方法，而你强装能够，那么这是非常危险的.使用预见性方法具有强烈的诱惑力.在不可预见性的环境中是不能使用预见性方法的。它意味着我们用的许多控制项目的模式，许多处理客户关系的模式，都不会再是正确的了。一个好的预见性项目是依计划而行，而一个好的敏捷型项目会建造出一个与最初计划不太一样却是更好的软件。人是软件开发中最重要的因素。之所以强调开发人员的作用，一个重要的原因是IT行业的技术变化速度非常之快。今天的新技术可能几年后就过时了。这种情况完全不同于其他行业。</p>
+<h2 id="关键问题"><a href="#关键问题" class="headerlink" title="关键问题"></a>关键问题</h2><p><strong>软件过程</strong>：设计（UML）+构造</p>
+<p><strong>关键问题</strong>：1.是否有可能用UML进行设计，并将它变成代码；2.这样做的代价</p>
+<p>A1：UML被用于实现时存在仍有缺陷；有经验的设计人员做UML设计，无法保证UML设计是正确的；</p>
+<p>A2：civil工程经过很多年经验保证其合理正确,UML设计只能找人review,但是错误只有在编码和测试中才能发现。</p>
+<p><strong>结论</strong>：软件中大部分努力是设计，需要杰出人员，创造性的过程不容易被计划，因此<strong>可预期是不可能的</strong>。</p>
+<h2 id="需求变更"><a href="#需求变更" class="headerlink" title="需求变更"></a>需求变更</h2><p><strong>需求变更</strong>：需求一直在变，难以完全了解需求（文档化，客户签字）；难以确定每个需求的费用，确定哪些需求进入开发；难以估算时间，成本（设计和人难以估算，材料技术变更，难以判断需求带来的价值）；需求本质上应该可以变更（商业社会变更，无法预测）</p>
+<p><strong>控制不可预期过程&#x3D;&gt;迭代式开发（优势：风险控制）</strong></p>
+<p>固定价格的合同要求稳定的需求和可预期的过程，敏捷无法同时规定时间、价格、范围。敏捷通常情况下将范围控制在一种可变的情况下。公司和开发人员难以建立<strong>信任关系</strong>，因此在公司内部比较常用。</p>
+<h2 id="评价项目成功"><a href="#评价项目成功" class="headerlink" title="评价项目成功"></a>评价项目成功</h2><p><strong>评价项目成功</strong>：<strong>传统</strong>：是否遵循计划，是否按时在成本约束范围内完成；<strong>敏捷</strong>：产出&gt;投入</p>
+<p>管理以人为导向的过程：由开发者自己选择自适应的过程；开发者作出所有的技术决定；开发者需要与业务专家交流，开发者必须被相信</p>
+<p><strong>人件</strong>:顺流,更好的工作环境有助于人们工作的更好,或那些工作的更好的人倾向与加入那些提供更好工作空间的公司.</p>
+<h2 id="度量的困难性"><a href="#度量的困难性" class="headerlink" title="度量的困难性"></a><strong>度量的困难性</strong></h2><p>度量软件是非常困难的。不存在一套有效的度量方法而要在管理中引入度量将会导致管理本身出问题。传统方法假设的前提是基于度量的管理是最有效的管理方式。而敏捷开发者则认为软件开发的特性会使得基于度量的管理导致非常高度的度量“失效”。</p>
+<h1 id="2024期末回忆"><a href="#2024期末回忆" class="headerlink" title="2024期末回忆"></a>2024期末回忆</h1><h2 id="选择题"><a href="#选择题" class="headerlink" title="选择题"></a>选择题</h2><p>一半是课堂小测原题，一半新题，但是完整复习过就会，比较简单；（15题，共30分）</p>
+<h2 id="简答题"><a href="#简答题" class="headerlink" title="简答题"></a>简答题</h2><p>前两题比较简单，后面的比较偏。</p>
+<h3 id="没有银弹和本质特性（10分）"><a href="#没有银弹和本质特性（10分）" class="headerlink" title="没有银弹和本质特性（10分）"></a>没有银弹和本质特性（10分）</h3><ol>
+<li>简述没有银弹的基本观点；描述软件开发的四个本质特性。</li>
+</ol>
+<h3 id="Linus和Brooks（10分）"><a href="#Linus和Brooks（10分）" class="headerlink" title="Linus和Brooks（10分）"></a>Linus和Brooks（10分）</h3><ol>
+<li>描述Linus定理；描述Brooks定理；</li>
+</ol>
+<h3 id="XP实践（20分）"><a href="#XP实践（20分）" class="headerlink" title="XP实践（20分）"></a>XP实践（20分）</h3><ol>
+<li>为什么只有同时进行重构、TDD、持续集成、简单设计四个实践，才能互相协作和互补？</li>
+<li>如果只进行一个实践，会导致哪些问题？</li>
+</ol>
+<h3 id="Scrum和XP（30分）"><a href="#Scrum和XP（30分）" class="headerlink" title="Scrum和XP（30分）"></a>Scrum和XP（30分）</h3><ol>
+<li>Scrum核心优势及其局限性<ul>
+<li>如何通过迭代管理和团队角色分工实现项目管理？</li>
+<li>Scrum方法在开发阶段对工程实践的规定不足的导致哪些问题？</li>
+</ul>
+</li>
+<li>XP实践核心特点及其优势<ul>
+<li>XP实践如何保证软件质量和开发速度？</li>
+</ul>
+</li>
+<li>Scrum和XP实践如何在管理和技术</li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><p>软件工程管理-硕（2024）课件</p>
+</li>
+<li><p>论语孟子整理.docx——Chipsy</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://eaglebear2002.github.io/39305/#more">软件工程管理-06-极限编程|EagleBear2002的博客</a></p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2025/01/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="软件工程管理2024 期末复习">http://jinqq.gitlab.io/2025/01/07/软件工程管理-期末复习/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 期末复习</a>
+              <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86/" rel="tag"><i class="fa fa-tag"></i> 软件工程管理</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/01/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86-%E8%AF%BE%E5%A0%82%E5%B0%8F%E6%B5%8B%E6%95%B4%E7%90%86/" rel="prev" title="软件工程管理2024 课堂小测整理">
+                  <i class="fa fa-angle-left"></i> 软件工程管理2024 课堂小测整理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/01/09/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="next" title="软件安全2024 期末复习">
+                  软件安全2024 期末复习 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2025/01/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

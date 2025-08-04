@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="实验要求 使用Flawfinder(http:&#x2F;&#x2F;www.dwheeler.com&#x2F;flawfinder)工具，对C&#x2F;C++实现的软件进行静态分析。 搜集并了解其他的C&#x2F;C++代码分析工具，如RATS、Splint等，比较这些工具的功能。  实验步骤 从Github上下载jsoncpp的源码（https:&#x2F;&#x2F;github.com&#x2F;open-source-parsers&#x2F;jsoncpp）作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件安全实验一——实验报告">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/14/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C1%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="实验要求 使用Flawfinder(http:&#x2F;&#x2F;www.dwheeler.com&#x2F;flawfinder)工具，对C&#x2F;C++实现的软件进行静态分析。 搜集并了解其他的C&#x2F;C++代码分析工具，如RATS、Splint等，比较这些工具的功能。  实验步骤 从Github上下载jsoncpp的源码（https:&#x2F;&#x2F;github.com&#x2F;open-source-parsers&#x2F;jsoncpp）作">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241127221745688.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241127221641020.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241127221702938.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241127221541529.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241127223211077.png">
+<meta property="article:published_time" content="2024-12-14T03:45:20.000Z">
+<meta property="article:modified_time" content="2024-12-20T08:06:27.799Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="软件安全">
+<meta property="article:tag" content="静态代码分析">
+<meta property="article:tag" content="flawfinder">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241127221745688.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/14/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C1%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/14/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C1%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/","path":"2024/12/14/软件安全实验1——实验报告/","title":"软件安全实验一——实验报告"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>软件安全实验一——实验报告 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%A6%81%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">实验要求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.</span> <span class="nav-text">实验步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C%E6%88%AA%E5%9B%BE"><span class="nav-number">3.</span> <span class="nav-text">实验结果截图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">分析总结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8E%E5%85%B6%E4%BB%96%E5%B7%A5%E5%85%B7%E5%AF%B9%E6%AF%94"><span class="nav-number">5.</span> <span class="nav-text">与其他工具对比</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/14/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C1%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="软件安全实验一——实验报告 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          软件安全实验一——实验报告
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-14 11:45:20" itemprop="dateCreated datePublished" datetime="2024-12-14T11:45:20+08:00">2024-12-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-20 16:06:27" itemprop="dateModified" datetime="2024-12-20T16:06:27+08:00">2024-12-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">软件安全</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/14/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C1%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/14/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C1%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h4 id="实验要求"><a href="#实验要求" class="headerlink" title="实验要求"></a>实验要求</h4><ol>
+<li>使用Flawfinder(<a target="_blank" rel="noopener" href="http://www.dwheeler.com/flawfinder)%E5%B7%A5%E5%85%B7%EF%BC%8C%E5%AF%B9C/C++%E5%AE%9E%E7%8E%B0%E7%9A%84%E8%BD%AF%E4%BB%B6%E8%BF%9B%E8%A1%8C%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90%E3%80%82">http://www.dwheeler.com/flawfinder)工具，对C/C++实现的软件进行静态分析。</a></li>
+<li>搜集并了解其他的C&#x2F;C++代码分析工具，如RATS、Splint等，比较这些工具的功能。</li>
+</ol>
+<h4 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h4><ol>
+<li><p>从Github上下载<code>jsoncpp</code>的源码（<a target="_blank" rel="noopener" href="https://github.com/open-source-parsers/jsoncpp%EF%BC%89%E4%BD%9C%E4%B8%BA%E5%AE%9E%E9%AA%8C%E5%AF%B9%E8%B1%A1%EF%BC%8C%E5%85%B6%E4%B8%AD%60jsoncpp%60">https://github.com/open-source-parsers/jsoncpp）作为实验对象，其中`jsoncpp`</a> 是一个常用的 C++ 库，用于解析、生成和操作 JSON 数据，在Github上该库拥有8.2k stars和2.6k forks。</p>
+</li>
+<li><p>使用pip下载安装flawfinder。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> flawfinder</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用flawfinder对<code>jsoncpp</code>的源码进行静态分析。</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flawfinder jsoncpp-<span class="literal">master</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<span id="more"></span>
+
+<h4 id="实验结果截图"><a href="#实验结果截图" class="headerlink" title="实验结果截图"></a>实验结果截图</h4><p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241127221745688.png" alt="image-20241127221745688"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241127221641020.png" alt="image-20241127221641020"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241127221702938.png" alt="image-20241127221702938"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241127221541529.png" alt="image-20241127221541529"></p>
+<h4 id="分析总结"><a href="#分析总结" class="headerlink" title="分析总结"></a>分析总结</h4><ol>
+<li><p><strong>Hits &#x3D; 74</strong><br>发现的潜在问题总数为 74 个（即代码中有 74 个位置可能存在安全隐患）。</p>
+<p><strong>Lines analyzed &#x3D; 12575</strong><br>分析的代码行总数为 12,575 行（包括注释、空行和实际代码），分析花费的时间为0.30秒。</p>
+<p><strong>Physical Source Lines of Code (SLOC) &#x3D; 9707</strong><br>物理代码行数（不包括注释和空白行）为 9,707 行，表示实际有效的代码内容。</p>
+</li>
+<li><p><strong>Hits@level</strong></p>
+<p>这是根据问题的风险级别对 Hits 的分类：</p>
+<ul>
+<li><strong>[0] 25</strong>：25 个潜在问题的风险级别为 0（最低风险）。</li>
+<li><strong>[1] 60</strong>：60 个潜在问题的风险级别为 1（低风险）。</li>
+<li><strong>[2] 10</strong>：10 个潜在问题的风险级别为 2（中等风险）。</li>
+<li><strong>[3] 0</strong>：0 个潜在问题的风险级别为 3（高风险）。</li>
+<li><strong>[4] 4</strong>：4 个潜在问题的风险级别为 4（较高风险）。</li>
+<li><strong>[5] 0</strong>：0 个潜在问题的风险级别为 5（最高风险，通常会造成严重安全漏洞）。</li>
+</ul>
+</li>
+<li><p><strong>Hits&#x2F;KSLOC@level+</strong></p>
+<p>表示每千行代码（KLOC）对应的风险问题数：</p>
+<ul>
+<li><strong>[0+] 10.1988</strong>：每千行代码的风险级别为 0 及以上的问题数约为 10.20。</li>
+<li><strong>[1+] 7.62336</strong>：每千行代码的风险级别为 1 及以上的问题数约为 7.62。</li>
+<li><strong>[2+] 1.44226</strong>：每千行代码的风险级别为 2 及以上的问题数约为 1.44。</li>
+<li><strong>[3+] 0.412074</strong>：每千行代码的风险级别为 3 及以上的问题数约为 0.41。</li>
+<li><strong>[4+] 0.412074</strong>：每千行代码的风险级别为 4 及以上的问题数约为 0.41。</li>
+<li><strong>[5+] 0</strong>：每千行代码的风险级别为 5 的问题数为 0。</li>
+</ul>
+</li>
+<li><p>flawfinder还给出了所有风险级别 1 及以上的所有问题，例如：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241127223211077.png" alt="image-20241127223211077"></p>
+<p>这一段显示了在代码的<code>./inclue\json\config.h:65</code>中，存在一个关于<code>snprintf</code>的问题——如果格式字符串可以被攻击者影响，则可能被利用；此外，sprintf 的变体不总是以”\0”结尾（此外还给出了该漏洞属于CWE-134）。并给出了建议——应使用常量作为格式说明符。</p>
+<p>总结之后可归纳出在代码中存在的所有问题类型和出现次数为以下：</p>
+<ul>
+<li><p><strong>(format) snprintf (等级4)，共1次</strong></p>
+<p>问题描述：如果格式字符串可以被攻击者影响，则可能被利用；此外，<code>sprintf</code> 的变体不总是以<code>\0</code>结尾（CWE-134）。应使用常量作为格式说明符。</p>
+</li>
+<li><p><strong>(buffer) sscanf (等级4)，共3次</strong></p>
+<p>问题描述：<code>scanf</code>系列的<code>%s</code>操作如果没有指定限制，可能导致缓冲区溢出（CWE-120, CWE-20）。应为<code>%s</code>指定限制，或使用其他输入函数。</p>
+</li>
+<li><p><strong>(misc)open、 fopen(等级2)，共4次</strong></p>
+<p>问题描述：打开文件时应检查，是否可能被攻击者重定向（通过符号链接），强制打开特殊文件类型（例如设备文件），通过更改文件位置制造竞争条件，控制其父目录，或更改其内容（CWE-362）。</p>
+</li>
+<li><p><strong>(buffer) char (等级2)，共4次</strong></p>
+<p>问题描述：静态大小的数组可能由于限制不当而导致潜在的溢出或其他问题（CWE-119!&#x2F;CWE-120）。应进行边界检查，使用限制长度的函数，或确保数组大小足够容纳可能的最大长度。</p>
+</li>
+<li><p><strong>(buffer) memcpy (等级2)，共2次</strong></p>
+<p>问题描述：在向目标复制数据时不检查缓冲区溢出（CWE-120）。应确保目标始终能容纳源数据。</p>
+</li>
+<li><p><strong>(buffer) strlen (等级1)，共60次</strong></p>
+<p>问题描述：<code>strlen</code>无法处理非<code>\0</code>结尾的字符串；如果传入这样的字符串，可能会导致过度读取（CWE-126）。在未保护的情况下可能会导致崩溃。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="与其他工具对比"><a href="#与其他工具对比" class="headerlink" title="与其他工具对比"></a>与其他工具对比</h4><ol>
+<li><p><strong>Flawfinder</strong></p>
+<p>Flawfinder 是一款专注于 C&#x2F;C++ 代码的静态分析工具，用于快速检测代码中的潜在安全问题，尤其是危险函数和常见漏洞（如缓冲区溢出）。它基于一组已知的不安全函数规则库（例如 <code>strcpy</code> 等）进行扫描，并为每个问题分配安全风险等级。Flawfinder 优势在于易用性高，能够快速分析小型和中型项目，但它的规则覆盖范围有限，对现代 C++ 特性支持较差，且容易出现误报，特别是当代码上下文未被充分理解时。</p>
+</li>
+<li><p><strong>RATS</strong></p>
+<p>RATS（Rough Auditing Tool for Security）是一款多语言静态分析工具，支持 C&#x2F;C++、Perl、Python 和 PHP 等语言，主要通过检测已知危险函数来发现代码中的安全漏洞。与 Flawfinder 类似，RATS 的规则库也偏向基础安全问题，但其多语言支持使其在跨语言项目中具有优势。RATS 操作简单，但其检测能力受限于规则的覆盖范围，对于复杂或现代化的编程场景，效果不够理想，且误报率较高。</p>
+</li>
+<li><p><strong>Splint</strong></p>
+<p>Splint 专注于 C 代码的静态分析，主要用于类型安全、内存管理和逻辑错误的检查。与 Flawfinder 和 RATS 不同，Splint 偏向于细致的代码质量分析而非单纯的安全漏洞检测。开发者可以通过代码注释自定义检查规则，从而增强分析深度。Splint 的特点是可以深入挖掘隐式行为和潜在问题，但它的配置较复杂，对开发者的使用门槛较高。此外，Splint 不支持现代 C++ 特性，更适用于传统的 C 项目。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/14/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C1%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" title="软件安全实验一——实验报告">http://jinqq.gitlab.io/2024/12/14/软件安全实验1——实验报告/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8/" rel="tag"><i class="fa fa-tag"></i> 软件安全</a>
+              <a href="/tags/%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" rel="tag"><i class="fa fa-tag"></i> 静态代码分析</a>
+              <a href="/tags/flawfinder/" rel="tag"><i class="fa fa-tag"></i> flawfinder</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/14/%E5%A4%96%E8%AE%BE%E6%8E%A8%E8%8D%90%E2%80%94%E2%80%94%E9%9B%B7%E8%9B%87%E6%AF%92%E8%9D%B0v2pro/" rel="prev" title="外设推荐——雷蛇毒蝰 V2 Pro">
+                  <i class="fa fa-angle-left"></i> 外设推荐——雷蛇毒蝰 V2 Pro
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/14/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C2%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="next" title="软件安全实验二——实验报告">
+                  软件安全实验二——实验报告 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/14/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C1%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

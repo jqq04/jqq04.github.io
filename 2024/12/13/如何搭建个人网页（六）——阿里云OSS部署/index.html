@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="开始前面我们是用Gitlab Pages来托管我们的页面的，但是其也有一些缺点，比如网页访问速度慢，因此我们选择寻找其他替代方案，本章介绍用阿里云OSS来托管静态页面的方法。此外强烈建议，先看完全文再上手操作。 一 Github Pages、Gitlab Pages、服务器、OSS比较1. Github Pages优点：完全免费（除域名外）；部署简单快捷； 缺点：国内访问加载非常缓慢，不挂梯子基本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何搭建个人网页（六）—— 阿里云OSS部署">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/13/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E9%98%BF%E9%87%8C%E4%BA%91OSS%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="开始前面我们是用Gitlab Pages来托管我们的页面的，但是其也有一些缺点，比如网页访问速度慢，因此我们选择寻找其他替代方案，本章介绍用阿里云OSS来托管静态页面的方法。此外强烈建议，先看完全文再上手操作。 一 Github Pages、Gitlab Pages、服务器、OSS比较1. Github Pages优点：完全免费（除域名外）；部署简单快捷； 缺点：国内访问加载非常缓慢，不挂梯子基本">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213175527161.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213150036665.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213150502524.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213150449069.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213160234602.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213172244144.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213172345402.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/0aacaaf09d926b8696cf8f0fe05a08be.png">
+<meta property="article:published_time" content="2024-12-13T08:50:00.000Z">
+<meta property="article:modified_time" content="2025-01-05T14:53:41.730Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="个人网页">
+<meta property="article:tag" content="oss">
+<meta property="article:tag" content="阿里云">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213175527161.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/13/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E9%98%BF%E9%87%8C%E4%BA%91OSS%E9%83%A8%E7%BD%B2/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/13/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E9%98%BF%E9%87%8C%E4%BA%91OSS%E9%83%A8%E7%BD%B2/","path":"2024/12/13/如何搭建个人网页（六）——阿里云OSS部署/","title":"如何搭建个人网页（六）—— 阿里云OSS部署"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>如何搭建个人网页（六）—— 阿里云OSS部署 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-Github-Pages%E3%80%81Gitlab-Pages%E3%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8%E3%80%81OSS%E6%AF%94%E8%BE%83"><span class="nav-number">2.</span> <span class="nav-text">一 Github Pages、Gitlab Pages、服务器、OSS比较</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Github-Pages"><span class="nav-number">2.1.</span> <span class="nav-text">1. Github Pages</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Gitlab-Pages"><span class="nav-number">2.2.</span> <span class="nav-text">2. Gitlab Pages</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.3.</span> <span class="nav-text">3. 服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-OSS%EF%BC%88%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1%EF%BC%89"><span class="nav-number">2.4.</span> <span class="nav-text">4. OSS（对象存储服务）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C-%E9%98%BF%E9%87%8C%E4%BA%91OSS%E9%83%A8%E7%BD%B2hexo"><span class="nav-number">3.</span> <span class="nav-text">二 阿里云OSS部署hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E9%98%BF%E9%87%8C%E4%BA%91OSS%E9%85%8D%E7%BD%AE"><span class="nav-number">3.1.</span> <span class="nav-text">1. 阿里云OSS配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Hexo%E9%85%8D%E7%BD%AE"><span class="nav-number">3.2.</span> <span class="nav-text">2. Hexo配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%9F%9F%E5%90%8D%E5%A4%87%E6%A1%88"><span class="nav-number">3.3.</span> <span class="nav-text">3. 域名备案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%9F%9F%E5%90%8D%E7%BB%91%E5%AE%9A"><span class="nav-number">3.4.</span> <span class="nav-text">4. 域名绑定</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%A7%E7%BB%AD"><span class="nav-number">4.</span> <span class="nav-text">继续</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/13/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E9%98%BF%E9%87%8C%E4%BA%91OSS%E9%83%A8%E7%BD%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="如何搭建个人网页（六）—— 阿里云OSS部署 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何搭建个人网页（六）—— 阿里云OSS部署
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-13 16:50:00" itemprop="dateCreated datePublished" datetime="2024-12-13T16:50:00+08:00">2024-12-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-05 22:53:41" itemprop="dateModified" datetime="2025-01-05T22:53:41+08:00">2025-01-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/" itemprop="url" rel="index"><span itemprop="name">个人网页搭建</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/13/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E9%98%BF%E9%87%8C%E4%BA%91OSS%E9%83%A8%E7%BD%B2/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/13/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E9%98%BF%E9%87%8C%E4%BA%91OSS%E9%83%A8%E7%BD%B2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><p>前面我们是用Gitlab Pages来托管我们的页面的，但是其也有一些缺点，比如网页访问速度慢，因此我们选择寻找其他替代方案，本章介绍用阿里云OSS来托管静态页面的方法。<strong>此外强烈建议，先看完全文再上手操作。</strong></p>
+<h3 id="一-Github-Pages、Gitlab-Pages、服务器、OSS比较"><a href="#一-Github-Pages、Gitlab-Pages、服务器、OSS比较" class="headerlink" title="一 Github Pages、Gitlab Pages、服务器、OSS比较"></a>一 Github Pages、Gitlab Pages、服务器、OSS比较</h3><h4 id="1-Github-Pages"><a href="#1-Github-Pages" class="headerlink" title="1. Github Pages"></a>1. Github Pages</h4><p><strong>优点</strong>：完全免费（除域名外）；部署简单快捷；</p>
+<p><strong>缺点</strong>：国内访问加载非常缓慢，不挂梯子基本访问不了；</p>
+<h4 id="2-Gitlab-Pages"><a href="#2-Gitlab-Pages" class="headerlink" title="2. Gitlab Pages"></a>2. Gitlab Pages</h4><p><strong>优点</strong>：完全免费（除域名外）；部署简单快捷；访问速度比github好很多，基本不需要梯子；</p>
+<p><strong>缺点</strong>：相比github，每次deploy后要额外在仓库传一个.gitlab-ci.yml流水线配置文件；</p>
+<p>**备注：**nju也有个gitlab代码托管服务，但貌似无法托管静态网页（没有gitlab pages功能），只能当作一个仓库用。</p>
+<h4 id="3-服务器"><a href="#3-服务器" class="headerlink" title="3. 服务器"></a>3. 服务器</h4><p><strong>优点</strong>：访问速度快；</p>
+<p><strong>缺点</strong>：国内服务器要备案域名；部署较麻烦；付费；</p>
+<h4 id="4-OSS（对象存储服务）"><a href="#4-OSS（对象存储服务）" class="headerlink" title="4. OSS（对象存储服务）"></a>4. OSS（对象存储服务）</h4><p><strong>优点</strong>：访问速度快；部署简单快捷；可以利用我们前面图床使用的oss；</p>
+<p><strong>缺点</strong>：同样需要备案域名；付费；</p>
+<span id="more"></span>
+
+<h3 id="二-阿里云OSS部署hexo"><a href="#二-阿里云OSS部署hexo" class="headerlink" title="二 阿里云OSS部署hexo"></a>二 阿里云OSS部署hexo</h3><p>为什么会想到用oss呢？这还是在oss控制台看到的提示：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213175527161.png" alt="image-20241213175527161"></p>
+<p>然后上网找了找教程，果然有：<a target="_blank" rel="noopener" href="https://blog.csdn.net/huzhanfei/article/details/114199556">Hexo一键部署到阿里云OSS并设置浏览器缓存_oss cache-control-CSDN博客</a>，于是尝试按照他的教程来。</p>
+<h4 id="1-阿里云OSS配置"><a href="#1-阿里云OSS配置" class="headerlink" title="1. 阿里云OSS配置"></a>1. 阿里云OSS配置</h4><p>打开阿里云控制台，选择我们的bucket（购买oss和创建bucket参照第二章），点击左侧静态页面，安装如下配置：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213150036665.png" alt="image-20241213150036665"></p>
+<p>然后跟第二章一样创建一个用户（RAM控制台中），<strong>记住这里的ID和Secret，这个页面关闭就没有了！</strong></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213150502524.png" alt="image-20241213150502524"></p>
+<p>添加用户权限，勾选AliyunOSSFullAccess，确认。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213150449069.png" alt="image-20241213150449069"></p>
+<h4 id="2-Hexo配置"><a href="#2-Hexo配置" class="headerlink" title="2. Hexo配置"></a>2. Hexo配置</h4><p>然后回到我们的hexo的blog目录，执行下面命令安装所需组件：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> hexo-deployer-ali-oss-extend</span><br></pre></td></tr></table></figure>
+
+<p>打开hexo配置文件_config.yml，按照如下配置，然后保存：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">type:</span> <span class="string">ali-oss</span></span><br><span class="line">  <span class="attr">region:</span> <span class="string">oss-cn-nanjing</span></span><br><span class="line">  <span class="attr">accessKeyId:</span> <span class="string">&lt;您的oss</span>  <span class="string">accessKeyId&gt;</span></span><br><span class="line">  <span class="attr">accessKeySecret:</span> <span class="string">&lt;您的oss</span> <span class="string">accessKeySecret&gt;</span></span><br><span class="line">  <span class="attr">bucket:</span> <span class="string">&lt;您的bucket名&gt;</span> </span><br><span class="line">  <span class="attr">cacheControl:</span></span><br><span class="line">    <span class="attr">images:</span> <span class="string">public,</span> <span class="string">max-age=31536000</span>  </span><br><span class="line">    <span class="attr">css:</span> <span class="string">public,</span> <span class="string">max-age=604800</span>     </span><br><span class="line">    <span class="attr">js:</span> <span class="string">public,</span> <span class="string">max-age=86400</span>        </span><br><span class="line">    <span class="attr">html:</span> <span class="string">public,</span> <span class="string">max-age=86400</span>     </span><br><span class="line">    <span class="attr">other:</span> <span class="literal">no</span><span class="string">-cache</span></span><br></pre></td></tr></table></figure>
+
+<p>到这里，执行我们的hexo三件套命令测试是否部署成功：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo <span class="selector-tag">g</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>成功后，可以通过bucket的默认域名访问，但会发现会下载文件，而不是在浏览器中浏览网站，具体原因：<a target="_blank" rel="noopener" href="https://help.aliyun.com/zh/oss/user-guide/map-custom-domain-names-5?spm=a2c4g.11186623.0.0.79821a40xGOBD6#concept-rz2-xg5-tdb">绑定自定义域名至Bucket默认域名实现预览文件_对象存储(OSS)-阿里云帮助中心</a>。</p>
+<p>因此我们要绑定域名到该bucket上，这需要我们完成实名认证，同时<strong>备案域名（这个比较麻烦）</strong>。</p>
+<h4 id="3-域名备案"><a href="#3-域名备案" class="headerlink" title="3. 域名备案"></a>3. 域名备案</h4><p>如果想要备案域名，<strong>阿里云要求我们至少有一个支持备案的云服务器（并且至少还有3个月，且不是按量计费的，因此我们甚至不能使用阿里云送的消费券）</strong>，具体请查看：<a target="_blank" rel="noopener" href="https://help.aliyun.com/zh/icp-filing/basic-icp-service/user-guide/icp-filing-server-access-information-check?spm=5176.beian-pc.0.0.189479feapi10H#title-lrm-lpc-nkk">ICP备案前的服务器及接入信息确认排查_备案(ICP Filing)-阿里云帮助中心</a>。</p>
+<p>但阿里云貌似有个活动，99元买ECS2核2G一年，就买这个最便宜的吧。（我既然都买ECS了，干嘛不直接部署在ECS上呢？）</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213160234602.png" alt="image-20241213160234602" style="zoom:50%;" />
+
+<p>购买成功后，可以看到我们有了一个云服务器实例：</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213172244144.png" alt="image-20241213172244144" style="zoom:50%;" />
+
+<p>此时我们就满足了备案域名的前置条件——拥有一个云服务器。然后我们找到阿里云首页，点击右上角备案。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213172345402.png" alt="image-20241213172345402"></p>
+<p>接下来按照提示操作即可，有一个地方比较麻烦，要打印承诺书签字上传，还要拍视频。哎，下楼去打印店了。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/0aacaaf09d926b8696cf8f0fe05a08be.png" alt="0aacaaf09d926b8696cf8f0fe05a08be" style="zoom:67%;" />
+
+<p>完成之后，剩下就是等待审核通过，大约需要十天。</p>
+<h4 id="4-域名绑定"><a href="#4-域名绑定" class="headerlink" title="4. 域名绑定"></a>4. 域名绑定</h4><h3 id="继续"><a href="#继续" class="headerlink" title="继续"></a>继续</h3>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/13/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E9%98%BF%E9%87%8C%E4%BA%91OSS%E9%83%A8%E7%BD%B2/" title="如何搭建个人网页（六）—— 阿里云OSS部署">http://jinqq.gitlab.io/2024/12/13/如何搭建个人网页（六）——阿里云OSS部署/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5/" rel="tag"><i class="fa fa-tag"></i> 个人网页</a>
+              <a href="/tags/oss/" rel="tag"><i class="fa fa-tag"></i> oss</a>
+              <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91/" rel="tag"><i class="fa fa-tag"></i> 阿里云</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/13/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E5%9F%9F%E5%90%8D%E7%BB%91%E5%AE%9A/" rel="prev" title="如何搭建个人网页（五）—— 域名绑定">
+                  <i class="fa fa-angle-left"></i> 如何搭建个人网页（五）—— 域名绑定
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/14/%E5%A4%96%E8%AE%BE%E6%8E%A8%E8%8D%90%E2%80%94%E2%80%94%E9%9B%B7%E8%9B%87%E6%AF%92%E8%9D%B0v2pro/" rel="next" title="外设推荐——雷蛇毒蝰 V2 Pro">
+                  外设推荐——雷蛇毒蝰 V2 Pro <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/13/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E9%98%BF%E9%87%8C%E4%BA%91OSS%E9%83%A8%E7%BD%B2/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="嵌入式方向实践 小车实验报告实验任务背景主要学习和考核以ROS为主的机器人相关知识、非常符合目前机器人产业界的人才需求，同时其更高的技术门槛，以及更激烈的对抗性。 为保证线上比赛的公平性，智能车室外光电组线上仿真比赛平台统一用「Gazebo」。赛道模型和无人车三维模型统一提供。线上比赛需要先把赛道模型导入Gazebo，采用ROS中建地图的方式构建赛道地图，通过自主导航算法实现无人车完成从起到到终点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="嵌入式方向实践 小车实验报告">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%20%E5%B0%8F%E8%BD%A6%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="嵌入式方向实践 小车实验报告实验任务背景主要学习和考核以ROS为主的机器人相关知识、非常符合目前机器人产业界的人才需求，同时其更高的技术门槛，以及更激烈的对抗性。 为保证线上比赛的公平性，智能车室外光电组线上仿真比赛平台统一用「Gazebo」。赛道模型和无人车三维模型统一提供。线上比赛需要先把赛道模型导入Gazebo，采用ROS中建地图的方式构建赛道地图，通过自主导航算法实现无人车完成从起到到终点">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215154416407.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215154424244.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231223005528730.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222174905401.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222175853498.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222180151569.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222182045717.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222182303433.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222193402720.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222193729221.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222203853820.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222233216409.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231223002340928.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231223002917135.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231223003433085.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231223004524476.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231223004947552.png">
+<meta property="article:published_time" content="2024-12-15T08:45:20.000Z">
+<meta property="article:modified_time" content="2024-12-15T12:51:11.781Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="嵌入式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215154416407.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%20%E5%B0%8F%E8%BD%A6%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%20%E5%B0%8F%E8%BD%A6%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/","path":"2024/12/15/嵌入式方向实践 小车实验报告/","title":"嵌入式方向实践 小车实验报告"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>嵌入式方向实践 小车实验报告 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5-%E5%B0%8F%E8%BD%A6%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A"><span class="nav-number">1.</span> <span class="nav-text">嵌入式方向实践 小车实验报告</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.1.</span> <span class="nav-text">实验任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AF%94%E8%B5%9B%E8%BF%9D%E8%A7%84%E8%AF%B4%E6%98%8E"><span class="nav-number">1.1.2.</span> <span class="nav-text">比赛违规说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%BC%E5%90%88%E5%AE%9E%E8%B7%B5%E8%AF%B4%E6%98%8E"><span class="nav-number">1.1.3.</span> <span class="nav-text">综合实践说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A"><span class="nav-number">1.2.</span> <span class="nav-text">实验报告</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80-%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">1.2.1.</span> <span class="nav-text">一 创建虚拟机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C-%E5%AE%89%E8%A3%85ROS-melodic"><span class="nav-number">1.2.2.</span> <span class="nav-text">二 安装ROS-melodic</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89-%E8%BF%90%E8%A1%8Cracecar"><span class="nav-number">1.2.3.</span> <span class="nav-text">三 运行racecar</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%20%E5%B0%8F%E8%BD%A6%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="嵌入式方向实践 小车实验报告 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          嵌入式方向实践 小车实验报告
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-12-15 16:45:20 / 修改时间：20:51:11" itemprop="dateCreated datePublished" datetime="2024-12-15T16:45:20+08:00">2024-12-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">嵌入式方向</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%20%E5%B0%8F%E8%BD%A6%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%20%E5%B0%8F%E8%BD%A6%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="嵌入式方向实践-小车实验报告"><a href="#嵌入式方向实践-小车实验报告" class="headerlink" title="嵌入式方向实践 小车实验报告"></a>嵌入式方向实践 小车实验报告</h2><h3 id="实验任务"><a href="#实验任务" class="headerlink" title="实验任务"></a>实验任务</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>主要学习和考核以ROS为主的机器人相关知识、非常符合目前机器人产业界的人才需求，同时其更高的技术门槛，以及更激烈的对抗性。</p>
+<p>为保证线上比赛的公平性，智能车室外光电组线上仿真比赛平台统一用「Gazebo」。赛道模型和无人车三维模型统一提供。线上比赛需要先把赛道模型导入Gazebo，采用ROS中建地图的方式构建赛道地图，通过自主导航算法实现无人车完成从起到到终点的运动。仿真平台的传感器可以使用IMU，激光雷达或摄像头，仿真平台自主导航算法不限。</p>
+<span id="more"></span>
+
+<p>赛道模型不允许修改。赛道示意图如下</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215154416407.png" alt="image-20241215154416407"></p>
+<p>统一使用提供的仿真车模型。仿真车模型的示意图如下：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215154424244.png" alt="image-20241215154424244"></p>
+<p>仿真车模型自带传感器如下：</p>
+<p>​	IMU ；激光雷达； 深度摄像头</p>
+<p>仿真车模型如下方面禁止修改：</p>
+<p>​	尺寸大小；自带传感器参数；无人车质量；无人车中各部位的转动惯量矩阵；碰撞系数</p>
+<p>关于碰撞，线上仿真比赛赛道中会有锥桶等障碍物，车模运行时要避开障碍物，否则会有相应处罚，障碍物位置是随机的，会在赛前公布。赛道中的锥桶采用的是Gazebo models中的标准锥桶模型。</p>
+<p>比赛时，仿真车根据提供的统一地图自主导航，避开障碍物，从赛道起点跑到终点，记录比赛完成时间，作为线上仿真比赛的成绩。</p>
+<h4 id="比赛违规说明"><a href="#比赛违规说明" class="headerlink" title="比赛违规说明"></a>比赛违规说明</h4><p>1、车模碰触到锥桶，加罚5s</p>
+<p>2、车模碰触到赛道围栏，加罚5s</p>
+<p>3、车模碰触到锥桶或赛道围栏后停止运行，计比赛失败</p>
+<p>4、车模在赛道中停止运行，计比赛失败</p>
+<p>5、为了考查参赛队员在传感器数据融合方面的能力，在Gazebo仿真比赛中，禁止使用Gazebo直接发布无人车的精准位置消息（odometry）。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Lovely_him/article/details/107948765">https://blog.csdn.net/Lovely_him&#x2F;article&#x2F;details&#x2F;107948765</a>。</p>
+<h4 id="综合实践说明"><a href="#综合实践说明" class="headerlink" title="综合实践说明"></a>综合实践说明</h4><p>采用ROS中建地图的方式构建赛道地图，通过自主导航算法实现无人车完成从起点到终点的运动。仿真平台的传感器可以使用IMU，激光雷达或摄像头，仿真平台自主导航算法不限。</p>
+<p>统一提供已经构建好的竞赛地图和车模。车模参数和地图参数不得私自修改。车模根据构建好的地图自主导航，避开锥桶障碍物，从赛道起点跑到终点，记录完成时间，根据完成时间进行成绩排名。</p>
+<h3 id="实验报告"><a href="#实验报告" class="headerlink" title="实验报告"></a>实验报告</h3><h4 id="一-创建虚拟机"><a href="#一-创建虚拟机" class="headerlink" title="一 创建虚拟机"></a>一 创建虚拟机</h4><ol>
+<li><p>使用Orcale VM VirtualBox创建一个新的虚拟机，基本配置如下：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231223005528730.png" alt="image-20231223005528730"></p>
+</li>
+</ol>
+<p>​	2. 虚拟机系统为ubuntu-18.04.06</p>
+<h4 id="二-安装ROS-melodic"><a href="#二-安装ROS-melodic" class="headerlink" title="二 安装ROS-melodic"></a>二 安装ROS-melodic</h4><p>​	以下内容参考了：</p>
+<p>​	ros-racecar.pdf</p>
+<p>​	<a target="_blank" rel="noopener" href="https://wiki.ros.org/melodic/Installation/Ubuntu">melodic&#x2F;Installation&#x2F;Ubuntu - ROS Wiki</a></p>
+<p>​	<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44830040/article/details/106049992">Ubuntu18.04安装ROS Melodic（详细，亲测安装完成，有清晰的截图步骤）_ubuntu 18 ros melodic-CSDN博客</a></p>
+<p>​	<a target="_blank" rel="noopener" href="https://blog.csdn.net/hxj0323/article/details/121215992">ROS Melodic 安装必成功流程+避坑指南（超详细）-CSDN博客</a></p>
+<ol>
+<li><p>更换源服务器为南京大学镜像，在“软件和更新”中可以找到：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222174905401.png" alt="image-20231222174905401"></p>
+</li>
+<li><p>输入以下指令，将ROS软件仓库的信息添加到Ubuntu系统的APT源列表中：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> sh -c <span class="string">&#x27;echo &quot;deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main&quot; &gt; /etc/apt/sources.list.d/ros-latest.list&#x27;</span> </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加两个密钥（来自ros-racecar.pdf)：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key F42ED6FBAB17C654</span><br></pre></td></tr></table></figure>
+
+<p>结果遇到了报错（可能是公钥服务器的问题，也可能是密钥有问题）：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222175853498.png" alt="image-20231222175853498"></p>
+<p>上网查询后，改为使用以下命令：        </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-key adv --keyserver <span class="string">&#x27;hkp://keyserver.ubuntu.com:80&#x27;</span> --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654</span><br></pre></td></tr></table></figure>
+
+<p>成功，显示如下：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222180151569.png" alt="image-20231222180151569"></p>
+</li>
+<li><p>更新软件列表</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get update</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装ros-melodic桌面完整版， 包含 ROS、rqt、rviz、机器人通用库、2D&#x2F;3D 模拟器、导航以及 2D&#x2F;3D 感知包：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install ros-melodic-desktop-full</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加环境变量</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;source /opt/ros/melodic/setup.bash&quot;</span> &gt;&gt; ~/.bashrc</span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装依赖</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化rosdep</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> rosdep init</span><br></pre></td></tr></table></figure>
+
+<p>看到以下内容说明成功：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222182045717.png" alt="image-20231222182045717"></p>
+<p>然后输入：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosdep update</span><br></pre></td></tr></table></figure>
+
+<p>结果报错了：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222182303433.png" alt="image-20231222182303433"></p>
+<p>大概是网络问题，多次执行rosdep update命令可能可以解决（本人执行了快二十遍才成功）。</p>
+<p>像下面这样说明成功了：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222193402720.png" alt="image-20231222193402720"></p>
+</li>
+<li><p>测试：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roscore</span><br></pre></td></tr></table></figure>
+
+<p>结果是以下内容，想执行install python-roslaunch也失败：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222193729221.png" alt="image-20231222193729221"></p>
+</li>
+</ol>
+<p>​		参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/tom17/article/details/107748686">ROS安装问题： “Command ‘roscore‘ not found, but can be installed with: sudo apt install python-roslaunch“-CSDN博客</a>解决了，但是这个解决办法总感觉有点奇怪。</p>
+<h4 id="三-运行racecar"><a href="#三-运行racecar" class="headerlink" title="三 运行racecar"></a>三 运行racecar</h4><ol>
+<li><p>使用虚拟文件夹将准备好的代码放进虚拟机里，并移动至&#x2F;~目录下。</p>
+</li>
+<li><p>初始化工作空间，给的代码好像是ros kinetic版本的，因此先将src&#x2F;CMakeLists.txt中的kinetic改成melodic。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/racecar_ws/src</span><br><span class="line">catkin_init_workspace</span><br></pre></td></tr></table></figure>
+
+<p>然后它显示 File “&#x2F;home&#x2F;jinqq&#x2F;racecar_ws&#x2F;src&#x2F;CMakeLists.txt” already exists，这个指令就跳过了。</p>
+</li>
+<li><p>编译源代码，先回到racecar_ws中</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">catkin_make</span><br></pre></td></tr></table></figure>
+
+<p>结果遇到以下问题：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222203853820.png" alt="image-20231222203853820"></p>
+<p>执行权限的问题，输入以下添加权限：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> -R a+rwx * </span><br></pre></td></tr></table></figure>
+
+<p>结果又报错：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231222233216409.png" alt="image-20231222233216409"></p>
+<p>好像是符号格式的问题，太麻烦了，直接把CMakeLists里指向的&#x2F;opt&#x2F;ros&#x2F;melodic&#x2F;share&#x2F;catkin&#x2F;cmake&#x2F;toplevel.cmake复制进CMakeLists算了…也就是把CMakeLists里的内容变为toplevel.cmake的内容。</p>
+<p>重新执行catkin_make后，会发现报错找不到包，例如：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231223002340928.png" alt="image-20231223002340928"></p>
+<p>这是缺少包导致的，首先输入以下命令安装这些包（来自ros-racecar.pdf)：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install ros-melodic-driver-base</span><br><span class="line"><span class="built_in">sudo</span> apt-get install ros-melodic-ackermann-msgs</span><br><span class="line"><span class="built_in">sudo</span> apt-get install ros-melodic-controller-manager</span><br><span class="line"><span class="built_in">sudo</span> apt-get install ros-melodic-gazebo-ros-control</span><br><span class="line"><span class="built_in">sudo</span> apt-get install ros-melodic-effort-controllers</span><br><span class="line"><span class="built_in">sudo</span> apt-get install ros-melodic-joint-state-controller</span><br><span class="line"><span class="built_in">sudo</span> apt-get install ros-melodic-rtabmap-ros</span><br><span class="line"><span class="built_in">sudo</span> apt-get install ros-melodic-move-base</span><br><span class="line"><span class="built_in">sudo</span> apt-get install ros-melodic-map-server</span><br><span class="line"><span class="built_in">sudo</span> apt-get install ros-melodic-teb-local-planner</span><br><span class="line"><span class="built_in">sudo</span> apt-get install ros-melodic-global-planner</span><br></pre></td></tr></table></figure>
+
+<p>再次尝试catkin_make后，发现还报错找不到OpenCV这个包，处理方法比较特殊，参考了<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46250367/article/details/107124979">OpenCV找不到config.cmake（简单直接的解决方法）：Could not find a package configuration file provided by “OpenCV“_opencvconfig.cmake-CSDN博客</a>，如下：</p>
+<p>首先进入根目录中，然后搜索opencvconfig，如下：<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231223002917135.png" alt="image-20231223002917135"></p>
+<p>找到位置后，再看报错的是哪个CMakeLists，发现是racecar_ws&#x2F;src&#x2F;racecar_gazebo下的CMakeLists.txt ，打开该文件，在find_package(….)前面加入（或修改）set(OpenCV_DIR xxx) ，其中xxx为搜索找到的位置，例如改成下面这样：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231223003433085.png" alt="image-20231223003433085"></p>
+<p>这时候再catkin_make，应该成功了。</p>
+</li>
+<li><p>添加环境变量：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;source ~/racecar_ws/devel/setup.bash&quot;</span> &gt;&gt; ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打开一个新的终端，启动ros环境：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roscore</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>再打开一个新的终端，启动gazebo地图：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/racecar_ws/</span><br><span class="line">roslaunch racecar_gazebo racecar_runway_navigation.launch</span><br></pre></td></tr></table></figure>
+
+<p>gazebo 启动可能需要一小会，此时不要进行其他操作，不然 gazebo 容易崩溃。</p>
+<p>启动成功后会如下显示：（给我卡闷了）</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231223004524476.png" alt="image-20231223004524476"></p>
+</li>
+<li><p>再打开一个新的终端，启动rviz</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/racecar_ws/</span><br><span class="line">roslaunch racecar_gazebo racecar_rviz.launch</span><br></pre></td></tr></table></figure>
+
+<p>启动成功后会如下显示：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231223004947552.png" alt="image-20231223004947552"></p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%20%E5%B0%8F%E8%BD%A6%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" title="嵌入式方向实践 小车实验报告">http://jinqq.gitlab.io/2024/12/15/嵌入式方向实践 小车实验报告/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"><i class="fa fa-tag"></i> 嵌入式</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E5%9B%9B/" rel="prev" title="嵌入式方向实践实验四">
+                  <i class="fa fa-angle-left"></i> 嵌入式方向实践实验四
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E5%A4%96%E8%AE%BE%E6%8E%A8%E8%8D%90%E2%80%94%E2%80%94Cherry%20MX2.0S/" rel="next" title="外设推荐——Cherry MX2.0S">
+                  外设推荐——Cherry MX2.0S <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%20%E5%B0%8F%E8%BD%A6%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

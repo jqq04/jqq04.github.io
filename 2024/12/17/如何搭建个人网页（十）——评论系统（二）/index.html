@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="开始本章主要讲如何为个人网站增加评论系统。 上一章搭评论系统用的是 Waline+Leancloud数据库+Vercel服务端 的方案，今天介绍一种 服务器docker + waline + mysql 方案，还是继续用之前买的阿里云ECS服务器。 首先要说明，该方案要比上一章的方案复杂一些，主要是由于要为服务器配置SSL证书，还要求域名备案，好处在于你能对评论数据库和服务端有完全的掌控，请参考选">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何搭建个人网页（十）—— 评论系统（二）">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/17/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%8D%81%EF%BC%89%E2%80%94%E2%80%94%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="开始本章主要讲如何为个人网站增加评论系统。 上一章搭评论系统用的是 Waline+Leancloud数据库+Vercel服务端 的方案，今天介绍一种 服务器docker + waline + mysql 方案，还是继续用之前买的阿里云ECS服务器。 首先要说明，该方案要比上一章的方案复杂一些，主要是由于要为服务器配置SSL证书，还要求域名备案，好处在于你能对评论数据库和服务端有完全的掌控，请参考选">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241217224933907.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/b6e858ac943134d3ad794603cb468629.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/299e27ec292904e1620f729f3127600d.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/3671a41ad2b2ec487f4aba1f3932f961.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/64c0cbd3514c8c1ba0d269f0556ba048.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241217233935344.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/a7433f7ca656ec5bc66ff4b951bf773e.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/8cb87c40994c6a4bd3d4387daaee0858.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241218010327336.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241218012550130.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/7243b6100cff0ad396dfaff281c56f49.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/c64456c40a7c3d4ee0a459fca42abb4e.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/bc121a041a97e2e58a164772ea7bf214.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/7d5c66aded438104337d37340c69fb8b.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223115439656.png">
+<meta property="article:published_time" content="2024-12-17T08:35:00.000Z">
+<meta property="article:modified_time" content="2024-12-23T03:56:11.381Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="个人网页">
+<meta property="article:tag" content="阿里云">
+<meta property="article:tag" content="域名">
+<meta property="article:tag" content="ECS">
+<meta property="article:tag" content="Waline">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="ssl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241217224933907.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/17/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%8D%81%EF%BC%89%E2%80%94%E2%80%94%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/17/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%8D%81%EF%BC%89%E2%80%94%E2%80%94%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89/","path":"2024/12/17/如何搭建个人网页（十）——评论系统（二）/","title":"如何搭建个人网页（十）—— 评论系统（二）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>如何搭建个人网页（十）—— 评论系统（二） | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85docker%E5%B9%B6%E6%8B%89%E5%8F%96%E6%89%80%E9%9C%80%E9%95%9C%E5%83%8F"><span class="nav-number">2.</span> <span class="nav-text">安装docker并拉取所需镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%AE%89%E5%85%A8%E7%BB%84"><span class="nav-number">3.</span> <span class="nav-text">配置安全组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2MySQL%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">4.</span> <span class="nav-text">部署MySQL数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2Waline%E6%9C%8D%E5%8A%A1"><span class="nav-number">5.</span> <span class="nav-text">部署Waline服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEHexo-next"><span class="nav-number">6.</span> <span class="nav-text">配置Hexo next</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AESSL%E8%AF%81%E4%B9%A6"><span class="nav-number">7.</span> <span class="nav-text">配置SSL证书</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%AD%90%E5%9F%9F%E5%90%8D"><span class="nav-number">7.1.</span> <span class="nav-text">设置子域名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E5%9F%9F%E5%90%8D%E9%85%8D%E7%BD%AESSL%E8%AF%81%E4%B9%A6"><span class="nav-number">7.2.</span> <span class="nav-text">为域名配置SSL证书</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/17/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%8D%81%EF%BC%89%E2%80%94%E2%80%94%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="如何搭建个人网页（十）—— 评论系统（二） | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何搭建个人网页（十）—— 评论系统（二）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-17 16:35:00" itemprop="dateCreated datePublished" datetime="2024-12-17T16:35:00+08:00">2024-12-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-23 11:56:11" itemprop="dateModified" datetime="2024-12-23T11:56:11+08:00">2024-12-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/" itemprop="url" rel="index"><span itemprop="name">个人网页搭建</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/17/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%8D%81%EF%BC%89%E2%80%94%E2%80%94%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/17/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%8D%81%EF%BC%89%E2%80%94%E2%80%94%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>8.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>15 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><p>本章主要讲如何为个人网站增加评论系统。</p>
+<p>上一章搭评论系统用的是 Waline+Leancloud数据库+Vercel服务端 的方案，今天介绍一种 <strong>服务器docker + waline + mysql</strong> 方案，还是继续用之前买的阿里云ECS服务器。</p>
+<p>首先要说明，该方案要比上一章的方案复杂一些，主要是由于要为服务器配置SSL证书，还要求域名备案，好处在于你能对评论数据库和服务端有完全的掌控，请参考选择。</p>
+<h3 id="安装docker并拉取所需镜像"><a href="#安装docker并拉取所需镜像" class="headerlink" title="安装docker并拉取所需镜像"></a>安装docker并拉取所需镜像</h3><p>进入服务器命令行，下载并安装docker：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com -o get-docker.sh</span><br><span class="line">sudo sh get-docker.sh</span><br></pre></td></tr></table></figure>
+
+<p>然后可以进行docker换源，但是总感觉服务器的dockerhub不是最新的，所以我选择了在本地机的docker拉取所需的镜像，然后通过docker save和scp上传到服务器中，再用docker load加载镜像，具体如下（如果你能确保dockerhub能拉到最新的镜像，直接在服务器里运行下面的两个<code>docker pull</code>命令即可）：</p>
+<span id="more"></span>
+
+<p>在本地机中（确保你本地机安装了docker，并且docker服务已启动）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql:8.0  # 拉取 MySQL8.0 镜像</span><br><span class="line">docker save -o mysql.tar mysql:8.0  # 将 MySQL8.0 镜像保存为tar文件</span><br><span class="line">scp mysql.tar root@&lt;你的服务器公网ip&gt;:~  # 将 mysql.tar 文件通过 SCP 传输到服务器</span><br><span class="line"></span><br><span class="line">docker pull lizheming/waline:latest # 拉取 Waline 镜像</span><br><span class="line">docker save -o waline.tar lizheming/waline:latest</span><br><span class="line">scp waline.tar root@&lt;你的服务器公网ip&gt;:~</span><br></pre></td></tr></table></figure>
+
+<p>然后在服务器中：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker load -i mysql.tar # 从tar文件加载 MySQL 镜像</span><br><span class="line">docker load -i waline.tar</span><br><span class="line">docker images  # 查看所有docker镜像</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241217224933907.png" alt="image-20241217224933907"></p>
+<p>别忘了把本地机和服务器里的tar文件删除，以免占用空间。</p>
+<h3 id="配置安全组"><a href="#配置安全组" class="headerlink" title="配置安全组"></a>配置安全组</h3><p>到阿里云ECS控制台，左侧 网络与安全&#x2F;安全组，创建一个安全组，入规则方向，手动添加两个规则，协议类型选TCP，端口分别为8360和3306，授权对象为所有ipv4，如下图：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/b6e858ac943134d3ad794603cb468629.png" alt="b6e858ac943134d3ad794603cb468629"></p>
+<p>然后选择刚刚创建的安全组，进入实例列表，实例加入安全组，实例选择你的服务器，确定。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/299e27ec292904e1620f729f3127600d.png" alt="299e27ec292904e1620f729f3127600d"></p>
+<h3 id="部署MySQL数据库"><a href="#部署MySQL数据库" class="headerlink" title="部署MySQL数据库"></a>部署MySQL数据库</h3><p>首先创建一个docker卷，用以持久化数据：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker volume create mysql-data</span><br></pre></td></tr></table></figure>
+
+<p>使用docker快速部署mysql数据库：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name waline-mysql \</span><br><span class="line">  -v mysql-data:/var/lib/mysql \</span><br><span class="line">  -e MYSQL_ROOT_PASSWORD=&lt;root密码&gt; \</span><br><span class="line">  -e MYSQL_DATABASE=db_waline \</span><br><span class="line">  -p 3306:3306 \</span><br><span class="line">  mysql:8.0</span><br></pre></td></tr></table></figure>
+
+<p>输入<code>docker ps -a</code>查看容器是否运行正常。</p>
+<p>然后获取<a target="_blank" rel="noopener" href="https://github.com/lizheming/waline/blob/master/assets/waline.sql">waline.sql</a>，但是官网给的这个sql脚本有语法问题，执行不起来，下面贴个修改后正确的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line">/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;</span><br><span class="line">/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;</span><br><span class="line">/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;</span><br><span class="line">/*!40101 SET NAMES utf8 */;</span><br><span class="line">SET NAMES utf8mb4;</span><br><span class="line">/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;</span><br><span class="line">/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE=&#x27;NO_AUTO_VALUE_ON_ZERO&#x27; */;</span><br><span class="line">/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Dump of table wl_Comment</span><br><span class="line"># ------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">CREATE TABLE `wl_Comment` (</span><br><span class="line">  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `user_id` int(11) DEFAULT NULL,</span><br><span class="line">  `comment` text,</span><br><span class="line">  `insertedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,</span><br><span class="line">  `ip` varchar(100) DEFAULT &#x27;&#x27;,</span><br><span class="line">  `link` varchar(255) DEFAULT NULL,</span><br><span class="line">  `mail` varchar(255) DEFAULT NULL,</span><br><span class="line">  `nick` varchar(255) DEFAULT NULL,</span><br><span class="line">  `pid` int(11) DEFAULT NULL,</span><br><span class="line">  `rid` int(11) DEFAULT NULL,</span><br><span class="line">  `sticky` boolean DEFAULT NULL,</span><br><span class="line">  `status` varchar(50) NOT NULL DEFAULT &#x27;&#x27;,</span><br><span class="line">  `like` int(11) DEFAULT NULL,</span><br><span class="line">  `ua` text,</span><br><span class="line">  `url` varchar(255) DEFAULT NULL,</span><br><span class="line">  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,</span><br><span class="line">  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  INDEX `idx_comment_url` (`url`),</span><br><span class="line">  INDEX `idx_comment_user_id` (`user_id`),</span><br><span class="line">  INDEX `idx_comment_status` (`status`),</span><br><span class="line">  INDEX `idx_comment_pid_rid` (`pid`, `rid`),</span><br><span class="line">  INDEX `idx_comment_created_at` (`createdAt`),</span><br><span class="line">  INDEX `idx_comment_updated_at` (`updatedAt`),</span><br><span class="line">  INDEX `idx_comment_sticky` (`sticky`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Dump of table wl_Counter</span><br><span class="line"># ------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">CREATE TABLE `wl_Counter` (</span><br><span class="line">  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `time` int(11) DEFAULT NULL,</span><br><span class="line">  `reaction0` int(11) DEFAULT NULL,</span><br><span class="line">  `reaction1` int(11) DEFAULT NULL,</span><br><span class="line">  `reaction2` int(11) DEFAULT NULL,</span><br><span class="line">  `reaction3` int(11) DEFAULT NULL,</span><br><span class="line">  `reaction4` int(11) DEFAULT NULL,</span><br><span class="line">  `reaction5` int(11) DEFAULT NULL,</span><br><span class="line">  `reaction6` int(11) DEFAULT NULL,</span><br><span class="line">  `reaction7` int(11) DEFAULT NULL,</span><br><span class="line">  `reaction8` int(11) DEFAULT NULL,</span><br><span class="line">  `url` varchar(255) NOT NULL DEFAULT &#x27;&#x27;,</span><br><span class="line">  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,</span><br><span class="line">  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  INDEX `idx_counter_url` (`url`),</span><br><span class="line">  INDEX `idx_counter_time` (`time`),</span><br><span class="line">  INDEX `idx_counter_created_at` (`createdAt`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Dump of table wl_Users</span><br><span class="line"># ------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">CREATE TABLE `wl_Users` (</span><br><span class="line">  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `display_name` varchar(255) NOT NULL DEFAULT &#x27;&#x27;,</span><br><span class="line">  `email` varchar(255) NOT NULL DEFAULT &#x27;&#x27;,</span><br><span class="line">  `password` varchar(255) NOT NULL DEFAULT &#x27;&#x27;,</span><br><span class="line">  `type` varchar(50) NOT NULL DEFAULT &#x27;&#x27;,</span><br><span class="line">  `label` varchar(255) DEFAULT NULL,</span><br><span class="line">  `url` varchar(255) DEFAULT NULL,</span><br><span class="line">  `avatar` varchar(255) DEFAULT NULL,</span><br><span class="line">  `github` varchar(255) DEFAULT NULL,</span><br><span class="line">  `twitter` varchar(255) DEFAULT NULL,</span><br><span class="line">  `facebook` varchar(255) DEFAULT NULL,</span><br><span class="line">  `google` varchar(255) DEFAULT NULL,</span><br><span class="line">  `weibo` varchar(255) DEFAULT NULL,</span><br><span class="line">  `qq` varchar(255) DEFAULT NULL,</span><br><span class="line">  `2fa` varchar(32) DEFAULT NULL,</span><br><span class="line">  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,</span><br><span class="line">  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  UNIQUE INDEX `idx_user_email` (`email`),</span><br><span class="line">  INDEX `idx_user_type` (`type`),</span><br><span class="line">  INDEX `idx_user_created_at` (`createdAt`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;</span><br><span class="line">/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;</span><br><span class="line">/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;</span><br><span class="line">/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;</span><br><span class="line">/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;</span><br><span class="line">/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;</span><br></pre></td></tr></table></figure>
+
+<p>再在容器中执行该sql脚本：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -<span class="selector-tag">i</span> waline-mysql mysql -u root -<span class="selector-tag">p</span>&lt;root密码&gt; db_waline &lt; waline<span class="selector-class">.sql</span></span><br></pre></td></tr></table></figure>
+
+<p>使用DataGrip测试mysql能否连接，同时查看表是否成功创建（也可以其他方法测试）：</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/3671a41ad2b2ec487f4aba1f3932f961.png" alt="3671a41ad2b2ec487f4aba1f3932f961" style="zoom: 33%;" />
+
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/64c0cbd3514c8c1ba0d269f0556ba048.png" alt="64c0cbd3514c8c1ba0d269f0556ba048"></p>
+<h3 id="部署Waline服务"><a href="#部署Waline服务" class="headerlink" title="部署Waline服务"></a>部署Waline服务</h3><p>然后使用docker快速部署waline服务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name waline-server \</span><br><span class="line">  -p 8360:8360 \</span><br><span class="line">  -e MYSQL_HOST=&quot;&lt;服务器公网ip&gt;&quot; \</span><br><span class="line">  -e MYSQL_PORT=&quot;3306&quot; \</span><br><span class="line">  -e MYSQL_DB=&quot;db_waline&quot; \</span><br><span class="line">  -e MYSQL_USER=&quot;root&quot; \</span><br><span class="line">  -e MYSQL_PASSWORD=&quot;&lt; root密码&gt;&quot; \</span><br><span class="line">  -e MYSQL_PREFIX=&quot;wl_&quot; \</span><br><span class="line">  -e MYSQL_CHARSET=&quot;utf8mb4&quot; \</span><br><span class="line">  docker.io/lizheming/waline</span><br></pre></td></tr></table></figure>
+
+<p>输入<code>docker ps -a</code>查看容器是否运行正常。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241217233935344.png" alt="image-20241217233935344"></p>
+<p>此时访问 <code>&lt;你的服务器公网ip&gt;:8360</code> 测试是否能访问waline服务，并输入评论测试。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/a7433f7ca656ec5bc66ff4b951bf773e.png" alt="a7433f7ca656ec5bc66ff4b951bf773e" style="zoom: 33%;" />
+
+<p>此时可能会出现以下的报错：</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/8cb87c40994c6a4bd3d4387daaee0858.png" alt="8cb87c40994c6a4bd3d4387daaee0858" style="zoom:50%;" />
+
+<p>这是由于 MySQL 8.0 引入了一个新的身份验证插件 <code>caching_sha2_password</code>，而较旧的 MySQL 客户端（包括某些 Node.js MySQL 客户端）默认不支持这种认证方式。</p>
+<p>解决：进入 MySQL 容器并修改 <code>waline_user</code> 用户的认证方式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it waline-mysql mysql -u root -p</span><br></pre></td></tr></table></figure>
+
+<p>然后在 MySQL 控制台中执行以下 SQL 命令来更改认证方式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER &#x27;root&#x27;@&#x27;%&#x27; IDENTIFIED WITH mysql_native_password BY &#x27;&lt;root密码&gt;&#x27;;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
+<p>再次尝试，成功！</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241218010327336.png" alt="image-20241218010327336" style="zoom:50%;" />
+
+<h3 id="配置Hexo-next"><a href="#配置Hexo-next" class="headerlink" title="配置Hexo next"></a>配置Hexo next</h3><p>首先，在blog&#x2F;目录下安装waline：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install @waline/hexo-next --save</span><br></pre></td></tr></table></figure>
+
+<p>然后打开next主题配置文件_config.next.yml，找个地方输入以下内容并保存：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Waline 评论</span></span><br><span class="line"><span class="comment"># For more information: https://waline.js.org, https://github.com/walinejs/waline</span></span><br><span class="line"><span class="attr">waline:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> </span><br><span class="line">  <span class="attr">serverURL:</span> <span class="string">http://&lt;你的公网ip&gt;:8360</span> <span class="comment"># Waline服务端地址</span></span><br><span class="line">  <span class="attr">placeholder:</span> <span class="string">请文明评论呀~</span> <span class="comment"># 评论框的默认文字</span></span><br><span class="line">  <span class="attr">avatar:</span> <span class="string">mm</span> <span class="comment"># 头像风格</span></span><br><span class="line">  <span class="attr">meta:</span> [<span class="string">nick</span>, <span class="string">mail</span>, <span class="string">link</span>] <span class="comment"># 自定义评论框上面的三个输入框的内容</span></span><br><span class="line">  <span class="attr">pageSize:</span> <span class="number">10</span> <span class="comment"># 评论数量多少时显示分页</span></span><br><span class="line">  <span class="attr">lang:</span> <span class="string">zh-cn</span> <span class="comment"># 语言, 可选值: en, zh-cn</span></span><br><span class="line">  <span class="comment"># Warning: 不要同时启用 `waline.visitor` 以及 `leancloud_visitors`.</span></span><br><span class="line">  <span class="attr">visitor:</span> <span class="literal">true</span> <span class="comment"># 文章阅读统计</span></span><br><span class="line">  <span class="attr">comment_count:</span> <span class="literal">true</span> <span class="comment"># 如果为 false , 评论数量只会在当前评论页面显示, 主页则不显示</span></span><br><span class="line">  <span class="attr">requiredFields:</span> [<span class="string">nick</span>] <span class="comment"># 设置用户评论时必填的信息，[nick,mail]: [nick] | [nick, mail]</span></span><br><span class="line">  <span class="attr">libUrl:</span> <span class="comment"># Set custom library cdn url</span></span><br></pre></td></tr></table></figure>
+
+<p>然后使用命令三件套测试，到网页进行评论：</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241218012550130.png" alt="image-20241218012550130" style="zoom:50%;" />
+
+<h3 id="配置SSL证书"><a href="#配置SSL证书" class="headerlink" title="配置SSL证书"></a>配置SSL证书</h3><p>但此时，如果你hexo d部署后，如果尝试进行评论会报错“Failed to fetch”，查看<code>docker logs waline-server</code>会发现报错：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Mixed Content: The page <span class="keyword">at</span> &#x27;https:/xxxxxxx&#x27; was loaded <span class="keyword">over</span> HTTPS, <span class="keyword">but</span> requested an insecure resource </span><br></pre></td></tr></table></figure>
+
+<p>这是典型的 <strong>混合内容问题</strong>（Mixed Content）。具体来说，问题出现在你的网站是通过 HTTPS 加载的，但是你请求的 Waline 服务是通过 HTTP 协议进行访问的。由于现代浏览器的安全策略，<strong>浏览器会阻止从 HTTPS 页面加载 HTTP 资源</strong>，从而导致评论功能无法正常工作。</p>
+<p>因此我们需要为Waline 后端设置 SSL 证书，使其能够通过 HTTPS 协议提供服务。</p>
+<h4 id="设置子域名"><a href="#设置子域名" class="headerlink" title="设置子域名"></a>设置子域名</h4><p>由于 <strong>Let’s Encrypt</strong> 只会为域名发放证书，而不会给IP地址发放，因此我们需要为waline服务（也就是服务器）绑定一个域名。但是我们的域名已经绑定到我们的网站了，怎么办呢？</p>
+<p>可以将服务器绑定到一个子域名，比如我们的域名是 jinqiqing.cn，那么我们将服务器IP绑定到 ecs.jinqiqing.cn 和 waline.jinqiqing.cn 两个子域名（这两个子域名都指向同一个ip，只是为了名字好看）。在域名控制台，进入 <strong>域名解析</strong>，按如下添加记录。</p>
+<p>此外，以后还可以使用<code>ssh root@ecs.jinqiqing.cn</code>的方式连接服务器了，不用再记难记的ip地址。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/7243b6100cff0ad396dfaff281c56f49.png" alt="7243b6100cff0ad396dfaff281c56f49" style="zoom: 33%;" />
+
+<h4 id="为域名配置SSL证书"><a href="#为域名配置SSL证书" class="headerlink" title="为域名配置SSL证书"></a>为域名配置SSL证书</h4><p>使用免费的 <strong>Let’s Encrypt</strong> SSL 证书，配合 <strong>Certbot</strong> 工具来自动化安装和配置证书，在服务器执行命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt install certbot</span><br><span class="line">certbot certonly --standalone -d &lt;你的服务器域名&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后按照提示操作。结果我遇到了403 Forbidden报错：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/c64456c40a7c3d4ee0a459fca42abb4e.png" alt="c64456c40a7c3d4ee0a459fca42abb4e"></p>
+<p>结果发现：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/bc121a041a97e2e58a164772ea7bf214.png" alt="bc121a041a97e2e58a164772ea7bf214"></p>
+<p>看来还是需要进行<strong>域名备案</strong>啊。</p>
+<p>备案成功后，再次尝试：<br><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/7d5c66aded438104337d37340c69fb8b.png" alt="7d5c66aded438104337d37340c69fb8b"></p>
+<p>成功，同时可以发现，<strong>证书有效期是90天</strong>。</p>
+<p>然后用nginx配置证书：</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt install nginx python3-certbot-nginx</span><br><span class="line">certbot <span class="comment">--nginx</span></span><br></pre></td></tr></table></figure>
+
+<p>然后会跳出交互，问为哪个域名配置，输入域名。然后会问是不是用已有的证书配置，输入 1（是）。</p>
+<p>但此时，我们只是能通过https访问<code>ecs.jinqiqing.cn</code>，还不能访问<code>https://ecs.jinqiqing.cn:8360</code>；但是我们不能用nginx配置监听8360端口，因为waline服务占用了该端口。一个取巧的办法是，我们让网站访问<code>https://ecs.jinqiqing.cn:8359</code>端口，然后让nginx监听ssl的8359端口，同时转发到8360，这样就完成了目标。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="regexp">/etc/</span>nginx<span class="regexp">/sites-enable/</span><span class="keyword">default</span></span><br></pre></td></tr></table></figure>
+
+<p>编辑该文件，在最后加入：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">8359</span> ssl; <span class="comment"># 监听8359端口</span></span><br><span class="line">    <span class="attribute">server_name</span> 服务器域名;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_certificate</span> /etc/letsencrypt/live/服务器域名/fullchain.pem;</span><br><span class="line">    <span class="attribute">ssl_certificate_key</span> /etc/letsencrypt/live/服务器域名/privkey.pem;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">ssl_protocols</span> TLSv1.<span class="number">2</span> TLSv1.<span class="number">3</span>;</span><br><span class="line">    <span class="attribute">ssl_ciphers</span> <span class="string">&#x27;TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:ECDHE-RSA-AES128-GCM-SHA256&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://localhost:8360;  <span class="comment"># 转发请求到本地的 8360 端口</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>保存后重启nginx服务：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart nginx</span><br></pre></td></tr></table></figure>
+
+<p>别忘了在服务器的安全组中加上8359端口。</p>
+<p>把hexo-next中的配置修改为：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">serverURL:</span> https://服务器域名:<span class="number">8359</span> <span class="meta"># Waline服务端地址</span></span><br></pre></td></tr></table></figure>
+
+<p>然后进行测试。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241223115439656.png" alt="image-20241223115439656"></p>
+<p>成功！</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/17/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%8D%81%EF%BC%89%E2%80%94%E2%80%94%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89/" title="如何搭建个人网页（十）—— 评论系统（二）">http://jinqq.gitlab.io/2024/12/17/如何搭建个人网页（十）——评论系统（二）/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5/" rel="tag"><i class="fa fa-tag"></i> 个人网页</a>
+              <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91/" rel="tag"><i class="fa fa-tag"></i> 阿里云</a>
+              <a href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag"><i class="fa fa-tag"></i> 域名</a>
+              <a href="/tags/ECS/" rel="tag"><i class="fa fa-tag"></i> ECS</a>
+              <a href="/tags/Waline/" rel="tag"><i class="fa fa-tag"></i> Waline</a>
+              <a href="/tags/mysql/" rel="tag"><i class="fa fa-tag"></i> mysql</a>
+              <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
+              <a href="/tags/ssl/" rel="tag"><i class="fa fa-tag"></i> ssl</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/17/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E4%B9%9D%EF%BC%89%E2%80%94%E2%80%94%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%80%EF%BC%89/" rel="prev" title="如何搭建个人网页（九）—— 评论系统（一）">
+                  <i class="fa fa-angle-left"></i> 如何搭建个人网页（九）—— 评论系统（一）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/18/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C3%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="next" title="软件安全实验三——实验报告">
+                  软件安全实验三——实验报告 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/17/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%8D%81%EF%BC%89%E2%80%94%E2%80%94%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

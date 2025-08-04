@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="设计原则 单一职责原则：一个对象应该只包含单一的职责，并且该职责被完整地封装在一个类中；或就一个类而言，应该仅有一个引起他变化的原因。是实现高内聚、低耦合的指导方针 。 开闭原则：一个软件实体应当对扩展开放，对修改关闭。 里氏替换原则：软件中如果能够使用基类对象，那么一定能够使用其子类对象。 依赖倒转原则：高层模块不应该依赖低层模块，它们都应该依赖抽象。抽象不应该 依赖于细节，细节应该依赖于抽象；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件系统设计2023 期末复习">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="设计原则 单一职责原则：一个对象应该只包含单一的职责，并且该职责被完整地封装在一个类中；或就一个类而言，应该仅有一个引起他变化的原因。是实现高内聚、低耦合的指导方针 。 开闭原则：一个软件实体应当对扩展开放，对修改关闭。 里氏替换原则：软件中如果能够使用基类对象，那么一定能够使用其子类对象。 依赖倒转原则：高层模块不应该依赖低层模块，它们都应该依赖抽象。抽象不应该 依赖于细节，细节应该依赖于抽象；">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613134245193.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613135326968.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613140303006.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613140638866.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613140752866.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613141152027.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613141748317.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613145233659.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613145805181.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613145907914.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613150031540.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613150215598.png">
+<meta property="article:published_time" content="2024-12-15T12:59:00.000Z">
+<meta property="article:modified_time" content="2024-12-18T16:15:17.711Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="期末复习">
+<meta property="article:tag" content="软件系统设计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613134245193.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/","path":"2024/12/15/软件系统设计-期末复习/","title":"软件系统设计2023 期末复习"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>软件系统设计2023 期末复习 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-number">1.</span> <span class="nav-text">设计原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">策略模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">工厂方法模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">抽象工厂模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">状态模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.</span> <span class="nav-text">命令模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F-%E6%A8%A1%E5%9E%8B%E8%A7%86%E5%9B%BE%E6%A8%A1%E5%BC%8F"><span class="nav-number">7.</span> <span class="nav-text">观察者模式&#x2F;发布订阅模式&#x2F;模型视图模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="nav-number">8.</span> <span class="nav-text">中介者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F"><span class="nav-number">9.</span> <span class="nav-text">模板方法模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">10.</span> <span class="nav-text">适配器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F"><span class="nav-number">11.</span> <span class="nav-text">组合模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F"><span class="nav-number">12.</span> <span class="nav-text">装饰模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">13.</span> <span class="nav-text">外观模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F"><span class="nav-number">14.</span> <span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E4%BE%BF%E9%BB%98%E9%BB%98"><span class="nav-number">15.</span> <span class="nav-text">随便默默</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E6%96%87%E6%A1%A3%E5%8C%85"><span class="nav-number">15.0.1.</span> <span class="nav-text">软件架构文档包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ATAM%E4%B8%AD%E6%AF%8F%E4%B8%AA%E9%98%B6%E6%AE%B5%E7%9A%84%E8%BE%93%E5%87%BA%EF%BC%9A"><span class="nav-number">15.0.2.</span> <span class="nav-text">ATAM中每个阶段的输出：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ATAM%E4%B8%AD%E6%AF%8F%E4%B8%AA%E9%98%B6%E6%AE%B5%E5%8F%82%E4%B8%8E%E7%9A%84stakeholders%E4%B8%8E%E5%85%B6%E8%81%8C%E8%B4%A3"><span class="nav-number">15.0.3.</span> <span class="nav-text">ATAM中每个阶段参与的stakeholders与其职责</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E8%88%AC%E6%B4%BB%E5%8A%A8%EF%BC%8C%E4%BB%A5%E5%8F%8A%E6%AF%8F%E4%B8%AA%E6%B4%BB%E5%8A%A8%E7%9A%84%E8%BE%93%E5%85%A5%E3%80%81%E8%BE%93%E5%87%BA"><span class="nav-number">15.0.4.</span> <span class="nav-text">软件架构过程中的一般活动，以及每个活动的输入、输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E7%9A%84%E6%9D%A5%E6%BA%90"><span class="nav-number">15.0.5.</span> <span class="nav-text">软件架构的来源</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%89%E5%93%AA%E4%BA%9B%E9%80%9A%E7%94%A8%E8%AE%BE%E8%AE%A1%E7%AD%96%E7%95%A5%EF%BC%88generic-design-strategies%EF%BC%89%EF%BC%8C%E7%BB%99%E6%AF%8F%E4%B8%AA%E7%AD%96%E7%95%A5%E6%8F%90%E4%BE%9B%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%8E%E5%B7%A5%E4%BD%9C%E7%A4%BA%E4%BE%8B"><span class="nav-number">15.0.6.</span> <span class="nav-text">有哪些通用设计策略（generic design strategies），给每个策略提供一个简明工作示例</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFASR%EF%BC%8C%E5%88%97%E4%B8%BE%E6%8F%90%E5%8F%96%E5%92%8C%E8%AF%86%E5%88%ABASR%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%9D%A5%E6%BA%90%E5%92%8C%E6%96%B9%E6%B3%95"><span class="nav-number">15.0.7.</span> <span class="nav-text">什么是ASR，列举提取和识别ASR的四种来源和方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ADD%E8%BF%87%E7%A8%8B"><span class="nav-number">15.0.8.</span> <span class="nav-text">ADD过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A3%8E%E9%99%A9%E7%82%B9%E3%80%81%E6%9D%83%E8%A1%A1%E7%82%B9%E3%80%81%E6%95%8F%E6%84%9F%E7%82%B9"><span class="nav-number">15.0.9.</span> <span class="nav-text">风险点、权衡点、敏感点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E3%80%81%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%EF%BC%88%E6%9E%B6%E6%9E%84%EF%BC%89%E3%80%81%E7%BB%93%E6%9E%84%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">15.0.10.</span> <span class="nav-text">设计、体系结构（架构）、结构的关系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%90%8C%E8%A7%86%E5%9B%BE%EF%BC%8C%E7%BB%99%E5%87%BA4%E7%A7%8D%E8%A7%86%E5%9B%BE"><span class="nav-number">15.0.11.</span> <span class="nav-text">为什么使用不同视图，给出4种视图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8F%8F%E8%BF%B04-1%E8%A7%86%E5%9B%BE"><span class="nav-number">15.0.12.</span> <span class="nav-text">描述4+1视图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SOA%EF%BC%9A"><span class="nav-number">15.0.13.</span> <span class="nav-text">SOA：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="nav-number">15.0.14.</span> <span class="nav-text">微服务</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="软件系统设计2023 期末复习 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          软件系统设计2023 期末复习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-15 20:59:00" itemprop="dateCreated datePublished" datetime="2024-12-15T20:59:00+08:00">2024-12-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-19 00:15:17" itemprop="dateModified" datetime="2024-12-19T00:15:17+08:00">2024-12-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">软件系统设计</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h3><ol>
+<li>单一职责原则：一个对象应该只包含单一的职责，并且该职责被完整地封装在一个类中；或就一个类而言，应该仅有一个引起他变化的原因。是实现高内聚、低耦合的指导方针 。</li>
+<li>开闭原则：一个软件实体应当对扩展开放，对修改关闭。</li>
+<li>里氏替换原则：软件中如果能够使用基类对象，那么一定能够使用其子类对象。</li>
+<li>依赖倒转原则：高层模块不应该依赖低层模块，它们都应该依赖抽象。抽象不应该 依赖于细节，细节应该依赖于抽象；或针对接口或抽象类编程，而不是针对实现或具体类编程。</li>
+<li>接口隔离原则：客户端不应该依赖那些它不需要的接口。一旦一个接口太大，则需要将它分割成一些更细小的接口， 使用该接口的客户端仅需知道与之相关的方法即可。</li>
+<li>合成复用原则：要尽量使用组合&#x2F;聚合关系，少用继承。</li>
+<li>迪米特法则&#x2F;最小知识原则：每一个软件单位对其他的单位都只有最少的知识，而 且局限于那些与本单位密切相关的软件单位；一个软件实体应当 尽可能少的与其他实体发生相互作用。</li>
+</ol>
+<span id="more"></span>
+
+<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><h3 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h3><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613134245193.png" alt="image-20230613134245193" style="zoom: 50%;" />
+
+<p>​	当系统扩展需要添加新的产品对象时，仅仅需要添加一个具体产品对象以及一个具体工厂对象，原有工厂对象不需要进行任何修改，也不需要修改客户端，很好地符合了“开闭原则”。</p>
+<h3 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h3><p>产品等级结构：抽象电视机-具体电视机属于一个产品等级结构；抽象冰箱-具体冰箱属于另一个产品等级结构</p>
+<p>产品族：海尔电视机-海尔冰箱-海尔空调属于一个产品族</p>
+<p>抽象工厂模式与工厂方法模式最大的区别在于，工厂方法模 式针对的是一个产品等级结构，而抽象工厂模式则需要面对多 个产品等级结构。</p>
+<p>开闭原则的倾斜性：增加新的工厂和产品族容易， 增加新的产品等级结构麻烦</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613135326968.png" alt="image-20230613135326968" style="zoom:50%;" />
+
+<h3 id="状态模式"><a href="#状态模式" class="headerlink" title="状态模式"></a>状态模式</h3><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613140303006.png" alt="image-20230613140303006" style="zoom:50%;" />
+
+<p>状态模式对“开闭原则”的支持并不太好，对于可以切换状 态的状态模式，增加新的状态类需要修改那些负责状态转换 的源代码，否则无法切换到新增状态；而且修改某个状态类的行为也需修改对应类的源代码。</p>
+<h3 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h3><p>命令模式可以对发送者和接收者完全解耦，发送者与接收者之间没有直接引用关系，发送请求的对象只需要知道如何发送请求，而不必知道如何完成请求。这就是命令模式的模式动机。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613140638866.png" alt="image-20230613140638866" style="zoom: 50%;" />
+
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613140752866.png" alt="image-20230613140752866" style="zoom:50%;" />
+
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613141152027.png" alt="image-20230613141152027" style="zoom:50%;" />
+
+<h3 id="观察者模式-发布订阅模式-模型视图模式"><a href="#观察者模式-发布订阅模式-模型视图模式" class="headerlink" title="观察者模式&#x2F;发布订阅模式&#x2F;模型视图模式"></a>观察者模式&#x2F;发布订阅模式&#x2F;模型视图模式</h3><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613141748317.png" alt="image-20230613141748317" style="zoom:50%;" />
+
+<h3 id="中介者模式"><a href="#中介者模式" class="headerlink" title="中介者模式"></a>中介者模式</h3><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613145233659.png" alt="image-20230613145233659" style="zoom:50%;" />
+
+<h3 id="模板方法模式"><a href="#模板方法模式" class="headerlink" title="模板方法模式"></a>模板方法模式</h3><h3 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h3><p>适配器模式(Adapter Pattern) ：将一个接口转换成 客户希望的另一个接口，适配器模式使接口不兼容的 那些类可以一起工作，其别名为包装器(Wrapper)。 适配器模式既可以作为类结构型模式，也可以作为对 象结构型模式。</p>
+<h3 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h3><p>组合模式(Composite Pattern)：组合多个对象形成 树形结构以表示“整体-部分”的结构层次。组合模 式对单个对象（即叶子对象）和组合对象（即容器对 象）的使用具有一致性。 • 组合模式又可以称为“整体-部分”(Part-Whole)模 式，属于对象的结构模式，它将对象组织到树结构中， 可以用来描述整体与部分的关系。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613145805181.png" alt="image-20230613145805181" style="zoom:50%;" />
+
+<h3 id="装饰模式"><a href="#装饰模式" class="headerlink" title="装饰模式"></a>装饰模式</h3><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613145907914.png" alt="image-20230613145907914" style="zoom:50%;" />
+
+<p>与继承关系相比，关联关系的主要优势在于不会破坏类的封装性， 而且继承是一种耦合度较大的静态关系，无法在程序运行时动态扩 展。在软件开发阶段，关联关系虽然不会比继承关系减少编码量， 但是到了软件维护阶段，由于关联关系使系统具有较好的松耦合性， 因此使得系统更加容易维护。当然，关联关系的缺点是比继承关系 要创建更多的对象。 </p>
+<p>使用装饰模式来实现扩展比继承更加灵活，它以对客户透明的方式 动态地给一个对象附加更多的责任。装饰模式可以在不需要创造更 多子类的情况下，将对象的功能加以扩展。</p>
+<h3 id="外观模式"><a href="#外观模式" class="headerlink" title="外观模式"></a>外观模式</h3><p>引入外观角色之后，用户只需要直接与外观角色交互，用户与子系统 之间的复杂关系由外观角色来实现，从而降低了系统的耦合度。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613150031540.png" alt="image-20230613150031540" style="zoom:50%;" />
+
+<p>根据“单一职责原则” ，在软件中将一个系统划分为若干个子系统 有利于降低整个系统的复杂性，一个常见的设计目标是使子系统间 的通信和相互依赖关系达到最小，而达到该目标的途径之一就是引 入一个外观对象，它为子系统的访问提供了一个简单而单一的入口。 </p>
+<p>外观模式也是“迪米特法则”的体现，通过引入一个新的外观类可 以降低原有系统的复杂度，同时降低客户类与子系统类的耦合度。</p>
+<p>在不引入抽象外观类的情况下，增加新的子系统可能需 要修改外观类或客户端的源代码，违背了“开闭原则”。</p>
+<h3 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h3><p>通过引入一个新的对象（如小图片和远程代理对 象）来实现对真实对象的操作或者将新的对象作 为真实对象的一个替身，这种实现机制即为代理 模式，通过引入代理对象来间接访问一个对象， 这就是代理模式的模式动机</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20230613150215598.png" alt="image-20230613150215598" style="zoom:50%;" />
+
+<h3 id="随便默默"><a href="#随便默默" class="headerlink" title="随便默默"></a>随便默默</h3><h5 id="软件架构文档包"><a href="#软件架构文档包" class="headerlink" title="软件架构文档包"></a>软件架构文档包</h5><ol>
+<li><p>Beyond</p>
+<p>a. 文档路线图：包含了范围、总结和简明摘要</p>
+<p>b. 视图的文档组织方式：描述了文档内的视图是如何组织的</p>
+<p>c. 系统概要：从整体上描述当前架构的简要介绍、业务驱动因素等</p>
+<p>d. 不同视图的映射关系</p>
+<p>e. 系统原理：从整体上描述当前架构的设计原理</p>
+<p>f. 目录-索引、词汇表、首字母缩略表</p>
+</li>
+<li><p>View</p>
+<p>a. 体系结构风格和视图</p>
+<p>b. 结构视图，包含模块视图、组件和连接器视图、部署视图</p>
+<p>c. 质量视图</p>
+</li>
+<li><p>在每个View内包含</p>
+<p>a. 主视图：显示视图的元素和关系，以及图例</p>
+<p>b. 元素列表：详细介绍a中的每个元素、元素属性、关系属性、元素接口以及行为</p>
+<p>c. 上下文图：描述了系统如何与环境相关</p>
+<p>d. 可变性指引：描述视图中可能变化的地方</p>
+<p>e. 基本原理：描述设计是如何映射到视图中的，以及其合理性</p>
+</li>
+</ol>
+<h5 id="ATAM中每个阶段的输出："><a href="#ATAM中每个阶段的输出：" class="headerlink" title="ATAM中每个阶段的输出："></a>ATAM中每个阶段的输出：</h5><ol>
+<li><p>step-0 准备和建立团队</p>
+<p>a. 评估计划</p>
+</li>
+<li><p>step-1 评估1</p>
+<p>a. 架构的简明介绍</p>
+<p>b. 业务目标（驱动因素）的阐释</p>
+<p>c. 作为场景的特定质量属性所要求的优先级列表</p>
+<p>d. 效用树</p>
+<p>e. 风险点和无风险点</p>
+<p>f. 敏感点和均衡点</p>
+</li>
+<li><p>step-2 评估-2</p>
+<p>a. 涉众们的场景优先级列表</p>
+<p>b. 风险主题和业务驱动因素各种受到的威胁</p>
+</li>
+<li><p>step-3 后续</p>
+<p>a. 最终的评估报告</p>
+</li>
+</ol>
+<h5 id="ATAM中每个阶段参与的stakeholders与其职责"><a href="#ATAM中每个阶段参与的stakeholders与其职责" class="headerlink" title="ATAM中每个阶段参与的stakeholders与其职责"></a>ATAM中每个阶段参与的stakeholders与其职责</h5><ol>
+<li><p>step-0 准备和建立团队 </p>
+<p>参与者：评估团队领导、关键项目决策者</p>
+<p>职责：根据体系架构文档生成评估计划</p>
+</li>
+<li><p>step-1 评估1</p>
+<p>参与者：评估团队、项目决策者</p>
+<p>职责：</p>
+<p>a. 评估负责人介绍ATAM方法</p>
+<p>b. 项目经理或客户从业务角度介绍业务驱动因素</p>
+<p>c. 首席架构师介绍体系结构</p>
+<p>d. 评估团队确定架构方法</p>
+<p>e. 评估团队和项目决策者生成质量属性效用树</p>
+<p>f. 评估团队分析架构方法</p>
+</li>
+<li><p>step-2 评估2</p>
+<p>参与者：评估团队、项目决策者 、项目涉众</p>
+<p>职责：</p>
+<p>a. 评估负责人再次介绍ATAM方法，并展示之前取得成果</p>
+<p>b. 涉众头脑风暴确定场景优先级</p>
+<p>c. 评估团队分析架构方法</p>
+<p>e. 评估团队展示架构方法，并提交给涉众</p>
+</li>
+<li><p>step-3 后续</p>
+<p>参与者：评估团队、主要涉众</p>
+<p>职责：评估团队制作最终评估报告，并交给主要涉众审核后，递交给委托评估的人</p>
+</li>
+</ol>
+<h5 id="软件架构过程中的一般活动，以及每个活动的输入、输出"><a href="#软件架构过程中的一般活动，以及每个活动的输入、输出" class="headerlink" title="软件架构过程中的一般活动，以及每个活动的输入、输出"></a>软件架构过程中的一般活动，以及每个活动的输入、输出</h5><ol>
+<li><p>识别ASRS：</p>
+<p>输入：涉众</p>
+<p>输出：优先的质量属性场景</p>
+</li>
+<li><p>架构设计：</p>
+<p>输入：优先的质量属性场景、需求和约束、策略和模式</p>
+<p>输出：一组由模式决定的选场景的草图</p>
+</li>
+<li><p>架构文档化：</p>
+<p>输入：一组由模式决定的选场景的草图、涉众</p>
+<p>输出：view &amp; beyond</p>
+</li>
+<li><p>架构评估：</p>
+<p>输入：view &amp; beyond、涉众、优先的质量属性场景</p>
+<p>输出：view &amp; beyond</p>
+</li>
+</ol>
+<h5 id="软件架构的来源"><a href="#软件架构的来源" class="headerlink" title="软件架构的来源"></a>软件架构的来源</h5><ol>
+<li>非功能需求 NFRs</li>
+<li>架构攸关需求 ASRs</li>
+<li>质量属性</li>
+<li>涉众和组织</li>
+<li>技术环境</li>
+<li>业务目标</li>
+<li>商业与技术决策组合</li>
+</ol>
+<h5 id="有哪些通用设计策略（generic-design-strategies），给每个策略提供一个简明工作示例"><a href="#有哪些通用设计策略（generic-design-strategies），给每个策略提供一个简明工作示例" class="headerlink" title="有哪些通用设计策略（generic design strategies），给每个策略提供一个简明工作示例"></a>有哪些通用设计策略（generic design strategies），给每个策略提供一个简明工作示例</h5><ol>
+<li>抽象：使用抽象让设计师关注本身结构而不关注实现，例如将系统抽象为组件-连接器</li>
+<li>分解：针对某一系统关注点分解后处理，例如将整个系统或某个模块分解</li>
+<li>分而治之：将每个模块分别处理</li>
+<li>生成与测试：将一个特定的设计看作是一个假设；根据测试路径生成测试</li>
+<li>迭代与细化：使用迭代的方法，例如ADD方法多次迭代直至满足所有ASR</li>
+<li>复用元素：重用在设计过程中出现了可以复用的元素，例如重用现有架构</li>
+</ol>
+<h5 id="什么是ASR，列举提取和识别ASR的四种来源和方法"><a href="#什么是ASR，列举提取和识别ASR的四种来源和方法" class="headerlink" title="什么是ASR，列举提取和识别ASR的四种来源和方法"></a>什么是ASR，列举提取和识别ASR的四种来源和方法</h5><p>ASRs 架构攸关需求是对体系结构产生了深远影响的需求</p>
+<p>四种来源和方法：</p>
+<ol>
+<li>从需求文档获取ASRs：MoScoW方法，用户故事</li>
+<li>从采访涉众获取ASRs：软件质量工作坊</li>
+<li>从业务目标获取ASRs：</li>
+<li>用质量属性效用树管理ASRs：</li>
+</ol>
+<h5 id="ADD过程"><a href="#ADD过程" class="headerlink" title="ADD过程"></a>ADD过程</h5><ol>
+<li>确定由足够的需求信息</li>
+<li>选择要分解的系统要素</li>
+<li>确定选择的要素的ASR</li>
+<li>选择符合ASR的设计<ol>
+<li>找出设计问题</li>
+<li>列出子关注点替代模式&#x2F;决策</li>
+<li>从清单中选择模式&#x2F;决策</li>
+<li>确定模式&#x2F;决策与ASR之间的关系</li>
+<li>记录初步的架构视图</li>
+<li>评估并解决不一致问题</li>
+</ol>
+</li>
+<li>实例化架构元素并分配职责</li>
+<li>实例化元素定义接口</li>
+<li>验证和完善需求</li>
+<li>重复2-7步直到满足所有的ASR</li>
+</ol>
+<h5 id="风险点、权衡点、敏感点"><a href="#风险点、权衡点、敏感点" class="headerlink" title="风险点、权衡点、敏感点"></a>风险点、权衡点、敏感点</h5><ol>
+<li>识别风险：发现对所需的质量属性有负面影响的架构决策，例如使用分层模式会导致性能损耗</li>
+<li>发现权衡：发现对多个质量属性有影响的架构决策，例如使用分层模式会损耗性能，但也会解耦增加系统的可修改性</li>
+<li>发现敏感：发现特定质量属性对其敏感的架构决策， 例如对性能敏感的系统，使用缓存中间件</li>
+</ol>
+<h5 id="设计、体系结构（架构）、结构的关系"><a href="#设计、体系结构（架构）、结构的关系" class="headerlink" title="设计、体系结构（架构）、结构的关系"></a>设计、体系结构（架构）、结构的关系</h5><ol>
+<li><p>设计包含架构，架构包含结构</p>
+</li>
+<li><p>结构是静态的、逻辑的，是关于系统如何组成的</p>
+</li>
+<li><p>架构除了包含结构，还包含了组件之间的相关的关系结构，并定义一些动态的行为</p>
+</li>
+<li><p>架构是关于软件设计的，所有架构都是软件设计，但不是所有的设计都是架构，架构是软件设计的一部分</p>
+</li>
+</ol>
+<h5 id="为什么使用不同视图，给出4种视图"><a href="#为什么使用不同视图，给出4种视图" class="headerlink" title="为什么使用不同视图，给出4种视图"></a>为什么使用不同视图，给出4种视图</h5><p>原因：</p>
+<ol>
+<li>不同视图支持不同的目标和用户，突出不同的系统元素和关系</li>
+<li>不同视图将不同的系统元素暴露出不同的程度</li>
+</ol>
+<p>视图：</p>
+<ol>
+<li>模块视图：提供一组连贯职责的实现单元</li>
+<li>组件连接器视图：显示具有某些运行时存在的元素</li>
+<li>部署视图：反映了软件单元到软件开发或运行环境元素的映射</li>
+<li>质量视图：安全视图、性能视图、可靠性视图、沟通视图、异常视图</li>
+<li>组合视图</li>
+</ol>
+<h5 id="描述4-1视图"><a href="#描述4-1视图" class="headerlink" title="描述4+1视图"></a>描述4+1视图</h5><ol>
+<li>逻辑视图：描述架构中的重要元素和关系</li>
+<li>过程视图：描述元素的并发和交互</li>
+<li>物理视图：描述主要过程和组件如何映射到硬件上</li>
+<li>发展视图：描述软件组件的内部组织联系</li>
+<li>用例场景：捕获架构需求，与一个或多个视图有关</li>
+</ol>
+<h5 id="SOA："><a href="#SOA：" class="headerlink" title="SOA："></a>SOA：</h5><p>核心：</p>
+<ol>
+<li>服务契约</li>
+<li>服务封装</li>
+<li>服务重用</li>
+<li>服务组合</li>
+<li>服务自治</li>
+<li>服务无状态</li>
+</ol>
+<p>对互操作性：支持服务自动识别、注册、调用</p>
+<p>对可伸缩性：服务高内聚，松耦合，易于可伸缩</p>
+<p>对安全性：中间件可能被攻击；多服务导致追踪溯源困难</p>
+<h5 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h5><p>在SOA基础上</p>
+<ol>
+<li>取消ESB，改用轻量级通信协议</li>
+<li>部署和管理结合devops实现自动化</li>
+<li>增加API网关</li>
+<li>增加熔断器</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="软件系统设计2023 期末复习">http://jinqq.gitlab.io/2024/12/15/软件系统设计-期末复习/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 期末复习</a>
+              <a href="/tags/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag"><i class="fa fa-tag"></i> 软件系统设计</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="prev" title="人机交互2023 期末复习">
+                  <i class="fa fa-angle-left"></i> 人机交互2023 期末复习
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E4%BD%9C%E4%B8%9A1/" rel="next" title="软件系统设计-作业1">
+                  软件系统设计-作业1 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

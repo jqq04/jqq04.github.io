@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="实践四_评估LLM对约束表达式的匹配能力 实验报告实验要求在实践二中，大家已经将约束表达式交由大语言模型去生成相应的测试用例输入，而在现实的工程环境 下，并没有所谓的正确代码，只有需求文本（即功能说明注释）与待测试的代码，这时我们可以将待测 试代码的约束表达式交由大语言模型，让其辅助判断是否与功能说明相符，是否有错误或遗漏。  本次实践的主要任务是模拟在没有标准代码的情况下，通过将待测试代码的约束">
+<meta property="og:type" content="article">
+<meta property="og:title" content="嵌入式方向实践实验四">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E5%9B%9B/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="实践四_评估LLM对约束表达式的匹配能力 实验报告实验要求在实践二中，大家已经将约束表达式交由大语言模型去生成相应的测试用例输入，而在现实的工程环境 下，并没有所谓的正确代码，只有需求文本（即功能说明注释）与待测试的代码，这时我们可以将待测 试代码的约束表达式交由大语言模型，让其辅助判断是否与功能说明相符，是否有错误或遗漏。  本次实践的主要任务是模拟在没有标准代码的情况下，通过将待测试代码的约束">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231228165543253.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231228165600400.png">
+<meta property="article:published_time" content="2024-12-15T08:25:20.000Z">
+<meta property="article:modified_time" content="2024-12-15T12:49:22.771Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="LLM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231228165543253.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E5%9B%9B/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E5%9B%9B/","path":"2024/12/15/嵌入式方向实践实验四/","title":"嵌入式方向实践实验四"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>嵌入式方向实践实验四 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E5%9B%9B-%E8%AF%84%E4%BC%B0LLM%E5%AF%B9%E7%BA%A6%E6%9D%9F%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%8C%B9%E9%85%8D%E8%83%BD%E5%8A%9B-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A"><span class="nav-number">1.</span> <span class="nav-text">实践四_评估LLM对约束表达式的匹配能力 实验报告</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%A6%81%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">实验要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">实验过程</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E5%9B%9B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="嵌入式方向实践实验四 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          嵌入式方向实践实验四
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-12-15 16:25:20 / 修改时间：20:49:22" itemprop="dateCreated datePublished" datetime="2024-12-15T16:25:20+08:00">2024-12-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">嵌入式方向</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E5%9B%9B/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E5%9B%9B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="实践四-评估LLM对约束表达式的匹配能力-实验报告"><a href="#实践四-评估LLM对约束表达式的匹配能力-实验报告" class="headerlink" title="实践四_评估LLM对约束表达式的匹配能力 实验报告"></a>实践四_评估LLM对约束表达式的匹配能力 实验报告</h2><h3 id="实验要求"><a href="#实验要求" class="headerlink" title="实验要求"></a>实验要求</h3><p>在实践二中，大家已经将约束表达式交由大语言模型去生成相应的测试用例输入，而在现实的工程环境 下，并没有所谓的正确代码，只有需求文本（即功能说明注释）与待测试的代码，这时我们可以将待测 试代码的约束表达式交由大语言模型，让其辅助判断是否与功能说明相符，是否有错误或遗漏。 </p>
+<p>本次实践的主要任务是模拟在没有标准代码的情况下，通过将待测试代码的约束表达式与功能说明注释 交给大语言模型，让其判断是否相符，以评估大语言模型对约束表达式的理解能力与匹配能力，从而探 索待测代码的约束表达式能否直接交给大语言模型判断对错，使得测试代码更加方便，准确。</p>
+<p> 本次实践的原材料依旧为上交实践一成果后分发到的约束，要求大家将每份代码的约束表达式与对应的 功能说明注释交给大语言模型，设计提示语，让其判断是否相符，是否有遗漏等匹配情况，记录下大语 言模型的判断结果（正确&#x2F;错误&#x2F;遗漏&#x2F;……）并计算其判断正确率。</p>
+<p> 为了防止大语言模型的惯性回答，要求将分发得到的约束表达式进行一定的变异（比如故意改成错 的），来测试其判断正确率。也可以将功能说明进行一定的改动，使其与约束表达式不相符。对于一份 正确的约束，要求至少变异为一份错误的&#x2F;遗漏的约束。 同时由于大语言模型的不稳定性，在评估判断正确率时，应用相同的提示语多次向大语言模型提问（无 上下文，开新的对话框提问才算为多次），取平均值，本次实践要求每份正确&#x2F;错误的约束至少重复提 问 3 次，方可评估其判断正确率。</p>
+<p> 本次实践的成果要求为一份实验报告，包含你所设计的提示语（prompt）、每条约束表达式及判断结 果（文本形式记录）与大语言模型对话的截图（两三张即可），并记录下大语言模型对于约束表达式判 断正确率（请按照上述要求重复生成后再计算正确率）。</p>
+<span id="more"></span>
+
+<h3 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h3><p>使用的大预言模型为<strong>chatgpt3.5</strong>。</p>
+<p>一共有五个程序，分别为：121_solution、122_add_elements、123_get_odd_collatz、124_valid_date、125_split_words。</p>
+<p>对于每个程序，提供了五份对应的正确约束，以及一个错误约束和一个遗漏的约束，并且每份约束重复向大模型提问三次（无上下文，开新的对话框提问）。</p>
+<p>以下是与大模型对话的<strong>prompt</strong>的示例：</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">我将为你提供一个程序的功能说明注释和七个约束表达式，请你帮我检验这些约束表达式是否符合该程序的功能说明，对于每个约束，请回答符合/错误/遗漏之一。</span><br><span class="line">以下是功能说明注释：</span><br><span class="line">/*Given a non-empty list of integers, return the sum of all of the odd elements that are in even positions.</span><br><span class="line"><span class="code">    Examples</span></span><br><span class="line"><span class="code">    solution([5, 8, 7, 1]) ==&gt; 12</span></span><br><span class="line"><span class="code">    solution([3, 3, 3, 3, 3]) ==&gt; 9</span></span><br><span class="line"><span class="code">    solution([30, 13, 24, 321]) ==&gt;0</span></span><br><span class="line">*/</span><br><span class="line">以下是具体的约束，不同的约束使用分隔符隔开：</span><br><span class="line">Constraints:</span><br><span class="line">(Eq false</span><br><span class="line"><span class="code">     (Sle 0</span></span><br><span class="line"><span class="section">          (ReadLSB w32 0 size)))</span></span><br><span class="line"><span class="section">----------------</span></span><br><span class="line">Constraints:</span><br><span class="line">(Sle 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 size))</span></span><br><span class="line">(Eq false</span><br><span class="line"><span class="code">     (Slt 0</span></span><br><span class="line"><span class="section">          (ReadLSB w32 0 size)))</span></span><br><span class="line"><span class="section">----------------</span></span><br><span class="line">Constraints:</span><br><span class="line">(Sle 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 size))</span></span><br><span class="line">(Slt 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 size))</span></span><br><span class="line">(Eq false</span><br><span class="line"><span class="code">     (Sle 0</span></span><br><span class="line"><span class="code">          (ReadLSB w32 0 x0)))</span></span><br><span class="line">(Eq false</span><br><span class="line"><span class="code">     (Slt 1</span></span><br><span class="line"><span class="section">          (ReadLSB w32 0 size)))</span></span><br><span class="line"><span class="section">----------------</span></span><br><span class="line">Constraints:</span><br><span class="line">(Sle 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 size))</span></span><br><span class="line">(Slt 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 size))</span></span><br><span class="line">(Sle 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 x0))</span></span><br><span class="line">(Sle (ReadLSB w32 0 x0)</span><br><span class="line"><span class="code">      3)</span></span><br><span class="line">(Eq false</span><br><span class="line"><span class="code">     (Slt 1</span></span><br><span class="line"><span class="code">          (ReadLSB w32 0 size)))</span></span><br><span class="line">(Eq false</span><br><span class="line"><span class="code">     (Eq 1</span></span><br><span class="line"><span class="code">         (SRem w32 (ReadLSB w32 0 x0)</span></span><br><span class="line"><span class="section">                   2)))</span></span><br><span class="line"><span class="section">----------------</span></span><br><span class="line">Constraints:</span><br><span class="line">(Sle 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 size))</span></span><br><span class="line">(Slt 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 size))</span></span><br><span class="line">(Sle 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 x0))</span></span><br><span class="line">(Sle (ReadLSB w32 0 x0)</span><br><span class="line"><span class="code">      3)</span></span><br><span class="line">(Eq false</span><br><span class="line"><span class="code">     (Slt 1</span></span><br><span class="line"><span class="code">          (ReadLSB w32 0 size)))</span></span><br><span class="line">(Eq 1</span><br><span class="line"><span class="code">     (SRem w32 (ReadLSB w32 0 x0)</span></span><br><span class="line"><span class="section">               2))</span></span><br><span class="line"><span class="section">----------------</span></span><br><span class="line">Constraints:</span><br><span class="line">(Sle 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 size))</span></span><br><span class="line">(Eq false</span><br><span class="line"><span class="code">	(Slt 0</span></span><br><span class="line"><span class="code">     	 (ReadLSB w32 0 size)))</span></span><br><span class="line">(Sle 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 x0))</span></span><br><span class="line">(Sle (ReadLSB w32 0 x0)</span><br><span class="line"><span class="code">      3)</span></span><br><span class="line">(Eq false</span><br><span class="line"><span class="code">     (Slt 1</span></span><br><span class="line"><span class="code">          (ReadLSB w32 0 size)))</span></span><br><span class="line">(Eq false</span><br><span class="line"><span class="code">     (Eq 1</span></span><br><span class="line"><span class="code">         (SRem w32 (ReadLSB w32 0 x0)</span></span><br><span class="line"><span class="section">                   2)))</span></span><br><span class="line"><span class="section">----------------</span></span><br><span class="line">Constraints:</span><br><span class="line">(Sle 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 size))</span></span><br><span class="line">(Slt 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 size))</span></span><br><span class="line">(Sle 0</span><br><span class="line"><span class="code">      (ReadLSB w32 0 x0))</span></span><br><span class="line">(Sle (ReadLSB w32 0 x0)</span><br><span class="line"><span class="code">      3)</span></span><br><span class="line">(Eq 1</span><br><span class="line"><span class="code">     (SRem w32 (ReadLSB w32 0 x0)</span></span><br><span class="line"><span class="code">               2))</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>最后的结果如下，其中<strong>标粗</strong>表示大模型的回答与正确答案不符：</p>
+<p>程序1：</p>
+<table>
+<thead>
+<tr>
+<th>121_solution</th>
+<th>第一次</th>
+<th>第二次</th>
+<th>第三次</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>约束1</strong></td>
+<td><strong>错误</strong></td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束2</strong></td>
+<td>符合</td>
+<td><strong>错误</strong></td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束3</strong></td>
+<td>符合</td>
+<td><strong>错误</strong></td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束4</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束5</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束4（错误）</strong></td>
+<td>错误</td>
+<td>错误</td>
+<td>错误</td>
+</tr>
+<tr>
+<td><strong>约束5（遗漏）</strong></td>
+<td><strong>符合</strong></td>
+<td><strong>符合</strong></td>
+<td><strong>符合</strong></td>
+</tr>
+</tbody></table>
+<p>总体的正确率为 15&#x2F;21 &#x3D; 71.42%；</p>
+<p>程序2：</p>
+<table>
+<thead>
+<tr>
+<th>122_add_elements</th>
+<th>第一次</th>
+<th>第二次</th>
+<th>第三次</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>约束1</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td><strong>错误</strong></td>
+</tr>
+<tr>
+<td><strong>约束2</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td><strong>错误</strong></td>
+</tr>
+<tr>
+<td><strong>约束3</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td><strong>错误</strong></td>
+</tr>
+<tr>
+<td><strong>约束4</strong></td>
+<td><strong>错误</strong></td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束5</strong></td>
+<td><strong>遗漏</strong></td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束4（错误）</strong></td>
+<td>错误</td>
+<td><strong>符合</strong></td>
+<td>错误</td>
+</tr>
+<tr>
+<td><strong>约束5（遗漏）</strong></td>
+<td>遗漏</td>
+<td><strong>符合</strong></td>
+<td><strong>错误</strong></td>
+</tr>
+</tbody></table>
+<p>总体的正确率为 13&#x2F;21 &#x3D; 61.90%；</p>
+<p>程序3：</p>
+<table>
+<thead>
+<tr>
+<th>123_get_odd_collatz</th>
+<th>第一次</th>
+<th>第二次</th>
+<th>第三次</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>约束1</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束2</strong></td>
+<td><strong>错误</strong></td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束3</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束4</strong></td>
+<td><strong>错误</strong></td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束5</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束4（错误）</strong></td>
+<td>错误</td>
+<td>错误</td>
+<td>错误</td>
+</tr>
+<tr>
+<td><strong>约束5（遗漏）</strong></td>
+<td><strong>符合</strong></td>
+<td><strong>符合</strong></td>
+<td><strong>符合</strong></td>
+</tr>
+</tbody></table>
+<p>总体的正确率为 16&#x2F;21 &#x3D; 76.19%；</p>
+<p>程序4：</p>
+<table>
+<thead>
+<tr>
+<th>124_valid_date</th>
+<th>第一次</th>
+<th>第二次</th>
+<th>第三次</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>约束1</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td><strong>遗漏</strong></td>
+</tr>
+<tr>
+<td><strong>约束2</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td><strong>遗漏</strong></td>
+</tr>
+<tr>
+<td><strong>约束3</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束4</strong></td>
+<td><strong>错误</strong></td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束5</strong></td>
+<td><strong>错误</strong></td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束4（错误）</strong></td>
+<td>错误</td>
+<td>错误</td>
+<td>错误</td>
+</tr>
+<tr>
+<td><strong>约束5（遗漏）</strong></td>
+<td><strong>错误</strong></td>
+<td>遗漏</td>
+<td>遗漏</td>
+</tr>
+</tbody></table>
+<p>总体的正确率为 16&#x2F;21 &#x3D; 76.19%；</p>
+<p>程序5：</p>
+<table>
+<thead>
+<tr>
+<th>125_split_words</th>
+<th>第一次</th>
+<th>第二次</th>
+<th>第三次</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>约束1</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td><strong>错误</strong></td>
+</tr>
+<tr>
+<td><strong>约束2</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td><strong>错误</strong></td>
+</tr>
+<tr>
+<td><strong>约束3</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束4</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束5</strong></td>
+<td>符合</td>
+<td>符合</td>
+<td>符合</td>
+</tr>
+<tr>
+<td><strong>约束4（错误）</strong></td>
+<td><strong>符合</strong></td>
+<td>错误</td>
+<td><strong>符合</strong></td>
+</tr>
+<tr>
+<td><strong>约束5（遗漏）</strong></td>
+<td><strong>符合</strong></td>
+<td><strong>符合</strong></td>
+<td>遗漏</td>
+</tr>
+</tbody></table>
+<p>总体的正确率为 15&#x2F;21 &#x3D; 71.42%；</p>
+<p>以下是与大模型对话的部分截图：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231228165543253.png" alt="image-20231228165550999"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20231228165600400.png" alt="image-20231228165600400"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E5%9B%9B/" title="嵌入式方向实践实验四">http://jinqq.gitlab.io/2024/12/15/嵌入式方向实践实验四/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/LLM/" rel="tag"><i class="fa fa-tag"></i> LLM</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E4%B8%89/" rel="prev" title="嵌入式方向实践实验三">
+                  <i class="fa fa-angle-left"></i> 嵌入式方向实践实验三
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%20%E5%B0%8F%E8%BD%A6%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="next" title="嵌入式方向实践 小车实验报告">
+                  嵌入式方向实践 小车实验报告 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%90%91%E5%AE%9E%E8%B7%B5%E5%AE%9E%E9%AA%8C%E5%9B%9B/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

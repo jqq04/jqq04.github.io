@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="作业一 大众点评应用系统集成引言大众点评是中国领先的本地生活信息及交易平台，也是全球最早建立的独立第三方消费点评网站。大众点评不仅为用户提供商户信息、消费点评及消费优惠等信息服务，同时亦提供团购、餐厅预订、外卖及电子会员卡等O2O(线上到线下)交易服务。本文试从大众点评推荐业务出发，分析大众点评推荐业务是如何将抽象的统计学数据以及非结构化的原始数据转化成了规范化的、特征化的系统推荐需要的数据。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据集成-作业一">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%80/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="作业一 大众点评应用系统集成引言大众点评是中国领先的本地生活信息及交易平台，也是全球最早建立的独立第三方消费点评网站。大众点评不仅为用户提供商户信息、消费点评及消费优惠等信息服务，同时亦提供团购、餐厅预订、外卖及电子会员卡等O2O(线上到线下)交易服务。本文试从大众点评推荐业务出发，分析大众点评推荐业务是如何将抽象的统计学数据以及非结构化的原始数据转化成了规范化的、特征化的系统推荐需要的数据。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:\Users\86188\Desktop\%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90\640.jpg">
+<meta property="og:image" content="c:\Users\86188\Desktop\%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90\641.jpg">
+<meta property="og:image" content="c:\Users\86188\Desktop\%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90\642.jpg">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215214130905.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/640">
+<meta property="og:image" content="c:\Users\86188\AppData\Roaming\Typora\typora-user-images\image-20230303134900332.png">
+<meta property="og:image" content="c:\Users\86188\AppData\Roaming\Typora\typora-user-images\image-20230303135258797.png">
+<meta property="og:image" content="c:\Users\86188\AppData\Roaming\Typora\typora-user-images\image-20230303135340312.png">
+<meta property="og:image" content="c:\Users\86188\AppData\Roaming\Typora\typora-user-images\image-20230303135737471.png">
+<meta property="og:image" content="c:/Users/86188/AppData/Local/Temp/msohtmlclip1/01/clip_image002.jpg">
+<meta property="og:image" content="c:/Users/86188/AppData/Local/Temp/msohtmlclip1/01/clip_image004.jpg">
+<meta property="article:published_time" content="2024-12-15T14:52:00.000Z">
+<meta property="article:modified_time" content="2024-12-15T13:43:54.350Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="数据集成">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\86188\Desktop\%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90\640.jpg">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%80/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%80/","path":"2024/12/15/数据集成-作业一/","title":"数据集成-作业一"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>数据集成-作业一 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A%E4%B8%80-%E5%A4%A7%E4%BC%97%E7%82%B9%E8%AF%84%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90"><span class="nav-number">1.</span> <span class="nav-text">作业一 大众点评应用系统集成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E4%B8%9A%E5%8A%A1%E5%88%86%E6%9E%90%E4%B8%8E%E7%9B%AE%E6%A0%87%E7%A1%AE%E5%AE%9A"><span class="nav-number">1.2.</span> <span class="nav-text">一. 业务分析与目标确定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%A4%A7%E4%BC%97%E7%82%B9%E8%AF%84%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E6%95%B0%E6%8D%AE%E6%9E%84%E5%BB%BA"><span class="nav-number">1.3.</span> <span class="nav-text">二. 大众点评用户行为数据构建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E7%9A%84%E9%9B%86%E6%88%90"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">数据格式的集成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E7%9A%84%E5%AE%9E%E6%97%B6%E6%80%A7"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">数据处理的实时性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%BB%9F%E4%B8%80"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">服务的统一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E7%9A%84%E7%BB%9F%E4%B8%80"><span class="nav-number">1.3.0.4.</span> <span class="nav-text">架构的统一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">1.3.0.5.</span> <span class="nav-text">数据处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8"><span class="nav-number">1.3.0.6.</span> <span class="nav-text">数据存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%89%B9%E6%80%A7"><span class="nav-number">1.3.0.7.</span> <span class="nav-text">系统特性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E4%B8%8E%E7%89%B9%E5%BE%81%E5%A4%84%E7%90%86"><span class="nav-number">1.4.</span> <span class="nav-text">三. 数据清洗与特征处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%80%89%E5%8F%96"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">数据选取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97"><span class="nav-number">1.4.0.2.</span> <span class="nav-text">数据清洗</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E6%B3%A8"><span class="nav-number">1.4.0.3.</span> <span class="nav-text">数据标注</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E5%88%86%E7%B1%BB"><span class="nav-number">1.4.0.4.</span> <span class="nav-text">特征分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.0.5.</span> <span class="nav-text">特征选择方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B-%E5%85%B7%E4%BD%93%E4%B8%9A%E5%8A%A1%E6%89%A7%E8%A1%8C"><span class="nav-number">1.5.</span> <span class="nav-text">四. 具体业务执行</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AC%E5%9B%9E"><span class="nav-number">1.5.0.1.</span> <span class="nav-text">召回</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F"><span class="nav-number">1.5.0.2.</span> <span class="nav-text">排序</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="数据集成-作业一 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据集成-作业一
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-12-15 22:52:00 / 修改时间：21:43:54" itemprop="dateCreated datePublished" datetime="2024-12-15T22:52:00+08:00">2024-12-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90/" itemprop="url" rel="index"><span itemprop="name">数据集成</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%80/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%80/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="作业一-大众点评应用系统集成"><a href="#作业一-大众点评应用系统集成" class="headerlink" title="作业一 大众点评应用系统集成"></a>作业一 大众点评应用系统集成</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>大众点评是中国领先的本地生活信息及交易平台，也是全球最早建立的独立第三方消费点评网站。大众点评不仅为用户提供商户信息、消费点评及消费优惠等信息服务，同时亦提供团购、餐厅预订、外卖及电子会员卡等O2O(线上到线下)交易服务。本文试从大众点评推荐业务出发，分析大众点评推荐业务是如何将抽象的统计学数据以及非结构化的原始数据转化成了规范化的、特征化的系统推荐需要的数据。</p>
+ <span id="more"></span>
+
+<h2 id="一-业务分析与目标确定"><a href="#一-业务分析与目标确定" class="headerlink" title="一. 业务分析与目标确定"></a>一. 业务分析与目标确定</h2><p>近年来，随着信息、科技的迅猛发展，对于数据的采集、存储、处理和传播的数量与日俱增。企业常采用数据共享以使得工作者更高效地使用数据。然后数据的来源、格式、特点性质往往不同，严重阻碍了数据的流动与共享，数据集成应运而生，可以把不同来源、格式、特点性质的数据在逻辑上或物理上有机地集中，从而为企业提供全面的数据共享，成为了如今企业最重要的技术之一。大众点评作为领先于业界的平台，也使用了数据集成这一技术。</p>
+<p>大众点评最主要功用在于可以根据智能排序、筛选等功能，为用户提供心仪的餐厅推荐，本文从这一业务入手，重点分析其集成中数据或调用的逻辑和数据集成相关的技术，对于推荐业务相关的机器学习等其他技术，也有所涉及，以更全面地了解大众点评是如何处理、利用数据的。</p>
+<p>对于推荐功能，大众点评认为其应有如下特征：</p>
+<ol>
+<li>全面：大众点评应该收集尽可能的关于各种餐厅的数据，以便将尽可能多的餐厅信息展现给用户以供选择，亦可以将餐厅正确地分类，为用户提供个性化推荐</li>
+<li>多样化：大众点评应该不断地发现用户的消费意愿，收集新餐厅的信息，并且确保新的餐厅不会一直无法获得用户市场(用户市场不能总被固定的餐厅所占据)</li>
+<li>个性化：大众点评的首页推荐应该根据以往客户浏览大众点评的数据信息对用户的特征、行为作出预测分析，以进行个性化推荐，帮助他们更快更好地找到自己喜欢的类型的餐厅</li>
+</ol>
+<p>以此为基础，大众点评团队确定了如下的业务目标：</p>
+<ol>
+<li>获取比其他竞争对手更多的数据信息，并对其数据集成以合理地分析应用</li>
+<li>根据用户的行为产生的数据信息进行分析，得到用户特征以进行个性化推荐</li>
+<li>预测用户的消费意愿，不断获取新的数据信息</li>
+</ol>
+<h2 id="二-大众点评用户行为数据构建"><a href="#二-大众点评用户行为数据构建" class="headerlink" title="二. 大众点评用户行为数据构建"></a>二. 大众点评用户行为数据构建</h2><p>红利缩减的当下，互联网的粗放式发展模式已经转向精耕细作。面对海量的用户行为数据，如何将其集成提炼，发挥出这些数据的真正价值，是提升用户体验的关键点。</p>
+<p>大众点评在精细化方面做了很多深度思索。根据用户在App中的行为、频率不同，可以划分出各个层次的用户生命周期，不同周期中的用户所需要的体验和所进行的活动都有所参差，对此就需要不同的运营策略。比如针对成长期的用户，主要运营方向是让其了解平台的核心功能，提高认知，如写点评、分享、收藏等；对于新激活用户则需要即时的激励来形成奖励反馈，这就需要很高的时效性，通常在毫秒级别，才能有效提升新用户的留存率。</p>
+<p>针对上述精细化场景，系统需要实时感知极大量用户行为，分析并构建画像，同时要求高时效性和稳定性。对此，大众点评搭建了一套用户行为系统（UAS, User Action System）。</p>
+<p>UAS主要处理的问题如下：</p>
+<ol>
+<li>**格式不一致：**平台业务繁多，用户行为分散，格式不统一，难以一起利用。如有些行为消息是基于自研消息中间件Mafka&#x2F;Swallow，有些行为消息是基于流量打点的Kafka消息，还有一些行为没有对应的业务消息。对此首先要制定一个统一的数据收集标准。</li>
+<li>**上报不及时：**部分用户行为的收集依托于公司统一的流量打点体系，时效性不够高。</li>
+<li>**查询差异化：**各个业务所需要的用户行为数据有所区别，如对次数的统计，不同业务就有各自的统计逻辑。这就需要一个统一且灵活的系统架构。</li>
+</ol>
+<h4 id="数据格式的集成"><a href="#数据格式的集成" class="headerlink" title="数据格式的集成"></a>数据格式的集成</h4><p>数据格式直接影响到集成的范围和利用率，只有统一的数据格式才能供各部门交叉收集、利用，实现高一致性，为企业提供全面的数据共享。大众点评参考了5W1H模型，抽象出几大类用户行为，作为记录的标准格式：</p>
+<p><img data-src="C:\Users\86188\Desktop\数据集成\640.jpg" alt="0"></p>
+<p>其中，what标签对应点赞、评论、分享等行为；where标签对应了行为作用对象的ID，如商户ID、评论ID等；how则是一些额外属性，如浏览商户的商户品类、签到商家的城市等。</p>
+<h4 id="数据处理的实时性"><a href="#数据处理的实时性" class="headerlink" title="数据处理的实时性"></a>数据处理的实时性</h4><p>流量打点上报的数据格式是标准化的，但是上报有时延，也存在数据丢失的情况。为此，大众点评团队额外维护了一个通用的MAPI上报通道，直接从客户端通过专有的长连接通道进行上报，保证数据的时效性，上报后的数据处理之后，进行了标准化，再以消息的形式传播出去，并且按照一定的维度，进行了TOPIC的拆分。两种渠道分别用于不同用户场景，对外无感知。</p>
+<p><img data-src="C:\Users\86188\Desktop\数据集成\641.jpg" alt="641"></p>
+<h4 id="服务的统一"><a href="#服务的统一" class="headerlink" title="服务的统一"></a>服务的统一</h4><p>通常对于不同的应用场景，所要求的用户行为处理的数据规模和时效性是不同的。一些情况下，用户行为上报之后，需要立即进行相关查询，这就需要很高的写入和查询性能；另一些情况下，只需要进行行为的写入，这就允许使用异步的方法。对于这些不同的场景，尽管解决方案不同，但提供的服务接口是统一的UAS服务。</p>
+<h4 id="架构的统一"><a href="#架构的统一" class="headerlink" title="架构的统一"></a>架构的统一</h4><p>数据收集、处理分发、业务加工、数据持久化等数个方面都要保证质量与性能，为此需要一个统一的系统架构来应对现有要求与业务的扩展，满足日益增长的数据需求。</p>
+<p>针对以上想法构建出的UAS系统整体架构如下：</p>
+<p><img data-src="C:\Users\86188\Desktop\数据集成\642.jpg" alt="642"></p>
+<p>实时数据源基于公司消息中间件Mafka和开源消息中间件Kafka。实时计算使用Storm实时大数据处理框架，其中的Spout可以方便对接实时消息队列，保障了时效性，其他的心跳检测机制和Acker机制等，也使得可用性等都有所保障。</p>
+<p>离线历史数据来源于Hive和HDFS，便于大量数据的存储和并行运算。离线处理主要包含了MR模块和Spark模块，一些ETL操作基于MR模块，一些用户行为数据分析则交由Spark。另外美团内部有基于Hive搭建的ETL平台可供大众点评开发数据处理任务和数据传输任务，并且配置相关的任务调度信息。</p>
+<h4 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h4><p>对于需要实时处理的数据，构建了基于大众点评全网的流量网关，所有用户产生的行为数据，都会通过实时上报通道进行上报，并且会在网关中流转，然后对行为数据进行加工。主要流程如下图：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215214130905.png" alt="image-20241215214130905"></p>
+<p>对于离线数据，依赖遵循一套数据仓库分层体系来构建用户行为的数据仓库，通过发布一些通用的数据来服务用户，对于一些长时间段的数据，会采取如先以天为周期聚合，再做一次总的聚合等办法来进行解决。</p>
+<p>在近实时处理中，将经过流量网关的数据通过Kafka2Hive的流程，写入到Hive中，并且保证整个过程的时延不超过15分钟，算法团队可以利用近实时的数据，结合其他的海量数据，进行整体的加工和存储。</p>
+<p>通过离线、实时、近实时的不同的处理方法，满足了业务不同的时效性需求。</p>
+<h4 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h4><p>数据在进行处理之后成为标准化数据后，再通过明细存储和聚合存储进行存储。</p>
+<p>明细存储主要针对用户的核心操作行为，包括签到、点击、分享、浏览、评论等，这类数据将被按照一定的粒度进行拆分，存储在拥有一定的过期机制的搜索集群中，具体的操作流程如下图：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/640" alt="图片"></p>
+<p> 而在某些要求高性能的场景下，要求更快的查询和更短的响应时间，大众点评采取了引入NoSQL存储，使用存储中间件Squirrel和Cellar，其中Cellar是基于淘宝开源的Tair进行开发的，而Squirrel是基于RedisCluster进行开发的。</p>
+<h4 id="系统特性"><a href="#系统特性" class="headerlink" title="系统特性"></a>系统特性</h4><ol>
+<li>系统灵活性： 对于用户的行为数据，通过Transformer组件进行数据扩展来满足业务需求；还支持业务方自己编写查询逻辑或采用插件托管的方式，以此做到对外接口和服务的一致统一。</li>
+<li>低延时性：采用Lambda架构来处理长周期、存储大的数据，保证了数据完备性的同时实现了数据的时效性。架构包含Batch Layer批处理层和Speed Layer实时计算层，分别用以预处理历史数据和计算实时数据。</li>
+<li>数据可用性：Speed Layer会保留三天的数据，来确保覆盖全量数据。</li>
+<li>监控：实现从用户行为数据的产生，到收集分发、到数据处理和存储的全过程监控。</li>
+</ol>
+<h2 id="三-数据清洗与特征处理"><a href="#三-数据清洗与特征处理" class="headerlink" title="三. 数据清洗与特征处理"></a>三. 数据清洗与特征处理</h2><p>经过上述操作，大众点评能够将抽象的统计学数据以及非结构化的业务数据转化成了规范化的、特征化的系统推荐的输入数据。随着用户数量的增多以及时间的积累，评论数据与业务数据的量成几何增长。利用数据仓库对这些数据进行挖掘与分析，能够为今后的业务方向提供知识决策，此外，大众点评中的评论数据还能够与美团公司旗下的美团APP进行共享，进行辅助决策帮助。</p>
+<p>为了避免无关数据与干扰数据的影响，以及能够准确地对干净数据进行分析以便辅助决策，本章将对数据清洗与数据的特征处理进行一个大致介绍。</p>
+<h4 id="数据选取"><a href="#数据选取" class="headerlink" title="数据选取"></a>数据选取</h4><p>在确定业务目标后，需要确定能够实现该目标的数据—―即事先梳理可能决定用户是否决定打卡店铺相关的数据。通常而言，能够借鉴一些业务经验，同时运用特征选择、分析方法辅助选择数据。</p>
+<p>根据经验判断，可能影响用户决策的重要因素由：距离、用户实时兴趣、价格、评分、餐厅种类等等。在确定数据范围后，需要对选中的数据再次进行可用性评估，评估内容包括:获取难度、数据规模、数据准确率等等。</p>
+<p>据调查显示，大众点评所使用的特征获取平台与美团旗下的美团APP一致，该平台由三部分框架组成：训练样本生成、特征生产以及特征获取计算。</p>
+<p><img data-src="C:\Users\86188\AppData\Roaming\Typora\typora-user-images\image-20230303134900332.png" alt="image-20230303134900332"></p>
+<h4 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h4><p>数据清洗(Data Cleaning)是对数据进行重新审查和校验的过程，目的在于删除重复信息与干扰信息、纠正存在的错误，并提供数据一致性等等。</p>
+<p>数据清洗的主要类型有：</p>
+<ol>
+<li><p>残缺数据：这—类数据主要是—些应该有的信息缺失，如供应商的名称、分公司的名称、客户的区域信息缺失、业务系统中主表与明细表不能匹配等。对于这一类数据过滤出来，按缺失的内容分别写入不同Excel文件向客户提交，要求在规定的时间内补全。补全后才写入数据仓库。</p>
+</li>
+<li><p>错误数据：这一类错误产生的原因是业务系统不够健全，在接收输入后没有进行判断直接写入后台数据库造成的，比如数值数据输成全角数字字符、字符串数据后面有一个回车操作、日期格式不正确、日期越界等。这一类数据也要分类，对于类似于全角字符、数据前后有不可见字符的问题，只能通过写SQL语句的方式找出来，然后要求客户在业务系统修正之后抽取。日期格式不正确的或者是日期越界的这一类错误会导致ETL运行失败，这一类错误需要去业务系统数据库用SQL的方式挑出来，交给业务主管部门要求限期修正，修正之后再抽取。</p>
+</li>
+<li><p>重复数据：<br>对于这—类数据，通常做法是将重复数据记录的所有字段导出，让客户确认并整理。</p>
+</li>
+</ol>
+<p>数据清洗步骤：</p>
+<ol>
+<li><p>对缺失值进行清洗：一般来说，缺失值是最常见的数据问题，处理缺失值也有很多方法，我们需要按照步骤来做，第一就是确定缺失值范围：对每个字段都计算其缺失值比例，然后按照缺失比例和字段重要性，分别制定策略。</p>
+</li>
+<li><p>去除不需要的字段：实际操作中是十分简单的，直接删掉就可以了，不过需要提醒大家的是，清洗数据的时候每做一步都备份—下，或者在小规模数据上试验成功再处理全量数据，如果删错数据就会追悔莫及。</p>
+</li>
+<li><p>填充缺失内容：这是因为某些缺失值可以进行填充，方法有三种，分别是以业务知识或经验推测填充缺失值、以同一指标的计算结果(均值、中位数、众数等)填充缺失值、以不同指标的计算结果填充缺失值。</p>
+</li>
+<li><p>重新取数：由于某些指标非常重要又缺失率高，那就需要和取数人员或业务人员了解，是否有其他渠道可以取到相关数据。这就是缺失值清洗的步骤。</p>
+</li>
+<li><p>关联性验证：如果你的数据有多个来源，那么有必要进行关联性验证。如果不关联，这个数据据需要清洗。</p>
+</li>
+</ol>
+<p><img data-src="C:\Users\86188\AppData\Roaming\Typora\typora-user-images\image-20230303135258797.png" alt="image-20230303135258797"></p>
+<h4 id="数据标注"><a href="#数据标注" class="headerlink" title="数据标注"></a>数据标注</h4><p>数据标注模块根据 globalId（一次搜索的全局唯一 标示）和相应的 id 为 key，将相关数据关联起来 ，最终生成一份标注好是否被点击、打卡、支付等等的标注数据。同时这份标注数据携带了本次展现的详细特征信息。</p>
+<p><img data-src="C:\Users\86188\AppData\Roaming\Typora\typora-user-images\image-20230303135340312.png" alt="image-20230303135340312"></p>
+<h4 id="特征分类"><a href="#特征分类" class="headerlink" title="特征分类"></a>特征分类</h4><p>在清洗以及标注好数据后，应当对特征进行分类，对于不同的特征应当采取不同的处理方法。常用的特征处理方法如下:</p>
+<ol>
+<li>Low Level特征和High Level 特征：Low level特征是较低级别的特征，主要是原始特征，不需要或者需要非常少的人工处理和干预，例如文本特征中的词向量特征、图像特征中的像素点、用户id、商品 id等；High level特征是经过较复杂的处理，结合部分业务逻辑或者规则、模型得到的特征，例如人工打分，模型打分等。一般前者用于简单的模型，后者用于复杂的模型</li>
+<li>稳定特征与动态特征：稳定特征是变化频率(更新频率）较少的特征，例如评价平均分、团购单价格等，在较长的时间段内都不会发生变化。动态特征是更新变化比较频繁的特征，有些甚至是实时计算得到的特征</li>
+<li>二值特征、连续特征、枚举特征：二值特征主要是0&#x2F;1特征，即特征只取两种值:0或者1；连续值特征是取值为有理数的特征，特征取值个数不定，例如距离特征；枚举值特征主要是特征有固定个数个可能值</li>
+</ol>
+<h4 id="特征选择方法"><a href="#特征选择方法" class="headerlink" title="特征选择方法"></a>特征选择方法</h4><p><img data-src="C:\Users\86188\AppData\Roaming\Typora\typora-user-images\image-20230303135737471.png" alt="image-20230303135737471"></p>
+<h2 id="四-具体业务执行"><a href="#四-具体业务执行" class="headerlink" title="四. 具体业务执行"></a>四. 具体业务执行</h2><p>大众点评拥有一套完善的推荐系统框架，包括基于机器学习的多选品召回与排序策略以及从海量大数据的离线计算到高并发在线服务的推荐引擎。在经过上文所介绍的流程过后，通过该推荐系统中的召回生成推荐的候选集以及排序负责将多个算法策略的结果进行个性化排序。</p>
+<p><img data-src="C:/Users/86188/AppData/Local/Temp/msohtmlclip1/01/clip_image002.jpg" alt="IMG_256"></p>
+<p>上图即是大众点评的实时推荐数据流</p>
+<h4 id="召回"><a href="#召回" class="headerlink" title="召回"></a>召回</h4><p>大众点评通过用户行为、场景等进行实时判断，通过多个召回策略召回不同候选集。再对召回的候选集进行融合。以下是大众点评所应用到的几种召回策略：</p>
+<p><strong>User-Based</strong> **协同过滤：**找出与当前User X最相似的N个User，并根据N个User对某Item的打分估计X对该Item的打分。在相似度算法方面，大众点评采用了Jaccard Similarity：</p>
+<p><strong>Model-Based</strong> *<em>协同过滤：*<em>用一组隐含因子来联系用户和商品。其中每个用户、每个商品都用一个向量来表示，用户</em>u*对商品</em>i*的评价通过计算这两个向量的内积得到。算法的关键在于根据已知的用户对商品的行为数据来估计用户和商品的隐因子向量。</p>
+<p>**Item-Based协同过滤：*<em>大众点评先用word2vec对每个Item取其隐含空间的向量，然后用Cosine Similarity计算用户</em>u*用过的每一个Item与未用过Item <em>i</em>之间的相似性。最后对Top N的结果进行召回。</p>
+<p>**Query-Based：**是根据Query中包含的实时信息（如地理位置信息、WiFi到店、关键词搜索、导航搜索等）对用户的意图进行抽象，从而触发的策略。</p>
+<p>**Location-Based：**移动设备的位置是经常发生变化的，不同的地理位置反映了不同的用户场景，可以在具体的业务中充分利用。在推荐的候选集召回中，大众点评会根据用户的实时地理位置、工作地、居住地等地理位置触发相应的策略。</p>
+<h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><p>每类召回策略都会召回一定的结果，这些结果去重后需要统一做排序。大众点评推荐排序的框架大致可以分为三块：</p>
+<p>**离线计算层：**离线计算层主要包含了算法集合、算法引擎，负责数据的整合、特征的提取、模型的训练、以及线下的评估。</p>
+<p>**近线实时数据流：**主要是对不同的用户流实施订阅、行为预测，并利用各种数据处理工具对原始日志进行清洗，处理成格式化的数据，落地到不同类型的存储系统中，供下游的算法和模型使用。</p>
+<p>**在线实时打分：**根据用户所处的场景，提取出相对应的特征，并利用多种机器学习算法，对多策略召回的结果进行融合和打分重排。</p>
+<p><img data-src="C:/Users/86188/AppData/Local/Temp/msohtmlclip1/01/clip_image004.jpg" alt="IMG_256"></p>
+<p>上图即是大众点评现有的排序框架，到目前为止，大众点评推荐排序系统尝试了多种线性、非线性、混合模型等机器学习方法，如逻辑回归、GBDT、GBDT+LR等。通过线上实验发现，相较于线性模型，传统的非线性模型如GBDT，并不一定能在线上AB测试环节对CTR预估有比较明显的提高。在实际的运用当中，大众点评根据Google在2016年提出的Wide &amp; Deep Learning模型，并结合自身业务的需求与特点，将线性模型组件和深度神经网络进行融合，形成了在一个模型中实现记忆和泛化的宽深度学习框架。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%80/" title="数据集成-作业一">http://jinqq.gitlab.io/2024/12/15/数据集成-作业一/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag"><i class="fa fa-tag"></i> 大数据</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90/" rel="tag"><i class="fa fa-tag"></i> 数据集成</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E7%94%B5%E5%AD%90%E5%95%86%E5%8A%A1-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="prev" title="电子商务2023 期末复习">
+                  <i class="fa fa-angle-left"></i> 电子商务2023 期末复习
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%BA%8C/" rel="next" title="数据集成-作业二">
+                  数据集成-作业二 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/15/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90-%E4%BD%9C%E4%B8%9A%E4%B8%80/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

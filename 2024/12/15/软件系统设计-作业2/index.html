@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="作业要求https:&#x2F;&#x2F;jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com&#x2F;pdf&#x2F;assignment-2.pdf Task 1: Architecture Pattern Analysis一 Broker Pattern（代理模式）1.  Availability 可用性 通过将请求路由到多个服务器和服务实例，可以避免单个服务器或服务实例出现故障而导致整个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件系统设计-作业2">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E4%BD%9C%E4%B8%9A2/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="作业要求https:&#x2F;&#x2F;jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com&#x2F;pdf&#x2F;assignment-2.pdf Task 1: Architecture Pattern Analysis一 Broker Pattern（代理模式）1.  Availability 可用性 通过将请求路由到多个服务器和服务实例，可以避免单个服务器或服务实例出现故障而导致整个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211224142.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211238277.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211307020.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211327819.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211342238.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211402067.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211418026.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211455582.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211518324.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211534197.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211558820.png">
+<meta property="article:published_time" content="2024-12-15T13:22:00.000Z">
+<meta property="article:modified_time" content="2024-12-15T13:24:49.516Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="软件系统设计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211224142.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E4%BD%9C%E4%B8%9A2/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E4%BD%9C%E4%B8%9A2/","path":"2024/12/15/软件系统设计-作业2/","title":"软件系统设计-作业2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>软件系统设计-作业2 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A%E8%A6%81%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">作业要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task-1-Architecture-Pattern-Analysis"><span class="nav-number">2.</span> <span class="nav-text">Task 1: Architecture Pattern Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80-Broker-Pattern%EF%BC%88%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">一 Broker Pattern（代理模式）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C-Peer-to-Peer-Patterns%EF%BC%88%E7%82%B9%E5%AF%B9%E7%82%B9%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">二 Peer-to-Peer Patterns（点对点模式）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task-2-Architecture-Patterns-vs-Quality-Attributes-Tactics"><span class="nav-number">3.</span> <span class="nav-text">Task 2: Architecture Patterns vs. Quality Attributes &amp; Tactics</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E4%BD%9C%E4%B8%9A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="软件系统设计-作业2 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          软件系统设计-作业2
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-12-15 21:22:00 / 修改时间：21:24:49" itemprop="dateCreated datePublished" datetime="2024-12-15T21:22:00+08:00">2024-12-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">软件系统设计</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E4%BD%9C%E4%B8%9A2/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E4%BD%9C%E4%B8%9A2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>8.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>16 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="作业要求"><a href="#作业要求" class="headerlink" title="作业要求"></a>作业要求</h3><p><a target="_blank" rel="noopener" href="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/pdf/assignment-2.pdf">https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/pdf/assignment-2.pdf</a></p>
+<h3 id="Task-1-Architecture-Pattern-Analysis"><a href="#Task-1-Architecture-Pattern-Analysis" class="headerlink" title="Task 1: Architecture Pattern Analysis"></a><strong>Task 1: Architecture Pattern Analysis</strong></h3><h4 id="一-Broker-Pattern（代理模式）"><a href="#一-Broker-Pattern（代理模式）" class="headerlink" title="一 Broker Pattern（代理模式）"></a><strong>一 Broker Pattern（代理模式）</strong></h4><p><strong>1.</strong>  <strong>Availability</strong> <strong>可用性</strong></p>
+<p>通过将请求路由到多个服务器和服务实例，可以避免单个服务器或服务实例出现故障而导致整个系统不可用的情况。当一个服务器或服务实例不可用时，broker可以将请求转发到其他可用的服务器或服务实例上，从而实现系统的高可用性。</p>
+<p>但另一方面，一个broker可能会服务于大量的客户端与服务端，这种情况下broker本身容易出现故障，整个系统也会受到影响。</p>
+<p>**举例：**在一个电子商务网站中，订单管理系统和商品管理系统之间需要进行信息的交互。如果采用代理者模式，将交互过程交给broker，当其中一个系统出现故障时，不会影响到另一个系统的正常运行，不过broker如果故障，则都会受到影响。</p>
+<p>**候选策略：**实现多个服务节点的负载均衡和自动故障转移，使用可靠的消息传递机制，对异常情况进行监控和处理，确保服务的可用性。采用备用broker，当原来的broker故障时自动投入。</p>
+ <span id="more"></span>
+
+<p><strong>2.</strong>  <strong>Interoperability</strong> <strong>互操作性</strong></p>
+<p>代理者模式将对象之间的交互转移给了broker，从而实现了对象间的解耦，使得系统更具互操作性。具体的，代理模式可以用于隐藏服务的具体实现细节，从而使得客户端可以更加方便地使用服务。Broker也可以充当翻译器的角色，将来自不同系统的数据进行格式转换，从而使得不同系统之间更容易地进行通信和互操作。</p>
+<p>**举例：**在一个多人在线游戏中，玩家之间需要进行实时的数据交互。采用代理者模式，将数据交互过程交给代理者对象，从而实现了玩家之间的解耦，使得游戏具互操作性。</p>
+<p><strong>3.</strong>  <strong>Modifiability</strong> <strong>可修改性</strong></p>
+<p>代理者模式将对象之间的交互转移给了broker，减少了对象之间的直接依赖，从而使得系统更具可修改性。当某个对象需要修改时，只需要修改与代理者之间的交互过程，而不需要修改其他对象的代码，从而提高了系统的可修改性。</p>
+<p>**举例：**在一个银行系统中，用户需要通过账户系统进行操作，但是账户系统中的代码需要进行修改。采用中介者模式，将交互过程交给中介者对象，当需要修改代码时，只需要修改中介者对象的代码即可，而不需要修改其他对象的代码，从而提高了系统的可修改性。</p>
+<p><strong>4.</strong>  <strong>Performance</strong> <strong>性能</strong></p>
+<p>通过broker进行交互的过程需要额外的开销，降低了系统的性能。此外broker可能会成为整个系统的性能瓶颈。</p>
+<p>**举例：**在一个多人在线游戏中，采用中介者模式实现玩家之间的数据交互，玩家之间原本之间交互数据，改为了通过代理者进行交互，需要额外的步骤和开销。</p>
+<p>**候选策略：**使用延迟加载的技术，即在需要使用代理对象时才加载，减少了系统中不必要的代理对象，提高系统的性能。</p>
+<p><strong>5.</strong>  <strong>Security</strong> <strong>安全性</strong></p>
+<p>因为需要处理和传输敏感数据，Broker可能成为安全攻击的目标。此外如果没有适当的安全措施，客户端和服务端可能会容易受到中间人攻击。</p>
+<p>**举例：**在使用消息代理时，如果 Broker 没有进行适当的安全措施，例如身份验证、加密等，那么黑客可以使用中间人攻击来窃取或篡改消息。</p>
+<p>**候选策略：**使用安全协议和加密技术来保证消息的机密性和完整性。也可以限制 Broker 的访问权限，只允许授权用户和服务端访问。</p>
+<p><strong>6.</strong>  <strong>Testability</strong> <strong>可测试性</strong></p>
+<p>由于 Broker 作为中间件存在，需要进行额外的配置和设置，可能会使测试变得更加困难。</p>
+<p>**举例：**在测试使用消息代理的应用程序时，需要配置 Broker，并确保 Broker 正常运行。如果 Broker 发生故障，或者配置不正确，可能会导致测试失败。</p>
+<p>**候选策略：**使用自动化测试框架和工具，对 Broker 进行自动化测试和监控。</p>
+<p><strong>7.</strong>  <strong>Usability</strong> <strong>可用性</strong></p>
+<p>代理模式通过提供一个统一的接口来隐藏底层服务的复杂性，这样客户端就可以更方便地使用系统。</p>
+<p>**举例：**一个采用Broker Pattern的分布式系统，可以提供一个中央的服务目录，使得客户端可以轻松地发现和使用各种服务，而不需要了解底层的服务实现细节。</p>
+<p><strong>8.</strong>  <strong>Extensibility</strong> <strong>可扩展性</strong></p>
+<p>代理模式可以通过添加新的客户端或服务端代理来扩展系统，而不需要对现有的服务提供商进行修改，这使得系统更容易扩展。</p>
+<p><strong>9.</strong>  <strong>Maintainability</strong> <strong>可维护性</strong></p>
+<p>代理模式将客户端和服务端解耦，使得系统更容易维护和修改。如果服务端发生更改，只需修改服务端代理，而无需更改客户端代理，反之同理。</p>
+<p><strong>10.</strong> <strong>Reliability</strong> <strong>可靠性</strong></p>
+<p>代理模式增加了中间层，这可能导致系统出现单点故障，并影响系统的可靠性。</p>
+<p>**举例：**如果broker发生故障，则所有客户端和服务器都无法进行通信，这可能导致整个系统不可用。</p>
+<p>**候选策略：**使用备用broker来提高可靠性，并采用负载均衡和故障转移等技术。</p>
+<p><strong>11.</strong> <strong>Recoverability</strong> <strong>可恢复性</strong></p>
+<p>代理模式对可恢复性没有显著影响，但在出现故障考虑恢复策略时，可以使用备用broker来增强可恢复性。</p>
+<h4 id="二-Peer-to-Peer-Patterns（点对点模式）"><a href="#二-Peer-to-Peer-Patterns（点对点模式）" class="headerlink" title="二 Peer-to-Peer Patterns（点对点模式）"></a><strong>二 Peer-to-Peer Patterns（点对点模式）</strong></h4><p><strong>1.</strong>  <strong>Availability</strong> <strong>可用性</strong></p>
+<p>点对点模式通过将请求和服务分布到不同的节点上，如果一个节点发生故障，其他节点仍然可以继续提供服务，从而避免了整个系统的故障，提高了系统的可用性。此外，点对点模式中的节点之间可以建立冗余连接，进一步提高了系统的可用性。</p>
+<p>**举例：**在一个分布式文件系统中，采用点对点模式实现节点之间的文件共享和存储。当某个节点不可用时，其他节点可以继续提供服务。</p>
+<p><strong>2.</strong>  <strong>Interoperability</strong> <strong>互操作性</strong></p>
+<p>点对点模式不依赖于中心化的服务或中间人，每个节点都是独立的，并且可以相互通信和交换信息。这使得点对点模式更容易支持不同平台和编程语言之间的互操作性。通过共享协议和标准化的消息格式，不同节点之间可以无缝地交互和通信。这种去中心化的结构可以更容易地扩展到更大规模的网络，并支持更高的灵活性。</p>
+<p>**举例：**BitTorrent协议就是一个点对点模式的应用，它可以在不同的操作系统和平台上运行，并且允许用户在不同的设备上共享和下载文件，这种去中心化的结构使得BitTorrent可以支持不同平台和编程语言之间的互操作性。</p>
+<p><strong>3.</strong>  <strong>Modifiability</strong> <strong>可修改性</strong></p>
+<p>由于通信方式是点对点的，每个节点都需要知道自己连接的所有节点，因此增加或删除节点可能会涉及到多个节点的修改，从而增加了系统修改的难度和成本。</p>
+<p>**举例：**在一个点对点的文件共享系统中，如果需要增加一个新的文件夹，需要在每个节点上修改相应的代码以支持该文件夹的共享。</p>
+<p>**候选策略：**在设计时采用松耦合的设计原则，使得系统中的每个节点都可以单独修改和升级，而不会影响到其他节点。</p>
+<p><strong>4.</strong>  <strong>Performance</strong> <strong>性能</strong></p>
+<p>点对点模式中每个节点直接连接到其他节点，消息传递的路径更短，通信的延迟更低。此外，每个节点可以独立地处理请求，从而提高了系统的并发性和吞吐量。</p>
+<p>**举例：**在一个点对点的视频会议系统中，每个节点可以直接连接到其他节点，从而实现视频流的实时传输，减少了中间节点的传输延迟和网络拥塞的影响，提高了系统的性能。</p>
+<p>**候选策略：**系统设计时，需要考虑节点的数量和节点之间的连接方式，以尽可能减少节点之间的通信延迟和数据传输量，提高系统的性能。此外，可以考虑采用分布式缓存等技术来优化系统的性能。</p>
+<p><strong>5.</strong>  <strong>Security</strong> <strong>安全性</strong></p>
+<p>点对点模式可能增加了系统的安全风险，因为数据和服务不再集中在中央服务器上，而是分布在各个节点上。如果一个节点被攻击，攻击者可能会访问该节点的敏感信息，并对整个系统造成影响。</p>
+<p>**举例：**在点对点的文件共享网络中，恶意用户可能会通过共享感染了病毒或恶意软件的文件来攻击其他用户。</p>
+<p>**候选策略：**使用安全协议和加密技术来确保节点之间的通信和数据传输的安全性。同时，还可以使用身份验证和访问控制来限制对敏感信息和服务的访问。</p>
+<p><strong>6.</strong>  <strong>Testability</strong> <strong>可测试性</strong></p>
+<p>点对点模式可能会使系统的测试更加困难，因为需要考虑到各个节点的不同情况和不同环境。此外，由于系统的复杂性和分散性，需要建立更复杂的测试基础设施。同时也需要考虑到网络和通信方面的问题，例如网络延迟和数据传输错误。</p>
+<p>**举例：**在一个点对点的视频会议系统中，需要考虑到各个参与者的不同设备和网络环境，这增加了系统测试的复杂性。</p>
+<p>**候选策略：**建立有效的测试基础设施，包括模拟各种节点环境的测试工具和自动化测试工具。</p>
+<p><strong>7.</strong>  <strong>Usability</strong> <strong>可用性</strong></p>
+<p>点对点模式可能会使系统的易用性降低，因为需要用户自行管理节点和服务，并处理各种不同的环境和情况。</p>
+<p>**举例：**在一个点对点的文件共享网络中，用户需要自行管理节点和文件，而且需要考虑到各个节点之间的不同环境和可用性。</p>
+<p>**候选策略：**提供易于使用的界面和工具来管理节点和服务，并确保系统的一致性和可预测性。同时，还可以提供帮助文档和培训材料来帮助用户更好地使用系统。</p>
+<p><strong>8.</strong>  <strong>Extensibility</strong> <strong>可扩展性</strong></p>
+<p>由于每个节点都是独立的，因此向系统中添加新节点比较容易。但是，当节点数量增加时，系统的复杂性也会增加，此时就需要特别小心地设计和管理系统以保持其可扩展性。</p>
+<p>**举例：**在一个点对点文件共享系统中，当用户需要向系统中添加新的文件共享节点时，可以通过添加新节点来轻松扩展系统。但是，如果系统中节点数量增加到数百个或数千个，则可能需要变得困难。</p>
+<p>**候选策略：**采用模块化的设计和实现方式，将系统划分为不同的模块，每个模块只需要与其它必要的模块进行通信。这样可以将系统中的复杂性分散到不同的模块中，使得系统更易于扩展和维护。同时，采用适当的设计模式和架构可以进一步提高系统的可扩展性。</p>
+<p><strong>9.</strong>  <strong>Maintainability</strong> <strong>可维护性</strong></p>
+<p>点对点模式使系统的维护变得更加困难，因为系统中的每个节点都是独立的，并且没有一个中心化的控制点。如果需要修改系统的某个部分，必须考虑到系统中所有节点的影响。这可能导致修改过程变得繁琐和耗时。</p>
+<p>**举例：**在一个点对点的文件共享网络中，如果需要修改系统的搜索功能，必须考虑到所有节点的影响。这可能需要修改每个节点的代码，这将是一个繁琐和耗时的过程。</p>
+<p><strong>10.</strong> <strong>Reliability</strong> <strong>可靠性</strong></p>
+<p>在点对点通信的过程中，每个节点都可能会由于网络问题、硬件故障等原因而出现异常，从而导致服务的不可用或延迟。此外，点对点模式还可能会增加系统中的冗余，从而降低系统的可靠性。</p>
+<p>**举例：**在一个点对点的分布式文件共享系统中，每个节点都可以充当文件的提供者和请求者，但是由于节点的数量众多，节点之间的连接和文件传输可能会受到网络状况的影响，从而影响系统的可靠性。</p>
+<p>**候选策略：**可以采用冗余备份的方式来提高系统的可靠性，例如将每个节点的数据备份到多个节点中，以避免单点故障的影响。此外，也可以通过对数据进行校验和、故障检测和恢复等手段来提高系统的可靠性。</p>
+<p><strong>11.</strong> <strong>Recoverability</strong> <strong>可恢复性</strong></p>
+<p>由于节点之间的连接可能会受到各种因素的影响，因此在节点故障或数据损坏的情况下，系统的恢复可能会更加困难。此外，点对点模式还可能会增加数据的分布程度，使得数据的备份和恢复更加复杂。</p>
+<p>**举例：**在一个点对点的分布式数据库系统中，每个节点都可以存储部分数据，但是由于节点数量众多，数据的备份和恢复可能会变得困难。</p>
+<p>**候选策略：**可以采用分布式数据备份和恢复的方式来提高系统的可恢复性，例如使用多个节点进行数据备份，并定期进行数据同步和检查。此外，也可以使用数据冗余和容错机制来提高系统的可恢复性。</p>
+<h3 id="Task-2-Architecture-Patterns-vs-Quality-Attributes-Tactics"><a href="#Task-2-Architecture-Patterns-vs-Quality-Attributes-Tactics" class="headerlink" title="Task 2: Architecture Patterns vs. Quality Attributes &amp; Tactics"></a><strong>Task 2: Architecture Patterns vs. Quality Attributes &amp; Tactics</strong></h3><ol>
+<li><p><strong>Availability 可用性</strong></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211224142.png" alt="image-20241215211224142"></p>
+</li>
+</ol>
+<p>**管道过滤器模式：**通过在相应的管道或者过滤器设置错误探测器来尽快发现可能的错误，从而提高系统的可用性。此外，在找到的出错点尽可能靠近的位置重启，并在管道和过滤器进行预测可以提高系统的恢复能力。</p>
+<p>**点对点模式：**通过将相应的请求分配给对应的服务，更迅速地发现错误和故障，从而提高系统的可用性。</p>
+<p>**层级模式：**通过将系统的不同功能模块分层，实现内聚性更高、耦合性更低，从而使得系统更容易进行管理和维护。此外，错误探查阶段成本低易于进行管理，并且系统的生命周期成本也低，可以快速部署，从而增强了系统的可用性。</p>
+<p>**微服务模式：**通过将系统拆分成多个服务，分别重启服务、更新等，从而减少单点失效的风险，提高系统的可用性。同时，也可以利用相应的策略如异常检测、软件升级等来增强系统的可用性。</p>
+<ol start="2">
+<li><strong>Interoperability 互操作性</strong></li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211238277.png" alt="image-20241215211238277"></p>
+<p>**管道过滤器模式：**管道模式本身并不直接有利于服务发现，但是可以通过在管道中引入服务发现的机制，从而实现服务发现。</p>
+<p>**点对点模式：**可以根据不同的组件之间的通信需求，定制特定的接口。</p>
+<p>**层级模式：**层级模式可以将系统的不同层次分离开来，从而降低了系统组件之间的耦合性，这有助于提高系统的互操作性。在编排时，也可以利用层级模式中的控制器进行各个组件之间的协调。</p>
+<p>**微服务模式：**通过将系统中的不同功能拆分成多个独立的服务，每个服务都有独立的接口和协议，这有助于服务的编排和定制接口。此外，可以利用微服务模式中的服务注册表进行服务的发现和注册。</p>
+<ol start="3">
+<li><strong>Modifiability 可修改性</strong></li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211307020.png" alt="image-20241215211307020"></p>
+<p>**管道过滤器模式：**通过使用管道和过滤器组成的链式结构来处理数据，每个过滤器都可以独立修改和扩展，因此该模式有利于拆分模块和提高语义内聚性。然而，由于每个过滤器都是独立的，因此限制依赖关系和重构可能会更加困难。</p>
+<p>**点对点模式：**通过使用直接通信连接两个或多个节点，因此每个节点都可以独立修改和扩展。这种独立性有利于拆分模块和提高语义内聚性。然而，由于每个节点都是独立的，限制依赖关系和重构可能会更加困难。</p>
+<p>**层级模式：**通过使用分层架构来组织系统，并使用接口和抽象层来实现模块化和解耦。每个层次都可以独立修改和扩展，并且层次之间的依赖关系是明确定义的。这种层次结构有利于限制依赖关系和重构，但可能会增加系统的复杂性。</p>
+<p>**微服务模式：**通过使用独立部署的服务来实现系统功能，并使用接口和抽象层来实现模块化和解耦。每个服务都可以独立修改和扩展，并且服务之间的依赖关系是明确定义的。这种服务结构有利于限制依赖关系和重构，但可能会增加系统的复杂性和部署成本。</p>
+<ol start="4">
+<li><strong>Performance 性能</strong></li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211327819.png" alt="image-20241215211327819"></p>
+<p>**管道过滤器模式：**由于管道模式是一种串行的处理方式，因此可能会导致性能瓶颈。在采用管道模式时，需要考虑管理采样率、降低开销等策略来提高性能。</p>
+<p>**点对点模式：**点对点模式通常是一种异步的处理方式，可以通过并发处理来提高性能。在采用点对点模式时，需要考虑管理采样率、优先处理事件等策略来提高性能。</p>
+<p>**层级模式：**层级模式可以通过缓存来提高性能，但同时也可能会增加延迟。在采用层级模式时，需要考虑管理采样率、限制事件响应等策略来提高性能。</p>
+<p>**微服务模式：**由于微服务架构通常会将应用程序拆分为多个服务，因此可以通过横向扩展来提高性能。在采用微服务模式时，可以考虑增加资源、引入并发等策略来提高性能。</p>
+<ol start="5">
+<li><strong>Security 安全性</strong></li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211342238.png" alt="image-20241215211342238"></p>
+<p>**管道过滤器模式：**可以通过在管道中添加不同的安全过滤器来实现消息的验证和加密等安全功能。 </p>
+<p>**点对点模式：**点对点模式的安全性高度依赖于每个节点的安全措施，因此需要在每个节点上实施安全措施来确保整个系统的安全性，但是由于需要考虑到其对其他节点的影响，一些撤销和恢复操作在点对点模式下比较困难。</p>
+<p>**层级模式：**可以在各个层次之间设置安全措施来保护系统的安全性，每个层次可以独立地处理和管理其自身的安全功能和安全策略，例如限制访问权限，检测和过滤恶意数据等。</p>
+<p>**微服务模式：**微服务模式可以通过微服务间的隔离和认证等措施来增强系统的安全性。</p>
+<ol start="6">
+<li><strong>Testability 可测试性</strong></li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211402067.png" alt="image-20241215211402067"></p>
+<p>**管道过滤器模式：**管道模式使用链式结构将数据处理分为多个独立的过滤器，每个过滤器都可以独立测试和调试。此外，每个过滤器之间的输入和输出都是清晰明确的，这使得测试和调试变得更加容易。</p>
+<p>**点对点模式：**点对点模式的可测试性与实现方式有关。如果每个节点都是相同的，那么它们可以被看作是独立的模块，并可以分别测试和调试。但是，如果节点之间有很多差异（例如不同的协议或不同的操作系统），则测试和调试可能会更加困难。</p>
+<p>**层级模式：**通过使用分层架构和接口来实现模块化和解耦，可以使测试和调试变得更加容易。每个层次都可以独立测试和调试，且层次之间的依赖关系是明确定义的，这有助于限制依赖关系和重构，使得测试和调试更加容易。</p>
+<p>**微服务模式：**微服务模式具有较高的可测试性，因为它使用独立部署的服务来实现系统功能，并使用接口和抽象层来实现模块化和解耦。每个服务都可以独立测试和调试，且服务之间的依赖关系是明确定义的，类似的这有助于限制依赖关系和重构，使得测试和调试更加容易。</p>
+<ol start="7">
+<li><strong>Usability 可用性</strong></li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211418026.png" alt="image-20241215211418026"></p>
+<p>**管道过滤器模式：**由于管道模式的组件是单向的，因此不太支持可撤销、暂停&#x2F;恢复等功能，也难以维护任务或用户模型等，这些功能可能需要组合多个过滤器才能实现。</p>
+<p>**点对点模式：**该模式强调直接的点对点通信，可以提高系统的响应性和用户体验。然而，该模式的可用性高度依赖于节点之间的可靠通信，节点之间可能会存在不同的数据格式和协议，这可能会增加实现和集成的难度。</p>
+<p>**层次模式：**通过明确的分层结构来组织系统，可以在每个层次内独立地进行撤销、暂停&#x2F;恢复等功能，也更容易维护各种模型。</p>
+<p>**微服务模式：**类似的，由于每个服务都是独立的，在每个服务内可以轻松地进行撤销、暂停&#x2F;恢复等功能，也更容易维护各种模型。</p>
+<ol start="8">
+<li><strong>Extensibility 可扩展性</strong></li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211455582.png" alt="image-20241215211455582"></p>
+<p>**管道过滤器模式：**该模式将系统分解为相对独立的模块，并且明确定义它们之间的接口，从而可以更容易地实现模块化和限制模块之间的依赖关系。此外，该模式通过一个明确定义的管道流程来处理数据，使得可以更容易地添加或删除模块，提高了系统的可扩展性。</p>
+<p>**点对点模式：**将系统分解为互相独立的节点，每个节点都可以具有自己的数据和逻辑处理能力。这种模式下的节点之间可以通过消息传递来交互，并且可以动态地添加或删除节点，从而实现系统的可扩展性。但由于节点之间的差异，这使得一些统一的工具和流程变得难以使用。</p>
+<p>**层次模式：**通过将系统分解为多个层次，每个层次都可以相对独立地进行扩展和维护。</p>
+<p>**微服务模式：**将系统分解为多个小型服务，每个服务都可以独立进行扩展和维护。此外，微服务模式可以实现松散耦合，从而可以动态地添加或删除服务，并且不会对整个系统产生太大的影响。</p>
+<ol start="9">
+<li><strong>Maintainability 可维护性</strong></li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211518324.png" alt="image-20241215211518324"></p>
+<p>**管道过滤器模式：**模块化和接口定义有利于维护性，但如果模块之间依赖过于紧密，可能会增加维护难度。</p>
+<p>**点对点模式：**模块化和接口定义同样有利于维护性，但如果系统规模较大，点对点的复杂度可能会使系统变得难以维护。</p>
+<p>**层级模式：**模块化和分层有利于维护性，但如果层级嵌套过深，维护难度也会增加。</p>
+<p>**微服务模式：**微服务的拆分和独立部署有利于维护性，但由于微服务数量较多，可能增加系统的复杂性和管理难度。</p>
+<ol start="10">
+<li><strong>Reliability 可靠性</strong></li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211534197.png" alt="image-20241215211534197"></p>
+<p>**管道过滤器模式：**通常会采用多个小型组件构建一个大型系统，每个组件都有清晰的输入和输出，通过组合这些组件可以实现各种复杂的功能。这种模式可以提高可靠性，因为每个组件都相对简单，容易测试和调试，同时也方便进行故障隔离和排除。</p>
+<p>**点对点模式：**可能更加容易受到单个节点故障的影响，因为节点之间的依赖关系比较紧密。但是通过采用冗余设备和故障切换等技术，可以提高可靠性。</p>
+<p>**层级模式：**将系统分成多个层次，每个层次都负责不同的功能。每个层次都相对独立，容易测试和调试，同时也方便进行故障隔离和排除。</p>
+<p>**微服务模式：**每个服务都是相对独立的，可以独立部署和升级。每个服务都相对简单，同样的，容易测试和调试，同时也方便进行故障隔离和排除。</p>
+<ol start="11">
+<li><strong>Recoverability 可恢复性</strong></li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241215211558820.png" alt="image-20241215211558820"></p>
+<p>**管道过滤器模式：**由于每个组件都是相互独立的，因此出现故障时可以更容易地定位和恢复。同时，由于该模式中的组件是按照一定顺序组成的管道，因此可以通过在管道中添加重试机制或备用组件来增加系统的可恢复性。</p>
+<p>**点对点模式：**由于每个节点都是相互独立的，因此出现故障时可以更容易地定位和恢复。但是，由于该模式中的节点之间是直接相连的，因此在节点之间进行故障切换或重试可能会更加困难。</p>
+<p>**层级模式：**由于每个层次都是相互独立的，因此出现故障时可以更容易地定位和恢复。同时，由于该模式中的每个层次都提供了一定程度的抽象和隔离，因此可以通过在每个层次中添加重试机制或备用组件来增加系统的可恢复性。</p>
+<p>**微服务模式：**由于每个服务都是相互独立的，因此出现故障时可以更容易地定位和恢复。同时，由于该模式中的服务之间是通过网络连接的，因此可以通过在服务之间添加负载均衡、重试机制或备用服务来增加系统的可恢复性。但是，由于微服务架构中的服务数量通常非常庞大，因此进行故障检测和恢复可能会更加复杂。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E4%BD%9C%E4%B8%9A2/" title="软件系统设计-作业2">http://jinqq.gitlab.io/2024/12/15/软件系统设计-作业2/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" rel="tag"><i class="fa fa-tag"></i> 软件系统设计</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E4%BD%9C%E4%B8%9A1/" rel="prev" title="软件系统设计-作业1">
+                  <i class="fa fa-angle-left"></i> 软件系统设计-作业1
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E4%BD%9C%E4%B8%9A3/" rel="next" title="软件系统设计-作业3">
+                  软件系统设计-作业3 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E4%BD%9C%E4%B8%9A2/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

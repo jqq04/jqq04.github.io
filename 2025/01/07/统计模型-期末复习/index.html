@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="考点 聚类的定义，方法，k-means算法步骤，方法论的分类。k-means步骤，优缺点。比如迭代3次之后的结果。评价聚类算法的好坏，角度有哪些。  em算法：概念，适用场景（可以扩展，混合高斯等），em的实现，计算，jensen不等式，如何计算。计算：高斯分布混合而成。em优缺点，其他应用。  分类：决策树，knn，贝叶斯，基本的分类的算法。分类的定义，现实世界的应用场景（垃圾邮件识别等）。训练">
+<meta property="og:type" content="article">
+<meta property="og:title" content="统计模型：理论与实践2024 期末复习">
+<meta property="og:url" content="http://jinqq.gitlab.io/2025/01/07/%E7%BB%9F%E8%AE%A1%E6%A8%A1%E5%9E%8B-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="考点 聚类的定义，方法，k-means算法步骤，方法论的分类。k-means步骤，优缺点。比如迭代3次之后的结果。评价聚类算法的好坏，角度有哪些。  em算法：概念，适用场景（可以扩展，混合高斯等），em的实现，计算，jensen不等式，如何计算。计算：高斯分布混合而成。em优缺点，其他应用。  分类：决策树，knn，贝叶斯，基本的分类的算法。分类的定义，现实世界的应用场景（垃圾邮件识别等）。训练">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250105150637409.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250105152737857.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106151431944.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106151453556.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106151543736.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106152317650.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106155904781.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106162423376.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250108213715511.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250108165420108.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250108172157116.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250108173624034.png">
+<meta property="article:published_time" content="2025-01-07T04:59:00.000Z">
+<meta property="article:modified_time" content="2025-01-09T13:26:29.248Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="期末复习">
+<meta property="article:tag" content="统计模型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250105150637409.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2025/01/07/%E7%BB%9F%E8%AE%A1%E6%A8%A1%E5%9E%8B-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2025/01/07/%E7%BB%9F%E8%AE%A1%E6%A8%A1%E5%9E%8B-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/","path":"2025/01/07/统计模型-期末复习/","title":"统计模型：理论与实践2024 期末复习"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>统计模型：理论与实践2024 期末复习 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%80%83%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">考点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2024%E6%9C%9F%E6%9C%AB%E5%9B%9E%E5%BF%86"><span class="nav-number">2.</span> <span class="nav-text">2024期末回忆</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98%EF%BC%88%E6%AF%8F%E9%A2%985%E5%88%86%EF%BC%8C%E5%85%B18%E9%A2%98%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">简答题（每题5分，共8题）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98%EF%BC%88%E6%AF%8F%E9%A2%9812%E5%88%86%EF%BC%8C%E5%85%B15%E9%A2%98%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">计算题（每题12分，共5题）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%84%E4%BB%B7"><span class="nav-number">2.3.</span> <span class="nav-text">评价</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%81%9A%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">聚类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%90%E8%81%9A%E7%B1%BB%E3%80%91%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">3.1.</span> <span class="nav-text">【聚类】的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%90%E8%81%9A%E7%B1%BB%E3%80%91%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">【聚类】的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%90%E8%81%9A%E7%B1%BB%E3%80%91%E6%96%B9%E6%B3%95%E8%AE%BA%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">3.3.</span> <span class="nav-text">【聚类】方法论的分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K-means%E6%96%B9%E6%B3%95"><span class="nav-number">3.4.</span> <span class="nav-text">K-means方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#K-means%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.4.1.</span> <span class="nav-text">K-means步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-means%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">3.4.2.</span> <span class="nav-text">K-means优缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%84%E4%BB%B7%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E5%A5%BD%E5%9D%8F%E7%9A%84%E8%A7%92%E5%BA%A6"><span class="nav-number">3.5.</span> <span class="nav-text">评价聚类算法好坏的角度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EM%E7%AE%97%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">EM算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%81%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1-MLE"><span class="nav-number">4.1.</span> <span class="nav-text">极大似然估计 MLE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.1.</span> <span class="nav-text">似然函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%81%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1"><span class="nav-number">4.1.2.</span> <span class="nav-text">极大似然估计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jensen%E4%B8%8D%E7%AD%89%E5%BC%8F"><span class="nav-number">4.2.</span> <span class="nav-text">Jensen不等式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Jensen%E4%B8%8D%E7%AD%89%E5%BC%8F%E5%AE%9A%E4%B9%89"><span class="nav-number">4.2.1.</span> <span class="nav-text">Jensen不等式定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Jensen%E4%B8%8D%E7%AD%89%E5%BC%8F%E5%9C%A8EM%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">4.2.2.</span> <span class="nav-text">Jensen不等式在EM中的作用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8-Jensen-%E4%B8%8D%E7%AD%89%E5%BC%8F%E6%9E%84%E9%80%A0%E4%B8%8B%E7%95%8C"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">利用 Jensen 不等式构造下界</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4"><span class="nav-number">4.2.2.2.</span> <span class="nav-text">步骤</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EM%E7%AE%97%E6%B3%95-1"><span class="nav-number">4.3.</span> <span class="nav-text">EM算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EM%E5%90%AB%E4%B9%89"><span class="nav-number">4.3.1.</span> <span class="nav-text">EM含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EM%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86"><span class="nav-number">4.3.2.</span> <span class="nav-text">EM数学原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EM%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">4.3.3.</span> <span class="nav-text">EM适用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%EF%BC%9A%E6%B7%B7%E5%90%88%E9%AB%98%E6%96%AF%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.4.</span> <span class="nav-text">应用：混合高斯模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E9%A2%98"><span class="nav-number">4.4.1.</span> <span class="nav-text">例题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EM%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">4.5.</span> <span class="nav-text">EM优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%BA%94%E7%94%A8"><span class="nav-number">4.6.</span> <span class="nav-text">其他应用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-number">5.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%90%E5%88%86%E7%B1%BB%E3%80%91%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">5.1.</span> <span class="nav-text">【分类】的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%90%E5%88%86%E7%B1%BB%E3%80%91%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">5.2.</span> <span class="nav-text">【分类】应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E5%92%8C%E9%AA%8C%E8%AF%81%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%88%92%E5%88%86"><span class="nav-number">5.3.</span> <span class="nav-text">训练和验证测试集的划分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%88%86%E7%B1%BB%E5%99%A8"><span class="nav-number">5.4.</span> <span class="nav-text">常见的分类器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%88%86%E7%B1%BB%E6%96%B9%E6%B3%95"><span class="nav-number">5.5.</span> <span class="nav-text">常用分类方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF"><span class="nav-number">5.6.</span> <span class="nav-text">贝叶斯</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%85%AC%E5%BC%8F"><span class="nav-number">5.6.1.</span> <span class="nav-text">贝叶斯公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF"><span class="nav-number">5.6.2.</span> <span class="nav-text">朴素贝叶斯</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91"><span class="nav-number">5.7.</span> <span class="nav-text">决策树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ID3%E7%AE%97%E6%B3%95"><span class="nav-number">5.7.1.</span> <span class="nav-text">ID3算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C4-5%E7%AE%97%E6%B3%95"><span class="nav-number">5.7.2.</span> <span class="nav-text">C4.5算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Gamma%E5%87%BD%E6%95%B0"><span class="nav-number">6.</span> <span class="nav-text">Gamma函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%A2%E5%BC%8F"><span class="nav-number">6.1.</span> <span class="nav-text">形式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E5%AE%9E%E6%95%B0%E5%9F%9F%E4%B8%8A%E7%9A%84%E7%89%B9%E5%BE%81"><span class="nav-number">6.2.</span> <span class="nav-text">在实数域上的特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%B6%E4%B9%98%E5%BD%A2%E5%BC%8F"><span class="nav-number">6.3.</span> <span class="nav-text">阶乘形式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Beta-%E5%88%86%E5%B8%83"><span class="nav-number">7.</span> <span class="nav-text">Beta 分布</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E4%B8%AA%E5%88%86%E5%B8%83"><span class="nav-number">7.1.</span> <span class="nav-text">四个分布</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E9%A1%B9%E5%88%86%E5%B8%83"><span class="nav-number">7.1.1.</span> <span class="nav-text">二项分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%8A%E6%9D%BE%E5%88%86%E5%B8%83"><span class="nav-number">7.1.2.</span> <span class="nav-text">泊松分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E5%88%86%E5%B8%83"><span class="nav-number">7.1.3.</span> <span class="nav-text">指数分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83"><span class="nav-number">7.1.4.</span> <span class="nav-text">正态分布</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Beta%E5%88%86%E5%B8%83"><span class="nav-number">7.2.</span> <span class="nav-text">Beta分布</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AB%E4%B9%89"><span class="nav-number">7.2.1.</span> <span class="nav-text">含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">7.2.2.</span> <span class="nav-text">应用场景</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NLP-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86"><span class="nav-number">8.</span> <span class="nav-text">NLP 自然语言处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%9A%84%E7%89%B9%E5%BE%81"><span class="nav-number">8.1.</span> <span class="nav-text">自然语言的特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%8F%90%E5%8F%96%E7%89%B9%E5%BE%81"><span class="nav-number">8.2.</span> <span class="nav-text">如何提取特征</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E8%AF%8D"><span class="nav-number">8.2.1.</span> <span class="nav-text">分词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%9C%E7%94%A8%E8%AF%8D"><span class="nav-number">8.2.2.</span> <span class="nav-text">停用词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB%EF%BC%88NER%EF%BC%8CNamed-Entity-Recognition-%EF%BC%89"><span class="nav-number">8.2.3.</span> <span class="nav-text">命名实体识别（NER，Named Entity Recognition ）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B"><span class="nav-number">8.2.4.</span> <span class="nav-text">其他处理过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE"><span class="nav-number">8.3.</span> <span class="nav-text">马尔可夫链</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE"><span class="nav-number">8.3.1.</span> <span class="nav-text">马尔科夫链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#N-Gram%E6%A8%A1%E5%9E%8B"><span class="nav-number">8.3.2.</span> <span class="nav-text">N-Gram模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E9%93%BE"><span class="nav-number">8.3.3.</span> <span class="nav-text">隐马尔可夫链</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E9%97%B4%E7%9B%B8%E4%BC%BC%E5%BA%A6"><span class="nav-number">8.4.</span> <span class="nav-text">词间相似度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E7%9A%84%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB"><span class="nav-number">8.4.1.</span> <span class="nav-text">词的编辑距离</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%99%E5%BC%A6%E7%9B%B8%E4%BC%BC%E5%BA%A6"><span class="nav-number">8.4.2.</span> <span class="nav-text">余弦相似度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tanimoto%E7%B3%BB%E6%95%B0%EF%BC%88%E5%B9%BF%E4%B9%89Jaccard%E7%9B%B8%E4%BC%BC%E7%B3%BB%E6%95%B0"><span class="nav-number">8.4.3.</span> <span class="nav-text">Tanimoto系数（广义Jaccard相似系数)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E5%90%91%E9%87%8F%E5%8C%96"><span class="nav-number">8.4.4.</span> <span class="nav-text">词向量化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#One-Hot%E7%BC%96%E7%A0%81"><span class="nav-number">8.4.4.1.</span> <span class="nav-text">One-Hot编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bag-of-Word%EF%BC%88BoW%EF%BC%89%E8%AF%8D%E8%A2%8B"><span class="nav-number">8.4.4.2.</span> <span class="nav-text">Bag of Word（BoW）词袋</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E9%A2%91%E4%B8%8ETF-IDF"><span class="nav-number">8.5.</span> <span class="nav-text">词频与TF-IDF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8TF-IDF%E6%9E%84%E5%BB%BA%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B"><span class="nav-number">8.5.1.</span> <span class="nav-text">用TF-IDF构建主题模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E9%A1%B9-%E6%96%87%E6%A1%A3%E7%9F%A9%E9%98%B5%EF%BC%88Term-Document-Matrix%EF%BC%89"><span class="nav-number">8.5.2.</span> <span class="nav-text">词项-文档矩阵（Term-Document Matrix）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B1%E7%8E%B0%E7%9F%A9%E9%98%B5"><span class="nav-number">8.6.</span> <span class="nav-text">共现矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LDA%E4%B8%8ELSA"><span class="nav-number">8.7.</span> <span class="nav-text">LDA与LSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%9A%84NLP%E4%BB%BB%E5%8A%A1"><span class="nav-number">8.8.</span> <span class="nav-text">常见的的NLP任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E7%86%B5%EF%BC%8C%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B"><span class="nav-number">8.9.</span> <span class="nav-text">信息熵，最大熵模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">9.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2025/01/07/%E7%BB%9F%E8%AE%A1%E6%A8%A1%E5%9E%8B-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="统计模型：理论与实践2024 期末复习 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          统计模型：理论与实践2024 期末复习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-01-07 12:59:00" itemprop="dateCreated datePublished" datetime="2025-01-07T12:59:00+08:00">2025-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-09 21:26:29" itemprop="dateModified" datetime="2025-01-09T21:26:29+08:00">2025-01-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BB%9F%E8%AE%A1%E6%A8%A1%E5%9E%8B%EF%BC%9A%E7%90%86%E8%AE%BA%E4%B8%8E%E5%AE%9E%E8%B7%B5/" itemprop="url" rel="index"><span itemprop="name">统计模型：理论与实践</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2025/01/07/%E7%BB%9F%E8%AE%A1%E6%A8%A1%E5%9E%8B-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2025/01/07/%E7%BB%9F%E8%AE%A1%E6%A8%A1%E5%9E%8B-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>18k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>33 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="考点"><a href="#考点" class="headerlink" title="考点"></a>考点</h1><ol>
+<li><p>聚类的定义，方法，k-means算法步骤，方法论的分类。k-means步骤，优缺点。比如迭代3次之后的结果。评价聚类算法的好坏，角度有哪些。</p>
+</li>
+<li><p>em算法：概念，适用场景（可以扩展，混合高斯等），em的实现，计算，jensen不等式，如何计算。计算：高斯分布混合而成。em优缺点，其他应用。</p>
+</li>
+<li><p>分类：决策树，knn，贝叶斯，基本的分类的算法。分类的定义，现实世界的应用场景（垃圾邮件识别等）。训练和验证测试集的划分，要完成哪些条件。常见的分类器。贝叶斯公式的形式，计算。决策树，id3，c4.5克服了缺点（简答题）</p>
+</li>
+<li><p>gamma：知道gamma函数的形式，在实数域的特征，阶乘。要看一下性质（递推式），如何证明性质。gamma函数积分的形式，阶乘实现。</p>
+</li>
+<li><p>beta分布：最基本的表现（4个分布），看到特征、数学表达式，符号的含义是什么（简答题）。会计算题。beta分布在前四种之上构造的，看到特征characteristics，稍微了解一下表达，也有计算题。每个分布数学公式，均值方差，图形表达，应用，例题等等。</p>
+</li>
+<li><p>nlp：不用管工具使用。传统nlp的任务是什么。做分词，特征构建等。可用特征（词频，共线频率等）。稍微看一下分词。什么事停用词。命名实体识别。其他处理过程（词根化等）。马尔科夫链，看一下转移矩阵的概率，计算。n-gram应用。word vector如何构建，给你一个句子，写出来对应的向量。tf-idf不用太多记，如何根据它构建主题模型。词项-文档矩阵，给一个文档，算出来tf-idf，得到矩阵。了解信息熵概念，什么是最大熵。·</p>
+</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="2024期末回忆"><a href="#2024期末回忆" class="headerlink" title="2024期末回忆"></a>2024期末回忆</h1><h2 id="简答题（每题5分，共8题）"><a href="#简答题（每题5分，共8题）" class="headerlink" title="简答题（每题5分，共8题）"></a>简答题（每题5分，共8题）</h2><ol>
+<li>简述聚类的定义，给出两个经典聚类算法。</li>
+<li>简述EM算法的原理。</li>
+<li>分类中数据集、验证集、测试集的作用和区别。</li>
+<li>C4.5相比ID3的改进。</li>
+<li>给出泊松分布的概率密度函数，描述参数k和$\lambda$的含义。</li>
+<li>给出正态分布的概率密度函数，以及均值和方差。</li>
+<li>给出典型的NLP任务，以及特征应用。</li>
+<li>什么是词项-文档矩阵，如何构造？</li>
+</ol>
+<h2 id="计算题（每题12分，共5题）"><a href="#计算题（每题12分，共5题）" class="headerlink" title="计算题（每题12分，共5题）"></a>计算题（每题12分，共5题）</h2><ol>
+<li>Kmeans算法，给定一些坐标和两个初始中心点，计算第一次迭代。</li>
+<li>给出正态分布的似然函数、最大似然函数，以及求偏导后的极大似然值。</li>
+<li>给定先验概率和条件概率，计算朴素贝叶斯算法（要用全概率公式算分母）。</li>
+<li>Bigram计算句子概率。</li>
+<li>词袋模型。</li>
+</ol>
+<h2 id="评价"><a href="#评价" class="headerlink" title="评价"></a>评价</h2><p>htk老师虽然课件里的东西很难，但是考试出的题都非常基础，特别是计算题，又简单又好算。</p>
+<h1 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h1><h2 id="【聚类】的定义"><a href="#【聚类】的定义" class="headerlink" title="【聚类】的定义"></a>【聚类】的定义</h2><p>给定一组点，并考虑点之间的距离，将这些点分组为一定数量的簇（集群 cluster），使得簇内的成员彼此接近&#x2F;相似，不同簇的成员不同。</p>
+<p>通常，点位于高维空间中，相似性是使用距离度量定义的（如欧几里得距离、余弦相似度）</p>
+<h2 id="【聚类】的方法"><a href="#【聚类】的方法" class="headerlink" title="【聚类】的方法"></a>【聚类】的方法</h2><ul>
+<li>全局最优：穷举所有分区</li>
+<li>启发式方法：k-means和k-medoids算法<ul>
+<li>k-means：每个簇由簇的中心表示</li>
+<li>k-medoid或PAM：每个簇由簇中的一个对象表示</li>
+</ul>
+</li>
+</ul>
+<h2 id="【聚类】方法论的分类"><a href="#【聚类】方法论的分类" class="headerlink" title="【聚类】方法论的分类"></a>【聚类】方法论的分类</h2><ul>
+<li><p><strong>层次方法（Hierarchical Methods）</strong></p>
+<ul>
+<li>凝聚算法（Agglomerative Algorithms）</li>
+<li>分割算法（Divisive Algorithms）</li>
+</ul>
+</li>
+<li><p><strong>分区方法（Partitioning Methods）</strong></p>
+<ul>
+<li><p>重新定位算法（Relocation Algorithms）</p>
+</li>
+<li><p>概率聚类（Probabilistic Clustering）</p>
+</li>
+<li><p>K-medoids方法，或 PAM (Partition around medoids) </p>
+</li>
+<li><p>K-means方法</p>
+</li>
+<li><p>基于密度的算法（Density-Based Algorithms）</p>
+<ul>
+<li><p>基于密度的连接聚类（Density-Based Connectivity Clustering）</p>
+</li>
+<li><p>密度函数聚类（Density Functions Clustering）</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>基于网格的方法（Grid-Based Methods）</strong></p>
+</li>
+<li><p><strong>基于分类数据共现的方法（Methods Based on Co-Occurrence of Categorical Data）</strong></p>
+</li>
+<li><p><strong>基于约束的聚类（Constraint-Based Clustering）</strong></p>
+</li>
+<li><p><strong>机器学习中使用的聚类算法（Clustering Algorithms Used in Machine Learning）</strong></p>
+<ul>
+<li>梯度下降和人工神经网络（Gradient Descent and Artificial Neural Networks）</li>
+<li>进化方法（Evolutionary Methods）</li>
+</ul>
+</li>
+<li><p><strong>可扩展聚类算法（Scalable Clustering Algorithms）</strong></p>
+</li>
+<li><p><strong>高维数据算法（Algorithms For High Dimensional Data）</strong></p>
+<ul>
+<li>子空间聚类（Subspace Clustering）</li>
+<li>投影技术（Projection Techniques）</li>
+<li>联合聚类技术（Co-Clustering Techniques）</li>
+</ul>
+</li>
+</ul>
+<h2 id="K-means方法"><a href="#K-means方法" class="headerlink" title="K-means方法"></a>K-means方法</h2><h3 id="K-means步骤"><a href="#K-means步骤" class="headerlink" title="K-means步骤"></a>K-means步骤</h3><ol>
+<li>初始化簇：为每个簇选择一个点。具体方法：首先随机选一个点，然后对接下来的k-1个点，与之前选的所有点的距离尽可能远。</li>
+<li>将每个点划分到中心点离它最近的簇；</li>
+<li>更新每个簇的中心点；</li>
+<li>重复2-3步，直到簇不再变化、中心点稳定。</li>
+</ol>
+<h3 id="K-means优缺点"><a href="#K-means优缺点" class="headerlink" title="K-means优缺点"></a>K-means优缺点</h3><p><strong>优点：</strong></p>
+<ul>
+<li>相对有效：复杂度O(tkn)，其中n是对象数，k是簇数目，t是迭代次数。通常，k,t&lt;&lt;n；</li>
+<li>通常在局部最优值处终止。可以使用模拟退火和遗传算法等技术找到全局最优解；</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>仅在均值能被定义时适用（不适用于只能被分类的、没有数学含义的数据）；</li>
+<li>需要提前指定集群数量k；</li>
+<li>噪声数据和异常值问题；</li>
+<li>不适合发现具有非凸形状的簇；</li>
+</ul>
+<h2 id="评价聚类算法好坏的角度"><a href="#评价聚类算法好坏的角度" class="headerlink" title="评价聚类算法好坏的角度"></a>评价聚类算法好坏的角度</h2><p><strong>内部标准</strong>：良好的聚类方法将产生高质量的聚类，其中：</p>
+<ul>
+<li>类内相似性高；</li>
+<li>类间相似性低；</li>
+<li>聚类的质量取决于文档表示和使用的相似性度量；</li>
+</ul>
+<p><strong>外部标准</strong>：</p>
+<ul>
+<li><p>通过其发现高标准数据中部分或全部隐藏模式或潜在类别的能力来衡量聚类质量；</p>
+</li>
+<li><p>和 <strong>真实数据（ground truth）</strong> 对比（需要 labeled data）；</p>
+</li>
+<li><p>用 <strong>纯度（purity）</strong> 来简单度量：</p>
+<ul>
+<li><p>纯度直观理解为每个聚类中<strong>主导类别占比</strong>的大小；</p>
+</li>
+<li><p>然而纯度具有偏向性，因为当聚类结果中每个数据点都被分配到一个单独的簇时（也就是有 n个簇，等于数据点的总数），纯度会达到最大值。然而，这样的聚类并没有实际意义；</p>
+</li>
+<li><p>计算公式与示例：</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>$$<br>\text{Purity}(\omega_i) &#x3D; \frac{1}{n_i} \max_{j \in C}(n_{ij})<br>$$</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250105150637409.png" alt="image-20250105150637409" style="zoom: 50%;" />
+
+<ul>
+<li><p>用 <strong>RI（Random Index）</strong> 衡量：</p>
+<ul>
+<li><p>Rand Index 表示所有分类正确的数据点对所占的比例；</p>
+</li>
+<li><p>以下图为例，RI &#x3D; (20+72) &#x2F; (20 + 24 + 20 +72) &#x3D; 0.68；</p>
+</li>
+</ul>
+<p>$$<br>RI &#x3D; \frac{A + D}{A + B + C + D}<br>$$</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250105152737857.png" alt="image-20250105152737857" style="zoom:50%;" /></li>
+</ul>
+<h1 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h1><h2 id="极大似然估计-MLE"><a href="#极大似然估计-MLE" class="headerlink" title="极大似然估计 MLE"></a>极大似然估计 MLE</h2><h3 id="似然函数"><a href="#似然函数" class="headerlink" title="似然函数"></a>似然函数</h3><p>似然函数表示在给定参数下，观察到当前数据的概率是多少。</p>
+<p><strong>例：</strong></p>
+<p>假设有十个人的身高为 $x_1, x_2, …., x_{10}$，符合正态分布$X \sim N(\mu, \sigma^2)$，其中$\mu和 \sigma^2$是男生身高的均值和方差。</p>
+<p>那么单个观测值的概率密度函数为：<br>$$<br>f(x|\mu,\sigma^2) &#x3D; \frac{1}{\sqrt{2\pi\sigma^2}}exp(-\frac{(x-\mu)^2}{2\sigma^2})<br>$$<br><strong>似然函数</strong>表示在给定参数$\mu和 \sigma^2$下，观测到当前数据的概率：<br>$$<br>L(\mu,\sigma^2) &#x3D; \prod_{i&#x3D;1}^{10}f(x|\mu,\sigma^2)<br>$$<br>为了方便计算，一般对似然函数<strong>求对数</strong>：<br>$$<br>\ell(\mu, \sigma^2) &#x3D; -\frac{10}{2} \ln(2\pi\sigma^2) - \frac{1}{2\sigma^2} \sum_{i&#x3D;1}^{10} (x_i - \mu)^2<br>$$</p>
+<h3 id="极大似然估计"><a href="#极大似然估计" class="headerlink" title="极大似然估计"></a>极大似然估计</h3><p>求对应事件概率求导数（多个参数求偏导）的零点，此时的参数值就是极大似然值。</p>
+<p><strong>继续例：</strong></p>
+<p>估计均值$\mu$， 对$\mu$求偏导，并求零点：<br>$$<br>\frac{\partial \ell}{\partial \mu} &#x3D; -\frac{1}{\sigma^2} \sum_{i&#x3D;1}^{10} (x_i - \mu) &#x3D; 0<br>$$<br>解得：<br>$$<br>\mu &#x3D; \frac{1}{10} \sum_{i&#x3D;1}^{10} x_i<br>$$<br>即，<strong>样本均值是均值的极大似然估计</strong>。</p>
+<p>估计方差$\sigma^2$，对$\sigma^2$求偏导，并求零点：<br>$$<br>\frac{\partial \ell}{\partial \sigma^2} &#x3D; -\frac{10}{2\sigma^2} + \frac{1}{2\sigma^4}\sum_{i&#x3D;1}^{10} (x_i - \mu)^2 &#x3D; 0<br>$$<br>解得：<br>$$<br>\sigma^2 &#x3D; \frac{1}{10} \sum_{i&#x3D;1}^{10} (x_i-\mu)^2<br>$$<br>即，<strong>方差的极大似然估计为样本数据与均值差的平方的平均值</strong>。</p>
+<h2 id="Jensen不等式"><a href="#Jensen不等式" class="headerlink" title="Jensen不等式"></a>Jensen不等式</h2><h3 id="Jensen不等式定义"><a href="#Jensen不等式定义" class="headerlink" title="Jensen不等式定义"></a>Jensen不等式定义</h3><p>Jensen 不等式是数学分析和概率论中的⼀个重要不等式，描述了凸（或 凹）函数与随机变量期望之间的关系。简单来说，它揭示了在凸函数下， 函数作用于期望值小于等于期望值作用于函数。</p>
+<p><strong>数学表述：</strong></p>
+<ul>
+<li>对于凸函数 $f$：</li>
+</ul>
+<p>$$<br>f(\mathbb{E}[X]) \leq \mathbb{E}[f(X)]<br>$$</p>
+<ul>
+<li>对于凹函数 $f$：</li>
+</ul>
+<p>$$<br>f(\mathbb{E}[X]) \geq \mathbb{E}[f(X)]<br>$$</p>
+<p>其中，$\mathbb{E}[X]$是随机变量 $X$ 的期望值，$\mathbb{E}[f(X)]$是函数 $f$ 作用于 $X$ 后的期望值。</p>
+<p>注：这里的凹凸函数，</p>
+<ul>
+<li>凸函数：图像“开口向上”，如$f(x)&#x3D;x^2$。</li>
+<li>凹函数：题型“开口向下”，如$f(x)&#x3D;\ln x$。</li>
+</ul>
+<p><strong>Jensen不等式的直观含义：</strong></p>
+<ul>
+<li>对于<strong>凸函数</strong>，函数作用于平均值的结果 <strong>不大于</strong> 平均值作用于函数的结果。</li>
+<li>对于<strong>凹函数</strong>，函数作用于平均值的结果 <strong>不小于</strong> 平均值作用于函数的结果。</li>
+</ul>
+<p>这意味着，凸函数下的平均值“低估“了个体值经过函数后的平均，而凹函数下的平均值“高估“了个体值经过函数后的平均。</p>
+<h3 id="Jensen不等式在EM中的作用"><a href="#Jensen不等式在EM中的作用" class="headerlink" title="Jensen不等式在EM中的作用"></a>Jensen不等式在EM中的作用</h3><p><strong>在EM 算法中，Jensen 不等式用于确保在每次迭代中，对数似然函数的值不会降低，从而保证算法的收敛性。</strong>  </p>
+<p><strong>原理</strong></p>
+<ul>
+<li><p><strong>挑战</strong>：直接最大化不完全数据的对数似然函数$lnp(X;\theta)$可能非常复杂，尤其当存在隐变量$Z$时。</p>
+</li>
+<li><p><strong>解决方案</strong>：引入一个下界来近似对数似然函数，这个下界通过 Jensen 不等式构造。</p>
+</li>
+<li><p>$ln(E(X)) &gt;&#x3D; E(ln(X))$ 是实现收敛的关键。</p>
+</li>
+</ul>
+<h4 id="利用-Jensen-不等式构造下界"><a href="#利用-Jensen-不等式构造下界" class="headerlink" title="利用 Jensen 不等式构造下界"></a><strong>利用 Jensen 不等式构造下界</strong></h4><p>从对数似然函数开始：<br>$$<br>\ln p(X; \theta) &#x3D; \ln \int p(X, Z; \theta) , dZ<br>$$</p>
+<p>引入任意分布 $q(Z)$ （通常选取$ q(Z)&#x3D;p(Z∣X;θ^{(t)})$）:<br>$$<br>\ln p(X; \theta) &#x3D; \ln \int q(Z) \frac{p(X, Z; \theta)}{q(Z)} , dZ<br>$$<br>应用 Jensen 不等式（因为对数函数是凹函数）：<br>$$<br>\ln p(X; \theta) \geq \int q(Z) \ln \frac{p(X, Z; \theta)}{q(Z)} , dZ<br>$$<br>定义辅助函数 $Q(\theta, \theta^{(t)})$：<br>$$<br>Q(\theta, \theta^{(t)}) &#x3D; \int p(Z \mid X; \theta^{(t)}) \ln p(X, Z; \theta) , dZ<br>$$<br>EM 算法的目标是最大化这个下界 $Q(\theta, \theta^{(t)})$。</p>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a><strong>步骤</strong></h4><ol>
+<li><strong>E 步（期望步）：</strong></li>
+</ol>
+<p>​	计算$Q(\theta, \theta^{(t)})$，即在当前参数$\theta^{(t)}$下，计算隐变量的后验分布$p(Z∣X;θ(t)$并求期望。</p>
+<ol start="2">
+<li><strong>M 步（最大化步）：</strong></li>
+</ol>
+<p>​	最大化$Q(\theta, \theta^{(t)})$来更新参数$\theta$。</p>
+<p><strong>Jensen不等式的作用：</strong></p>
+<p><strong>确保每次迭代中，对数似然函数 $\ln p(X;\theta)$ 不减</strong>：</p>
+<ul>
+<li>由于$Q(\theta, \theta^{(t)})$是$\ln p(X;\theta)$的下界，最大化$Q$会使$\ln p(X;\theta)$增加或保持不变。</li>
+</ul>
+<p><strong>保证算法收敛</strong>：</p>
+<ul>
+<li>通过持续提高对数似然函数值，EM算法在每次迭代中都朝着局部最优解前进。</li>
+</ul>
+<h2 id="EM算法-1"><a href="#EM算法-1" class="headerlink" title="EM算法"></a>EM算法</h2><h3 id="EM含义"><a href="#EM含义" class="headerlink" title="EM含义"></a>EM含义</h3><p>EM是一个在已知部分相关变量的情况下，估计未知变量的迭代技术。</p>
+<p>EM（Expectation-Maximization）算法是一种迭代优化算法，通常用于含有<strong>隐变量</strong>或<strong>不完全数据</strong>的概率模型中，以估计模型的参数。</p>
+<p>EM 算法在每次迭代中交替执行以下两个步骤：</p>
+<ol>
+<li><strong>E 步骤（期望步骤）</strong><br>在给定当前参数估计值的条件下，计算隐变量的<strong>期望值</strong>。也就是计算隐变量的条件分布，然后基于这个分布计算某些统计量。</li>
+<li><strong>M 步骤（最大化步骤）</strong><br>最大化完全数据的对数似然函数，调整参数以使当前的期望对数似然值最大。</li>
+</ol>
+<p>通过不断迭代 E 步骤和 M 步骤，EM 算法可以收敛到局部最优解。</p>
+<h3 id="EM数学原理"><a href="#EM数学原理" class="headerlink" title="EM数学原理"></a>EM数学原理</h3><p><strong>问题描述</strong></p>
+<p>假设我们有观测数据 $X$ 和 隐含数据 $Z$，目标是估计模型参数 $\theta$，使得观测数据的对数似然函数 $\ln p(X; \theta)$最大化。</p>
+<p>直接求解 $\ln p(X; \theta)$可能困难，因为它涉及对隐变量 $Z$ 的积分或求和：<br>$$<br>\ln p(X;\theta) &#x3D; \ln \int p(X,Z;\theta)dZ<br>$$<br><strong>引入完整数据对数似然</strong></p>
+<p>定义完整数据（观测数据和隐变量）对数似然函数：<br>$$<br>\ln p(X,Z;\theta)<br>$$<br>由于无法直接观测到$Z$，我们无法直接最大化这个函数，但可以通过<strong>条件期望</strong>来解决。</p>
+<p><strong>EM算法步骤</strong></p>
+<p><strong>E步（期望步）</strong></p>
+<p>计算在当前参数$\theta^{(t)}$ 下，完整数据对数似然的条件期望：<br>$$<br>Q(\theta, \theta^{(t)})&#x3D;E_{Z|X;\theta^{(t)}}[\ln p(X,Z;\theta)]<br>$$<br>$E_{Z|X;\theta^{(t)}}$表示在给定观测数据 $X$和当前参数下$\theta^{(t)}$，对隐变量$Z$求条件期望。</p>
+<p><strong>M步（最大化步）</strong></p>
+<p>在E步计算的条件期望基础上，找到新的参数$\theta^{(t+1)}$，使$Q(\theta, \theta^{(t)})$最大化：<br>$$<br>\theta^{(t+1)} &#x3D; \arg \underset{\theta}{\max}Q(\theta, \theta^{(t)})<br>$$<br><strong>收敛性</strong></p>
+<p>EM算法通过Jensen不等式保证了对数似然函数在每次迭代中不减：<br>$$<br>\ln p(X; \theta^{(t+1)}) \geq \ln p(X; \theta^{(t)})<br>$$<br>因此，EM算法在每次迭代中都朝着使对数似然函数增大的方向前进，最终收敛到一个局部极大值。</p>
+<h3 id="EM适用场景"><a href="#EM适用场景" class="headerlink" title="EM适用场景"></a>EM适用场景</h3><p>最大期望（EM）算法是在概率模型中寻找参数最大似然估计或者最大后验估计的算法，其中概率模型依赖于无法观测的隐变量。</p>
+<ul>
+<li><p><strong>含有隐变量的模型</strong>: 如高斯混合模型(GMM)、隐马尔可夫模型(HMM)等；</p>
+</li>
+<li><p><strong>不完全数据</strong>: 数据集中存在缺失值，需要估计缺失部分；</p>
+</li>
+<li><p><strong>参数估计困难</strong>: 直接最大化似然函数过于复杂或不可行；</p>
+</li>
+</ul>
+<h2 id="应用：混合高斯模型"><a href="#应用：混合高斯模型" class="headerlink" title="应用：混合高斯模型"></a>应用：混合高斯模型</h2><p><strong>高斯混合模型</strong>是一种常用的聚类模型，假设数据由多个高斯分布（即正态分布）的混合生成，但我们无法直接观测到每个数据点来自哪个高斯分量。</p>
+<p><strong>目标：</strong></p>
+<ul>
+<li>估计每个高斯分量的参数（均值$\mu_k$、协方差$\Sigma_k$）和混合系数$\pi_k$。</li>
+<li>将数据按照概率分配给不同的高斯分类，实现聚类。</li>
+</ul>
+<p><strong>模型定义</strong></p>
+<ul>
+<li>数据集：$X&#x3D;\lbrace x_1,x_2,…,x_N \rbrace$</li>
+<li>高斯分量数：$K$</li>
+<li>模型参数：$\theta &#x3D; \lbrace \pi_k,\mu_k,\Sigma_k\rbrace_{k&#x3D;1}^K$<ul>
+<li>$\pi_k$：第$i$个高斯分类的混合系数，满足$\Sigma_{k&#x3D;1}^K \pi_k &#x3D; 1$。</li>
+<li>$\mu_k,\Sigma_k$：第$i$个高斯分类的均值和协方差矩阵。</li>
+</ul>
+</li>
+</ul>
+<p><strong>隐变量</strong></p>
+<ul>
+<li>对每个数据点$x_i$，引入隐变量$z_i$，表示其所属的高斯分类：<ul>
+<li>$z_i \in \lbrace 1,2,…,K \rbrace$</li>
+<li>$p(z_i &#x3D;k) &#x3D; \pi_k$</li>
+</ul>
+</li>
+</ul>
+<p><strong>EM算法具体步骤</strong></p>
+<p><strong>初始化</strong></p>
+<ul>
+<li>随机初始化模型参数$\theta^{(0)} &#x3D; \lbrace \pi_k^{(0)}, \mu_k^{(0)}, \Sigma_k^{(0)}  \rbrace$。</li>
+</ul>
+<p><strong>迭代直到收敛</strong></p>
+<p><strong>1.E步（计算后验概率）</strong></p>
+<p>计算在当前参数下，每个数据点$x_i$属于第$k$个高斯分类的后验概率（即<strong>责任度</strong>）：<br>$$<br>\gamma_{ik} &#x3D; p(z_i&#x3D;k \mid x_i; \theta^{(t)}) &#x3D; \frac{\pi_k^{(t)}\mathcal{N}(x_i \mid \mu_k^{(t)},\Sigma_k^{(t)})}{\Sigma_{j&#x3D;1}^K \pi_j^{(t)} \mathcal{N}(x_i \mid \mu_j^{(t)}, \Sigma_j^{(t)}) }<br>$$</p>
+<ul>
+<li>$\mathcal{N}(x_i \mid \mu_k,\Sigma_k)$是第$k$个高斯分类的概率密度函数</li>
+</ul>
+<p><strong>2.M步（更新参数）</strong></p>
+<p>利用E步计算的责任度$\gamma_{ik}$，更新模型参数：</p>
+<ul>
+<li><p>更新混合系数$\pi_k$：<br>$$<br>\pi_k^{(t+1)} &#x3D; \frac{N_k}{N}<br>$$<br>其中，$N_k&#x3D;\Sigma_{i&#x3D;1}^N \gamma_{ik}$。</p>
+</li>
+<li><p>更新均值$\mu_k$：&#96;1<br>$$<br>\mu_k^{(t+1)} &#x3D; \frac{1}{N_k}\Sigma_{i&#x3D;1}^{N} \gamma_{ik} x_i<br>$$</p>
+</li>
+<li><p>更新协方差矩阵$\Sigma_k$：<br>$$<br>\Sigma_k^{(t+1)} &#x3D; \frac{1}{N_k}\Sigma_{i&#x3D;1}^{N}\gamma_{ik}(x_i-\mu_k^{(t+1)})(x_i-\mu_k^{(t+1)})^T<br>$$</p>
+</li>
+</ul>
+<p><strong>检查收敛</strong></p>
+<p>计算对数似然函数$\ln p(X; \theta^{(t+1)})$，判断是否满足收敛条件（如参数变化或对数似然函数增量小于设定的阈值）。</p>
+<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><p>假设我们有一维数据集，由两个高斯分布混合而成：<br>$$<br>X&#x3D;[1.0,1.2,0.8,5.0,5.2,4.8]<br>$$<br>目标是将数据分为两类，并估计每个高斯分布的参数。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106151431944.png" alt="image-20250106151431944"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106151453556.png" alt="image-20250106151453556"></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106151543736.png" alt="image-20250106151543736"></p>
+<h2 id="EM优缺点"><a href="#EM优缺点" class="headerlink" title="EM优缺点"></a>EM优缺点</h2><p><strong>优点</strong></p>
+<ul>
+<li><strong>处理含有隐变量的模型</strong>：能够在数据不完全或含有隐变量的情况下，估计参数模型。</li>
+<li><strong>实现简单</strong>：E步和M步通常具有明确的计算步骤，易于实现。</li>
+<li><strong>广泛适用</strong>：适用于各种概率模型，如混合模型、隐马尔可夫模型等。</li>
+</ul>
+<p><strong>局限</strong></p>
+<ul>
+<li><strong>收敛到局部极大值</strong>：EM算法可能收敛到局部最优解，依赖于初始参数的选择。</li>
+<li><strong>收敛速度慢</strong>：在某些情况下，算法收敛速度较慢。</li>
+<li><strong>需要计算条件期望</strong>：对于复杂模型，E步可能计算复杂或无法解析求解。</li>
+</ul>
+<h2 id="其他应用"><a href="#其他应用" class="headerlink" title="其他应用"></a>其他应用</h2><p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106152317650.png" alt="image-20250106152317650"></p>
+<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><h2 id="【分类】的定义"><a href="#【分类】的定义" class="headerlink" title="【分类】的定义"></a>【分类】的定义</h2><p>给定一组标记实体的训练集，制定一个规则，为测试集中的实体分配标签。</p>
+<h2 id="【分类】应用场景"><a href="#【分类】应用场景" class="headerlink" title="【分类】应用场景"></a>【分类】应用场景</h2><p>垃圾邮件过滤、数字识别、欺诈检测、网页垃圾检测、语音识别和说话者识别、医学诊断、自动论文评分、电子邮件路由、社交网络中的链接预测、药物设计中的催化活性…</p>
+<h2 id="训练和验证测试集的划分"><a href="#训练和验证测试集的划分" class="headerlink" title="训练和验证测试集的划分"></a>训练和验证测试集的划分</h2><p>在训练集上估计参数（train）</p>
+<p>在验证集上调整超参数（validation）</p>
+<p>在测试集上报告结果（test）</p>
+<ul>
+<li><p><strong>数据分布一致</strong></p>
+<ul>
+<li>确保训练集、验证集和测试集具有相似的数据分布，避免模型在验证或测试时性能大幅下降。</li>
+</ul>
+</li>
+<li><p><strong>互相独立</strong></p>
+<ul>
+<li>训练集、验证集、测试集之间的数据不能有重叠，否则会导致数据泄漏，影响模型的评估真实性。</li>
+</ul>
+</li>
+<li><p><strong>合理的比例划分</strong></p>
+<ul>
+<li><p>常见划分比例为：</p>
+<ul>
+<li><strong>训练集</strong>：约 60%-80%，用于训练模型。</li>
+<li><strong>验证集</strong>：约 10%-20%，用于调参和选择最佳模型。</li>
+<li><strong>测试集</strong>：约 10%-20%，用于评估最终模型性能。</li>
+</ul>
+</li>
+<li><p>在数据量较小的情况下，可采用交叉验证（如 k-fold）充分利用数据。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>类别平衡</strong></p>
+<ul>
+<li>如果是分类问题，确保每个类别在训练集、验证集、测试集中有相似的比例，防止数据不平衡对结果的影响。</li>
+</ul>
+</li>
+<li><p><strong>时间相关性（时序数据）</strong></p>
+<ul>
+<li>如果数据有时间顺序（如股票价格、天气数据），应避免未来数据出现在训练集中，否则会导致“数据泄漏”。通常将时间靠后的数据划为验证或测试集。</li>
+</ul>
+</li>
+<li><p><strong>数据预处理一致性</strong></p>
+<ul>
+<li>数据预处理步骤（如标准化、归一化、特征选择）应基于训练集的统计量，并应用到验证集和测试集，防止数据泄漏。</li>
+</ul>
+</li>
+</ul>
+<h2 id="常见的分类器"><a href="#常见的分类器" class="headerlink" title="常见的分类器"></a>常见的分类器</h2><ul>
+<li>支持向量机</li>
+<li>随机森林</li>
+<li>核化逻辑回归</li>
+<li>核化判别分析</li>
+<li>核化感知器</li>
+<li>贝叶斯分类器</li>
+<li>增强和其他集成方法</li>
+</ul>
+<h2 id="常用分类方法"><a href="#常用分类方法" class="headerlink" title="常用分类方法"></a>常用分类方法</h2><ul>
+<li>贝叶斯</li>
+<li>决策树</li>
+<li>SVM（支持向量机）</li>
+<li>KNN（K近邻算法）</li>
+<li>逻辑回归</li>
+<li>神经网络</li>
+<li>深度学习</li>
+<li>集成学习</li>
+</ul>
+<h2 id="贝叶斯"><a href="#贝叶斯" class="headerlink" title="贝叶斯"></a>贝叶斯</h2><h3 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a>贝叶斯公式</h3><p>$$<br>P(A|B) &#x3D; P(A)\frac{P(B|A)}{P(B)}<br>$$</p>
+<p>$$<br>后验概率 &#x3D; 先验概率 \times 调整因子<br>$$</p>
+<p><strong>例题</strong>：假设某种疾病的发病率为0.001（1000个⼈中会有⼀个⼈得病），现有⼀种试剂在患者确实得病的情况下，有99%的而率呈现为阳性，而在患者没有得病的情况下，它有5%的几率呈现为阳性（也就是假阳性），如有⼀位病人的检验成果为阳性，那么他的得病概率是多少呢？</p>
+<p><strong>解答</strong>：</p>
+<p>事件A：得病；事件B：阳性<br>$$<br>P(A|B) &#x3D; P(A) \frac{P(B|A)}{P(B)} &#x3D; 0.001 * \frac{0.99}{0.001 * 0.99 + 0.999 * 0.05} \approx 0.019<br>$$</p>
+<h3 id="朴素贝叶斯"><a href="#朴素贝叶斯" class="headerlink" title="朴素贝叶斯"></a>朴素贝叶斯</h3><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106155904781.png" alt="image-20250106155904781" style="zoom:50%;" />
+
+
+
+<p>参考数据仓库朴素贝叶斯计算：<a target="_blank" rel="noopener" href="https://jinqiqing.cn/2024/12/30/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8F%91%E7%8E%B0-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/#%E9%A2%98%E5%9E%8B4-%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%96%B9%E6%B3%95:~:text=%E5%88%86%E7%B1%BB%E4%B8%BA%20%3E%202000%E3%80%82-,%E9%A2%98%E5%9E%8B4%20%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%96%B9%E6%B3%95,-%E9%97%AE%EF%BC%9A%20%E4%BE%9D%E6%8D%AE%E8%AE%AD%E7%BB%83">数据仓库与知识发现2024 期末复习&#x2F;数据预处理与分类&#x2F;题型4 朴素贝叶斯方法</a></p>
+<h2 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h2><h3 id="ID3算法"><a href="#ID3算法" class="headerlink" title="ID3算法"></a>ID3算法</h3><p>参考数据仓库决策树计算：<a target="_blank" rel="noopener" href="https://jinqiqing.cn/2024/12/30/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8F%91%E7%8E%B0-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/#%E9%A2%98%E5%9E%8B3-%E6%9E%84%E9%80%A0%E5%86%B3%E7%AD%96%E6%A0%91:~:text=56000%2C%2078000%5D%20%3A%201%2C6%2C9%2C12%2C14%2C16-,%E9%A2%98%E5%9E%8B3%20%E6%9E%84%E9%80%A0%E5%86%B3%E7%AD%96%E6%A0%91,-%E9%97%AE%EF%BC%9A%E4%BE%9D%E6%8D%AE%E8%AE%AD%E7%BB%83">数据仓库与知识发现2024 期末复习&#x2F;数据预处理与分类&#x2F;题型3 构造决策树</a></p>
+<h3 id="C4-5算法"><a href="#C4-5算法" class="headerlink" title="C4.5算法"></a>C4.5算法</h3><p>C4.5算法是对ID3算法的改进，C4.5克服了ID3的以下2个缺点：</p>
+<ul>
+<li>用信息增益选择属性时偏向于选择分枝比较多的属性值，即取值多的属性；</li>
+<li>不能处理连续属性；</li>
+</ul>
+<h1 id="Gamma函数"><a href="#Gamma函数" class="headerlink" title="Gamma函数"></a>Gamma函数</h1><h2 id="形式"><a href="#形式" class="headerlink" title="形式"></a>形式</h2><p>$$<br>\Gamma(x)&#x3D;\int_0^\infty t^{x-1}e^{-t}dt，其中x&gt;0<br>$$</p>
+<h2 id="在实数域上的特征"><a href="#在实数域上的特征" class="headerlink" title="在实数域上的特征"></a>在实数域上的特征</h2><p>$$<br>\Gamma(x+1)&#x3D;x\Gamma(x)<br>$$</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250106162423376.png" alt="image-20250106162423376" style="zoom:50%;" />
+
+<h2 id="阶乘形式"><a href="#阶乘形式" class="headerlink" title="阶乘形式"></a>阶乘形式</h2><p>对于任意的正整数n：<br>$$<br>\Gamma(n)&#x3D;(n-1)~!<br>$$</p>
+<p>问题：$(\frac{1}{2})!$是多少？</p>
+<p>答：<br>$$<br>(\frac{1}{2})! &#x3D; \Gamma(\frac{3}{2})&#x3D;\frac{1}{2}\Gamma(\frac{1}{2})&#x3D;\frac{\sqrt{\pi}}{2}<br>$$</p>
+<h1 id="Beta-分布"><a href="#Beta-分布" class="headerlink" title="Beta 分布"></a>Beta 分布</h1><h2 id="四个分布"><a href="#四个分布" class="headerlink" title="四个分布"></a>四个分布</h2><h3 id="二项分布"><a href="#二项分布" class="headerlink" title="二项分布"></a>二项分布</h3><p>二项分布是（Binomial Distribution）一种离散概率分布，描述了在 n 次独立重复试验中，成功发生的次数 X 的分布。每次试验有两个可能的结果（称为“成功”和“失败”），每次成功的概率为 p。<br>$$<br>P(X&#x3D;k) &#x3D; \begin{pmatrix}n \ k \end{pmatrix}p^k(1-p)^{n-k}<br>，其中\begin{pmatrix}n \ k \end{pmatrix} &#x3D; \frac{n!}{k!(n-k)!}<br>$$</p>
+<p>$$<br>E(X) &#x3D; n\cdot p<br>$$</p>
+<p>$$<br>Var(X) &#x3D; n \cdot p \cdot (1-p)<br>$$</p>
+<p>模型特征：二项结果；概率为定值；事件独立</p>
+<p>应用场景：质量控制、可靠性、排队</p>
+<h3 id="泊松分布"><a href="#泊松分布" class="headerlink" title="泊松分布"></a>泊松分布</h3><p>泊松分布（Poisson Distribution）是一种离散概率分布，用来描述<strong>在单位时间或单位空间内事件发生的次数</strong>(用参数$\lambda$表示）。它的核心特点是，事件发生是独立的，且在单位时间或空间内的发生率是固定的。<br>$$<br>P(X&#x3D;k) &#x3D; \frac{\lambda^k e^{-\lambda}}{k!}<br>，其中\lambda 表示每单位时间内平均发生 \lambda 次事件<br>$$</p>
+<p>$$<br>E(X) &#x3D; \lambda<br>$$</p>
+<p>$$<br>Var(X) &#x3D; \lambda<br>$$</p>
+<p>$$<br>累积分布函数F(x \leq k) &#x3D; \Sigma_{x&#x3D;0}^k \frac{\lambda^xe^{-\lambda}}{x!}<br>$$<br>模型特征：时间间隔或空间区域；一个事件发生的可能性极小；事件独立；事件以固定速率发生</p>
+<p>应用场景：质量控制、可靠性、排队、物理性质</p>
+<h3 id="指数分布"><a href="#指数分布" class="headerlink" title="指数分布"></a>指数分布</h3><p>指数分布（Exponential Distribution）是一种连续型概率分布，常用于描述<strong>事件发生的时间间隔</strong>。它回答的问题是：<strong>在某种随机过程中，从一个事件到下一个事件所需的时间有多长？</strong><br>$$<br>f(x;\lambda) &#x3D; \lambda e^{-\lambda x},<br>$$</p>
+<p>$$<br>其中，x表示事件间隔时间（随机量），\lambda表示每单位时间内平均发生 \lambda 次事件<br>$$</p>
+<p>$$<br>E(X) &#x3D; \frac{1}{\lambda}<br>$$</p>
+<p>$$<br>Var(X) &#x3D; \frac{1}{\lambda^2}<br>$$</p>
+<p>$$<br>累积分布函数F(x\leq k) &#x3D; \int_0^k \lambda e^{-\lambda x}dx &#x3D; 1-e^{\lambda k}<br>$$</p>
+<p>模型特征：两次发生结果之间的时间或距离；泊松分布特征；使用泊松均值($\lambda$)</p>
+<p>应用场景：质量控制、可靠性、排队、物理现象</p>
+<h3 id="正态分布"><a href="#正态分布" class="headerlink" title="正态分布"></a>正态分布</h3><p>正态分布(Normal Distribution)，也称高斯分布 (Gaussian Distribution)，是统计学中最重要的一种连续型概率分布。它经常用于描述<strong>自然界中的随机现象</strong>，如身高、体重、考试成绩等变量的分布。<br>$$<br>概率密度函数f(x;\mu,\sigma^2) &#x3D; \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}，其中\mu为均值，\sigma^2为方差<br>$$</p>
+<p>$$<br>累积分布函数F(x)&#x3D;\frac{1}{\sqrt{2\pi\sigma^2}}\int_{-\infty}^x exp(-\frac{-(v-\mu)^2}{2\sigma^2})dv<br>$$</p>
+<p>$$<br>P(a\leq x\leq b)&#x3D;F(b)-F(a)&#x3D;\frac{1}{\sqrt{2\pi\sigma^2}}\int_a^bxp(-\frac{-(v-\mu)^2}{2\sigma^2})dv<br>$$</p>
+<p>模型特征：“钟形”曲线；对测量现象有效；对多种不确定的源有效；两个参数($\mu和\sigma$)</p>
+<p>应用场景：测量的现象；多种加性现象的测量结果；其他近似的分布；许多推断统计方法</p>
+<p><strong>例题</strong>：假设一个公司员工的年龄符合正态分布，均值为50，标准差为5。计算50到52.5岁员工的比例。</p>
+<p><strong>解答</strong>：</p>
+<p>使用标准正态分布，令$Z&#x3D;(x-\mu)&#x2F; \sigma$，然后从表中获取累积分布函数：</p>
+<p>​	$F(x\leq 50) &#x3D; F(Z \leq 0) &#x3D; 0.5000$</p>
+<p>​	$F(x\leq 52.5) &#x3D; F(Z \leq 0.5) &#x3D; 0.6915$</p>
+<p>得到</p>
+<p>​	$P(50\leq x \leq 52.5 &#x3D; F(b) - F(a) &#x3D; 0.1915$</p>
+<h2 id="Beta分布"><a href="#Beta分布" class="headerlink" title="Beta分布"></a>Beta分布</h2><h3 id="含义"><a href="#含义" class="headerlink" title="含义"></a>含义</h3><p>Beta分布是一种定义在区间[0, 1]上的连续概率分布，广泛用于描述随机变量在这个区间内的分布情况。它通常用于建模有限区间内（如概率、比例等）的不确定性，尤其是当我们对事件发生的概率有先验知识时。</p>
+<p>模型特征：两端有界变量；多种分布形状；事件是独立的；模型比例</p>
+<p>$$<br>f(x|\lambda_1,\lambda_2) &#x3D; \frac{\Gamma(\lambda_1+\lambda_2)}{\Gamma(\lambda_1)\Gamma(\lambda_2)}x^{\lambda_1-1}(1-x)^{\lambda_2-1}<br>$$</p>
+<p>$$<br>其中，0\leq x \leq 1，\lambda_1,\lambda_2 \geq 0，<br>$$</p>
+<p>$$<br>\Gamma(\lambda)为伽马函数，\Gamma(\lambda)&#x3D; \int_0^\infty x^{\lambda-1}e^{-x}dx 或 \Gamma(\lambda)&#x3D;(\lambda-1)!（当\lambda为正整数时）<br>$$</p>
+<p>$$<br>E(Q)&#x3D;\frac{\lambda_1}{\lambda_1+\lambda_2}<br>$$</p>
+<p>$$<br>Var(Q)&#x3D;\frac{\lambda_1\lambda_2}{(\lambda_1+\lambda_2)^2(\lambda_1+\lambda_2+1)}<br>$$</p>
+<p>令 $n&#x3D;\lambda_1+\lambda_2,r&#x3D;\lambda_1，为正整数时$：<br>$$<br>f_\beta(q|r,n) &#x3D; \frac{(n-1)!}{(r-1)!(n-r-1)!}q^{r-1}(1-q)^{n-r-1}<br>$$</p>
+<p>$$<br>其中，q为一个[0,1]的比值，r为成功的次数，n为实验次数<br>$$</p>
+<p>$$<br>E(Q)&#x3D;\frac{r}{n}<br>$$</p>
+<p>$$<br>Var(Q)&#x3D;\frac{r(n-r)}{n^2(n+1)}<br>$$</p>
+<p>$$<br>累积分布函数F(Q \leq q|r,n)&#x3D;\frac{(n-1)!}{(r-1)!(n-r-1)}\int_0^q\upsilon^{r-1}(1-\upsilon)d\upsilon<br>$$</p>
+<p>其累积分布函数也叫<strong>不完全Beta函数</strong>，与二项累积分布函数是等价的。</p>
+<p><strong>例题</strong>：假设每年提交医疗福利申请的员工百分比是一个Beta随机变量。作为一家拥有40名员工的小公司的福利协调员，你目前预计大约30%的人今年最有可能提交索赔，确定超过16名员工提交索赔的概率。</p>
+<p><strong>解答：</strong></p>
+<p>​	$q&#x3D;\frac{16}{40}&#x3D;0.4,r &#x3D; 40 * 30 % &#x3D;12,n&#x3D;40.$</p>
+<p>​	查表得：$F_\beta(Q\leq0.40|12,40)&#x3D;0.91$</p>
+<p>​	因此：$P_\beta(Q&gt;0.40)&#x3D;1-0.91&#x3D;0.09$</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h3><ul>
+<li>比例或百分比</li>
+<li>受限区间内的物理变量</li>
+<li>质量控制和可靠性的公差</li>
+<li>PERT网络（广义形式）</li>
+<li>贝叶斯分析（先验信息）</li>
+</ul>
+<h1 id="NLP-自然语言处理"><a href="#NLP-自然语言处理" class="headerlink" title="NLP 自然语言处理"></a>NLP 自然语言处理</h1><h2 id="自然语言的特征"><a href="#自然语言的特征" class="headerlink" title="自然语言的特征"></a>自然语言的特征</h2><ul>
+<li><p><strong>基于规则的特征</strong></p>
+<ol>
+<li>固定的语法结构或词性分布</li>
+<li>固定的谓词逻辑规则</li>
+<li>通用的前缀、后缀</li>
+</ol>
+</li>
+<li><p><strong>基于统计的特征</strong></p>
+<ol>
+<li>基于大规模语料的特征， 如频率特征  </li>
+<li>基于词的编辑距离衡量的词相似性度量</li>
+</ol>
+</li>
+<li><p><strong>基于语言结构的特征</strong></p>
+<ol>
+<li>词性特征  </li>
+<li>命名实体特征</li>
+</ol>
+</li>
+<li><p><strong>其他可用特征</strong></p>
+<ol>
+<li>词频特征</li>
+<li>词的共现频率（见N-Gram）</li>
+<li>虚词个数</li>
+<li>词性特征</li>
+<li>句子的句法、文法特征</li>
+<li>句子长度</li>
+<li>词编辑距离特征等</li>
+<li>词情感特征（否定、肯定等）</li>
+</ol>
+</li>
+</ul>
+<h2 id="如何提取特征"><a href="#如何提取特征" class="headerlink" title="如何提取特征"></a>如何提取特征</h2><h3 id="分词"><a href="#分词" class="headerlink" title="分词"></a>分词</h3><ul>
+<li><p>基于<strong>字符串匹配</strong>的分词</p>
+<ol>
+<li><strong>正向最大规则匹配</strong>（从左到右）；</li>
+<li><strong>逆向最大规则匹配</strong>（从右到左）；</li>
+<li><strong>最少切分</strong>（使每一句中切出的词数最小）；</li>
+<li><strong>双向最大规则匹配</strong>：将正向最大匹配法与逆向最大匹配法组合。先根据标点对文档进行粗切分，把文分解成若干个句子，然后再对这些句子用正向最大匹配法和逆向最大匹配法进行扫描切分。如果两种分词方法得到的匹配结果相同， 则认为分词正确，否则，按最小集处理（最少切分）  。</li>
+<li><strong>最佳匹配算法</strong><ul>
+<li>实现方向：在词典中按词频的大小顺序排列词条，以求缩短对分词词典的检索时间，达到最佳效果，从而降低分词的时间复杂度，加快分词速度。</li>
+<li>缺点：其空间复杂度有所增加。</li>
+<li>优点：对提高分词精度没有影响，分词处理的时间复杂度有所降低。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>基于<strong>理解</strong>的分词（又称基于人工智能的分词）</p>
+<ol>
+<li>其基本思想就是在分词的同时进行句法、语义分析，利用句法信息和语义信息来处理歧义现象。它通常包括三个部分：分词子系统、 句法语义子系统和总控部分。</li>
+<li>专家系统分词法；</li>
+<li>神经网络分词法；</li>
+<li>神经网络专家系统集成式分词法；</li>
+</ol>
+</li>
+<li><p>基于<strong>统计</strong>的分词（又称无字典分词）</p>
+<ol>
+<li>基本思想：词是稳定的组合，因此在上下文中，相邻的字同时出现的次数越多，就越有可能构成一个词。 因此字与字相邻出现的概率或频率能较好反映成词的可信度。可以对训练文本中相邻出现的各个字的组合的频度进行统计，计算它们之间的互现信息。互现信息体现了汉字之间结合关系的紧密程度。当紧密程度高于某一个阈值时，便可以认为此字组可能构成了一个词。</li>
+<li>主要统计模型：N 元文法模型、隐Markov模型和最大熵模型等。</li>
+<li>在实际应用中一般是将其与基于词典的分词方法结合起来，既发挥匹配分词切分速度快、效率高的特点，又利用了无词典分词结合上下文识别生词、自动消除歧义的优点。</li>
+</ol>
+</li>
+</ul>
+<h3 id="停用词"><a href="#停用词" class="headerlink" title="停用词"></a>停用词</h3><p>什么是停用词？</p>
+<p>功能词：”the”、”is”、”at”、”which”、”on”、的、是 等等。</p>
+<p>词汇词：”want”等</p>
+<p>去停用词是在自然语言处理中常用的过程之一，其目的<strong>在于将句子中的无意义的词过滤</strong>。</p>
+<h3 id="命名实体识别（NER，Named-Entity-Recognition-）"><a href="#命名实体识别（NER，Named-Entity-Recognition-）" class="headerlink" title="命名实体识别（NER，Named Entity Recognition ）"></a>命名实体识别（NER，Named Entity Recognition ）</h3><p>NER，即命名实体识别，所谓的命名实体就是人名、机构名、地名以及其他所有以名称为标识的实体，也包括日期、货币等。 </p>
+<p>注：命名实体的定义与其处理的问题有关，如在医学领域，药物名、疾病名也是命名实体。 </p>
+<p>方法： </p>
+<ul>
+<li><p><strong>基于规则</strong>：</p>
+<ul>
+<li><p>借助语言学专家，对自然语言中命名实体出现的规则进行总结，并编写模板，使用模板匹配实体。  </p>
+</li>
+<li><p><strong>弊端</strong>：</p>
+<ul>
+<li>仅适用于规律确定的实体； </li>
+<li>需要领域专家制定规则； </li>
+<li>规则不全面，无法最大限度识别实体。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>基于统计</strong>：</p>
+</li>
+<li><p><strong>优点</strong>：避免了规则的构造和提取；利用统计规律，更具通用性；统计模型更加容易实现自动化。</p>
+</li>
+</ul>
+<h3 id="其他处理过程"><a href="#其他处理过程" class="headerlink" title="其他处理过程"></a>其他处理过程</h3><ul>
+<li>词根化（针对非汉语，如英语）；</li>
+<li>去时态化（针对非汉语，如英语）； </li>
+<li>语义角色标注（SRL）； </li>
+<li>CFG（上下文无关文法）； </li>
+<li>句法树等。</li>
+</ul>
+<h2 id="马尔可夫链"><a href="#马尔可夫链" class="headerlink" title="马尔可夫链"></a>马尔可夫链</h2><h3 id="马尔科夫链"><a href="#马尔科夫链" class="headerlink" title="马尔科夫链"></a>马尔科夫链</h3><p><strong>定义</strong>：马尔可夫链（Markov Chain, MC）是概率论和数理统计中具有马尔可夫性质（Markov property）且存在于离散的指数集（index set）和状态空间（state  space）内的随机过程（stochastic process）。 </p>
+<p><strong>特点</strong>：时间、状态都离散。 </p>
+<p>在马尔可夫链中，随机变量的状态转换不具备记忆性，即当前的状态仅与前一刻的状态有关。以数学表达式表示则为：<br>$$<br>p(X_{t+1} \mid X_t,…,X_1) &#x3D; p(X_{t+1} \mid X_t)<br>$$<br>在马尔可夫的推广中，可将该规则推广到𝑛阶，称为𝑛-阶马尔可夫链，传统的马尔可夫链称为1-阶马尔可夫。<br>$$<br>p(X_{t+1} \mid X_t,…,X_1) &#x3D; p(X_{t+1} \mid X_t,…,X_K),1&lt;K&lt;t<br>$$<br>马尔可夫链计算（基于当前状态，计算未来状态的概率）：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250108213715511.png" alt="image-20250108213715511"></p>
+<p>如上式，$P_{ij}$表示从状态i转化为状态j的概率，则可计算第二天的各天气概率。</p>
+<h3 id="N-Gram模型"><a href="#N-Gram模型" class="headerlink" title="N-Gram模型"></a>N-Gram模型</h3><p>在基于统计的分词中，N-Gram模型是一个较为常用且简单的模型，其中N-Gram模型关注的主要特征为<strong>词的共现特征，即共现频率高的多个字其更有可能组成一个词</strong>，如 “人”和“民”，其通常一起出现，被称为<strong>共现</strong>，因此“人民”可作为一个词的切分。</p>
+<p>n-gram指的是文本中连续出现的n个词（或字符）序列。例如，给定一句话 “I love natural language processing”，我们可以构造不同的n-gram模型：</p>
+<ul>
+<li>unigram（只考虑相邻的1个词共现）</li>
+<li>bigram（只考虑相邻的2个词共现）</li>
+<li>trigram（只考虑相邻的3个词共现）</li>
+</ul>
+<p><strong>以bigram为例：</strong></p>
+<p>假设我们有以下语料库：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“今天 天气 很 好 今天 心情 很 好 天气 真 不错”</span><br></pre></td></tr></table></figure>
+
+<p>目标是基于这段语料库计算以下句子的概率：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“今天 天气 很 好”</span><br></pre></td></tr></table></figure>
+
+<p>构造马尔科夫链的转移矩阵：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250108165420108.png" alt="image-20250108165420108"></p>
+<p>句子的概率是所有条件概率的乘积：<br>$$<br>P(\text{“今天 天气 很 好”})&#x3D;P(\text{天气}\mid\text{今天})\cdot P(\text{很}\mid\text{天气})\cdot P(\text{好}\mid\text{很})<br>$$<br>代入计算：<br>$$<br>P(\text{“今天 天气 很 好”})&#x3D;0.5 * 0.5 * 1&#x3D;0.25<br>$$</p>
+<h3 id="隐马尔可夫链"><a href="#隐马尔可夫链" class="headerlink" title="隐马尔可夫链"></a>隐马尔可夫链</h3><p>不考</p>
+<h2 id="词间相似度"><a href="#词间相似度" class="headerlink" title="词间相似度"></a>词间相似度</h2><h3 id="词的编辑距离"><a href="#词的编辑距离" class="headerlink" title="词的编辑距离"></a>词的编辑距离</h3><p>词的编辑距离，描述了一个词变为另一个词所需的操作次数，从某种程度而言，可以作为词于词之间的相似性。</p>
+<p>操作包括：插入、删除、替换。</p>
+<p><strong>对于中文无较好支持</strong>。由于英文由字母组成，其编辑距离可由字母变换计算，而中文无法实现。</p>
+<h3 id="余弦相似度"><a href="#余弦相似度" class="headerlink" title="余弦相似度"></a>余弦相似度</h3><p>$$<br>similarity&#x3D;\cos(\theta)&#x3D;\frac{A \cdot B}{||A|| \cdot||B||}&#x3D;\frac{\Sigma_{i&#x3D;1}^{n}(A_i\times B_i)}{\sqrt{\Sigma_{i&#x3D;1}^{n}(A_i)^2} \times \sqrt{\Sigma_{i&#x3D;1}^{n}(B_i)^2}}<br>$$</p>
+<h3 id="Tanimoto系数（广义Jaccard相似系数"><a href="#Tanimoto系数（广义Jaccard相似系数" class="headerlink" title="Tanimoto系数（广义Jaccard相似系数)"></a>Tanimoto系数（广义Jaccard相似系数)</h3><p>$$<br>T(A,B)&#x3D;\frac{A \cdot B}{||A||^2 + ||B||^2-A \cdot B}&#x3D;\frac{\Sigma A_i B_i}{\sqrt{\Sigma A_i^2}+\sqrt{\Sigma B_i^2}-\Sigma A_i B_i}<br>$$</p>
+<h3 id="词向量化"><a href="#词向量化" class="headerlink" title="词向量化"></a>词向量化</h3><p>词向量化技术（在深度学习领域通常称为词嵌入），能够将自然语言中的词转化为可供计算的数学表示（通常是向量）。</p>
+<p>若考虑向量的维度为𝑚， 则可以使用𝑚范数距离计算向量之间的距离，表示词间距离。 </p>
+<p>使用ID编码的词（不使用词向量化）：每个词对应一个唯一的数值型ID。</p>
+<p>缺点：数值型计算无法反映词的真实距离</p>
+<p>常用词向量次数：One-Hot、词袋模型（BoW）</p>
+<h4 id="One-Hot编码"><a href="#One-Hot编码" class="headerlink" title="One-Hot编码"></a>One-Hot编码</h4><p>One-Hot方法：将所有的词使用编码的方式构造一个词典，词典中词的数量作为One-Hot编码的维度数，每个维度表示一个词，每个词在其对应的维度上出现时， 该维度值为1。</p>
+<p>例如，给定一个字典，大小为5，有词”你“、”我“、”他“。</p>
+<p>编码：你：[1,0,0,0,0]；我：[0,1,0,0,0]；他：[0,0,1,0,0]。</p>
+<p>假设使用1-范数距离（曼哈顿距离）来衡量词与词之间的远近，则“你”“我”的距离为2。 此时更换编码顺序，将“你”编码为[0,  0, 0, 1, 0]，此时得到的距离依然为2。</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>解决了词到数值空间的映射问题；</li>
+<li>编码不同，但是计算得到的结果相同;</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>没有考虑词的频率，使得任意两个词之间的距离相同； </li>
+<li>矩阵稀疏，维度可能太高，需要降维处理； </li>
+<li>没有考虑上下文，词被认为是独立的。</li>
+</ul>
+<h4 id="Bag-of-Word（BoW）词袋"><a href="#Bag-of-Word（BoW）词袋" class="headerlink" title="Bag of Word（BoW）词袋"></a>Bag of Word（BoW）词袋</h4><p>BoW方法：对所有的词构造词典，形成ID与词的映射。以词典大小作为向量维数， 并统计句子（或文档）中每个词的出现频率，将词的频率填充到向量中对应的维度上得到该句子（或文档）向量。</p>
+<p>例如，有两个句子分别为：</p>
+<p>s1 &#x3D; “𝐽𝑜ℎ𝑛 𝑙𝑖𝑘𝑒𝑠 𝑡𝑜 𝑤𝑎𝑡𝑐ℎ 𝑚𝑜𝑣𝑖𝑒𝑠,𝑀𝑎𝑟𝑦 𝑙𝑖𝑘𝑒𝑠 𝑚𝑜𝑣𝑖𝑒𝑠 𝑡𝑜𝑜” </p>
+<p>s2 &#x3D; “𝐽𝑜ℎ𝑛𝑎𝑙𝑠𝑜𝑙𝑖𝑘𝑒𝑠𝑡𝑜𝑤𝑎𝑡𝑐ℎ𝑓𝑜𝑜𝑡𝑏𝑎𝑙𝑙 𝑔𝑎𝑚𝑒𝑠”</p>
+<p>1）构造词典，每个词给定唯一编码，如 1:John，获得词典，大小为10；</p>
+<p>2）统计词典中每个词在句子中出现的次数， 如𝑠中movies次数为2； </p>
+<p>3）将不同词出现的次数，填充到对应的维度上，得到最终向量。</p>
+<p>结果：</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250108172157116.png" alt="image-20250108172157116" style="zoom:67%;" />
+
+<p><strong>优点：</strong></p>
+<ul>
+<li>考虑了词频特征，能够更好地反映词在句子或文档中的分布情况；</li>
+<li>基于统计的特征提取，通用性更好； </li>
+<li>简单易用，有一定可用性和有效性；</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>不考虑词序特征、文法、句法特征，有信息丢失； </li>
+<li>矩阵（向量）稀疏，运算量大；</li>
+</ul>
+<h2 id="词频与TF-IDF"><a href="#词频与TF-IDF" class="headerlink" title="词频与TF-IDF"></a>词频与TF-IDF</h2><p><strong>词频(Term Frequency, TF)<strong>定义：某个词在语料库中出现的频率，用以表示语料库中各词的分布情况。<br>$$<br>TF(w)&#x3D;\frac{单词w在文章中出现的次数}{文章中单词的总数}<br>$$<br>BoW模型是利用TF特征构建的一种向量化模型。 除词频外，还有另外一个频率，即</strong>逆文本频率(Inverse Document Frequency, IDF)</strong>：<br>$$<br>IDF(w)&#x3D;log(\frac{语料库中文档的总数}{包含词𝑤的文档数+1})<br>$$<br>IDF的作用是降低那些在所有文档中都很常见的词的权重，从而使得在少数文档中出现的词具有较高的权重，代表它们更能区分不同文档。</p>
+<p><strong>NLP领域的一个定理：</strong></p>
+<p> LAW: Zipf’s Law, given some corpus of natural language utterances, the frequency of any  word is inversely proportional to its rank in the frequency table.  </p>
+<p>解释：在一个自然语言语料库中，单词的出现频率与它在频率排名中的位置（即排名靠前的单词出现的频率较高）成反比。具体来说，若将单词按频率排序，排名第一的单词出现的次数大约是排名第二的单词的两倍，排名第二的单词的出现次数大约是排名第三的单词的两倍，以此类推。</p>
+<p>根据上述定理，我们可以导出<strong>TF-IDF</strong>定义：<br>$$<br>TF-IDF(w)&#x3D;TF(w) \times IDF(w)<br>$$<br>解决的问题：相比于BoW，其词的分布特征更加准确，TF-IDF值反映了该词在该文档中的重要程度。</p>
+<p>TF-IDF能够反映文档中词对文档的贡献度，那么其能应用在哪些领域呢？ </p>
+<ol>
+<li>文本挖掘领域（Text Mining）； </li>
+<li>信息检索领域（InformationRetrieval）</li>
+</ol>
+<p>TF-IDF的问题：</p>
+<ul>
+<li>忽略了位置信息，不能完全地进行语义建模； </li>
+<li>假设词是独立的，没有考虑上下文信息； </li>
+<li>无法处理在文章中出现次数少，但是确是文档内容核心的情况；</li>
+</ul>
+<h3 id="用TF-IDF构建主题模型"><a href="#用TF-IDF构建主题模型" class="headerlink" title="用TF-IDF构建主题模型"></a>用TF-IDF构建主题模型</h3><p><strong>主题模型（Topic Model）</strong>：一种以非监督学习的方式对文集的隐含语义结构（latent  semantic structure）进行聚类（clustering）的统计模型。</p>
+<p>TF-IDF在主题模型中的应用： 计算文档中各词的TF-IDF值，选取TF-IDF高的词作为文档的主题表示。</p>
+<p><strong>方法：</strong></p>
+<ol>
+<li>构建词典； </li>
+<li>统计各词在文档、语料库中的TF值及IDF值； </li>
+<li>计算TF-IDF值，并倒排序； </li>
+<li>选取TF-IDF值高的项，并在词典中查找对应词，作为主题词。</li>
+</ol>
+<h3 id="词项-文档矩阵（Term-Document-Matrix）"><a href="#词项-文档矩阵（Term-Document-Matrix）" class="headerlink" title="词项-文档矩阵（Term-Document Matrix）"></a>词项-文档矩阵（Term-Document Matrix）</h3><p>通过计算TF-IDF值，来构建矩阵，矩阵中的每个元素值代表了相应行上的词项对应于相应列上的文档的权重，即这个词对于这篇文章来说的重要程度。</p>
+<p>基本过程： </p>
+<ol>
+<li>读入文档； </li>
+<li>分词； </li>
+<li>建立字典(得到ID:词的映射，ID将作为矩阵行的索引)； </li>
+<li>计算TF-IDF值； </li>
+<li>得到Term-Document Matrix。</li>
+</ol>
+<h2 id="共现矩阵"><a href="#共现矩阵" class="headerlink" title="共现矩阵"></a>共现矩阵</h2><p>前面我们提到，TF-IDF和One-Hot编码均有一个弊端：认为词是独立存在，不考虑词的位置信息及上下文信息。 反观N-Gram模型，其建模了词与词之间的关联关系，如2-gram模型中，一个词将考虑 其前一个词的关系，这便是共现特征(Co-occurrence)。</p>
+<p>共现矩阵是基于N-Gram思想的又一种模型，其统计了一个词与其他词共同出现的频率，以此来建模词的特征。</p>
+<p>例： 设语料库如为：”I like deep learning.”, “I like NLP.” , “I enjoy flying.”，利用bigram求出共现矩阵。</p>
+<p>设置窗口大小为1，分别滑动，判断每 个bigram组合的出现频率，如”I like”为 2, “I enjoy”为1，”like deep”为1，依次 滑动窗口，求出所有bigram项的频率。 则有如图所示的共现矩阵。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250108173624034.png" alt="image-20250108173624034"></p>
+<p>基于行（或列）的词向量，可以发现，对于 like和enjoy，其欧式距离或1-范数距离较小， 说明两词含义相近，符合预期，可用于比较词与词之间的相似度。</p>
+<h2 id="LDA与LSA"><a href="#LDA与LSA" class="headerlink" title="LDA与LSA"></a>LDA与LSA</h2><p>不考</p>
+<h2 id="常见的的NLP任务"><a href="#常见的的NLP任务" class="headerlink" title="常见的的NLP任务"></a>常见的的NLP任务</h2><ol>
+<li>垃圾邮件、短信识别 </li>
+<li>文本相似性判断，用于文本聚类或信息检索  </li>
+<li>文本情感分析  </li>
+<li>文本质量评估  </li>
+<li>文本主题提取</li>
+</ol>
+<h2 id="信息熵，最大熵模型"><a href="#信息熵，最大熵模型" class="headerlink" title="信息熵，最大熵模型"></a>信息熵，最大熵模型</h2><p> <strong>信息熵</strong>：用于衡量信息的不确定性。对于一个随机变量，其计算方式如下：<br>$$<br>H(X)&#x3D;-\Sigma P(X)\log P(X)<br>$$<br> <strong>最大熵模型</strong>：在满足所有已知条件的情况下，保留最大的不确定性，即保持熵最大。  </p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>统计模型:理论与实践 - 复习 from Chipsy</li>
+<li>统计模型：理论与实践-研（2024）课件</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2025/01/07/%E7%BB%9F%E8%AE%A1%E6%A8%A1%E5%9E%8B-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="统计模型：理论与实践2024 期末复习">http://jinqq.gitlab.io/2025/01/07/统计模型-期末复习/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 期末复习</a>
+              <a href="/tags/%E7%BB%9F%E8%AE%A1%E6%A8%A1%E5%9E%8B/" rel="tag"><i class="fa fa-tag"></i> 统计模型</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/01/04/C++%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A12024%E6%9C%9F%E6%9C%AB%E5%9B%9E%E5%BF%86/" rel="prev" title="C++高级程序设计2024 期末回忆">
+                  <i class="fa fa-angle-left"></i> C++高级程序设计2024 期末回忆
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/01/07/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86-%E8%AF%BE%E5%A0%82%E5%B0%8F%E6%B5%8B%E6%95%B4%E7%90%86/" rel="next" title="软件工程管理2024 课堂小测整理">
+                  软件工程管理2024 课堂小测整理 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2025/01/07/%E7%BB%9F%E8%AE%A1%E6%A8%A1%E5%9E%8B-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

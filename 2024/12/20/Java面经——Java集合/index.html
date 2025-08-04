@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="HashMap详解一 映射1. hash在取模运算之前，先将hashcode进行一次hash。该函数的作用是通过异或将hashcode的高位和低位混合，使得低位的随机性增大，让数据元素更加均衡的分布，减少碰撞。 1234static final int hash(Object key) &#123;    int h;    return (key &#x3D;&#x3D; null) ? 0 : (h &#x3D; key.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java面经——Java集合">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/20/Java%E9%9D%A2%E7%BB%8F%E2%80%94%E2%80%94Java%E9%9B%86%E5%90%88/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="HashMap详解一 映射1. hash在取模运算之前，先将hashcode进行一次hash。该函数的作用是通过异或将hashcode的高位和低位混合，使得低位的随机性增大，让数据元素更加均衡的分布，减少碰撞。 1234static final int hash(Object key) &#123;    int h;    return (key &#x3D;&#x3D; null) ? 0 : (h &#x3D; key.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-20T10:45:20.000Z">
+<meta property="article:modified_time" content="2025-03-11T07:21:26.428Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="hashmap">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/20/Java%E9%9D%A2%E7%BB%8F%E2%80%94%E2%80%94Java%E9%9B%86%E5%90%88/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/20/Java%E9%9D%A2%E7%BB%8F%E2%80%94%E2%80%94Java%E9%9B%86%E5%90%88/","path":"2024/12/20/Java面经——Java集合/","title":"Java面经——Java集合"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Java面经——Java集合 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">HashMap详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E6%98%A0%E5%B0%84"><span class="nav-number">1.1.</span> <span class="nav-text">一 映射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-hash"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. hash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%8F%96%E6%A8%A1"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 取模</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">二 底层实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6"><span class="nav-number">1.3.</span> <span class="nav-text">三 扩容机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B-%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8"><span class="nav-number">1.4.</span> <span class="nav-text">四 线程不安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%B9%B6%E5%8F%91%E4%B8%8B%E6%89%A9%E5%AE%B9%E6%AD%BB%E5%BE%AA%E7%8E%AF%EF%BC%88jdk8%E5%89%8D%EF%BC%89"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 并发下扩容死循环（jdk8前）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%A4%9A%E7%BA%BF%E7%A8%8Bput%E5%AF%BC%E8%87%B4%E5%85%83%E7%B4%A0%E4%B8%A2%E5%A4%B1"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 多线程put导致元素丢失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-put-%E5%92%8C-get-%E5%B9%B6%E5%8F%91%E6%97%B6%E4%BC%9A%E5%AF%BC%E8%87%B4-get-%E5%88%B0-null"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. put 和 get 并发时会导致 get 到 null</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CurrentHashMap%E8%AF%A6%E8%A7%A3"><span class="nav-number">2.</span> <span class="nav-text">CurrentHashMap详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.1.</span> <span class="nav-text">一 底层实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-ConcurrentHashMap-%E8%83%BD%E4%BF%9D%E8%AF%81%E5%A4%8D%E5%90%88%E6%93%8D%E4%BD%9C%E7%9A%84%E5%8E%9F%E5%AD%90%E6%80%A7%E5%90%97%EF%BC%9F"><span class="nav-number">2.2.</span> <span class="nav-text">二 ConcurrentHashMap 能保证复合操作的原子性吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-ConcurrentHashMap-%E4%B8%BA%E4%BB%80%E4%B9%88-key-%E5%92%8C-value-%E4%B8%8D%E8%83%BD%E4%B8%BA-null%EF%BC%9F"><span class="nav-number">2.3.</span> <span class="nav-text">三 ConcurrentHashMap 为什么 key 和 value 不能为 null？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CopyOnWriteArrayList%E8%AF%A6%E8%A7%A3"><span class="nav-number">3.</span> <span class="nav-text">CopyOnWriteArrayList详解</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/20/Java%E9%9D%A2%E7%BB%8F%E2%80%94%E2%80%94Java%E9%9B%86%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Java面经——Java集合 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java面经——Java集合
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-20 18:45:20" itemprop="dateCreated datePublished" datetime="2024-12-20T18:45:20+08:00">2024-12-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-03-11 15:21:26" itemprop="dateModified" datetime="2025-03-11T15:21:26+08:00">2025-03-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java%E9%9D%A2%E7%BB%8F/" itemprop="url" rel="index"><span itemprop="name">Java面经</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/20/Java%E9%9D%A2%E7%BB%8F%E2%80%94%E2%80%94Java%E9%9B%86%E5%90%88/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/20/Java%E9%9D%A2%E7%BB%8F%E2%80%94%E2%80%94Java%E9%9B%86%E5%90%88/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>7 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="HashMap详解"><a href="#HashMap详解" class="headerlink" title="HashMap详解"></a>HashMap详解</h1><h2 id="一-映射"><a href="#一-映射" class="headerlink" title="一 映射"></a>一 映射</h2><h3 id="1-hash"><a href="#1-hash" class="headerlink" title="1. hash"></a>1. hash</h3><p>在取模运算之前，先将hashcode进行一次hash。该函数的作用是通过异或将hashcode的高位和低位混合，使得低位的随机性增大，<strong>让数据元素更加均衡的分布，减少碰撞</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">hash</span><span class="params">(Object key)</span> &#123;</span><br><span class="line">    <span class="type">int</span> h;</span><br><span class="line">    <span class="keyword">return</span> (key == <span class="literal">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-取模"><a href="#2-取模" class="headerlink" title="2. 取模"></a>2. 取模</h3><p>然后进行取模：<strong>hash &amp; (length - 1)</strong></p>
+<p>为什么是 <code>&amp;</code> ？： 当length是2的n次方时，hash % length 等于 hash &amp; (length - 1)。</p>
+<h2 id="二-底层实现"><a href="#二-底层实现" class="headerlink" title="二 底层实现"></a>二 底层实现</h2><p><strong>JDK8之前</strong>：数组 + 链表。</p>
+<p><strong>JDK8</strong>：数据 + 链表&#x2F;红黑树。当链表长度大于阈值（默认为8）且数组长度不小于64时，会转为红黑树。</p>
+<h2 id="三-扩容机制"><a href="#三-扩容机制" class="headerlink" title="三 扩容机制"></a>三 扩容机制</h2><p>hashmap的默认容量capacity为16，当其中的元素数量超过阈值threshold（容量*负载因子）后，会触发扩容。</p>
+<p>每次扩容都是原来的容量的两倍，这使得容量始终为2的幂次方（即使通过构造函数指定非 2 的幂值，HashMap 也会自动调整为最近的 2 的幂）。</p>
+<p>如果旧容量已经达到 HashMap 支持的最大容量 MAXIMUM_CAPACITY（2^30），就不会扩容，同时将阈值设为 Integer.MAX_VALUE（2^31-1），这样就不会再触发扩容。</p>
+<p>如果容量小于16，会自动设为16。</p>
+<p>扩容时，会创建一个新数组，将旧数组的每个元素重新计算hash后，填入新数组。</p>
+<p>由于hashmap的容量始终为2的幂次方，映射函数为<code>hash &amp; (length - 1)</code>，因此会产生这样一个性质：那么一个元素在扩容被转移时，要么留在原位置（index &#x3D; oldIndex），要么迁移到原位置+旧容量（index &#x3D; oldIndex + oldCap）。在jdk8中，元素转移时利用了这个性质，直接利用 <code>(e.hash &amp; oldCap) == 0</code> 判断（即判断哈希值在旧容量的最高位是否为0），如果成立则index &#x3D; oldIndex，否则index &#x3D; oldIndex + oldCap。</p>
+<h2 id="四-线程不安全"><a href="#四-线程不安全" class="headerlink" title="四 线程不安全"></a>四 线程不安全</h2><h3 id="1-并发下扩容死循环（jdk8前）"><a href="#1-并发下扩容死循环（jdk8前）" class="headerlink" title="1. 并发下扩容死循环（jdk8前）"></a>1. 并发下扩容死循环（jdk8前）</h3><p>对于链表中元素的转移，<strong>在jdk8前使用的是头插法</strong>，即假如原来的一个桶中的元素是1-&gt;3-&gt;7，那么转移后结果是7-&gt;3-&gt;1（假如还在一个桶中）。而<strong>jdk8后使用的是尾插法</strong>，这样元素的顺序并不会改变。</p>
+<p>在jdk7时，假设初始链表为 <code>Entry1 → Entry2</code>，两个线程同时扩容：</p>
+<ol>
+<li><strong>线程 1</strong> 迁移 <code>Entry1</code> 到新数组，此时 <code>Entry1.next = null</code>，但<strong>未完成迁移</strong>就被挂起。</li>
+<li><strong>线程 2</strong> 完成整个链表的迁移，新链表顺序变为 <code>Entry2 → Entry1</code>（头插法）。</li>
+<li><strong>线程 1</strong> 恢复后继续迁移，此时它看到的链表已被线程 2 修改，导致 <code>Entry1.next = Entry2</code>，而 <code>Entry2.next = Entry1</code>，形成环形链表 <code>Entry1 ⇄ Entry2</code>。</li>
+</ol>
+<h3 id="2-多线程put导致元素丢失"><a href="#2-多线程put导致元素丢失" class="headerlink" title="2. 多线程put导致元素丢失"></a>2. 多线程put导致元素丢失</h3><p>两个线程 1,2 同时进行 put 操作，并且发生了哈希冲突（hash 函数计算出的插入下标是相同的）。</p>
+<ol>
+<li><p>不同的线程可能在不同的时间片获得 CPU 执行的机会，当前线程 1 执行完哈希冲突判断后，由于时间片耗尽挂起。线程 2 先完成了插入1操作。</p>
+</li>
+<li><p>随后，线程 1 获得时间片，由于之前已经进行过 hash 碰撞的判断，所有此时会直接进行插入，这就导致线程 2 插入的数据被线程 1 覆盖了。</p>
+</li>
+</ol>
+<p>还有一种情况是这两个线程同时 <code>put</code> 操作导致 <code>size</code> 的值不正确，进而导致数据覆盖的问题：</p>
+<ol>
+<li>线程 1 执行 <code>if(++size &gt; threshold)</code> 判断时，假设获得 <code>size</code> 的值为 10，由于时间片耗尽挂起。</li>
+<li>线程 2 也执行 <code>if(++size &gt; threshold)</code> 判断，获得 <code>size</code> 的值也为 10，并将元素插入到该桶位中，并将 <code>size</code> 的值更新为 11。</li>
+<li>随后，线程 1 获得时间片，它也将元素放入桶位中，并将 size 的值更新为 11。</li>
+<li>线程 1、2 都执行了一次 <code>put</code> 操作，但是 <code>size</code> 的值只增加了 1，也就导致实际上只有一个元素被添加到了 <code>HashMap</code> 中。</li>
+</ol>
+<h3 id="3-put-和-get-并发时会导致-get-到-null"><a href="#3-put-和-get-并发时会导致-get-到-null" class="headerlink" title="3. put 和 get 并发时会导致 get 到 null"></a>3. put 和 get 并发时会导致 get 到 null</h3><ol>
+<li>线程 1 执行 put 时，因为元素个数超出阈值而导致出现扩容</li>
+<li>线程 1 执行完 table &#x3D; newTab </li>
+<li>线程 2 此时执行 get，由于元素还没有转移完成，get到null</li>
+</ol>
+<h1 id="CurrentHashMap详解"><a href="#CurrentHashMap详解" class="headerlink" title="CurrentHashMap详解"></a>CurrentHashMap详解</h1><h2 id="一-底层实现"><a href="#一-底层实现" class="headerlink" title="一 底层实现"></a>一 底层实现</h2><p><strong>JDK1.7</strong>：分段的数组 + 链表。ConcurrentHashMap 对整个桶数组进行了分割分段(Segment，分段锁)，每一把锁只锁容器其中一部分数据，多线程访问容器里不同数据段的数据，就不会存在锁竞争，提高并发访问率。一般分为16段，因此最大并发数为16。</p>
+<p><strong>JDK1.8</strong>：Node数组 + 链表&#x2F;红黑树。不再使用段的概念，而是使用 CAS + Synchronized保证并发安全。锁粒度更细，<code>synchronized</code> 只锁定当前链表或红黑二叉树的首节点，这样只要 hash 不冲突，就不会产生并发，就不会影响其他 Node 的读写，效率大幅提升。</p>
+<h2 id="二-ConcurrentHashMap-能保证复合操作的原子性吗？"><a href="#二-ConcurrentHashMap-能保证复合操作的原子性吗？" class="headerlink" title="二 ConcurrentHashMap 能保证复合操作的原子性吗？"></a>二 ConcurrentHashMap 能保证复合操作的原子性吗？</h2><p><code>ConcurrentHashMap</code> 是线程安全的，意味着它可以保证多个线程同时对它进行读写操作时，不会出现数据不一致的情况。但是，这并不意味着它可以保证所有的复合操作都是原子性的。</p>
+<p>例如先判断某个键是否存在<code>containsKey(key)</code>，然后根据结果进行插入或更新<code>put(key, value)</code>。这种操作在执行过程中可能会被其他线程打断，导致结果不符合预期。</p>
+<p><strong>那如何保证 <code>ConcurrentHashMap</code> 复合操作的原子性呢？</strong></p>
+<p><code>ConcurrentHashMap</code> 提供了一些原子性的复合操作，如 <code>putIfAbsent</code>、<code>compute</code>、<code>computeIfAbsent</code> 、<code>computeIfPresent</code>、<code>merge</code>等。这些方法都可以接受一个函数作为参数，根据给定的 key 和 value 来计算一个新的 value，并且将其更新到 map 中。</p>
+<h2 id="三-ConcurrentHashMap-为什么-key-和-value-不能为-null？"><a href="#三-ConcurrentHashMap-为什么-key-和-value-不能为-null？" class="headerlink" title="三 ConcurrentHashMap 为什么 key 和 value 不能为 null？"></a>三 ConcurrentHashMap 为什么 key 和 value 不能为 null？</h2><p><code>ConcurrentHashMap</code> 的 key 和 value 不能为 null 主要是为了避免二义性。null 是一个特殊的值，表示没有对象或没有引用。如果你用 null 作为键，那么你就无法区分这个键是否存在于 <code>ConcurrentHashMap</code> 中，还是根本没有这个键。同样，如果你用 null 作为值，那么你就无法区分这个值是否是真正存储在 <code>ConcurrentHashMap</code> 中的，还是因为找不到对应的键而返回的。</p>
+<p>与此形成对比的是，<code>HashMap</code> 可以存储 null 的 key 和 value，但 null 作为键只能有一个，null 作为值可以有多个。如果传入 null 作为参数，就会返回 hash 值为 0 的位置的值。单线程环境下，不存在一个线程操作该 HashMap 时，其他的线程将该 <code>HashMap</code> 修改的情况，所以可以通过 <code>contains(key)</code>来做判断是否存在这个键值对，从而做相应的处理，也就不存在二义性问题。</p>
+<p>也就是说，多线程下无法正确判定键值对是否存在（存在其他线程修改的情况），单线程是可以的（不存在其他线程修改的情况）。或者是单线程下可以容忍歧义，而多线程下无法容忍。</p>
+<h1 id="CopyOnWriteArrayList详解"><a href="#CopyOnWriteArrayList详解" class="headerlink" title="CopyOnWriteArrayList详解"></a>CopyOnWriteArrayList详解</h1><p>在JDK1.5之前，实现线程安全的List为Vector，但是Vector是一个增删改查都要加synchronized锁的老旧集合，已经被淘汰。在JDK1.5中，引入了一个新的线程安全的List——CopyOnWriteArrayList。</p>
+<p>CopyOnWriteArrayList的读取操作是完全不需要加锁的，同时写操作也不会阻塞读操作，只有写写互斥，极大地提高了性能。</p>
+<p>CopyOnWriteArrayList线程安全的核心在于其采用了 <strong>写时复制（Copy-On-Write）</strong> 的策略，当需要修改（ <code>add</code>，<code>set</code>、<code>remove</code> 等操作） CopyOnWriteArrayList 的内容时，不会直接修改原数组，而是会先创建底层数组的副本，对副本数组进行修改，修改完之后再将修改后的数组赋值回去，这样就可以保证写操作不会影响读操作了。</p>
+<p>不过，写时复制机制并不是银弹，其依然存在一些缺点，下面列举几点：</p>
+<ol>
+<li>内存占用：每次写操作都需要复制一份原始数据，会占用额外的内存空间，在数据量比较大的情况下，可能会导致内存资源不足。</li>
+<li>写操作开销：每一次写操作都需要复制一份原始数据，然后再进行修改和替换，所以写操作的开销相对较大，在写入比较频繁的场景下，性能可能会受到影响。</li>
+<li>数据一致性问题：修改操作不会立即反映到最终结果中，还需要等待复制完成，这可能会导致一定的数据一致性问题。</li>
+<li>……</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/20/Java%E9%9D%A2%E7%BB%8F%E2%80%94%E2%80%94Java%E9%9B%86%E5%90%88/" title="Java面经——Java集合">http://jinqq.gitlab.io/2024/12/20/Java面经——Java集合/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"><i class="fa fa-tag"></i> 面试</a>
+              <a href="/tags/hashmap/" rel="tag"><i class="fa fa-tag"></i> hashmap</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/20/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C5%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" rel="prev" title="软件安全实验五——实验报告">
+                  <i class="fa fa-angle-left"></i> 软件安全实验五——实验报告
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/22/%E6%A9%B1%E7%AA%97/" rel="next" title="欢迎光临">
+                  欢迎光临 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/20/Java%E9%9D%A2%E7%BB%8F%E2%80%94%E2%80%94Java%E9%9B%86%E5%90%88/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

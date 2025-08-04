@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="开始在markdown里插入的图片是默认保存在本地的，这样发布到线上之后肯定是无法看到的，因此我们需要借助图床来存储这些图片，本章将会讲如何购买oss，如何使用，以及typora的快速配置。 这一章其实与网页的搭建没什么直接关系，可以先暂时跳过。 本章特别鸣谢：lollipop 一 购买和配置OSS（对象存储服务）为什么要用到OSSMarkdown 是一种轻量级的标记语言，常用于撰写博客文章、文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何搭建个人网页（三）—— 图床">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/12/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%9B%BE%E5%BA%8A/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="开始在markdown里插入的图片是默认保存在本地的，这样发布到线上之后肯定是无法看到的，因此我们需要借助图床来存储这些图片，本章将会讲如何购买oss，如何使用，以及typora的快速配置。 这一章其实与网页的搭建没什么直接关系，可以先暂时跳过。 本章特别鸣谢：lollipop 一 购买和配置OSS（对象存储服务）为什么要用到OSSMarkdown 是一种轻量级的标记语言，常用于撰写博客文章、文档">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241212232603586.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/f11d4f9ff052fc2e847c48da7ac555fb.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/15303e3326b5b02336dec73c23b8f476.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241212235220229.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213150502524.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/c0ba21abb93799b19c2eb4e6420de246.png">
+<meta property="article:published_time" content="2024-12-12T13:07:00.000Z">
+<meta property="article:modified_time" content="2024-12-14T15:47:09.566Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="图床">
+<meta property="article:tag" content="markdown">
+<meta property="article:tag" content="oss">
+<meta property="article:tag" content="阿里云">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241212232603586.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/12/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%9B%BE%E5%BA%8A/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/12/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%9B%BE%E5%BA%8A/","path":"2024/12/12/如何搭建个人网页（三）——图床/","title":"如何搭建个人网页（三）—— 图床"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>如何搭建个人网页（三）—— 图床 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-%E8%B4%AD%E4%B9%B0%E5%92%8C%E9%85%8D%E7%BD%AEOSS%EF%BC%88%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">一 购买和配置OSS（对象存储服务）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E5%88%B0OSS"><span class="nav-number">2.1.</span> <span class="nav-text">为什么要用到OSS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B4%AD%E4%B9%B0%E5%92%8C%E9%85%8D%E7%BD%AEOSS"><span class="nav-number">2.2.</span> <span class="nav-text">购买和配置OSS</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C-Typora%E5%BF%AB%E9%80%9F%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">二 Typora快速配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%A7%E7%BB%AD"><span class="nav-number">4.</span> <span class="nav-text">继续</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/12/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%9B%BE%E5%BA%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="如何搭建个人网页（三）—— 图床 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何搭建个人网页（三）—— 图床
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-12 21:07:00" itemprop="dateCreated datePublished" datetime="2024-12-12T21:07:00+08:00">2024-12-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-14 23:47:09" itemprop="dateModified" datetime="2024-12-14T23:47:09+08:00">2024-12-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/" itemprop="url" rel="index"><span itemprop="name">个人网页搭建</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/12/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%9B%BE%E5%BA%8A/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/12/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%9B%BE%E5%BA%8A/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h3><p>在markdown里插入的图片是默认保存在本地的，这样发布到线上之后肯定是无法看到的，因此我们需要借助图床来存储这些图片，本章将会讲如何购买oss，如何使用，以及typora的快速配置。</p>
+<p>这一章其实与网页的搭建没什么直接关系，可以先暂时跳过。</p>
+<p>本章特别鸣谢：<strong>lollipop</strong></p>
+<h3 id="一-购买和配置OSS（对象存储服务）"><a href="#一-购买和配置OSS（对象存储服务）" class="headerlink" title="一 购买和配置OSS（对象存储服务）"></a>一 购买和配置OSS（对象存储服务）</h3><h4 id="为什么要用到OSS"><a href="#为什么要用到OSS" class="headerlink" title="为什么要用到OSS"></a>为什么要用到OSS</h4><p>Markdown 是一种轻量级的标记语言，常用于撰写博客文章、文档、论坛帖子等。在 Markdown 中插入图片时，通常需要用图片的 URL 来链接和显示图片。如果将图片直接存储在本地，博客更新、迁移或备份时可能会出现问题，因此我们常常将图片存储到图床中，然后markdown中插入这些图片的链接，就可以在任何地方都能看到这些图片了。</p>
+<p>那么如何获得一个图床？<strong>OSS（对象存储服务）</strong> 可以作为图床的后端存储服务，提供图片存储、管理和分发功能。将图片存储到 OSS 中，可以利用 OSS 提供的高性能、高可靠性、低延迟的存储和访问能力，同时结合CDN 加速，确保全球用户快速访问图像资源。OSS 作为图床的后端存储，不仅可以支持图片的上传和存储，还可以根据需求提供各种功能，如图片处理、自动缩放、格式转换等。</p>
+<p>一般好的OSS都是收费的，当然也有免费的OSS，但效果不好，我选择阿里云OSS。</p>
+<p>简而言之：希望markdown中的图片可以在任何地方浏览 —-&gt; 用图床存图片 —-&gt;购买OSS当图床</p>
+<span id="more"></span>
+
+<h4 id="购买和配置OSS"><a href="#购买和配置OSS" class="headerlink" title="购买和配置OSS"></a>购买和配置OSS</h4><blockquote>
+<p>阿里云 OSS（Object Storage Service）是阿里云提供的一种安全、可靠、高效的云存储服务，专为海量数据存储和管理而设计。它支持大规模的文件存储和高并发数据访问，提供了灵活的存储管理、数据备份、灾备、内容分发等功能。OSS 可以存储各种类型的数据，如图片、视频、音频、文档等，广泛应用于网站托管、数据备份、媒体处理等领域。</p>
+</blockquote>
+<p>我们选择购买阿里云OSS，具体步骤如下：</p>
+<ol>
+<li><p>注册一个阿里云账号（如果没有），建议用手机号注册，不会忘记。</p>
+</li>
+<li><p>访问阿里云官网OSS服务：<a target="_blank" rel="noopener" href="https://www.aliyun.com/product/oss?spm=5176.21213303.J_qCOwPWspKEuWcmp8qiZNQ.1.2e282f3d3uIWJj&scm=20140722.S_card@@%E4%BA%A7%E5%93%81@@218843._.ID_card@@%E4%BA%A7%E5%93%81@@218843-RL_%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8OSS-LOC_search~UND~card~UND~item-OR_ser-V_4-RE_cardNew-P0_0">对象存储 OSS_云存储服务_企业数据管理_存储-阿里云</a>，点击立即购买。</p>
+</li>
+<li><p>按所需的配置选择，我这里选的是 <strong>OSS资源包&#x2F;标准-本地冗余存储&#x2F;华东5（南京-本地地域）&#x2F;40GB&#x2F;3年</strong>，价格为27元。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241212232603586.png" alt="image-20241212232603586"></p>
+</li>
+<li><p>进入控制台（右上角），点击<strong>资源概览&#x2F;我的资源&#x2F;对象存储OSS</strong>，然后点击左边的Bucket列表，创建Bucket，起一个名称，依次选择<strong>地域-南京&#x2F;标准存储&#x2F;本地冗余存储</strong>，然后完成创建。</p>
+</li>
+<li><p>此时可以看到刚刚创建的bucket，点进去，左边栏选择“权限控制&#x2F;阻止公共访问”，将其关闭；然后“权限控制&#x2F;读写权限”，改为公共读。这样别人才能看到里面的东西。</p>
+</li>
+</ol>
+<p>此时OSS就基本设置好了，我们可以在bucket里上传图片，然后复制文件url，最后在markdown插入图片时，填写该url即可。</p>
+<h3 id="二-Typora快速配置"><a href="#二-Typora快速配置" class="headerlink" title="二 Typora快速配置"></a>二 Typora快速配置</h3><p>前面提到，尽管我们已经可以使用oss了，但这样还是太麻烦，可以对typora进行一些配置，这样我们在用typora写markdown时，插入图片会直接在oss里存储图片，非常方便，具体步骤如下：</p>
+<ol>
+<li><p>进入OSS控制台，再进入刚刚创建的bucket，左边栏选择“权限控制&#x2F;访问控制RAM”，然后点击“前往RAM控制台”。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/f11d4f9ff052fc2e847c48da7ac555fb.png" alt="f11d4f9ff052fc2e847c48da7ac555fb"></p>
+</li>
+<li><p>点击左边栏“身份管理&#x2F;用户”，然后创建用户。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/15303e3326b5b02336dec73c23b8f476.png" alt="15303e3326b5b02336dec73c23b8f476"></p>
+</li>
+<li><p>填写名称，勾选“使用永久AccessKey访问”。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241212235220229.png" alt="image-20241212235220229"></p>
+</li>
+<li><p><strong>此时可以看到AccessKeyID和AccessKeySecret，这个页面只会显示一次！记录下来，很关键。</strong></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20241213150502524.png" alt="image-20241213150502524"></p>
+</li>
+<li><p>回到刚刚的用户界面，给刚刚创建的用户添加权限，全选然后确定。</p>
+</li>
+<li><p>打开Typora，依次点击<strong>文件&#x2F;偏好设置&#x2F;图像</strong>，按下图所示选择，然后点击下载或更新（这里可能需要梯子）。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/c0ba21abb93799b19c2eb4e6420de246.png" alt="c0ba21abb93799b19c2eb4e6420de246"></p>
+</li>
+<li><p>点击打开配置文件，参考如下填写并保存，这里的accessKeyId和accessKeySecret在第4步中：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;picBed&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;uploader&quot;</span><span class="punctuation">:</span> <span class="string">&quot;aliyun&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;current&quot;</span><span class="punctuation">:</span> <span class="string">&quot;aliyun&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;aliyun&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;accessKeyId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xxxxxxxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;accessKeySecret&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xxxxxxxxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;bucket&quot;</span><span class="punctuation">:</span> <span class="string">&quot;jinqiqing-bucket&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;area&quot;</span><span class="punctuation">:</span> <span class="string">&quot;oss-cn-nanjing&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;img/&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;transformer&quot;</span><span class="punctuation">:</span> <span class="string">&quot;path&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;picgoPlugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;picgo-plugin-super-prefix&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;picgo-plugin-super-prefix&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;prefixFormat&quot;</span><span class="punctuation">:</span> <span class="string">&quot;YYYY/MM/DD/&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;fileFormat&quot;</span><span class="punctuation">:</span> <span class="string">&quot;YYYYMMDD-HHmmss&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>点击“验证图片上传选择”，测试是否成功。</p>
+</li>
+</ol>
+<p>设置好了以后，在用typora写markdown时，直接将图片插入，就会自动上传到你的OSS中。</p>
+<h3 id="继续"><a href="#继续" class="headerlink" title="继续"></a>继续</h3><p>接下来我们将回到个人网页，讲述如何安装和使用Hexo-Next——一种hexo主题，用来美化和丰富我们的网站。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/12/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%9B%BE%E5%BA%8A/" title="如何搭建个人网页（三）—— 图床">http://jinqq.gitlab.io/2024/12/12/如何搭建个人网页（三）——图床/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%9B%BE%E5%BA%8A/" rel="tag"><i class="fa fa-tag"></i> 图床</a>
+              <a href="/tags/markdown/" rel="tag"><i class="fa fa-tag"></i> markdown</a>
+              <a href="/tags/oss/" rel="tag"><i class="fa fa-tag"></i> oss</a>
+              <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91/" rel="tag"><i class="fa fa-tag"></i> 阿里云</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/12/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94Gitlab%20Pages%E9%83%A8%E7%BD%B2/" rel="prev" title="如何搭建个人网页（二）—— Gitlab Pages部署">
+                  <i class="fa fa-angle-left"></i> 如何搭建个人网页（二）—— Gitlab Pages部署
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/13/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94Hexo-Next%E4%B8%BB%E9%A2%98/" rel="next" title="如何搭建个人网页（四）—— Hexo-Next主题">
+                  如何搭建个人网页（四）—— Hexo-Next主题 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/12/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E9%A1%B5%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%9B%BE%E5%BA%8A/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="人机交互发展历史 批处理阶段；  联机终端时代；  图形用户界面 GUI 时期：相较于命令行的优点是依赖识别而非记忆。  新的界面变革包含了上一代界面：作为一种特例  旧的交互方式仍有其存在的必要性：以前的用户从未消失   执行隔阂与评估隔阂 执行隔阂：用户想要执行的动作和系统允许的动作有差异，比如想要提交找不到提交按钮；  评估隔阂：（评估阶段中）用户执行一个操作后总是想感知一下自己的操作的情况">
+<meta property="og:type" content="article">
+<meta property="og:title" content="人机交互2023 期末复习">
+<meta property="og:url" content="http://jinqq.gitlab.io/2024/12/15/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="人机交互发展历史 批处理阶段；  联机终端时代；  图形用户界面 GUI 时期：相较于命令行的优点是依赖识别而非记忆。  新的界面变革包含了上一代界面：作为一种特例  旧的交互方式仍有其存在的必要性：以前的用户从未消失   执行隔阂与评估隔阂 执行隔阂：用户想要执行的动作和系统允许的动作有差异，比如想要提交找不到提交按钮；  评估隔阂：（评估阶段中）用户执行一个操作后总是想感知一下自己的操作的情况">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20240105110710120.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20240105105602924.png">
+<meta property="article:published_time" content="2024-12-15T12:58:00.000Z">
+<meta property="article:modified_time" content="2024-12-18T16:24:10.335Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="期末复习">
+<meta property="article:tag" content="人机交互">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20240105110710120.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2024/12/15/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2024/12/15/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/","path":"2024/12/15/人机交互-期末复习/","title":"人机交互2023 期末复习"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>人机交互2023 期末复习 | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2"><span class="nav-number">1.</span> <span class="nav-text">人机交互发展历史</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E9%9A%94%E9%98%82%E4%B8%8E%E8%AF%84%E4%BC%B0%E9%9A%94%E9%98%82"><span class="nav-number">2.</span> <span class="nav-text">执行隔阂与评估隔阂</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%95%8C%E9%9D%A2%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">界面类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%BA%E7%B1%BB%E5%A4%84%E7%90%86%E6%9C%BA%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">人类处理机模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E5%A1%94%E5%BF%83%E7%90%86%E5%AD%A6"><span class="nav-number">5.</span> <span class="nav-text">格式塔心理学</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%B0%E5%BF%86%E7%89%B9%E6%80%A7"><span class="nav-number">6.</span> <span class="nav-text">记忆特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E6%B5%8B%E8%AF%95%EF%BC%9ADECIDE%E8%AF%84%E4%BC%B0%E6%A1%86%E6%9E%B6"><span class="nav-number">7.</span> <span class="nav-text">用户测试：DECIDE评估框架</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E7%94%A8%E6%80%A7%E7%9B%AE%E6%A0%87"><span class="nav-number">8.</span> <span class="nav-text">可用性目标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E7%94%A8%E6%80%A7%E5%B7%A5%E7%A8%8B%EF%BC%9A%E5%9B%9B%E4%B8%AA%E4%B8%BB%E8%A6%81%E6%8A%80%E6%9C%AF"><span class="nav-number">9.</span> <span class="nav-text">可用性工程：四个主要技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8F%91%E5%BC%8F%E5%8E%9F%E5%88%99"><span class="nav-number">10.</span> <span class="nav-text">启发式原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%82%E6%AC%A1%E5%8C%96%E4%BB%BB%E5%8A%A1%E5%88%86%E6%9E%90%E6%A8%A1%E5%9E%8B%EF%BC%88HTA%EF%BC%8Chierarchical-task-analysis%EF%BC%89%EF%BC%9A%E7%A4%BA%E4%BE%8B"><span class="nav-number">11.</span> <span class="nav-text">层次化任务分析模型（HTA，hierarchical task analysis）：示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%EF%BC%9A%E7%AE%80%E5%8C%96%E4%BA%A4%E4%BA%92%E8%AE%BE%E8%AE%A1%E7%AD%96%E7%95%A5"><span class="nav-number">12.</span> <span class="nav-text">设计：简化交互设计策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8B%EF%BC%9AGOMS%E6%A8%A1%E5%9E%8B"><span class="nav-number">13.</span> <span class="nav-text">预测模型：GOMS模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8B%EF%BC%9AKLM-%E5%87%BB%E9%94%AE%E5%B1%82%E6%AC%A1%E6%A8%A1%E5%9E%8B"><span class="nav-number">14.</span> <span class="nav-text">预测模型：KLM 击键层次模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8B%EF%BC%9AFitts-%E5%AE%9A%E5%BE%8B"><span class="nav-number">15.</span> <span class="nav-text">预测模型：Fitts 定律</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E8%8C%83%E5%9E%8B%E5%92%8C%E6%96%B9%E6%B3%95"><span class="nav-number">16.</span> <span class="nav-text">评估范型和方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%83%E6%99%BA%E6%A8%A1%E5%9E%8B"><span class="nav-number">17.</span> <span class="nav-text">心智模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E7%A1%AE%E7%9C%8B%E5%BE%85%E2%80%9C%E4%BB%A5%E7%94%A8%E6%88%B7%E4%B8%BA%E4%B8%AD%E5%BF%83%E2%80%9D"><span class="nav-number"></span> <span class="nav-text">正确看待“以用户为中心”</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2024/12/15/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="人机交互2023 期末复习 | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          人机交互2023 期末复习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-15 20:58:00" itemprop="dateCreated datePublished" datetime="2024-12-15T20:58:00+08:00">2024-12-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-19 00:24:10" itemprop="dateModified" datetime="2024-12-19T00:24:10+08:00">2024-12-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92/" itemprop="url" rel="index"><span itemprop="name">人机交互</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2024/12/15/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2024/12/15/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h4 id="人机交互发展历史"><a href="#人机交互发展历史" class="headerlink" title="人机交互发展历史"></a>人机交互发展历史</h4><ol>
+<li><p>批处理阶段；</p>
+</li>
+<li><p>联机终端时代；</p>
+</li>
+<li><p>图形用户界面 GUI 时期：相较于命令行的优点是依赖识别而非记忆。</p>
+</li>
+<li><p>新的界面变革包含了上一代界面：作为一种特例</p>
+</li>
+<li><p>旧的交互方式仍有其存在的必要性：以前的用户从未消失</p>
+</li>
+</ol>
+<h4 id="执行隔阂与评估隔阂"><a href="#执行隔阂与评估隔阂" class="headerlink" title="执行隔阂与评估隔阂"></a>执行隔阂与评估隔阂</h4><ol>
+<li><p>执行隔阂：用户想要执行的动作和系统允许的动作有差异，比如想要提交找不到提交按钮；</p>
+</li>
+<li><p>评估隔阂：（评估阶段中）用户执行一个操作后总是想感知一下自己的操作的情况（是否结束、是否需要修改），但是系统没有给反馈。</p>
+</li>
+</ol>
+<span id="more"></span>
+
+<h4 id="界面类型"><a href="#界面类型" class="headerlink" title="界面类型"></a>界面类型</h4><ol>
+<li><p>基于命令的界面；</p>
+</li>
+<li><p>WIMP（Window, Icon, Menu, Pointing） 和 GUI（Graphical User Interface）：</p>
+</li>
+<li><p>多媒体界面；</p>
+</li>
+<li><p>虚拟现实和增强现实；</p>
+</li>
+<li><p>信息可视化和仪表盘；</p>
+</li>
+<li><p>笔式交互和触摸交互；</p>
+</li>
+<li><p>手势界面；</p>
+</li>
+<li><p>实物界面 Tangible Interface；</p>
+</li>
+<li><p>可穿戴计算：舒适、卫生、续航、交互方式的选择……；</p>
+</li>
+<li><p>脑机界面；</p>
+</li>
+<li><p>GUI 的演化：更少的记忆、更多的识别、更少的键盘和点击、更不易出错、以及更可视的上下文</p>
+</li>
+</ol>
+<h4 id="人类处理机模型"><a href="#人类处理机模型" class="headerlink" title="人类处理机模型"></a>人类处理机模型</h4><p>包含三个交互式组件：</p>
+<ol>
+<li>感知处理器：信息将被输出到声音存储和视觉存储区域</li>
+<li>认知处理器：输入将被输出到工作记忆</li>
+<li>动作处理器：执行动作</li>
+</ol>
+<h4 id="格式塔心理学"><a href="#格式塔心理学" class="headerlink" title="格式塔心理学"></a>格式塔心理学</h4><ol>
+<li><strong>相近性原则</strong>：空间上比较靠近的物体容易被视为整体；设计界面时，应按照相关性对组件进行分组。</li>
+<li><strong>相似性原则</strong>：人们习惯将看上去相似的物体看成一个整体。功能相近的组件应该使用相同或相近的表现形式。</li>
+<li><strong>连续性原则</strong>：共线或具有相同方向的物体会被组合在一起。将组件对齐，更有助于增强用户的主观感知效果。</li>
+<li><strong>完整性和闭合性原则</strong>：人们倾向于忽视轮廓的间隙而将其视作一个完整的整体：页面上的空白可帮助实现分组。</li>
+</ol>
+<h4 id="记忆特性"><a href="#记忆特性" class="headerlink" title="记忆特性"></a>记忆特性</h4><ol>
+<li><strong>感觉记忆（瞬时记忆）</strong>：在人脑中持续约为 1 秒钟；帮助我们把相继出现的一组图片组合成一个连续的图像序列，产生动态的影像信息。</li>
+<li><strong>短时记忆（工作记忆）</strong>：感觉记忆经编码后形成，约保持 30 秒；储存的是当前正在使用的信息，是信息加工系统的核心，可理解为计算机的内存；短时记忆的存储能力约为 7±2 个信息单元。</li>
+<li><strong>长时记忆</strong>：短时记忆中的信息经进一步加工后会变为长时记忆；长时记忆的信息容量几乎是无限的。</li>
+</ol>
+<h4 id="用户测试：DECIDE评估框架"><a href="#用户测试：DECIDE评估框架" class="headerlink" title="用户测试：DECIDE评估框架"></a>用户测试：DECIDE评估框架</h4><ol>
+<li>Determine：确定评估需要完成的总体目标</li>
+<li>Explorer：发掘需要回答的具体问题</li>
+<li>Choose：选择评估范型和技术</li>
+<li>Identify：标识必须解决的实际问题</li>
+<li>Decide：决定如何处理有关道德的问题</li>
+<li>Evaluate：评估、解释并表示数据</li>
+</ol>
+<h4 id="可用性目标"><a href="#可用性目标" class="headerlink" title="可用性目标"></a>可用性目标</h4><ol>
+<li>易学性</li>
+<li>易记性</li>
+<li>高效率</li>
+<li>安全性</li>
+<li>效用性</li>
+<li>用户满意度</li>
+</ol>
+<h4 id="可用性工程：四个主要技术"><a href="#可用性工程：四个主要技术" class="headerlink" title="可用性工程：四个主要技术"></a>可用性工程：四个主要技术</h4><ol>
+<li><p>用户和任务观察</p>
+</li>
+<li><p>场景（scenario）</p>
+</li>
+<li><p>边说边做（think aloud）：最有价值的单个可用性工程方法；让真实用户在使用系统执行一组特定任务的时候，讲出他们的所思所想。</p>
+</li>
+<li><p>启发式评估（<strong>heuristic evaluation</strong>）</p>
+</li>
+</ol>
+<h4 id="启发式原则"><a href="#启发式原则" class="headerlink" title="启发式原则"></a>启发式原则</h4><ol>
+<li>系统状态的可见度</li>
+<li>系统和现实世界的吻合</li>
+<li>用户享有控制权和自主权</li>
+<li>一致性和标准化</li>
+<li>避免出错</li>
+<li>依赖识别而非记忆</li>
+<li>使用的灵活性和高效性：满足不同用户的需要</li>
+<li>审美感和最小化设计</li>
+<li>帮助用户识别、诊断和恢复错误</li>
+<li>帮助和文档</li>
+</ol>
+<h4 id="层次化任务分析模型（HTA，hierarchical-task-analysis）：示例"><a href="#层次化任务分析模型（HTA，hierarchical-task-analysis）：示例" class="headerlink" title="层次化任务分析模型（HTA，hierarchical task analysis）：示例"></a>层次化任务分析模型（HTA，hierarchical task analysis）：示例</h4><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20240105110710120.png" alt="image-20240105110710120" style="zoom:67%;" />
+
+
+
+<h4 id="设计：简化交互设计策略"><a href="#设计：简化交互设计策略" class="headerlink" title="设计：简化交互设计策略"></a>设计：简化交互设计策略</h4><ol>
+<li>删除：最明显的简化设计方法；</li>
+<li>组织：最快捷的简化设计方式；</li>
+<li>隐藏：是一种低成本的简化方案；</li>
+<li>转移</li>
+</ol>
+<h4 id="预测模型：GOMS模型"><a href="#预测模型：GOMS模型" class="headerlink" title="预测模型：GOMS模型"></a>预测模型：GOMS模型</h4><ol>
+<li><p><strong>Goal-目标</strong>：用户要达到什么目的</p>
+</li>
+<li><p><strong>Operator-操作</strong>：任务执行的底层行为，不能分解：为达到目标而使用的认知过程和物理行为。如点击鼠标</p>
+</li>
+<li><p><strong>Method-方法</strong>：如何完成目标的过程，即对应目标的子目标序列和所需操作。如移动鼠标，输入关键字，点击 Go 按钮</p>
+</li>
+<li><p><strong>Selection-选择规则</strong>：确定当有多种方法时选择和方法。GOMS 认为方法的选择不是随机的</p>
+</li>
+</ol>
+<h4 id="预测模型：KLM-击键层次模型"><a href="#预测模型：KLM-击键层次模型" class="headerlink" title="预测模型：KLM 击键层次模型"></a>预测模型：KLM 击键层次模型</h4><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20240105105602924.png" alt="image-20240105105602924" style="zoom:67%;" />
+
+<h4 id="预测模型：Fitts-定律"><a href="#预测模型：Fitts-定律" class="headerlink" title="预测模型：Fitts 定律"></a>预测模型：Fitts 定律</h4><ol>
+<li>任意一点移动到目标中心位置所需时间与该点到目标的距离和大小有关，距离越大时间越长，目标越大时间越短<ol>
+<li>大目标、小距离具有优势</li>
+<li>屏幕元素应该尽可能占据屏幕空间</li>
+<li>最好的像素是光标所处的像素</li>
+<li>充分利用屏幕边缘的优势</li>
+<li>大菜单</li>
+</ol>
+</li>
+</ol>
+<h4 id="评估范型和方法"><a href="#评估范型和方法" class="headerlink" title="评估范型和方法"></a>评估范型和方法</h4><ol>
+<li><p>快速评估</p>
+</li>
+<li><p>可用性评估</p>
+</li>
+<li><p>实地研究</p>
+</li>
+<li><p>预测性评估</p>
+</li>
+</ol>
+<h4 id="心智模型"><a href="#心智模型" class="headerlink" title="心智模型"></a>心智模型</h4><ol>
+<li>心智模式是指深植我们心中关于我们自己、别人、组织及周围世界每个层面的假设、形象和故事。并深受习惯思维、定势思维、已有知识的局限。</li>
+</ol>
+<h3 id="正确看待“以用户为中心”"><a href="#正确看待“以用户为中心”" class="headerlink" title="正确看待“以用户为中心”"></a>正确看待“以用户为中心”</h3><p>局限性：</p>
+<ol>
+<li>影响产品的创新性</li>
+<li>可操作性受到时间、预算和任务规模的限制</li>
+<li>忽视了人的主观能动性和对技术的适应能力</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2024/12/15/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="人机交互2023 期末复习">http://jinqq.gitlab.io/2024/12/15/人机交互-期末复习/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 期末复习</a>
+              <a href="/tags/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92/" rel="tag"><i class="fa fa-tag"></i> 人机交互</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F%E4%B8%8E%E7%AE%A1%E7%90%86-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="prev" title="软件质量与管理2023 期末复习">
+                  <i class="fa fa-angle-left"></i> 软件质量与管理2023 期末复习
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/12/15/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="next" title="软件系统设计2023 期末复习">
+                  软件系统设计2023 期末复习 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2024/12/15/%E4%BA%BA%E6%9C%BA%E4%BA%A4%E4%BA%92-%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>

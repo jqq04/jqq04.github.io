@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="manifest" href="/manifest.json">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jinqq.gitlab.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":null,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Redis数据结构String其value为字符串，根据字符串的格式不同，可以分为3类：  string：普通字符串 int：整数类型，可以做自增、自减操作 float：浮点类型，可以做自增、自减操作  不管哪种格式，底层都是字节数组形式存储，只不过编码方式不同。字符串类型的最大空间不超过512M。  String类型常见命令：  SET、GET、MSET、MGET  INCR：让一个整型的key">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jinqq&#39;s Home">
+<meta property="og:url" content="http://jinqq.gitlab.io/2025/02/21/%E9%BB%91%E9%A9%AC%E7%82%B9%E8%AF%84%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%EF%BC%88%E4%B9%9D%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Jinqq&#39;s Home">
+<meta property="og:description" content="Redis数据结构String其value为字符串，根据字符串的格式不同，可以分为3类：  string：普通字符串 int：整数类型，可以做自增、自减操作 float：浮点类型，可以做自增、自减操作  不管哪种格式，底层都是字节数组形式存储，只不过编码方式不同。字符串类型的最大空间不超过512M。  String类型常见命令：  SET、GET、MSET、MGET  INCR：让一个整型的key">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250221172256436.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250221173025418.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250221192829761.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250221184134760.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250221171113931.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250221171343080.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250222164558555.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250215150429038.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250215150750330.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250215152737924.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250215165622778.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250215165828415.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250215170304356.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250222113540197.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216144807538.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216145309648.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216145323789.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216145514582.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216160705182.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216161631886.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216162523678.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216172309261.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216172442370.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216173426178.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216193242076.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216193339921.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216231353719.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216231742145.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216231841738.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216232050725.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250217125102521.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250217125452906.png">
+<meta property="og:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250217130246059.png">
+<meta property="article:published_time" content="2025-02-21T08:53:33.720Z">
+<meta property="article:modified_time" content="2025-08-04T15:54:10.187Z">
+<meta property="article:author" content="Jinqq">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="redis">
+<meta property="article:tag" content="黑马点评">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250221172256436.png">
+
+
+<link rel="canonical" href="http://jinqq.gitlab.io/2025/02/21/%E9%BB%91%E9%A9%AC%E7%82%B9%E8%AF%84%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%EF%BC%88%E4%B9%9D%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BB%93/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jinqq.gitlab.io/2025/02/21/%E9%BB%91%E9%A9%AC%E7%82%B9%E8%AF%84%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%EF%BC%88%E4%B9%9D%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BB%93/","path":"2025/02/21/黑马点评项目实战（九）——总结/","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title> | Jinqq's Home</title>
+  
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="https://ecs.jinqiqing.cn:8359">
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jinqq's Home</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">证明自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">Redis数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#String"><span class="nav-number">1.1.</span> <span class="nav-text">String</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash"><span class="nav-number">1.2.</span> <span class="nav-text">Hash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List"><span class="nav-number">1.3.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set"><span class="nav-number">1.4.</span> <span class="nav-text">Set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SortedSet"><span class="nav-number">1.5.</span> <span class="nav-text">SortedSet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Geo"><span class="nav-number">1.6.</span> <span class="nav-text">Geo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BitMap"><span class="nav-number">1.7.</span> <span class="nav-text">BitMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HyperLogLog"><span class="nav-number">1.8.</span> <span class="nav-text">HyperLogLog</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C"><span class="nav-number">2.</span> <span class="nav-text">登录注册</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E7%A0%81%E7%99%BB%E5%BD%95"><span class="nav-number">2.1.</span> <span class="nav-text">验证码登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BB%E5%BD%95%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">登录拦截器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%95%86%E6%88%B7%E6%9F%A5%E8%AF%A2%E7%BC%93%E5%AD%98"><span class="nav-number">3.</span> <span class="nav-text">商户查询缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%AD%96%E7%95%A5"><span class="nav-number">3.1.</span> <span class="nav-text">缓存更新策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%AD%96%E7%95%A5-1"><span class="nav-number">3.1.1.</span> <span class="nav-text">缓存更新策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E5%8A%A8%E6%9B%B4%E6%96%B0%E7%AD%96%E7%95%A5"><span class="nav-number">3.1.2.</span> <span class="nav-text">主动更新策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E7%BC%93%E5%AD%98"><span class="nav-number">3.1.3.</span> <span class="nav-text">如何操作数据库和缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%9B%B4%E6%96%B0%E7%AD%96%E7%95%A5%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%96%B9%E6%A1%88"><span class="nav-number">3.1.4.</span> <span class="nav-text">缓存更新策略的最佳实践方案</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="nav-number">3.2.</span> <span class="nav-text">缓存穿透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BA%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.2.1.</span> <span class="nav-text">缓存空对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4"><span class="nav-number">3.2.2.</span> <span class="nav-text">布隆过滤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="nav-number">3.3.</span> <span class="nav-text">缓存雪崩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="nav-number">3.4.</span> <span class="nav-text">缓存击穿</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%94%81"><span class="nav-number">3.4.1.</span> <span class="nav-text">互斥锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E8%BF%87%E6%9C%9F"><span class="nav-number">3.4.2.</span> <span class="nav-text">逻辑过期</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E6%83%A0%E5%88%B8%E7%A7%92%E6%9D%80"><span class="nav-number">4.</span> <span class="nav-text">优惠券秒杀</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%94%AF%E4%B8%80id"><span class="nav-number">4.1.</span> <span class="nav-text">全局唯一id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98"><span class="nav-number">4.2.</span> <span class="nav-text">超卖问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98-1"><span class="nav-number">4.2.1.</span> <span class="nav-text">超卖问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E4%B9%90%E8%A7%82%E9%94%81"><span class="nav-number">4.2.2.</span> <span class="nav-text">两种乐观锁</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%BA%E4%B8%80%E5%8D%95%E9%97%AE%E9%A2%98%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">4.3.</span> <span class="nav-text">一人一单问题与分布式锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">4.3.1.</span> <span class="nav-text">Redis分布式锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Redis%E7%9A%84Lua%E8%84%9A%E6%9C%AC"><span class="nav-number">4.3.2.</span> <span class="nav-text">Redis的Lua脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Redisson"><span class="nav-number">4.3.3.</span> <span class="nav-text">Redisson</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E9%87%8D%E5%85%A5"><span class="nav-number">4.3.3.1.</span> <span class="nav-text">可重入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E8%AF%95%E6%9C%BA%E5%88%B6%E4%B8%8E%E8%B6%85%E6%97%B6%E7%BB%AD%E7%BA%A6"><span class="nav-number">4.3.3.2.</span> <span class="nav-text">重试机制与超时续约</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">4.3.3.3.</span> <span class="nav-text">主从一致性问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E7%A7%92%E6%9D%80"><span class="nav-number">4.4.</span> <span class="nav-text">异步秒杀</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">4.4.1.</span> <span class="nav-text">原理</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jinqq"
+      src="/images/zelda.jpg">
+  <p class="site-author-name" itemprop="name">Jinqq</p>
+  <div class="site-description" itemprop="description">我忘却了所有悲剧 所见皆是奇迹</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jqq04" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jqq04" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://git.nju.edu.cn/jinqq" title="GitLab → https:&#x2F;&#x2F;git.nju.edu.cn&#x2F;jinqq" rel="noopener me" target="_blank"><i class="fab fa-gitlab fa-fw"></i>GitLab</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:389459119@qq.com" title="E-Mail → mailto:389459119@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+
+      
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jinqq.gitlab.io/2025/02/21/%E9%BB%91%E9%A9%AC%E7%82%B9%E8%AF%84%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%EF%BC%88%E4%B9%9D%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zelda.jpg">
+      <meta itemprop="name" content="Jinqq">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinqq's Home">
+      <meta itemprop="description" content="我忘却了所有悲剧 所见皆是奇迹">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Jinqq's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-02-21 16:53:33" itemprop="dateCreated datePublished" datetime="2025-02-21T16:53:33+08:00">2025-02-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-08-04 23:54:10" itemprop="dateModified" datetime="2025-08-04T23:54:10+08:00">2025-08-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/" itemprop="url" rel="index"><span itemprop="name">项目实战</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">Waline：</span>
+  
+    <a title="waline" href="/2025/02/21/%E9%BB%91%E9%A9%AC%E7%82%B9%E8%AF%84%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%EF%BC%88%E4%B9%9D%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BB%93/#waline" itemprop="discussionUrl">
+      <span class="post-comments-count waline-comment-count" data-path="/2025/02/21/%E9%BB%91%E9%A9%AC%E7%82%B9%E8%AF%84%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%EF%BC%88%E4%B9%9D%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BB%93/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>8.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>16 分钟</span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="Redis数据结构"><a href="#Redis数据结构" class="headerlink" title="Redis数据结构"></a>Redis数据结构</h2><h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><p>其value为字符串，根据字符串的格式不同，可以分为3类：</p>
+<ul>
+<li>string：普通字符串</li>
+<li>int：整数类型，可以做自增、自减操作</li>
+<li>float：浮点类型，可以做自增、自减操作</li>
+</ul>
+<p>不管哪种格式，底层都是字节数组形式存储，只不过编码方式不同。字符串类型的最大空间不超过512M。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250221172256436.png" alt="image-20250221172256436"></p>
+<p>String类型常见命令：</p>
+<ul>
+<li>SET、GET、MSET、MGET </li>
+<li>INCR：让一个整型的key自增1</li>
+<li>INCRBY：让一个整型的key自增指定步长</li>
+<li>INCRBYFLOAT：让一个浮点类型的数字自增指定步长</li>
+<li>SETNX：添加一个String类型的键值对，前提是这个key不存在，否则不执行</li>
+<li>SETEX：添加一个String类型的键值对，并且指定有效期</li>
+</ul>
+<p>项目中的应用：</p>
+<ol>
+<li>以 前缀“phone：“ + 手机号码 为key，存储验证码。</li>
+<li>可以将java对象序列化为JSON字符串，然后存储到string中。</li>
+<li>利用INCR命令实现全局唯一ID。</li>
+</ol>
+<h3 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h3><p>hash类型，也叫散列，其value是一个无序字典，类似于hashmap结构。</p>
+<p>如果使用string存储对象，当需要修改对象某个字段时很不方便，而hash结构可以将对象中的每个字段独立存储，可以针对单个字段做CRUD。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250221173025418.png" alt="image-20250221173025418"></p>
+<p>Hash类型常见命令：</p>
+<ul>
+<li>HSET key field value：添加或修改field的值</li>
+<li>HGET </li>
+<li>HMSET、HMGET</li>
+<li>HGETALL key：一次性获取key中的所有field和value</li>
+<li>HKEYS：获取所有field</li>
+<li>HVALS：获取所有value</li>
+<li>HINCYBY</li>
+<li>HSETNX：添加一个hash类型的key的filed值，前提是这个field不存在，否则不执行</li>
+</ul>
+<p>项目中的应用：</p>
+<ol>
+<li>存储用户信息</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Object&gt; userMap = BeanUtil.beanToMap(userDTO, <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;(),</span><br><span class="line">        CopyOptions.create()</span><br><span class="line">                .setIgnoreNullValue(<span class="literal">true</span>)</span><br><span class="line">                .setFieldValueEditor((fieldName, fieldValue) -&gt; fieldValue.toString()));</span><br><span class="line"></span><br><span class="line"><span class="type">String</span> <span class="variable">tokenKey</span> <span class="operator">=</span> LOGIN_USER_KEY + token;</span><br><span class="line">stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);</span><br><span class="line">stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);</span><br></pre></td></tr></table></figure>
+
+<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><h3 id="SortedSet"><a href="#SortedSet" class="headerlink" title="SortedSet"></a>SortedSet</h3><p>Redis的SortedSet是一个可排序的set集合，里面的每一个元素都带有一个score属性，可以基于score属性对元素排序，其底层的实现是一个跳表（SkipList）+ hash表。</p>
+<p>sortedset具有以下特性：</p>
+<ul>
+<li>可排序</li>
+<li>元素不重复</li>
+<li>查询速度快</li>
+</ul>
+<p>常见命令：</p>
+<ul>
+<li>ZADD key score member：添加一个或多个元素到sortedset，如果已经存在则更新其score</li>
+<li>ZREM key member：删除一个指定元素</li>
+<li>ZSCORE key member：获取指定元素的score</li>
+<li>ZRANK key member：获取指定元素的排名</li>
+<li>ZCARD key：获取sortedset中的元素个数</li>
+<li>ZCOUNT key min max：统计score值在给定范围内的所有元素的个数</li>
+<li>ZINCRBY key increment member：让指定元素自增</li>
+<li>ZRANGE key min max：按score排序后，获取指定排名范围内的元素</li>
+<li>ZRANGEBYSCORE key min max：按score排序后，获取指定score范围内的元素</li>
+<li>ZDIFF、ZINTER、ZUNION：求差集、交集、并集</li>
+</ul>
+<p>在项目中应用：</p>
+<ol>
+<li><p>点赞排行榜：为每个博客维护一个sortedset，记录所有点过赞的用户，并用score来存时间戳。这样按照score排序，就能按照时间先后顺序排序。</p>
+</li>
+<li><p>Feed流的滚动分页：由于Feed流中的数据会不断更新，导致数据的角标也在变化，因此不能采用穿透的分页模式，只能采用滚动分页。为达到效果，使用redis中的sortedset数据结构来存储消息和时间戳，分页查询时，<strong>从上次查询的最小时间戳开始查。</strong></p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250221192829761.png" alt="image-20250221192829761"></p>
+</li>
+</ol>
+<h3 id="Geo"><a href="#Geo" class="headerlink" title="Geo"></a>Geo</h3><p>Geo即Geolocation的简写，代表地理坐标，Redis在3.2版本加入了对GEO的支持。</p>
+<p>Geo常用命令：</p>
+<ul>
+<li>GEOADD：添加一个地理空间信息，包含：经度（longitude）、维度（latitude）、值（member）</li>
+<li>GEODIST：计算指定的两个点之间的距离并返回</li>
+<li>GEOHASH：将指定member的坐标转为hash字符串形式并返回</li>
+<li>GEOPOS：返回指定member的坐标</li>
+<li>GEORADIUS：指定圆心、半径，找到该圆内的所有member，并按距离排序返回。6.2后废弃</li>
+<li>GEOSEARCH：在指定范围内搜索member，并按距离排序返回。范围可以是圆形或矩形。6.2新功能</li>
+<li>GEOSEARCHSTORE：与GEOSEARCH功能一致，不过可以把结果存储到一个指定的key中。6.2新功能</li>
+</ul>
+<p>在项目中应用：</p>
+<ol>
+<li>附近商户功能：使用Geo来存储商户地理信息，并应用GEOSEARCH来查找附近商户。</li>
+</ol>
+<h3 id="BitMap"><a href="#BitMap" class="headerlink" title="BitMap"></a>BitMap</h3><p>Redis中利用string类型数据结构实现Bitmap，最大上限为512M，即2^32个bit位。</p>
+<p>BitMap的命令：</p>
+<ul>
+<li><p>SETBIT：向指定位置（offset）存入一个0或1</p>
+</li>
+<li><p>GETBIT：获取指定位置（offset）的bit值</p>
+</li>
+<li><p>BITCOUNT：统计BitMap中值为1的bit位的数量</p>
+</li>
+<li><p>BITFIELD：操作（查询、修改、自增）BitMap中的指定位置（offset）的值</p>
+</li>
+<li><p>BITFIELD_RO：获取BitMap中的bit数组，并以十进制返回</p>
+</li>
+<li><p>BITOP：将多个BitMap的结果做位运算（与、或、异或）</p>
+</li>
+<li><p>BITOPS：查找bit数组中指定范围内第一个0或1出现的位置</p>
+</li>
+</ul>
+<p>项目中应用：</p>
+<ol>
+<li>可以用BitMap实现用户签到功能，用“前缀 + 用户id + 年月”作为key，存储用户每一个月的签到结果。把每一个bit位对应当月的每一天，用户签到则将对应那一日的bit为设置为1。</li>
+</ol>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250221184134760.png" alt="image-20250221184134760"></p>
+<h3 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h3><p>Hypeloglog（HLL）是从Loglog算法派生的概率算法，用以确认非常大的集合的基数，而不需要存储其所有值。</p>
+<p>Redis中的HLL是基于string结构实现的，单个HLL的内存永远小于16kb。作为代价，其测量结果是<strong>概率性的</strong>，有小于0.81%的误差，但对于UV统计来说，是可以忽略的。</p>
+<p>HyperLogLog命令：</p>
+<ul>
+<li>PFADD key element [element …]：向指定key添加一个元素</li>
+<li>PFCOUNT key：统计指定key中元素个数（基于概率的）</li>
+<li>PFMERGE destkey sourcekey 合并两个key</li>
+</ul>
+<p>应用：</p>
+<ul>
+<li>UV统计</li>
+</ul>
+<p>UV：Unique Visitor，独立访客量，指通过互联网访问网页的自然人，1天内同一个用户多次访问网站，只记录1次。</p>
+<p>PV：Page View，页面访问量或点击量，用户每访问网页的一个页面，记录一次PV，多次打开则多次记录PV。往往用来衡量网站的流量。</p>
+<p>UV统计在服务端做比较麻烦，因为要判断该用户是否已经统计过了，需要将统计过的用户信息保存。但如果每个访问的用户都保存到Redis中，数据量会非常恐怖。</p>
+<h2 id="登录注册"><a href="#登录注册" class="headerlink" title="登录注册"></a>登录注册</h2><h3 id="验证码登录"><a href="#验证码登录" class="headerlink" title="验证码登录"></a>验证码登录</h3><p>使用session进行登录存在<strong>session共享问题</strong>：多台Tomcat并不共享session存储空间，当切换到不同tomcat服务时会导致数据丢失。因此<strong>基于redis实现共享session登录</strong>。</p>
+<p>客户端根据收到的验证码填入并登录，服务端收到请求之后，从Redis中校验验证码和手机号是否匹配，如果匹配就成功登录，则将用户的信息保存到Redis中，并返回随机token给客户端；客户端后续请求都带着这个token在作为autorization放在请求头里面。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250221171113931.png" alt="image-20250221171113931"></p>
+<h3 id="登录拦截器"><a href="#登录拦截器" class="headerlink" title="登录拦截器"></a>登录拦截器</h3><p>登录拦截器设置成两个拦截器，第一个拦截器拦截一切路径，进行获取token、查询redis用户、保存到ThreadLocal和刷新token有效期，而第二个拦截器才拦截需要登录的路径，查询ThreadLocal中的用户是否不存在，不存在则拦截。</p>
+<p>这样所有路径都可以刷新token有效期，也就是用户点击任何页面都能刷新登录状态。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250221171343080.png" alt="image-20250221171343080" style="zoom: 67%;" />
+
+<h2 id="商户查询缓存"><a href="#商户查询缓存" class="headerlink" title="商户查询缓存"></a>商户查询缓存</h2><p>缓存就是数据交换的缓冲区（cache），存贮数据的临时地方，一般读写性能较高。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250222164558555.png" alt="image-20250222164558555" style="zoom:50%;" />
+
+<h3 id="缓存更新策略"><a href="#缓存更新策略" class="headerlink" title="缓存更新策略"></a>缓存更新策略</h3><h4 id="缓存更新策略-1"><a href="#缓存更新策略-1" class="headerlink" title="缓存更新策略"></a>缓存更新策略</h4><table>
+<thead>
+<tr>
+<th></th>
+<th>内存淘汰</th>
+<th>超时剔除</th>
+<th>主动更新</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>说明</strong></td>
+<td>不用自己维护，利用Redis的内存淘汰机制，当内存不足时自动淘汰部分数据，当内存不足时自动淘汰部分数据。下次查询时更新缓存。</td>
+<td>给缓存数据添加TTL时间，到期后自动删除缓存。下次查询时更新缓存。</td>
+<td>编写业务逻辑，在修改数据库的同时，更新缓存。</td>
+</tr>
+<tr>
+<td><strong>一致性</strong></td>
+<td>差</td>
+<td>一般</td>
+<td>好</td>
+</tr>
+<tr>
+<td><strong>维护成本</strong></td>
+<td>无</td>
+<td>低</td>
+<td>高</td>
+</tr>
+</tbody></table>
+<p>业务场景：</p>
+<ul>
+<li>低一致性需求：使用内存淘汰机制。例如店铺类型的缓存。</li>
+<li>高一致性需求：主动更新， 并以超时剔除作为兜底方案。例如店铺详情的缓存。</li>
+</ul>
+<h4 id="主动更新策略"><a href="#主动更新策略" class="headerlink" title="主动更新策略"></a>主动更新策略</h4><table>
+<thead>
+<tr>
+<th>Cache Aside Pattern</th>
+<th>Read&#x2F;Write Through Pattern</th>
+<th>Write Behind Caching Pattern</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>由缓存的调用者，在更新数据库的同时更新缓存。</td>
+<td>缓存与数据库整合为一个服务，由服务来维护一致性。调用者调用该服务，无需关心缓存一致性问题。</td>
+<td>调用者只操作缓存，由其他线程异步的将缓存数据持久化到数据库，保证最终一致。</td>
+</tr>
+<tr>
+<td>调用者需要写一些代码</td>
+<td>维护一个这样的服务复杂，成本高</td>
+<td>效率高，但维护异步服务难，可靠性和一致性较差</td>
+</tr>
+</tbody></table>
+<p>采用Cache Aside Pattern。</p>
+<h4 id="如何操作数据库和缓存"><a href="#如何操作数据库和缓存" class="headerlink" title="如何操作数据库和缓存"></a>如何操作数据库和缓存</h4><ol>
+<li><p>删除缓存还是更新缓存？</p>
+<ul>
+<li>更新缓存：每次更新数据库都更新缓存，无效写操作较多。</li>
+<li>删除缓存：更新数据库时让缓存失效，查询时在更新缓存。√</li>
+</ul>
+</li>
+<li><p>如何保证缓存与数据库的操作的同时成功或失败？</p>
+<ul>
+<li>单体系统：将缓存与数据库操作放在一个事务。</li>
+<li>分布式系统：利用TCC等分布式事务方案。</li>
+</ul>
+</li>
+<li><p>先操作缓存还是先操作数据库？（线程安全问题）</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250215150429038.png" alt="image-20250215150429038" style="zoom: 67%;" />
+
+<ul>
+<li>由于更新数据库操作比较缓慢，而查询数据库和写入缓存操作很快，线程2很容易趁虚而入，因此该情况发生概率高。</li>
+</ul>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250215150750330.png" alt="image-20250215150750330" style="zoom:67%;" />
+
+<ul>
+<li><p>发生该情况需要满足：1.两个线程并行；2.缓存恰好失效；3.在线程1查询缓存和写入缓存两个操作的微秒级空隙内，线程2完成更新数据库和删除缓存操作。因此该情况发生的概率很低。</p>
+</li>
+<li><p>因此先操作数据库再删除缓存。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="缓存更新策略的最佳实践方案"><a href="#缓存更新策略的最佳实践方案" class="headerlink" title="缓存更新策略的最佳实践方案"></a>缓存更新策略的最佳实践方案</h4><ol>
+<li>低一致性需求：使用Redis自带的内存淘汰机制</li>
+<li>高一致性需求：主动更新， 并以超时剔除作为兜底方案<ul>
+<li>读操作：<ul>
+<li>缓存命中则直接返回</li>
+<li>缓存未命中则查询数据库，并写入缓存，设定超时时间</li>
+</ul>
+</li>
+<li>写操作<ul>
+<li>先写数据库，然后再删除缓存</li>
+<li>要确保数据库与缓存事务的原子性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>缓存穿透是指客户端请求的数据在缓存中和数据库中都不存在，这样缓存永远不会生效，这些请求都会打到数据库。例如，一个不怀好意的黑客同时间内大量请求不存在的数据，这些请求都会打到数据库上，导致数据库崩溃。</p>
+<p>常见的解决方案有两种：缓存空对象和布隆过滤。</p>
+<p>其他解决方案：增强id的复杂度，避免被猜测id规律；做好数据的基础格式校验；加强用户权限校验；做好热点参数的限流。</p>
+<h4 id="缓存空对象"><a href="#缓存空对象" class="headerlink" title="缓存空对象"></a>缓存空对象</h4><p>查询时发现数据在数据库中不存在，则在redis中缓存一个空对象并设置过期时间。这样以后查询的数据不存在时，会命中缓存。</p>
+<ul>
+<li>优点：实现简单，维护方便</li>
+<li>缺点：<ul>
+<li>额外的内存消耗（解决：设置TTL）</li>
+<li>可能造成短期的不一致（例如，用户查询不存在得数据，缓存设置未null，此时数据库更新，用户再次查询仍然为null）（可以在新增数据时插入缓存，覆盖null）</li>
+</ul>
+</li>
+</ul>
+<h4 id="布隆过滤"><a href="#布隆过滤" class="headerlink" title="布隆过滤"></a>布隆过滤</h4><p>添加一个布隆过滤器，用来判断数据是否存在。查询缓存前需经过过滤器。</p>
+<ul>
+<li><p>Redis中布隆过滤器底层为<strong>一个大型位数组（二进制数组）+多个无偏hash函数</strong></p>
+</li>
+<li><p>优点：内存占用较少，没有多余key</p>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>实现复杂</li>
+<li>存在误判可能（可能有数据不存在但放行的情况）</li>
+</ul>
+</li>
+</ul>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250215152737924.png" alt="image-20250215152737924" style="zoom: 80%;" />
+
+<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><p>缓存雪崩是指在同一时段大量的缓存key同时失效或者Redis服务宕机，导致大量请求到达数据库，带来巨大压力。</p>
+<p>解决方案：</p>
+<ol>
+<li>给不同的Key的TTL添加随机值，用以预防同一时段大量的缓存key同时失效</li>
+<li>利用Redis集群提高服务的可用性</li>
+<li>给缓存业务添加降级限流策略</li>
+<li>给业务添加多级缓存</li>
+</ol>
+<h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><p>缓存击穿问题也叫热点Key问题，就是一个被高并发访问并且缓存重建业务较复杂的key突然失效了，无数的请求访问在瞬间给数据库带来巨大的冲击。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250215165622778.png" alt="image-20250215165622778" style="zoom: 50%;" />
+
+
+
+<p>解决：互斥锁或逻辑过期。</p>
+<h4 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h4><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250215165828415.png" alt="image-20250215165828415" style="zoom: 67%;" />
+
+<p>线程A发现缓存过期，加锁重建缓存，后续线程阻塞直至线程A释放锁，此时缓存重建成功。</p>
+<p>优点：</p>
+<ul>
+<li>没有额外的内存消耗</li>
+<li>保证一致性</li>
+<li>实现简单</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>线程需要等待，性能受影响</li>
+<li>可能有死锁风险</li>
+</ul>
+<h4 id="逻辑过期"><a href="#逻辑过期" class="headerlink" title="逻辑过期"></a>逻辑过期</h4><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250215170304356.png" alt="image-20250215170304356" style="zoom: 33%;" />
+
+<p>不设置过期时间，但在value中添加逻辑过期字段，线程A查询热点key发现value中逻辑时间过期，则线程A加锁并另起线程B重建缓存，线程A直接返回旧数据（不需等待线程B执行结束），后续线程C查询缓存发现过期后尝试加锁，如果加锁失败则说明有线程正在重建缓存，线程C也直接返回旧数据即可。</p>
+<p>优点：</p>
+<ul>
+<li>线程无需等待，性能较好</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>不保证一致性</li>
+<li>有额外内存消耗</li>
+<li>实现复杂</li>
+</ul>
+<h2 id="优惠券秒杀"><a href="#优惠券秒杀" class="headerlink" title="优惠券秒杀"></a>优惠券秒杀</h2><h3 id="全局唯一id"><a href="#全局唯一id" class="headerlink" title="全局唯一id"></a>全局唯一id</h3><p>对于优惠券订单，如果使用数据库自增ID会存在以下问题：</p>
+<ul>
+<li>id的规律性太明显</li>
+<li>受单表数据量的限制</li>
+</ul>
+<p>因此需要一种在分布式系统下用来生成全局唯一ID的生成器。</p>
+<p>解决方案：利用Redis中String结构的自增INCR命令。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250222113540197.png" alt="image-20250222113540197"></p>
+<p>其他全局唯一ID生成策略：</p>
+<ul>
+<li>UUID</li>
+<li>snowflake雪花算法</li>
+<li>数据库自增</li>
+</ul>
+<h3 id="超卖问题"><a href="#超卖问题" class="headerlink" title="超卖问题"></a>超卖问题</h3><h4 id="超卖问题-1"><a href="#超卖问题-1" class="headerlink" title="超卖问题"></a>超卖问题</h4><p>在并发情况下，可能出现类似下图的情况，此时会出现商品超卖问题。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216144807538.png" alt="image-20250216144807538" style="zoom: 67%;" />
+
+<p>为了解决这种情况，就需要加锁，锁有悲观锁和乐观锁两种。</p>
+<p><strong>悲观锁</strong>：</p>
+<ul>
+<li>认为线程安全问题一定会发生，因此在操作数据之前先获取锁，确保线程串行执行。</li>
+<li>例如Synchronized、Lock都属于悲观锁。</li>
+</ul>
+<p><strong>乐观锁</strong>：</p>
+<ul>
+<li>认为线程安全问题不一定会发生，因此不加锁，只是在更新数据时去判断有没有其他线程对数据做了修改。</li>
+<li>如果没有修改则认为是安全的，自己才更新数据。</li>
+<li>如果已经被其他线程修改说明发生了安全问题，此时可以重试或异常。</li>
+</ul>
+<p>在优惠券秒杀中，使用悲观锁使得线程串行执行，性能较差，因此使用乐观锁。</p>
+<h4 id="两种乐观锁"><a href="#两种乐观锁" class="headerlink" title="两种乐观锁"></a>两种乐观锁</h4><p><strong>版本号法</strong>：给数据加上一个版本，每一次修改数据变化一次版本，多线程并发情况下，基于版本号来判断数据是否被修改过。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216145309648.png" alt="image-20250216145309648" style="zoom:50%;" />
+
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216145323789.png" alt="image-20250216145323789" style="zoom: 33%;" />
+
+<p><strong>CAS法（Compare and SET)</strong>：用数据本身是否变化来作为版本，即每次修改数据前，判断数据是否与修改前一致。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216145514582.png" alt="image-20250216145514582" style="zoom: 67%;" />
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">		.setSql(<span class="string">&quot;stock = stock - 1&quot;</span>)</span><br><span class="line">		.eq(<span class="string">&quot;voucher_id&quot;</span>, voucher_id)</span><br><span class="line">		.eq(<span class="string">&quot;stock&quot;</span>, voucher.getStock()) <span class="comment">// 判断库存是否与查到的一致 </span></span><br><span class="line">		.update();</span><br></pre></td></tr></table></figure>
+
+<p>但这种情况下，可能出现失败率高的问题，即多个线程同时尝试，只有一个成功。</p>
+<p>可以做个简单的改进，直接判断更新数据时库存是否大于0。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="variable">success</span> <span class="operator">=</span> seckillVoucherService.update()</span><br><span class="line">		.setSql(<span class="string">&quot;stock = stock - 1&quot;</span>)</span><br><span class="line">		.eq(<span class="string">&quot;voucher_id&quot;</span>, voucher_id)</span><br><span class="line">		.gt(<span class="string">&quot;stock&quot;</span>, <span class="number">0</span>) <span class="comment">// 判断库存是否大于0 </span></span><br><span class="line">		.update();</span><br></pre></td></tr></table></figure>
+
+<h3 id="一人一单问题与分布式锁"><a href="#一人一单问题与分布式锁" class="headerlink" title="一人一单问题与分布式锁"></a>一人一单问题与分布式锁</h3><p>对于同一张优惠券，可能出现一个用户购买多次情况，为阻止这种情况，需要实现一人一单。</p>
+<p>直接判断用户是否下过订单，在并发情况下仍然会出现问题（即一个人同一时刻购买多次），简单的想法是给userId加一个synchronized锁。注意，给userId加synchronized锁时，要写成下面这种。这是由于toString()返回的是一个新的string对象，而我们需要的是判断值是否一样，因此调用intern方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> (userId.toString().intern()) &#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此外，假如我们给创建订单createVoucherOrder方法加了@Transcational事务注解，那么synchronized锁应该加在方法外面。如果加在里面，可能会出现事务还未提交，锁就被释放，其他线程趁虚而入而数据库还未更新的情况。</p>
+<p>使用synchronized锁，在集群部署情况下（多个tomcat），仍然会出现并发安全问题，不同jvm下的线程无法实现锁互斥，如下：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216160705182.png" alt="image-20250216160705182"></p>
+<p>因此需要采用一种集群模式下多进程可见的分布式锁。常见的三种分布式锁：</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216161631886.png" alt="image-20250216161631886"></p>
+<h4 id="Redis分布式锁"><a href="#Redis分布式锁" class="headerlink" title="Redis分布式锁"></a>Redis分布式锁</h4><p>利用redis的SETNX命令可以实现一个满足互斥锁；同时设置EX过期时间，保证故障时锁依然能被释放，避免死锁。</p>
+<p>获取锁：</p>
+<figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> <span class="keyword">lock</span> thread1 NX EX <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>释放锁</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">DEL</span> key</span><br></pre></td></tr></table></figure>
+
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216162523678.png" alt="image-20250216162523678" style="zoom: 67%;" />
+
+<p>这种实现可能出现这样的安全问题：当线程1某种原因阻塞时，超时释放锁，其他线程获取锁后，线程1恢复后可能会释放其他线程获取的锁。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216172309261.png" alt="image-20250216172309261"></p>
+<p>为了解决该问题，为了解决该问题，在释放锁时应该判断是否是自己的锁，只有是自己的锁才允许释放。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216172442370.png" alt="image-20250216172442370"></p>
+<p>但这时仍然有可能出现问题，如下图，当线程1获取锁标识并判断一致后，还未释放锁时遇到阻塞（如jvm垃圾回收），导致后面又释放了其他线程的锁。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216173426178.png" alt="image-20250216173426178" style="zoom:80%;" />
+
+<p>因此必须确保判断锁标识动作和释放锁动作的<strong>原子性</strong>，可以使用Lua脚本。</p>
+<h4 id="Redis的Lua脚本"><a href="#Redis的Lua脚本" class="headerlink" title="Redis的Lua脚本"></a>Redis的Lua脚本</h4><p>Redis提供了Lua脚本功能，在一个脚本中编写多条Redis命令，确保多条命令执行时的原子性。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 获取锁中的线程标识 get key</span></span><br><span class="line"><span class="keyword">local</span> id = redis.call(<span class="string">&#x27;get&#x27;</span>, KEYS[<span class="number">1</span>])</span><br><span class="line"><span class="comment">-- 比较线程标识与锁中的标识是否一致</span></span><br><span class="line"><span class="keyword">if</span> (id == ARGV[<span class="number">1</span>]) <span class="keyword">then</span></span><br><span class="line">    <span class="comment">-- 一致则释放锁 del key</span></span><br><span class="line">    <span class="keyword">return</span> redis.call(<span class="string">&#x27;del&#x27;</span>, KEYS[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Redisson"><a href="#Redisson" class="headerlink" title="Redisson"></a>Redisson</h4><p>基于Redis实现的分布式锁有以下问题：</p>
+<ul>
+<li>不可重入：同一个线程无法多次获取同一把锁。</li>
+<li>不可重试：获取锁只尝试一次就返回false，没有重试机制。</li>
+<li>超时释放：锁超时释放虽然可恶意避免死锁，但如果是业务执行耗时较长，也会导致锁释放，存在安全隐患。</li>
+<li>主从一致性：如果Redis提供了主从集群 ，主从同步存在延迟，当主节点宕机时，如果从节点尚未同步主节点中的锁数据，则会出现锁丢失。</li>
+</ul>
+<p>因此使用Redisson来优化。Redisson是一个在Redis的基础上实现的Java驻内存数据网格（In-Memory Data Grid）。它不仅提供了一系列的分布式的Java常用对象，还提供了许多分布式服务，其中就包含了各种分布式锁的实现。</p>
+<p>Redisson原理：</p>
+<h5 id="可重入"><a href="#可重入" class="headerlink" title="可重入"></a>可重入</h5><p>可重入锁：同一个线程多次请求锁，可能会造成死锁。因此需要允许可重入锁。</p>
+<p>利用redis中的hash数据结构，为锁额外记录一个值，代表该锁的重入次数。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216193242076.png" alt="image-20250216193242076"></p>
+<p>同一个线程每重入一次锁，将值+1，释放锁改为将值-1，值为0时才真正释放锁。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216193339921.png" alt="image-20250216193339921" style="zoom: 80%;" />
+
+<p>为保证原子性，同样要使用Lua脚本。</p>
+<h5 id="重试机制与超时续约"><a href="#重试机制与超时续约" class="headerlink" title="重试机制与超时续约"></a>重试机制与超时续约</h5><p>redisson可以设置等待时间waitTime，在获取锁失败后，会订阅并等待释放锁的信号，然后进行重试，直到获取锁成功或waitTime消耗完。</p>
+<p>redisson中的watchdog在获取锁时设置了一个定时任务，每隔一段时间刷新锁的有效期（releaseTime&#x2F;3），直到释放锁时取消定时任务。注意，如果设置了leaseTime就没有watchdog了。</p>
+<p><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216231353719.png" alt="image-20250216231353719"></p>
+<h5 id="主从一致性问题"><a href="#主从一致性问题" class="headerlink" title="主从一致性问题"></a>主从一致性问题</h5><p>问题产生原因：</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216231742145.png" alt="image-20250216231742145" style="zoom:67%;" />
+
+<p>redisson解决方案：<strong>MultiLock</strong></p>
+<p>将每一个redis节点都视为主节点，只有向每个节点获取锁成功，才算成功。此时如果一个redis节点宕机，并不影响锁的正常获取和释放。此外也可以给每个节点建立主从关系，此时如果一个主节点宕机且刚好没有完成同步，由于从节点没有锁的标识，其他线程也无法成功获取锁，满足要求。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216231841738.png" alt="image-20250216231841738" style="zoom:67%;" />
+
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250216232050725.png" alt="image-20250216232050725" style="zoom: 50%;" />
+
+<h3 id="异步秒杀"><a href="#异步秒杀" class="headerlink" title="异步秒杀"></a>异步秒杀</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250217125102521.png" alt="image-20250217125102521" style="zoom:50%;" />
+
+<p>上图是秒杀业务的部署图，按照顺序进行每个步骤，耗时为所有步骤之和，其中一些业务还需要访问mysql，导致整个流程缓慢，效率低。因此需要用到异步秒杀。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250217125452906.png" alt="image-20250217125452906" style="zoom:50%;" />
+
+<p>可以采用异步执行的方式来进行优化整个流程，即开启新的线程去执行比较耗时的操作。</p>
+<p>将判断库存与校验一人一单的工作让redis执行，如果符合条件，添加订单到阻塞队列，让异步程序再执行。</p>
+<p>库存判断使用redis的string数据结构即可，而一人一单则使用set数据结构。同样，为保证redis业务的原子性，使用lua脚本。</p>
+<img data-src="https://jinqiqing-bucket.oss-cn-nanjing.aliyuncs.com/img/image-20250217130246059.png" alt="image-20250217130246059" style="zoom: 33%;" />
+
+<p>但是基于阻塞队列的异步秒杀存在以下两问题：</p>
+<ul>
+<li>内存限制问题：使用jdk的阻塞队列会消耗jvm内存，在高并发情况下可能导致内存溢出。而如果设置队列上限会导致超出的订单无法添加。</li>
+<li>数据安全问题：如果服务宕机，会导致内存中的订单信息丢失。如用户下单付款后，但后台并没有订单数据，出现数据不一致情况。或者异步任务从队列中取出任务执行时，服务崩溃，那么任务就会丢失。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Jinqq 微信">
+        <span>微信</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jinqq
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jinqq.gitlab.io/2025/02/21/%E9%BB%91%E9%A9%AC%E7%82%B9%E8%AF%84%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%EF%BC%88%E4%B9%9D%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BB%93/" title="">http://jinqq.gitlab.io/2025/02/21/黑马点评项目实战（九）——总结/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+              <a href="/tags/redis/" rel="tag"><i class="fa fa-tag"></i> redis</a>
+              <a href="/tags/%E9%BB%91%E9%A9%AC%E7%82%B9%E8%AF%84/" rel="tag"><i class="fa fa-tag"></i> 黑马点评</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_wechat"></a>
+      <a class="a2a_button_qzone"></a>
+      <a class="a2a_button_print"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/02/21/%E8%A7%A3%E6%9E%90%E6%9E%81%E9%99%90%E7%BC%96%E7%A8%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" rel="prev" title="《解析极限编程——拥抱变化》读书笔记">
+                  <i class="fa fa-angle-left"></i> 《解析极限编程——拥抱变化》读书笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/02/25/Mysql%E5%85%AB%E8%82%A1%E2%80%94%E2%80%94%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E4%B8%8EMVCC/" rel="next" title="">
+                   <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="waline"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jinqq</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">380k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+<!--
+-->
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="waline" type="application/json">{"lang":"zh-cn","enable":true,"serverURL":"https://ecs.jinqiqing.cn:8359","cssUrl":"https://unpkg.com/@waline/client@v2/dist/waline.css","commentCount":true,"pageview":false,"placeholder":"请文明评论呀~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"visitor":true,"comment_count":true,"requiredFields":["nick"],"libUrl":"//unpkg.com/@waline/client@v2/dist/waline.js","el":"#waline","comment":true,"path":"/2025/02/21/%E9%BB%91%E9%A9%AC%E7%82%B9%E8%AF%84%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%EF%BC%88%E4%B9%9D%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BB%93/"}</script>
+<link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.waline.el).then(() =>
+    NexT.utils.getScript(CONFIG.waline.libUrl, { condition: window.Waline })
+  ).then(() => 
+    Waline.init(Object.assign({}, CONFIG.waline,{ el: document.querySelector(CONFIG.waline.el) }))
+  );
+});
+</script>
+
+
+  
+
+  
+
+  <!-- aplayer播放器，这里是网页底部，请打开fixed -->
+  <link rel="stylesheet" href="/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script type="text/javascript" src="/dist/APlayer.min.js"></script>
+  <script type="text/javascript" src="/dist/music.js"></script>
+</body>
+</html>
